@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OfferAgent 原创虚构履历控件样表</title>
+  <style>
+    * { box-sizing: border-box; } body { margin: 0; color: #263047; background: #f4f6fa; font: 15px system-ui,sans-serif; }
+    main { max-width: 940px; margin: 0 auto; padding: 24px 44px 110px; } h1 { font-size: 22px; } p { color: #59667e; }
+    .createFormSection-container { margin: 22px 0; padding: 20px 24px; border: 1px solid #dbe0ea; border-radius: 10px; background: white; }
+    h2 { margin: 0 0 16px; font-size: 19px; } .resumeEditForm-item { border-top: 1px solid #e4e8f0; padding: 12px 0 8px; }
+    .fixture-field { margin: 10px 0; } .fixture-label { margin-bottom: 5px; font-weight: 600; }
+    input:not([type=checkbox]):not([type=file]),textarea,.atsx-select-selection--single { display: block; width: 100%; min-height: 36px; padding: 7px 10px; color: #263047; border: 1px solid #bbc5d5; border-radius: 5px; background: white; font: inherit; }
+    textarea { height: 68px; resize: none; } .atsx-select-selection--single { cursor: pointer; } .fixture-placeholder { color: #8390a4; }
+    .atsx-date-picker-period-month { display: flex; gap: 10px; align-items: center; }
+    .fixture-date-endpoint { border: 1px solid #bbc5d5; border-radius: 5px; flex: 1; min-height: 36px; padding: 7px 10px; cursor: pointer; background: white; }
+    .formOperate-addBtn,.createFormSection-addBtn { width: 100%; margin-top: 12px; padding: 10px; border: 1px dashed #aabbd4; border-radius: 6px; color: #245dc1; cursor: pointer; text-align: center; }
+    .fixture-popup { position: fixed; z-index: 100; background: white; border: 1px solid #bdc8db; border-radius: 6px; box-shadow: 0 8px 25px #23335135; }
+    .atsx-select-dropdown-menu { list-style: none; padding: 4px; margin: 0; }
+    .atsx-select-dropdown-menu-item { padding: 9px 16px; min-height: 36px; cursor: pointer; } .atsx-select-dropdown-menu-item:hover { background: #edf2ff; }
+    .atsx-select-dropdown-menu-item-selected,.atsx-date-picker-period-month-panel-item-selected { color: #245dc1; background: #edf2ff; }
+    .atsx-date-picker-period-month-panel { display: flex; padding: 4px; }
+    .atsx-date-picker-period-month-panel-list { width: 105px; height: 196px; overflow-y: auto; overscroll-behavior: contain; }
+    .atsx-date-picker-period-month-panel-item { height: 28px; line-height: 28px; text-align: center; cursor: pointer; }
+    .atsx-date-picker-period-month-panel-item:hover { background: #e5edff; }
+    input:focus,textarea:focus,[tabindex]:focus { outline: 2px solid #5e8ee8; outline-offset: 1px; }
+    .fixture-protected { padding: 14px 0; } .fixture-protected input[type=checkbox] { margin-right: 8px; }
+    #fixture-submit { padding: 10px 28px; margin-top: 24px; } [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>完全虚构的履历控件验收</h1>
+    <p>这是 OfferAgent 原创本机样表。仅复现已审阅的控件结构，不连接企业、不发送申请。</p>
+    <form id="fixture-form" action="/never-submit" method="post">
+      <div class="fixture-protected">
+        <div class="fixture-label">保留的原有邮箱</div>
+        <input id="fixture-existing-email" name="existing-email" type="email" value="keep-career@example.invalid">
+        <div><input id="fixture-existing-check" type="checkbox" checked><span>保留的原有勾选</span></div>
+        <input id="fixture-file" type="file" aria-label="不操作的附件">
+        <input id="fixture-hidden" name="hidden-state" type="hidden" value="keep-fictional-hidden-state">
+      </div>
+      <div id="fixture-sections"></div>
+      <button id="fixture-submit" type="submit">不应点击的提交按钮</button>
+    </form>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const counts = window.feishuCareerFixture = {
+        adds: 0, trustedAdds: 0, typed: 0, trustedTyped: 0,
+        selectOpens: 0, trustedSelectOpens: 0, selections: 0, trustedSelections: 0,
+        monthOpens: 0, trustedMonthOpens: 0, years: 0, trustedYears: 0, months: 0, trustedMonths: 0, untilNow: 0, trustedUntilNow: 0,
+        submissions: 0, submitClicks: 0, trustedSubmitClicks: 0, untrustedEvents: 0, events: [],
+      };
+      const count = (name, trustedName, event, path) => {
+        counts[name]++; if (event.isTrusted) counts[trustedName]++; else counts.untrustedEvents++;
+        if (counts.events.length < 200) counts.events.push({ type: event.type, action: name, path, trusted: event.isTrusted });
+      };
+      const make = (tag, className, text) => {
+        const node = document.createElement(tag); if (className) node.className = className;
+        if (text !== undefined) node.textContent = text; return node;
+      };
+      const cy = (node, value) => { node.setAttribute('data-cy', value); return node; };
+      let activePopup = null;
+      const closePopup = () => {
+        if (!activePopup) return;
+        if (activePopup.owner) activePopup.owner.setAttribute('aria-expanded', 'false');
+        activePopup.panel.remove(); activePopup = null;
+      };
+      const popupPosition = (node, width, height) => {
+        const box = node.getBoundingClientRect();
+        return { left: Math.max(8, Math.min(box.left, innerWidth - width - 8)), top: Math.max(8, Math.min(box.bottom + 5, innerHeight - height - 8)) };
+      };
+      const place = (popup, anchor, width, height) => {
+        const point = popupPosition(anchor, width, height);
+        popup.style.left = point.left + 'px'; popup.style.top = point.top + 'px'; popup.style.width = width + 'px';
+      };
+      const wrapper = (path, label) => {
+        const node = cy(make('div', 'fixture-field'), path); node.append(make('div', 'fixture-label', label)); return node;
+      };
+      const textField = (path, label, textarea = false, isUrl = false) => {
+        const node = wrapper(path, label); const input = cy(make(textarea ? 'textarea' : 'input'), path + 'Input');
+        if (!textarea) input.type = isUrl ? 'url' : 'text'; input.required = true; input.id = 'fictional-' + path;
+        input.addEventListener('input', event => count('typed', 'trustedTyped', event, path));
+        node.append(input); return node;
+      };
+      const degreeField = path => {
+        const node = wrapper(path, '学历'); const shell = make('div', 'atsx-select atsx-select-enabled');
+        const owner = cy(make('div', 'atsx-select-selection--single'), path + 'Input');
+        owner.setAttribute('role', 'combobox'); owner.setAttribute('aria-controls', 'fictional-degree-popup-' + path);
+        owner.setAttribute('aria-expanded', 'false'); owner.setAttribute('aria-haspopup', 'listbox'); owner.tabIndex = 0;
+        owner.append(make('span', 'fixture-placeholder', '请选择学历'));
+        owner.addEventListener('click', event => {
+          count('selectOpens', 'trustedSelectOpens', event, path); closePopup(); owner.focus(); owner.setAttribute('aria-expanded', 'true');
+          const panel = make('div', 'fixture-popup atsx-select-dropdown'); panel.id = owner.getAttribute('aria-controls');
+          panel.addEventListener('mousedown', press => press.preventDefault());
+          const menu = make('ul', 'atsx-select-dropdown-menu'); menu.setAttribute('role', 'listbox');
+          for (const [index, label] of ['本科', '硕士', '博士', '大专'].entries()) {
+            const option = make('li', 'atsx-select-dropdown-menu-item', label); option.id = 'fictional-degree-option-' + path + '-' + index;
+            option.setAttribute('role', 'option'); option.setAttribute('aria-selected', 'false');
+            option.addEventListener('click', click => {
+              click.stopPropagation(); count('selections', 'trustedSelections', click, path);
+              owner.replaceChildren(cy(make('span', '', label), 'selectedValue'));
+              option.setAttribute('aria-selected', 'true'); closePopup();
+            }); menu.append(option);
+          }
+          panel.append(menu); document.body.append(panel); place(panel, owner, Math.min(300, owner.getBoundingClientRect().width), 160);
+          activePopup = { panel, owner };
+        });
+        shell.append(owner); node.append(shell); return node;
+      };
+      const periodField = path => {
+        const node = wrapper(path, '起止年月'); const root = cy(make('div', 'atsx-date-picker-period-month'), path + 'Input'); root.tabIndex = 0;
+        for (const side of ['Begin', 'End']) {
+          if (side === 'End') root.append(make('span', '', '至'));
+          const target = cy(make('div', 'fixture-date-endpoint'), path + 'Input' + side); target.tabIndex = -1;
+          const year = cy(make('span', '', 'YYYY'), 'year'); const month = cy(make('span', '', 'MM'), 'month');
+          target.append(year, make('span', '', '-'), month);
+          target.addEventListener('click', event => {
+            count('monthOpens', 'trustedMonthOpens', event, path + ':' + side); closePopup(); root.focus();
+            const panel = cy(make('div', 'fixture-popup atsx-date-picker-period-month-panel'), path + 'Input' + side + 'Dropdown');
+            panel.addEventListener('mousedown', press => press.preventDefault());
+            const years = make('div', 'atsx-date-picker-period-month-panel-list');
+            const months = make('div', 'atsx-date-picker-period-month-panel-list');
+            if (side === 'End') {
+              const present = cy(make('div', 'atsx-date-picker-period-month-panel-list-item', '至今'), '-');
+              present.addEventListener('click', click => {
+                count('untilNow', 'trustedUntilNow', click, path + ':End');
+                target.replaceChildren(make('span', 'atsx-date-picker-period-month-label-toToday', '至今')); closePopup();
+              }); years.append(present);
+            }
+            for (let value = 2019; value <= 2032; value++) {
+              const label = String(value); const option = cy(make('div', 'atsx-date-picker-period-month-panel-item', label), label);
+              option.addEventListener('click', click => {
+                count('years', 'trustedYears', click, path + ':' + side); target.replaceChildren(year, make('span', '', '-'), month); year.textContent = label;
+                for (const item of years.children) item.classList.remove('atsx-date-picker-period-month-panel-item-selected');
+                option.classList.add('atsx-date-picker-period-month-panel-item-selected');
+              }); years.append(option);
+            }
+            for (let value = 1; value <= 12; value++) {
+              const label = String(value).padStart(2, '0'); const option = cy(make('div', 'atsx-date-picker-period-month-panel-item', label), label);
+              option.addEventListener('click', click => {
+                count('months', 'trustedMonths', click, path + ':' + side); month.textContent = label;
+                for (const item of months.children) item.classList.remove('atsx-date-picker-period-month-panel-item-selected');
+                option.classList.add('atsx-date-picker-period-month-panel-item-selected'); closePopup();
+              }); months.append(option);
+            }
+            panel.append(years, months); document.body.append(panel); place(panel, target, 220, 206); activePopup = { panel, owner: null };
+          }); root.append(target);
+        }
+        node.append(root); return node;
+      };
+      const labels = { education: '教育经历', internship: '实习经历', project: '项目经历' };
+      const sections = {};
+      const groupCounts = { education: 0, internship: 0, project: 0 };
+      const addGroup = kind => {
+        const section = sections[kind]; const index = groupCounts[kind]++; const prefix = kind + '[' + index + ']';
+        for (const old of section.querySelectorAll('.formOperate-addBtn,.createFormSection-addBtn')) old.remove();
+        const item = make('div', 'resumeEditForm-item resumeEditForm-' + kind); item.setAttribute('data-fixture-group-id', prefix);
+        if (kind === 'education') item.append(textField(prefix + '.school', '学校'), degreeField(prefix + '.degree'), textField(prefix + '.fieldOfStudy', '专业'), periodField(prefix + '.period'));
+        if (kind === 'internship') item.append(textField(prefix + '.company', '实习单位'), textField(prefix + '.title', '实习岗位'), periodField(prefix + '.period'), textField(prefix + '.desc', '实习描述', true));
+        if (kind === 'project') item.append(textField(prefix + '.name', '项目名称'), textField(prefix + '.role', '项目角色'), periodField(prefix + '.period'), textField(prefix + '.desc', '项目描述', true), textField(prefix + '.link', '项目链接', false, true));
+        const add = makeAdd(kind, false); item.append(add); section.append(item);
+      };
+      const makeAdd = (kind, empty) => {
+        const add = make('div', empty ? 'createFormSection-addBtn' : 'formOperate-addBtn'); add.append(make('span', 'addMore-add', '添加更多'));
+        add.addEventListener('click', event => { count('adds', 'trustedAdds', event, kind); closePopup(); addGroup(kind); }); return add;
+      };
+      for (const kind of ['education', 'internship', 'project']) {
+        const container = make('section', 'createFormSection-container'); container.append(make('h2', '', labels[kind]));
+        const section = make('div', 'resumeEditForm-' + kind + ' createFormSection__fictional' + kind);
+        sections[kind] = section; container.append(section); document.getElementById('fixture-sections').append(container);
+        if (kind === 'education') addGroup(kind); else section.append(makeAdd(kind, true));
+      }
+      document.getElementById('fixture-form').addEventListener('submit', event => { event.preventDefault(); counts.submissions++; if (!event.isTrusted) counts.untrustedEvents++; });
+      document.getElementById('fixture-submit').addEventListener('click', event => count('submitClicks', 'trustedSubmitClicks', event, 'submit'));
+    })();
+  </script>
+</body>
+</html>

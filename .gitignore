@@ -1,0 +1,13 @@
+node_modules/
+dist/
+/release/
+build/
+runtime-home/
+data/
+.backups/
+.publish/
+.export/
+.env
+.env.*
+*.log
+.DS_Store

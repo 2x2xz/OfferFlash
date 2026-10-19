@@ -1,0 +1,38 @@
+{
+  "version": "0.15.0",
+  "application": "release/offerflash-0.15.0-r2/OfferFlash-darwin-arm64/OfferFlash.app",
+  "backendSHA256": "c450c9db114880367166dfcbed26574e8455f74f860912eea861aa1ccd52bc7d",
+  "files": 23372,
+  "normalIdentity": "dev.offeragent.desktop",
+  "normalDataCompatibility": true,
+  "normalUserDataCopied": false,
+  "qaLauncherIncluded": false,
+  "fixtureResumeImportedIntoNormalData": false,
+  "launched": false,
+  "signedOrNotarized": false,
+  "runtimeRoots": [
+    "dist",
+    "node_modules",
+    "prompts",
+    "skills",
+    "apps/desktop/assets",
+    "apps/desktop/fixtures"
+  ],
+  "zipPath": "release/offerflash-0.15.0-r2/OfferFlash-0.15.0-mac-arm64.zip",
+  "zipSHA256": "d94de46e71d66f3247dbf73e0ec8193a11f64d629dbb9592a7de560a4c37d60b",
+  "zipBytes": 233626609,
+  "zipCRC": true,
+  "matchingChecks": 18,
+  "backgroundChecks": 44,
+  "piRuntimeFilesMatched": 2079,
+  "omittedExampleLocks": [
+    "pi-coding-agent/examples/extensions/gondolin/package-lock.json",
+    "pi-coding-agent/examples/extensions/sandbox/package-lock.json",
+    "pi-coding-agent/examples/extensions/with-deps/package-lock.json",
+    "pi-coding-agent/examples/extensions/custom-provider-anthropic/package-lock.json"
+  ],
+  "normalApplicationLaunched": false,
+  "isolatedTestLaunched": true,
+  "defaultRetrieval": "lexical",
+  "paidApiThroughAppButton": false
+}

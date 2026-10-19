@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-19",
+  "scope": "Real qwen-flash API-assisted recognition, guarded native filling and model readback in the full OfferFlash workspace; fictional candidate and actual employer form",
+  "officialJobURL": "https://modelbest.jobs.feishu.cn/campus/m/position/7550158206165944639/detail",
+  "fictionalCandidate": true,
+  "model": {
+    "name": "qwen-flash",
+    "http200Requests": 12,
+    "tokens": 11272,
+    "recognition": "actual DOM labels and section structure; not screenshot vision",
+    "reviewTools": [
+      "get_candidate_history",
+      "inspect_application",
+      "plan_resume_records"
+    ],
+    "perGroupMappingsApproved": 6,
+    "readback": {
+      "checked": 34,
+      "allMatched": true
+    }
+  },
+  "execution": {
+    "ordinaryFieldsVerified": 2,
+    "careerFieldsVerified": 32,
+    "addedGroups": 5,
+    "groups": 6,
+    "educations": 2,
+    "internships": 2,
+    "projects": 2,
+    "status": "completed"
+  },
+  "capture": {
+    "rawFrames": 783,
+    "rawDurationMs": 106793.258542,
+    "atomicWholeScreenRecording": false,
+    "method": "simultaneous host renderer and native employer child-view capture composed at actual bounds",
+    "speedup": false,
+    "efficiencyBenchmark": false
+  },
+  "observedNetworkErrors": 0,
+  "unrecognizedRequestsBlocked": 0,
+  "wholeFormAudit": {
+    "originalComplete": false,
+    "conservativeFlags": 4,
+    "originalRewritten": false,
+    "semanticReview": {
+      "noneReferralSelected": true,
+      "beijingSelected": true,
+      "noWorkSelected": true,
+      "twoSchoolSelectionsConfirmed": true
+    },
+    "serverAcceptanceVerified": false,
+    "continuousMutationAudit": "unknown"
+  },
+  "normalUserStoreRead": false,
+  "credentialsPublished": false,
+  "accountPhoneChanged": false,
+  "attachmentsUploaded": false,
+  "submitted": false,
+  "mediaPrivacy": {
+    "decodedFramesChecked": 1067,
+    "uniqueFramesChecked": 488,
+    "rawPositiveControlDetected": true,
+    "phoneLikeMatches": 0,
+    "method": "Full decoded-frame OCR, exact-frame deduplication; raw positive control and manual visual review",
+    "notAUniversalPrivacyGuarantee": true
+  },
+  "media": {
+    "path": "docs/screenshots/offerflash-workspace-full.gif",
+    "sha256": "48d0086ef7a2130901b80263bb6492d4f99c82d36795820739b9cbb30f2ab206",
+    "width": 1480,
+    "height": 822,
+    "durationMs": 106700,
+    "bytes": 4935732
+  },
+  "validation": {
+    "cleanPublicationTypecheck": "passed",
+    "focusedSourceTests": 10,
+    "piLocalTransportRegressionPreviouslyPassed": true,
+    "noNewUniversalSiteClaim": true
+  },
+  "homepagePreview": {
+    "path": "docs/screenshots/offerflash-workspace-autofill.gif",
+    "sha256": "da8a73bc679e9ee155d1a5a998b0e2e7964d72b463483ca74da495500e609536",
+    "durationMs": 19050,
+    "frames": 381,
+    "width": 1480,
+    "height": 822,
+    "bytes": 3819552,
+    "sourceStartSeconds": 38.5,
+    "sourceEndSeconds": 106.7,
+    "playbackSpeed": 4,
+    "finalHoldSeconds": 2,
+    "visibleSpeedLabel": "4x playback",
+    "privacy": "Derived only from the fully audited redacted GIF; no raw unredacted input",
+    "efficiencyBenchmark": false
+  }
+}

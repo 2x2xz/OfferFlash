@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "offerflash-operational-shortlist-v1",
+  "scope": "supplementary-product-shaped-recommendation-not-full-ranking",
+  "registeredAfterFullRankingDiagnostic": true,
+  "sameFrozenCVAndJobLabels": true,
+  "asOf": "2026-10-19T00:00:00Z",
+  "k": 5,
+  "allowShortOrEmptyRecommendation": true,
+  "suitability": "semantic relevance >=2 AND independently labeled eligibility=eligible",
+  "unknownSuitability": "lower/upper bounds, never assume negative or positive",
+  "candidatePool": "all 18 jobs in each dev/test split; gold never enters prompts",
+  "syntheticDemoAdapter": "clear demo display marker only in isolated deriveApplyFlow input",
+  "engines": ["production-application-shortlist", "keyword-top5", "lexical-bm25-top5", "live-model-shortlist"],
+  "notPureArchitectureComparison": "live model sees evaluationPreferences; existing Profile schema cannot represent all preferences as typed fields, recorded as a product capability gap",
+  "temperature": 0,
+  "requestBudget": 12,
+  "maxOutputTokens": 1000,
+  "timeoutMs": 20000,
+  "retries": 0,
+  "humanGold": false,
+  "noApplicationSubmission": true
+}

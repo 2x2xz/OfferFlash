@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "offerflash-bench-v1",
+  "status": "diagnostic-protocol-frozen-before-scoring",
+  "asOf": "2026-10-19T00:00:00Z",
+  "priorities": [
+    "cv-job-relevance",
+    "form-correctness-and-completeness",
+    "retrieval",
+    "efficiency"
+  ],
+  "labelProvenance": "authored-synthetic-diagnostic",
+  "independentHumanGold": false,
+  "claims": {
+    "publicBenchmarkLeaderboardScore": false,
+    "realApplicantOutcome": false,
+    "realEnterpriseSubmission": false,
+    "fullWebCoverage": false,
+    "manualSpeedupWithoutPairedHuman": false
+  },
+  "matching": {
+    "cutoffs": [
+      3,
+      5,
+      10
+    ],
+    "positiveThreshold": 2,
+    "gain": "2^relevance-1",
+    "tieBreak": "eligible-bucket-then-descending-score-then-lexicographic-job-id",
+    "relevanceGrades": {
+      "0": "core-responsibility-unrelated-or-contradictory",
+      "1": "weak-transfer-or-large-skill-gap",
+      "2": "plausible-related-match",
+      "3": "strong-direct-match"
+    },
+    "unknownIsNotNegative": true,
+    "splitPolicy": "employer-and-template-family-disjoint",
+    "testMayTuneProduction": false,
+    "eligibilityIsSeparateFromSemanticRelevance": true,
+    "generalizationClaim": "diagnostic-only-author-family-identifiers-not-independent-semantic-generalization",
+    "rawSemanticGainDoesNotApplyEligibility": true
+  },
+  "forms": {
+    "oracle": "independent-stable-DOM-id-final-value-and-event-audit",
+    "repeats": 3,
+    "allRequiredCoverageIncludes": [
+      "eligible",
+      "unsupported",
+      "missing-info"
+    ],
+    "protectedRequiredManualGatesSeparate": true,
+    "wholeTaskSuccessIsNotSubmissionReadiness": true,
+    "enginesSeparate": [
+      "planner",
+      "production-background-DOM",
+      "production-native-optional",
+      "live-model-mapping"
+    ],
+    "noUploadNoConsentNoSubmit": true
+  },
+  "retrieval": {
+    "cutoffs": [
+      1,
+      3,
+      5
+    ],
+    "index": "lexical-BM25",
+    "noEmbeddingClaim": true,
+    "entityAndRevisionFilter": true
+  },
+  "efficiency": {
+    "clock": "monotonic-process",
+    "percentilesMinimumSamples": 20,
+    "usageFromProviderOnly": true,
+    "noCharacterTokenEstimate": true,
+    "costWithoutVerifiedPrice": null
+  },
+  "live": {
+    "maxRequests": 20,
+    "maxOutputTokensPerRequest": 1200,
+    "requestTimeoutMs": 20000,
+    "httpRetries": 0,
+    "inputs": "fictional-CV-or-value-free-labels-only"
+  },
+  "publication": {
+    "privateRepositoryOnly": true,
+    "noNormalDatabaseOrSessions": true,
+    "rawPublicJobSnapshotsLocalOnly": true
+  }
+}

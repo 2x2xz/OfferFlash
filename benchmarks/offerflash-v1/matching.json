@@ -1,0 +1,5823 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "offerflash-matching-v1",
+  "asOf": "2026-10-19T00:00:00Z",
+  "labelProvenance": "authored-synthetic-diagnostic",
+  "humanGold": false,
+  "description": "六份完全虚构履历与36个原创虚构岗位的受控诊断集。用于暴露规则/语义/资格/未知处理差异，不代表真实招聘分布、人工独立标注或实际录用概率。未调用生产matchJob生成标签，标签在模型运行前固定。",
+  "splitPolicy": "dev/test按虚构雇主和作者定义的模板家族分组，不共享雇主或模板家族；技能领域可以跨split，但不会据运行结果调整标签。画像共用以做同一能力诊断，不构成独立真实人群测试。",
+  "annotationProtocol": {
+    "relevanceGrades": {
+      "0": "核心职责不相关或相悖",
+      "1": "相邻方向或只有局部可迁移能力",
+      "2": "方向相关且有关键能力或明确可迁移证据，仍存在技能差距",
+      "3": "具体项目证据直接覆盖核心职责"
+    },
+    "positiveThreshold": 2,
+    "eligibilityDimensions": [
+      "region",
+      "city",
+      "graduation",
+      "degree",
+      "recruitment-type",
+      "deadline"
+    ],
+    "sourceAuditDimensions": [
+      "source-freshness",
+      "source-origin"
+    ],
+    "sourceAuditNote": "两个来源审计维度因所有条目为虚构而unknown，不用于断言真实来源或构造此受控集的求职资格；真实官网实验必须单独测来源。",
+    "authors": "project-authored-synthetic",
+    "independentHumanReview": false,
+    "labelGeneration": "显式作者语义矩阵与原创事实条件逐项对照；未执行生产排序器、未使用被测模型或其输出作为gold。",
+    "modelInputProjection": "只允许 personas[].profile、evaluationPreferences 及 jobs[].job 进入被测排序器；禁止传入 qrels、labelFacts、tags、split 或 rationale。"
+  },
+  "personas": [
+    {
+      "id": "llm-2027",
+      "profile": {
+        "fullName": "虚构候选人甲",
+        "fullNameEn": "Fictional Candidate A",
+        "email": "llm-2027@example.invalid",
+        "phone": "",
+        "school": "演示科技大学（虚构）",
+        "schoolEn": "Example Institute of Technology (Fictional)",
+        "degree": "硕士",
+        "major": "人工智能",
+        "majorEn": "Fictional diagnostic specialization",
+        "graduationMonth": "2027-07",
+        "skills": [
+          "Python",
+          "RAG",
+          "Agent"
+        ],
+        "cities": [
+          "北京",
+          "杭州",
+          "上海"
+        ],
+        "targetRoles": [
+          "大模型",
+          "智能体"
+        ],
+        "resumeText": "虚构候选人甲（完全虚构）。硕士，人工智能，2027-07毕业。在虚构知识问答项目中使用 Python 构建检索增强问答与 Agent 工具调用，设计回答依据核对及失败样例测试。未声明 Java 服务端或目标检测经验。",
+        "version": 1,
+        "updatedAt": "2026-10-19T00:00:00Z",
+        "career": {
+          "schemaVersion": 1,
+          "sources": [
+            {
+              "id": "fictional-source-llm-2027",
+              "kind": "manual",
+              "label": "原创虚构测评履历",
+              "text": "虚构候选人甲（完全虚构）。硕士，人工智能，2027-07毕业。在虚构知识问答项目中使用 Python 构建检索增强问答与 Agent 工具调用，设计回答依据核对及失败样例测试。未声明 Java 服务端或目标检测经验。",
+              "createdAt": "2026-10-19T00:00:00Z"
+            }
+          ],
+          "primaryEducationId": "education-llm-2027",
+          "educations": [
+            {
+              "id": "education-llm-2027",
+              "school": "演示科技大学（虚构）",
+              "schoolEn": "Example Institute of Technology (Fictional)",
+              "degree": "硕士",
+              "major": "人工智能",
+              "majorEn": "Fictional diagnostic specialization",
+              "startDate": "2025-09",
+              "endDate": "2027-07",
+              "description": "原创虚构教育记录，仅用于测评。",
+              "evidence": [
+                {
+                  "field": "school",
+                  "sourceId": "fictional-source-llm-2027",
+                  "quote": "演示科技大学（虚构）",
+                  "location": "原创受控测评资料",
+                  "originalValue": "演示科技大学（虚构）"
+                },
+                {
+                  "field": "degree",
+                  "sourceId": "fictional-source-llm-2027",
+                  "quote": "硕士",
+                  "location": "原创受控测评资料",
+                  "originalValue": "硕士"
+                },
+                {
+                  "field": "major",
+                  "sourceId": "fictional-source-llm-2027",
+                  "quote": "人工智能",
+                  "location": "原创受控测评资料",
+                  "originalValue": "人工智能"
+                },
+                {
+                  "field": "endDate",
+                  "sourceId": "fictional-source-llm-2027",
+                  "quote": "2027-07",
+                  "location": "原创受控测评资料",
+                  "originalValue": "2027-07"
+                }
+              ],
+              "sourceNote": "原创虚构，非真实学历或用户资料",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "internships": [],
+          "projects": [
+            {
+              "id": "project-llm-2027",
+              "name": "检索问答与工具调用原型",
+              "role": "主要开发者",
+              "startDate": "2025-10",
+              "endDate": "2026-06",
+              "ongoing": false,
+              "description": "在虚构知识问答项目中使用 Python 构建检索增强问答与 Agent 工具调用，设计回答依据核对及失败样例测试。未声明 Java 服务端或目标检测经验。",
+              "technologies": [
+                "Python",
+                "RAG",
+                "Agent"
+              ],
+              "url": "https://projects.example.invalid/llm-2027",
+              "evidence": [
+                {
+                  "field": "description",
+                  "sourceId": "fictional-source-llm-2027",
+                  "quote": "在虚构知识问答项目中使用 Python 构建检索增强问答与 Agent 工具调用，设计回答依据核对及失败样例测试。未声明 Java 服务端或目标检测经验。",
+                  "location": "原创受控测评资料",
+                  "originalValue": "在虚构知识问答项目中使用 Python 构建检索增强问答与 Agent 工具调用，设计回答依据核对及失败样例测试。未声明 Java 服务端或目标检测经验。"
+                },
+                {
+                  "field": "technologies",
+                  "sourceId": "fictional-source-llm-2027",
+                  "quote": "Python、RAG、Agent",
+                  "location": "原创受控测评资料",
+                  "originalValue": "Python、RAG、Agent"
+                }
+              ],
+              "sourceNote": "原创虚构能力证据，无真实项目或代码链接",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "publications": []
+        }
+      },
+      "evaluationPreferences": {
+        "region": "mainland",
+        "acceptedRecruitmentTypes": [
+          "campus"
+        ],
+        "fullTimeExperienceYears": 0,
+        "unknownCityRequiresReview": true
+      }
+    },
+    {
+      "id": "cv-2027",
+      "profile": {
+        "fullName": "虚构候选人乙",
+        "fullNameEn": "Fictional Candidate B",
+        "email": "cv-2027@example.invalid",
+        "phone": "",
+        "school": "演示科技大学（虚构）",
+        "schoolEn": "Example Institute of Technology (Fictional)",
+        "degree": "硕士",
+        "major": "计算机视觉",
+        "majorEn": "Fictional diagnostic specialization",
+        "graduationMonth": "2027-07",
+        "skills": [
+          "PyTorch",
+          "计算机视觉",
+          "目标检测"
+        ],
+        "cities": [
+          "深圳",
+          "北京"
+        ],
+        "targetRoles": [
+          "计算机视觉",
+          "目标检测"
+        ],
+        "resumeText": "虚构候选人乙（完全虚构）。硕士，计算机视觉，2027-07毕业。在虚构视觉项目中使用 PyTorch 完成目标检测训练、图像增强及误检分析。未声明 RAG、Java 后端或强化学习研究经历。",
+        "version": 1,
+        "updatedAt": "2026-10-19T00:00:00Z",
+        "career": {
+          "schemaVersion": 1,
+          "sources": [
+            {
+              "id": "fictional-source-cv-2027",
+              "kind": "manual",
+              "label": "原创虚构测评履历",
+              "text": "虚构候选人乙（完全虚构）。硕士，计算机视觉，2027-07毕业。在虚构视觉项目中使用 PyTorch 完成目标检测训练、图像增强及误检分析。未声明 RAG、Java 后端或强化学习研究经历。",
+              "createdAt": "2026-10-19T00:00:00Z"
+            }
+          ],
+          "primaryEducationId": "education-cv-2027",
+          "educations": [
+            {
+              "id": "education-cv-2027",
+              "school": "演示科技大学（虚构）",
+              "schoolEn": "Example Institute of Technology (Fictional)",
+              "degree": "硕士",
+              "major": "计算机视觉",
+              "majorEn": "Fictional diagnostic specialization",
+              "startDate": "2025-09",
+              "endDate": "2027-07",
+              "description": "原创虚构教育记录，仅用于测评。",
+              "evidence": [
+                {
+                  "field": "school",
+                  "sourceId": "fictional-source-cv-2027",
+                  "quote": "演示科技大学（虚构）",
+                  "location": "原创受控测评资料",
+                  "originalValue": "演示科技大学（虚构）"
+                },
+                {
+                  "field": "degree",
+                  "sourceId": "fictional-source-cv-2027",
+                  "quote": "硕士",
+                  "location": "原创受控测评资料",
+                  "originalValue": "硕士"
+                },
+                {
+                  "field": "major",
+                  "sourceId": "fictional-source-cv-2027",
+                  "quote": "计算机视觉",
+                  "location": "原创受控测评资料",
+                  "originalValue": "计算机视觉"
+                },
+                {
+                  "field": "endDate",
+                  "sourceId": "fictional-source-cv-2027",
+                  "quote": "2027-07",
+                  "location": "原创受控测评资料",
+                  "originalValue": "2027-07"
+                }
+              ],
+              "sourceNote": "原创虚构，非真实学历或用户资料",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "internships": [],
+          "projects": [
+            {
+              "id": "project-cv-2027",
+              "name": "低光目标检测实验",
+              "role": "主要开发者",
+              "startDate": "2025-10",
+              "endDate": "2026-06",
+              "ongoing": false,
+              "description": "在虚构视觉项目中使用 PyTorch 完成目标检测训练、图像增强及误检分析。未声明 RAG、Java 后端或强化学习研究经历。",
+              "technologies": [
+                "PyTorch",
+                "计算机视觉",
+                "目标检测"
+              ],
+              "url": "https://projects.example.invalid/cv-2027",
+              "evidence": [
+                {
+                  "field": "description",
+                  "sourceId": "fictional-source-cv-2027",
+                  "quote": "在虚构视觉项目中使用 PyTorch 完成目标检测训练、图像增强及误检分析。未声明 RAG、Java 后端或强化学习研究经历。",
+                  "location": "原创受控测评资料",
+                  "originalValue": "在虚构视觉项目中使用 PyTorch 完成目标检测训练、图像增强及误检分析。未声明 RAG、Java 后端或强化学习研究经历。"
+                },
+                {
+                  "field": "technologies",
+                  "sourceId": "fictional-source-cv-2027",
+                  "quote": "PyTorch、计算机视觉、目标检测",
+                  "location": "原创受控测评资料",
+                  "originalValue": "PyTorch、计算机视觉、目标检测"
+                }
+              ],
+              "sourceNote": "原创虚构能力证据，无真实项目或代码链接",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "publications": []
+        }
+      },
+      "evaluationPreferences": {
+        "region": "mainland",
+        "acceptedRecruitmentTypes": [
+          "campus"
+        ],
+        "fullTimeExperienceYears": 0,
+        "unknownCityRequiresReview": true
+      }
+    },
+    {
+      "id": "nlp-2026",
+      "profile": {
+        "fullName": "虚构候选人丙",
+        "fullNameEn": "Fictional Candidate C",
+        "email": "nlp-2026@example.invalid",
+        "phone": "",
+        "school": "演示科技大学（虚构）",
+        "schoolEn": "Example Institute of Technology (Fictional)",
+        "degree": "本科",
+        "major": "计算机科学",
+        "majorEn": "Fictional diagnostic specialization",
+        "graduationMonth": "2026-07",
+        "skills": [
+          "NLP",
+          "文本分类",
+          "Java"
+        ],
+        "cities": [
+          "北京",
+          "上海"
+        ],
+        "targetRoles": [
+          "NLP",
+          "文本分类"
+        ],
+        "resumeText": "虚构候选人丙（完全虚构）。本科，计算机科学，2026-07毕业。在虚构文本分类项目中整理中文语料与标签，训练分类模型并使用 Java 封装预测接口。未声明 RAG、SQL 数据分析或强化学习经历。",
+        "version": 1,
+        "updatedAt": "2026-10-19T00:00:00Z",
+        "career": {
+          "schemaVersion": 1,
+          "sources": [
+            {
+              "id": "fictional-source-nlp-2026",
+              "kind": "manual",
+              "label": "原创虚构测评履历",
+              "text": "虚构候选人丙（完全虚构）。本科，计算机科学，2026-07毕业。在虚构文本分类项目中整理中文语料与标签，训练分类模型并使用 Java 封装预测接口。未声明 RAG、SQL 数据分析或强化学习经历。",
+              "createdAt": "2026-10-19T00:00:00Z"
+            }
+          ],
+          "primaryEducationId": "education-nlp-2026",
+          "educations": [
+            {
+              "id": "education-nlp-2026",
+              "school": "演示科技大学（虚构）",
+              "schoolEn": "Example Institute of Technology (Fictional)",
+              "degree": "本科",
+              "major": "计算机科学",
+              "majorEn": "Fictional diagnostic specialization",
+              "startDate": "2022-09",
+              "endDate": "2026-07",
+              "description": "原创虚构教育记录，仅用于测评。",
+              "evidence": [
+                {
+                  "field": "school",
+                  "sourceId": "fictional-source-nlp-2026",
+                  "quote": "演示科技大学（虚构）",
+                  "location": "原创受控测评资料",
+                  "originalValue": "演示科技大学（虚构）"
+                },
+                {
+                  "field": "degree",
+                  "sourceId": "fictional-source-nlp-2026",
+                  "quote": "本科",
+                  "location": "原创受控测评资料",
+                  "originalValue": "本科"
+                },
+                {
+                  "field": "major",
+                  "sourceId": "fictional-source-nlp-2026",
+                  "quote": "计算机科学",
+                  "location": "原创受控测评资料",
+                  "originalValue": "计算机科学"
+                },
+                {
+                  "field": "endDate",
+                  "sourceId": "fictional-source-nlp-2026",
+                  "quote": "2026-07",
+                  "location": "原创受控测评资料",
+                  "originalValue": "2026-07"
+                }
+              ],
+              "sourceNote": "原创虚构，非真实学历或用户资料",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "internships": [],
+          "projects": [
+            {
+              "id": "project-nlp-2026",
+              "name": "中文文本分类服务",
+              "role": "主要开发者",
+              "startDate": "2025-10",
+              "endDate": "2026-06",
+              "ongoing": false,
+              "description": "在虚构文本分类项目中整理中文语料与标签，训练分类模型并使用 Java 封装预测接口。未声明 RAG、SQL 数据分析或强化学习经历。",
+              "technologies": [
+                "NLP",
+                "文本分类",
+                "Java"
+              ],
+              "url": "https://projects.example.invalid/nlp-2026",
+              "evidence": [
+                {
+                  "field": "description",
+                  "sourceId": "fictional-source-nlp-2026",
+                  "quote": "在虚构文本分类项目中整理中文语料与标签，训练分类模型并使用 Java 封装预测接口。未声明 RAG、SQL 数据分析或强化学习经历。",
+                  "location": "原创受控测评资料",
+                  "originalValue": "在虚构文本分类项目中整理中文语料与标签，训练分类模型并使用 Java 封装预测接口。未声明 RAG、SQL 数据分析或强化学习经历。"
+                },
+                {
+                  "field": "technologies",
+                  "sourceId": "fictional-source-nlp-2026",
+                  "quote": "NLP、文本分类、Java",
+                  "location": "原创受控测评资料",
+                  "originalValue": "NLP、文本分类、Java"
+                }
+              ],
+              "sourceNote": "原创虚构能力证据，无真实项目或代码链接",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "publications": []
+        }
+      },
+      "evaluationPreferences": {
+        "region": "mainland",
+        "acceptedRecruitmentTypes": [
+          "campus"
+        ],
+        "fullTimeExperienceYears": 0,
+        "unknownCityRequiresReview": true
+      }
+    },
+    {
+      "id": "backend-2027",
+      "profile": {
+        "fullName": "虚构候选人丁",
+        "fullNameEn": "Fictional Candidate D",
+        "email": "backend-2027@example.invalid",
+        "phone": "",
+        "school": "演示科技大学（虚构）",
+        "schoolEn": "Example Institute of Technology (Fictional)",
+        "degree": "本科",
+        "major": "软件工程",
+        "majorEn": "Fictional diagnostic specialization",
+        "graduationMonth": "2027-07",
+        "skills": [
+          "Java",
+          "SQL",
+          "TypeScript"
+        ],
+        "cities": [
+          "杭州",
+          "深圳"
+        ],
+        "targetRoles": [
+          "后端开发",
+          "Java"
+        ],
+        "resumeText": "虚构候选人丁（完全虚构）。本科，软件工程，2027-07毕业。在虚构后台项目中使用 Java、SQL 与 TypeScript 完成业务接口、数据库查询和管理界面，编写集成测试。未声明模型训练、Python 或 NLP 研究经验。",
+        "version": 1,
+        "updatedAt": "2026-10-19T00:00:00Z",
+        "career": {
+          "schemaVersion": 1,
+          "sources": [
+            {
+              "id": "fictional-source-backend-2027",
+              "kind": "manual",
+              "label": "原创虚构测评履历",
+              "text": "虚构候选人丁（完全虚构）。本科，软件工程，2027-07毕业。在虚构后台项目中使用 Java、SQL 与 TypeScript 完成业务接口、数据库查询和管理界面，编写集成测试。未声明模型训练、Python 或 NLP 研究经验。",
+              "createdAt": "2026-10-19T00:00:00Z"
+            }
+          ],
+          "primaryEducationId": "education-backend-2027",
+          "educations": [
+            {
+              "id": "education-backend-2027",
+              "school": "演示科技大学（虚构）",
+              "schoolEn": "Example Institute of Technology (Fictional)",
+              "degree": "本科",
+              "major": "软件工程",
+              "majorEn": "Fictional diagnostic specialization",
+              "startDate": "2023-09",
+              "endDate": "2027-07",
+              "description": "原创虚构教育记录，仅用于测评。",
+              "evidence": [
+                {
+                  "field": "school",
+                  "sourceId": "fictional-source-backend-2027",
+                  "quote": "演示科技大学（虚构）",
+                  "location": "原创受控测评资料",
+                  "originalValue": "演示科技大学（虚构）"
+                },
+                {
+                  "field": "degree",
+                  "sourceId": "fictional-source-backend-2027",
+                  "quote": "本科",
+                  "location": "原创受控测评资料",
+                  "originalValue": "本科"
+                },
+                {
+                  "field": "major",
+                  "sourceId": "fictional-source-backend-2027",
+                  "quote": "软件工程",
+                  "location": "原创受控测评资料",
+                  "originalValue": "软件工程"
+                },
+                {
+                  "field": "endDate",
+                  "sourceId": "fictional-source-backend-2027",
+                  "quote": "2027-07",
+                  "location": "原创受控测评资料",
+                  "originalValue": "2027-07"
+                }
+              ],
+              "sourceNote": "原创虚构，非真实学历或用户资料",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "internships": [],
+          "projects": [
+            {
+              "id": "project-backend-2027",
+              "name": "库存服务与管理后台",
+              "role": "主要开发者",
+              "startDate": "2025-10",
+              "endDate": "2026-06",
+              "ongoing": false,
+              "description": "在虚构后台项目中使用 Java、SQL 与 TypeScript 完成业务接口、数据库查询和管理界面，编写集成测试。未声明模型训练、Python 或 NLP 研究经验。",
+              "technologies": [
+                "Java",
+                "SQL",
+                "TypeScript"
+              ],
+              "url": "https://projects.example.invalid/backend-2027",
+              "evidence": [
+                {
+                  "field": "description",
+                  "sourceId": "fictional-source-backend-2027",
+                  "quote": "在虚构后台项目中使用 Java、SQL 与 TypeScript 完成业务接口、数据库查询和管理界面，编写集成测试。未声明模型训练、Python 或 NLP 研究经验。",
+                  "location": "原创受控测评资料",
+                  "originalValue": "在虚构后台项目中使用 Java、SQL 与 TypeScript 完成业务接口、数据库查询和管理界面，编写集成测试。未声明模型训练、Python 或 NLP 研究经验。"
+                },
+                {
+                  "field": "technologies",
+                  "sourceId": "fictional-source-backend-2027",
+                  "quote": "Java、SQL、TypeScript",
+                  "location": "原创受控测评资料",
+                  "originalValue": "Java、SQL、TypeScript"
+                }
+              ],
+              "sourceNote": "原创虚构能力证据，无真实项目或代码链接",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "publications": []
+        }
+      },
+      "evaluationPreferences": {
+        "region": "mainland",
+        "acceptedRecruitmentTypes": [
+          "campus"
+        ],
+        "fullTimeExperienceYears": 0,
+        "unknownCityRequiresReview": true
+      }
+    },
+    {
+      "id": "rl-phd-2027",
+      "profile": {
+        "fullName": "虚构候选人戊",
+        "fullNameEn": "Fictional Candidate E",
+        "email": "rl-phd-2027@example.invalid",
+        "phone": "",
+        "school": "演示科技大学（虚构）",
+        "schoolEn": "Example Institute of Technology (Fictional)",
+        "degree": "博士",
+        "major": "强化学习",
+        "majorEn": "Fictional diagnostic specialization",
+        "graduationMonth": "2027-07",
+        "skills": [
+          "强化学习",
+          "Python",
+          "PyTorch"
+        ],
+        "cities": [
+          "北京",
+          "上海"
+        ],
+        "targetRoles": [
+          "强化学习",
+          "算法"
+        ],
+        "resumeText": "虚构候选人戊（完全虚构）。博士，强化学习，2027-07毕业。在虚构强化学习研究中使用 Python、PyTorch 设计策略优化与仿真环境，比较奖励设计和泛化表现。未声明 RAG、目标检测或 Java 服务端经验。",
+        "version": 1,
+        "updatedAt": "2026-10-19T00:00:00Z",
+        "career": {
+          "schemaVersion": 1,
+          "sources": [
+            {
+              "id": "fictional-source-rl-phd-2027",
+              "kind": "manual",
+              "label": "原创虚构测评履历",
+              "text": "虚构候选人戊（完全虚构）。博士，强化学习，2027-07毕业。在虚构强化学习研究中使用 Python、PyTorch 设计策略优化与仿真环境，比较奖励设计和泛化表现。未声明 RAG、目标检测或 Java 服务端经验。",
+              "createdAt": "2026-10-19T00:00:00Z"
+            }
+          ],
+          "primaryEducationId": "education-rl-phd-2027",
+          "educations": [
+            {
+              "id": "education-rl-phd-2027",
+              "school": "演示科技大学（虚构）",
+              "schoolEn": "Example Institute of Technology (Fictional)",
+              "degree": "博士",
+              "major": "强化学习",
+              "majorEn": "Fictional diagnostic specialization",
+              "startDate": "2022-09",
+              "endDate": "2027-07",
+              "description": "原创虚构教育记录，仅用于测评。",
+              "evidence": [
+                {
+                  "field": "school",
+                  "sourceId": "fictional-source-rl-phd-2027",
+                  "quote": "演示科技大学（虚构）",
+                  "location": "原创受控测评资料",
+                  "originalValue": "演示科技大学（虚构）"
+                },
+                {
+                  "field": "degree",
+                  "sourceId": "fictional-source-rl-phd-2027",
+                  "quote": "博士",
+                  "location": "原创受控测评资料",
+                  "originalValue": "博士"
+                },
+                {
+                  "field": "major",
+                  "sourceId": "fictional-source-rl-phd-2027",
+                  "quote": "强化学习",
+                  "location": "原创受控测评资料",
+                  "originalValue": "强化学习"
+                },
+                {
+                  "field": "endDate",
+                  "sourceId": "fictional-source-rl-phd-2027",
+                  "quote": "2027-07",
+                  "location": "原创受控测评资料",
+                  "originalValue": "2027-07"
+                }
+              ],
+              "sourceNote": "原创虚构，非真实学历或用户资料",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "internships": [],
+          "projects": [
+            {
+              "id": "project-rl-phd-2027",
+              "name": "仿真策略学习研究",
+              "role": "主要负责人",
+              "startDate": "2025-10",
+              "endDate": "2026-06",
+              "ongoing": false,
+              "description": "在虚构强化学习研究中使用 Python、PyTorch 设计策略优化与仿真环境，比较奖励设计和泛化表现。未声明 RAG、目标检测或 Java 服务端经验。",
+              "technologies": [
+                "强化学习",
+                "Python",
+                "PyTorch"
+              ],
+              "url": "https://projects.example.invalid/rl-phd-2027",
+              "evidence": [
+                {
+                  "field": "description",
+                  "sourceId": "fictional-source-rl-phd-2027",
+                  "quote": "在虚构强化学习研究中使用 Python、PyTorch 设计策略优化与仿真环境，比较奖励设计和泛化表现。未声明 RAG、目标检测或 Java 服务端经验。",
+                  "location": "原创受控测评资料",
+                  "originalValue": "在虚构强化学习研究中使用 Python、PyTorch 设计策略优化与仿真环境，比较奖励设计和泛化表现。未声明 RAG、目标检测或 Java 服务端经验。"
+                },
+                {
+                  "field": "technologies",
+                  "sourceId": "fictional-source-rl-phd-2027",
+                  "quote": "强化学习、Python、PyTorch",
+                  "location": "原创受控测评资料",
+                  "originalValue": "强化学习、Python、PyTorch"
+                }
+              ],
+              "sourceNote": "原创虚构能力证据，无真实项目或代码链接",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "publications": []
+        }
+      },
+      "evaluationPreferences": {
+        "region": "mainland",
+        "acceptedRecruitmentTypes": [
+          "campus"
+        ],
+        "fullTimeExperienceYears": 0,
+        "unknownCityRequiresReview": true
+      }
+    },
+    {
+      "id": "data-2027",
+      "profile": {
+        "fullName": "虚构候选人己",
+        "fullNameEn": "Fictional Candidate F",
+        "email": "data-2027@example.invalid",
+        "phone": "",
+        "school": "演示科技大学（虚构）",
+        "schoolEn": "Example Institute of Technology (Fictional)",
+        "degree": "本科",
+        "major": "统计与数据科学",
+        "majorEn": "Fictional diagnostic specialization",
+        "graduationMonth": "2027-07",
+        "skills": [
+          "SQL",
+          "数据分析",
+          "Python"
+        ],
+        "cities": [
+          "上海",
+          "杭州"
+        ],
+        "targetRoles": [
+          "数据分析"
+        ],
+        "resumeText": "虚构候选人己（完全虚构）。本科，统计与数据科学，2027-07毕业。在虚构分析项目中使用 SQL 和 Python 清洗业务数据、汇总实验结果并形成指标看板。未声明 RAG、目标检测、Java 后端或强化学习策略研究经历。",
+        "version": 1,
+        "updatedAt": "2026-10-19T00:00:00Z",
+        "career": {
+          "schemaVersion": 1,
+          "sources": [
+            {
+              "id": "fictional-source-data-2027",
+              "kind": "manual",
+              "label": "原创虚构测评履历",
+              "text": "虚构候选人己（完全虚构）。本科，统计与数据科学，2027-07毕业。在虚构分析项目中使用 SQL 和 Python 清洗业务数据、汇总实验结果并形成指标看板。未声明 RAG、目标检测、Java 后端或强化学习策略研究经历。",
+              "createdAt": "2026-10-19T00:00:00Z"
+            }
+          ],
+          "primaryEducationId": "education-data-2027",
+          "educations": [
+            {
+              "id": "education-data-2027",
+              "school": "演示科技大学（虚构）",
+              "schoolEn": "Example Institute of Technology (Fictional)",
+              "degree": "本科",
+              "major": "统计与数据科学",
+              "majorEn": "Fictional diagnostic specialization",
+              "startDate": "2023-09",
+              "endDate": "2027-07",
+              "description": "原创虚构教育记录，仅用于测评。",
+              "evidence": [
+                {
+                  "field": "school",
+                  "sourceId": "fictional-source-data-2027",
+                  "quote": "演示科技大学（虚构）",
+                  "location": "原创受控测评资料",
+                  "originalValue": "演示科技大学（虚构）"
+                },
+                {
+                  "field": "degree",
+                  "sourceId": "fictional-source-data-2027",
+                  "quote": "本科",
+                  "location": "原创受控测评资料",
+                  "originalValue": "本科"
+                },
+                {
+                  "field": "major",
+                  "sourceId": "fictional-source-data-2027",
+                  "quote": "统计与数据科学",
+                  "location": "原创受控测评资料",
+                  "originalValue": "统计与数据科学"
+                },
+                {
+                  "field": "endDate",
+                  "sourceId": "fictional-source-data-2027",
+                  "quote": "2027-07",
+                  "location": "原创受控测评资料",
+                  "originalValue": "2027-07"
+                }
+              ],
+              "sourceNote": "原创虚构，非真实学历或用户资料",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "internships": [],
+          "projects": [
+            {
+              "id": "project-data-2027",
+              "name": "业务数据质量与实验看板",
+              "role": "主要负责人",
+              "startDate": "2025-10",
+              "endDate": "2026-06",
+              "ongoing": false,
+              "description": "在虚构分析项目中使用 SQL 和 Python 清洗业务数据、汇总实验结果并形成指标看板。未声明 RAG、目标检测、Java 后端或强化学习策略研究经历。",
+              "technologies": [
+                "SQL",
+                "数据分析",
+                "Python"
+              ],
+              "url": "https://projects.example.invalid/data-2027",
+              "evidence": [
+                {
+                  "field": "description",
+                  "sourceId": "fictional-source-data-2027",
+                  "quote": "在虚构分析项目中使用 SQL 和 Python 清洗业务数据、汇总实验结果并形成指标看板。未声明 RAG、目标检测、Java 后端或强化学习策略研究经历。",
+                  "location": "原创受控测评资料",
+                  "originalValue": "在虚构分析项目中使用 SQL 和 Python 清洗业务数据、汇总实验结果并形成指标看板。未声明 RAG、目标检测、Java 后端或强化学习策略研究经历。"
+                },
+                {
+                  "field": "technologies",
+                  "sourceId": "fictional-source-data-2027",
+                  "quote": "SQL、数据分析、Python",
+                  "location": "原创受控测评资料",
+                  "originalValue": "SQL、数据分析、Python"
+                }
+              ],
+              "sourceNote": "原创虚构能力证据，无真实项目或代码链接",
+              "revision": 1,
+              "confirmation": "confirmed",
+              "confirmedAt": "2026-10-19T00:00:00Z",
+              "confirmedRevision": 1
+            }
+          ],
+          "publications": []
+        }
+      },
+      "evaluationPreferences": {
+        "region": "mainland",
+        "acceptedRecruitmentTypes": [
+          "campus"
+        ],
+        "fullTimeExperienceYears": 0,
+        "unknownCityRequiresReview": true
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": "dev-01",
+      "split": "dev",
+      "employerGroup": "dev-employer-1",
+      "templateFamily": "dev-foundation-rag",
+      "tags": [
+        "direct-match",
+        "degree-mandatory"
+      ],
+      "job": {
+        "id": "dev-01",
+        "company": "虚构星灯技术",
+        "title": "检索增强与智能体应用工程师",
+        "city": "北京",
+        "type": "campus",
+        "description": "搭建企业知识问答、检索评估与工具调用链，维护 Python 服务和 Agent 失败样例。",
+        "requirements": "2027届校园招聘，硕士及以上学历；需要 Python、RAG 与 Agent 项目经验。",
+        "url": "https://careers.example.invalid/dev-employer-1/dev-01",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-02",
+      "split": "dev",
+      "employerGroup": "dev-employer-1",
+      "templateFamily": "dev-foundation-rag",
+      "tags": [
+        "degree-preferred",
+        "direct-match"
+      ],
+      "job": {
+        "id": "dev-02",
+        "company": "虚构星灯技术",
+        "title": "知识助手研发校招生",
+        "city": "杭州",
+        "type": "campus",
+        "description": "使用 Python 建设文档检索和智能体原型，完善回答依据与工具异常处理。",
+        "requirements": "仅面向2027届。本科及以上，硕士优先；有 RAG、Agent 项目更佳。",
+        "url": "https://careers.example.invalid/dev-employer-1/dev-02",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-03",
+      "split": "dev",
+      "employerGroup": "dev-employer-1",
+      "templateFamily": "dev-foundation-rag",
+      "tags": [
+        "direct-match",
+        "degree-mandatory"
+      ],
+      "job": {
+        "id": "dev-03",
+        "company": "虚构星灯技术",
+        "title": "视觉目标检测算法工程师",
+        "city": "深圳",
+        "type": "campus",
+        "description": "使用 PyTorch 训练工业图像检测器，分析漏检、误检和图像增强效果。",
+        "requirements": "2027届，硕士及以上学历；计算机视觉与目标检测项目经验为必需。",
+        "url": "https://careers.example.invalid/dev-employer-1/dev-03",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-04",
+      "split": "dev",
+      "employerGroup": "dev-employer-2",
+      "templateFamily": "dev-image-and-nlp",
+      "tags": [
+        "degree-alternatives",
+        "direct-match"
+      ],
+      "job": {
+        "id": "dev-04",
+        "company": "虚构清羽视觉",
+        "title": "校园图像算法开发",
+        "city": "北京",
+        "type": "campus",
+        "description": "研发低光环境目标检测，使用 PyTorch 比较图像增强与检测性能。",
+        "requirements": "2027届本科或硕士应届生；需要计算机视觉和目标检测经验。",
+        "url": "https://careers.example.invalid/dev-employer-2/dev-04",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-05",
+      "split": "dev",
+      "employerGroup": "dev-employer-2",
+      "templateFamily": "dev-image-and-nlp",
+      "tags": [
+        "cohort-2026",
+        "direct-match"
+      ],
+      "job": {
+        "id": "dev-05",
+        "company": "虚构清羽视觉",
+        "title": "中文文本分类开发工程师",
+        "city": "上海",
+        "type": "campus",
+        "description": "处理中文文本标注与分类模型评估，以 Java 提供分类服务接口。",
+        "requirements": "只接收2026届本科及以上毕业生，需要 NLP、文本分类和 Java 接口经验。",
+        "url": "https://careers.example.invalid/dev-employer-2/dev-05",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2026"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-06",
+      "split": "dev",
+      "employerGroup": "dev-employer-2",
+      "templateFamily": "dev-image-and-nlp",
+      "tags": [
+        "direct-match"
+      ],
+      "job": {
+        "id": "dev-06",
+        "company": "虚构清羽视觉",
+        "title": "业务后台研发工程师",
+        "city": "杭州",
+        "type": "campus",
+        "description": "以 Java 和 SQL 实现订单接口，使用 TypeScript 维护内部管理界面。",
+        "requirements": "2027届本科及以上；要求 Java、SQL、TypeScript 项目经验。",
+        "url": "https://careers.example.invalid/dev-employer-2/dev-06",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-07",
+      "split": "dev",
+      "employerGroup": "dev-employer-3",
+      "templateFamily": "dev-business-and-research",
+      "tags": [
+        "degree-phd-mandatory",
+        "direct-match"
+      ],
+      "job": {
+        "id": "dev-07",
+        "company": "虚构蓝帆软件",
+        "title": "强化学习研究工程师",
+        "city": "北京",
+        "type": "campus",
+        "description": "使用 Python 与 PyTorch 研究策略优化、奖励设计和仿真环境泛化。",
+        "requirements": "2027届，必须具有博士学历；需要强化学习研究经历。",
+        "url": "https://careers.example.invalid/dev-employer-3/dev-07",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 4,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-08",
+      "split": "dev",
+      "employerGroup": "dev-employer-3",
+      "templateFamily": "dev-business-and-research",
+      "tags": [
+        "direct-match"
+      ],
+      "job": {
+        "id": "dev-08",
+        "company": "虚构蓝帆软件",
+        "title": "数据分析与实验看板工程师",
+        "city": "上海",
+        "type": "campus",
+        "description": "以 SQL 和 Python 处理业务数据，进行实验结果汇总、数据质量诊断与指标可视化。",
+        "requirements": "2027届本科及以上，要求 SQL、Python 和数据分析项目经验。",
+        "url": "https://careers.example.invalid/dev-employer-3/dev-08",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-09",
+      "split": "dev",
+      "employerGroup": "dev-employer-3",
+      "templateFamily": "dev-business-and-research",
+      "tags": [
+        "unknown-city"
+      ],
+      "job": {
+        "id": "dev-09",
+        "company": "虚构蓝帆软件",
+        "title": "智能应用评测开发",
+        "city": "待确认",
+        "type": "campus",
+        "description": "围绕文本助手编写 Python 自动化评测，检查回答依据与工具失败情况。",
+        "requirements": "2027届硕士及以上；工作地点后续通知；需要智能体或检索评测经验。",
+        "url": "https://careers.example.invalid/dev-employer-3/dev-09",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-10",
+      "split": "dev",
+      "employerGroup": "dev-employer-4",
+      "templateFamily": "dev-location-and-overseas",
+      "tags": [
+        "overseas-hard-negative"
+      ],
+      "job": {
+        "id": "dev-10",
+        "company": "虚构白石研究",
+        "title": "RAG Application Engineer",
+        "city": "伦敦",
+        "type": "campus",
+        "description": "Build Python retrieval and Agent tools for document question answering.",
+        "requirements": "2027 graduates. Master's degree required. Work location: London, UK.",
+        "url": "https://careers.example.invalid/dev-employer-4/dev-10",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "overseas",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-11",
+      "split": "dev",
+      "employerGroup": "dev-employer-4",
+      "templateFamily": "dev-location-and-overseas",
+      "tags": [
+        "overseas-hard-negative"
+      ],
+      "job": {
+        "id": "dev-11",
+        "company": "虚构白石研究",
+        "title": "Computer Vision Graduate Engineer",
+        "city": "新加坡",
+        "type": "campus",
+        "description": "Train PyTorch object detectors and investigate image augmentation and false detections.",
+        "requirements": "2027 graduates. Master's degree required. This position is based in Singapore.",
+        "url": "https://careers.example.invalid/dev-employer-4/dev-11",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "overseas",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-12",
+      "split": "dev",
+      "employerGroup": "dev-employer-4",
+      "templateFamily": "dev-location-and-overseas",
+      "tags": [
+        "overseas-hard-negative"
+      ],
+      "job": {
+        "id": "dev-12",
+        "company": "虚构白石研究",
+        "title": "Reinforcement Learning Scientist",
+        "city": "苏黎世",
+        "type": "campus",
+        "description": "Study policy optimization and reward design with Python and PyTorch in simulation.",
+        "requirements": "2027 graduates. PhD degree required. The role is located in Zurich, Switzerland.",
+        "url": "https://careers.example.invalid/dev-employer-4/dev-12",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "overseas",
+        "minimumDegree": 4,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-13",
+      "split": "dev",
+      "employerGroup": "dev-employer-5",
+      "templateFamily": "dev-expiry-and-track",
+      "tags": [
+        "expired-deadline"
+      ],
+      "job": {
+        "id": "dev-13",
+        "company": "虚构紫杉应用",
+        "title": "已截止的智能体开发校招",
+        "city": "北京",
+        "type": "campus",
+        "description": "开发 Python RAG 问答与 Agent 工具调用，维护故障评测。",
+        "requirements": "2027届硕士及以上；职位截止日期2026年9月30日，不再接收申请。",
+        "url": "https://careers.example.invalid/dev-employer-5/dev-13",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2026-09-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-14",
+      "split": "dev",
+      "employerGroup": "dev-employer-5",
+      "templateFamily": "dev-expiry-and-track",
+      "tags": [
+        "experienced-only",
+        "experience-hard-negative"
+      ],
+      "job": {
+        "id": "dev-14",
+        "company": "虚构紫杉应用",
+        "title": "资深中文分类平台工程师",
+        "city": "北京",
+        "type": "experienced",
+        "description": "负责中文分类算法与 Java 分类平台，独立推进服务上线和性能治理。",
+        "requirements": "社会招聘；至少5年全职工作经验，本科及以上；不面向应届生。",
+        "url": "https://careers.example.invalid/dev-employer-5/dev-14",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "unrestricted": true
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-15",
+      "split": "dev",
+      "employerGroup": "dev-employer-5",
+      "templateFamily": "dev-expiry-and-track",
+      "tags": [
+        "internship-only"
+      ],
+      "job": {
+        "id": "dev-15",
+        "company": "虚构紫杉应用",
+        "title": "视觉算法短期实习生",
+        "city": "深圳",
+        "type": "internship",
+        "description": "参与 PyTorch 目标检测模型训练和测试集误检整理。",
+        "requirements": "仅招2027届在校实习生，本科及以上，每周到岗三天；不是正式校招岗位。",
+        "url": "https://careers.example.invalid/dev-employer-5/dev-15",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-16",
+      "split": "dev",
+      "employerGroup": "dev-employer-6",
+      "templateFamily": "dev-bait-and-qualifications",
+      "tags": [
+        "title-keyword-bait"
+      ],
+      "job": {
+        "id": "dev-16",
+        "company": "虚构长桥数据",
+        "title": "AI大模型解决方案顾问",
+        "city": "杭州",
+        "type": "campus",
+        "description": "核心工作为电话获客、销售演示与客户续费；不参与模型开发、数据处理或软件研发。",
+        "requirements": "2027届，本科及以上；专业不限，要求商务沟通与销售意愿。",
+        "url": "https://careers.example.invalid/dev-employer-6/dev-16",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-17",
+      "split": "dev",
+      "employerGroup": "dev-employer-6",
+      "templateFamily": "dev-bait-and-qualifications",
+      "tags": [
+        "skill-negation",
+        "negation-bait"
+      ],
+      "job": {
+        "id": "dev-17",
+        "company": "虚构长桥数据",
+        "title": "系统平台工程师",
+        "city": "杭州",
+        "type": "campus",
+        "description": "核心为 Java、SQL 与 TypeScript 业务系统开发；不是大模型算法岗位，无需 Python、RAG 或强化学习。",
+        "requirements": "2027届本科及以上，需要后端接口和关系型数据库经验。",
+        "url": "https://careers.example.invalid/dev-employer-6/dev-17",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "dev-18",
+      "split": "dev",
+      "employerGroup": "dev-employer-6",
+      "templateFamily": "dev-bait-and-qualifications",
+      "tags": [
+        "cohort-degree-hard-negative"
+      ],
+      "job": {
+        "id": "dev-18",
+        "company": "虚构长桥数据",
+        "title": "文本模型训练校招",
+        "city": "北京",
+        "type": "campus",
+        "description": "训练中文文本分类模型并维护评估集，研发文本表示相关工具。",
+        "requirements": "仅2027届硕士及以上；要求 NLP、文本分类研究经历。",
+        "url": "https://careers.example.invalid/dev-employer-6/dev-18",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-01",
+      "split": "test",
+      "employerGroup": "test-employer-1",
+      "templateFamily": "test-date-window-and-language",
+      "tags": [
+        "graduation-month-window"
+      ],
+      "job": {
+        "id": "test-01",
+        "company": "虚构云岚科技",
+        "title": "文档智能系统研发",
+        "city": "上海",
+        "type": "campus",
+        "description": "为文档搜索构建可追溯回答链，开发 Python 检索器、工具执行与回归评估。",
+        "requirements": "校园招聘，硕士及以上；毕业时间须在2026年9月至2027年8月，需要 RAG 或 Agent 项目。",
+        "url": "https://careers.example.invalid/test-employer-1/test-01",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "start": "2026-09",
+          "end": "2027-08"
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-02",
+      "split": "test",
+      "employerGroup": "test-employer-1",
+      "templateFamily": "test-date-window-and-language",
+      "tags": [
+        "graduation-window-hard-negative"
+      ],
+      "job": {
+        "id": "test-02",
+        "company": "虚构云岚科技",
+        "title": "机器人图像检测校招",
+        "city": "北京",
+        "type": "campus",
+        "description": "用 PyTorch 构建机器人图像目标检测，并验证复杂光照下的误检。",
+        "requirements": "2028批次校园招聘，毕业时间必须在2027年9月至2028年8月，硕士及以上。",
+        "url": "https://careers.example.invalid/test-employer-1/test-02",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "start": "2027-09",
+          "end": "2028-08"
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-03",
+      "split": "test",
+      "employerGroup": "test-employer-1",
+      "templateFamily": "test-date-window-and-language",
+      "tags": [
+        "multi-cohort"
+      ],
+      "job": {
+        "id": "test-03",
+        "company": "虚构云岚科技",
+        "title": "文本识别与分类应用开发",
+        "city": "上海",
+        "type": "campus",
+        "description": "清洗文本标注、实现中文分类并以 Java 部署推断接口。",
+        "requirements": "2026届或2027届本科及以上；有 NLP、文本分类及 Java 接口经历。",
+        "url": "https://careers.example.invalid/test-employer-1/test-03",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2026",
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-04",
+      "split": "test",
+      "employerGroup": "test-employer-2",
+      "templateFamily": "test-engineering-and-preference",
+      "tags": [
+        "backend-transfer"
+      ],
+      "job": {
+        "id": "test-04",
+        "company": "虚构映川系统",
+        "title": "交易服务端开发",
+        "city": "深圳",
+        "type": "campus",
+        "description": "通过 Java 构建交易服务，以 SQL 优化查询，通过 TypeScript 实现运维工具。",
+        "requirements": "2027届本科及以上；需要接口测试与关系型数据库经验。",
+        "url": "https://careers.example.invalid/test-employer-2/test-04",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-05",
+      "split": "test",
+      "employerGroup": "test-employer-2",
+      "templateFamily": "test-engineering-and-preference",
+      "tags": [
+        "phd-preferred-not-mandatory"
+      ],
+      "job": {
+        "id": "test-05",
+        "company": "虚构映川系统",
+        "title": "决策智能算法校招",
+        "city": "上海",
+        "type": "campus",
+        "description": "编写 Python 和 PyTorch 策略学习实验，优化奖励定义并分析仿真迁移。",
+        "requirements": "2027届，本科及以上，博士研究经历优先但不是必需；强化学习项目优先。",
+        "url": "https://careers.example.invalid/test-employer-2/test-05",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-06",
+      "split": "test",
+      "employerGroup": "test-employer-2",
+      "templateFamily": "test-engineering-and-preference",
+      "tags": [
+        "master-preferred-not-mandatory"
+      ],
+      "job": {
+        "id": "test-06",
+        "company": "虚构映川系统",
+        "title": "增长指标分析校招",
+        "city": "杭州",
+        "type": "campus",
+        "description": "使用 SQL 与 Python 整理事件数据，检查实验指标口径并制作业务看板。",
+        "requirements": "2027届本科及以上，硕士优先；需要数据分析项目，不要求研究论文。",
+        "url": "https://careers.example.invalid/test-employer-2/test-06",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-07",
+      "split": "test",
+      "employerGroup": "test-employer-3",
+      "templateFamily": "test-degree-and-location",
+      "tags": [
+        "degree-unrestricted"
+      ],
+      "job": {
+        "id": "test-07",
+        "company": "虚构栖原智能",
+        "title": "智能工作流研发校招",
+        "city": "杭州",
+        "type": "campus",
+        "description": "实现 Python Agent 工作流和知识检索，排查错误工具调用与引用遗漏。",
+        "requirements": "2027届；学历不限，重视 RAG 和 Agent 实现项目。",
+        "url": "https://careers.example.invalid/test-employer-3/test-07",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 0,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-08",
+      "split": "test",
+      "employerGroup": "test-employer-3",
+      "templateFamily": "test-degree-and-location",
+      "tags": [
+        "degree-phd-hard-negative"
+      ],
+      "job": {
+        "id": "test-08",
+        "company": "虚构栖原智能",
+        "title": "研究型数据科学校招",
+        "city": "上海",
+        "type": "campus",
+        "description": "利用 Python 和 SQL 进行实验分析、数据质量研究和指标解释。",
+        "requirements": "2027届，必须已取得博士学历，不接受以本科或硕士替代。",
+        "url": "https://careers.example.invalid/test-employer-3/test-08",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 4,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-09",
+      "split": "test",
+      "employerGroup": "test-employer-3",
+      "templateFamily": "test-degree-and-location",
+      "tags": [
+        "unknown-city",
+        "nationwide-not-asserted-city-match"
+      ],
+      "job": {
+        "id": "test-09",
+        "company": "虚构栖原智能",
+        "title": "企业知识搜索工程师",
+        "city": "全国（具体地点待定）",
+        "type": "campus",
+        "description": "以 Python 维护检索增强问答，处理知识引用与工具协同。",
+        "requirements": "2027届硕士及以上，要求 RAG 与 Agent 项目；具体工作城市尚未确定。",
+        "url": "https://careers.example.invalid/test-employer-3/test-09",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-10",
+      "split": "test",
+      "employerGroup": "test-employer-4",
+      "templateFamily": "test-uncertainty-and-calendar",
+      "tags": [
+        "unknown-cohort"
+      ],
+      "job": {
+        "id": "test-10",
+        "company": "虚构澄川软件",
+        "title": "文本工具链开发",
+        "city": "北京",
+        "type": "campus",
+        "description": "开发 Python 问答助手与检索评测，维护工具执行错误集合。",
+        "requirements": "应届校园招聘，硕士及以上；具体毕业届数后续官网通知。",
+        "url": "https://careers.example.invalid/test-employer-4/test-10",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "unknown": true
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-11",
+      "split": "test",
+      "employerGroup": "test-employer-4",
+      "templateFamily": "test-uncertainty-and-calendar",
+      "tags": [
+        "deadline-today-boundary",
+        "missing-published-at"
+      ],
+      "job": {
+        "id": "test-11",
+        "company": "虚构澄川软件",
+        "title": "业务系统研发补录",
+        "city": "杭州",
+        "type": "campus",
+        "description": "使用 Java、SQL 与 TypeScript 研发内部工作流，补齐查询和集成测试。",
+        "requirements": "2027届本科及以上；报名截至2026年10月19日当日结束。",
+        "url": "https://careers.example.invalid/test-employer-4/test-11",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": null,
+        "deadline": "2026-10-19",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-12",
+      "split": "test",
+      "employerGroup": "test-employer-4",
+      "templateFamily": "test-uncertainty-and-calendar",
+      "tags": [
+        "expired-deadline",
+        "deadline-yesterday-boundary"
+      ],
+      "job": {
+        "id": "test-12",
+        "company": "虚构澄川软件",
+        "title": "离线数据分析校招",
+        "city": "上海",
+        "type": "campus",
+        "description": "基于 SQL 和 Python 统计实验结果，维护数据质量报告与指标图表。",
+        "requirements": "2027届本科及以上；报名已于2026年10月18日截止。",
+        "url": "https://careers.example.invalid/test-employer-4/test-12",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2026-10-18",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-13",
+      "split": "test",
+      "employerGroup": "test-employer-5",
+      "templateFamily": "test-negation-and-cohorts",
+      "tags": [
+        "skill-negation",
+        "negated-skill-cluster"
+      ],
+      "job": {
+        "id": "test-13",
+        "company": "虚构远丘实验室",
+        "title": "数据洞察校招分析师",
+        "city": "上海",
+        "type": "campus",
+        "description": "核心任务是 SQL 查询、Python 清洗与看板；不要求 Java、文本分类、目标检测、RAG 或强化学习，不开发模型。",
+        "requirements": "2027届本科及以上；需要数据分析与数据质量经验。",
+        "url": "https://careers.example.invalid/test-employer-5/test-13",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-14",
+      "split": "test",
+      "employerGroup": "test-employer-5",
+      "templateFamily": "test-negation-and-cohorts",
+      "tags": [
+        "title-keyword-bait",
+        "nontechnical-hard-negative"
+      ],
+      "job": {
+        "id": "test-14",
+        "company": "虚构远丘实验室",
+        "title": "强化学习产品推广专员",
+        "city": "北京",
+        "type": "campus",
+        "description": "工作内容为课程咨询、电话转化与渠道推广，不进行策略优化、仿真开发或算法实验。",
+        "requirements": "2027届本科及以上；招聘的是销售推广人员，专业不限。",
+        "url": "https://careers.example.invalid/test-employer-5/test-14",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-15",
+      "split": "test",
+      "employerGroup": "test-employer-5",
+      "templateFamily": "test-negation-and-cohorts",
+      "tags": [
+        "multi-cohort",
+        "degree-preferred"
+      ],
+      "job": {
+        "id": "test-15",
+        "company": "虚构远丘实验室",
+        "title": "智能体基础设施研发",
+        "city": "北京",
+        "type": "campus",
+        "description": "开发 Python 工具调用与 RAG 诊断平台，记录失败案例、引用及工具回执。",
+        "requirements": "2027届或2028届本科及以上；硕士优先，不作硬性门槛。",
+        "url": "https://careers.example.invalid/test-employer-5/test-15",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "years": [
+            "2027",
+            "2028"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-16",
+      "split": "test",
+      "employerGroup": "test-employer-6",
+      "templateFamily": "test-transfer-and-track",
+      "tags": [
+        "graduation-month-window",
+        "master-preferred-not-mandatory"
+      ],
+      "job": {
+        "id": "test-16",
+        "company": "虚构雪沅数据",
+        "title": "工业缺陷视觉检测研发",
+        "city": "深圳",
+        "type": "campus",
+        "description": "使用 PyTorch 完成工业缺陷目标检测，检查数据增强对误检率的影响。",
+        "requirements": "毕业于2026年12月至2027年8月，本科及以上，硕士优先；校招正式岗位。",
+        "url": "https://careers.example.invalid/test-employer-6/test-16",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "start": "2026-12",
+          "end": "2027-08"
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-17",
+      "split": "test",
+      "employerGroup": "test-employer-6",
+      "templateFamily": "test-transfer-and-track",
+      "tags": [
+        "unknown-recruitment-type"
+      ],
+      "job": {
+        "id": "test-17",
+        "company": "虚构雪沅数据",
+        "title": "企业应用接口工程师",
+        "city": "杭州",
+        "type": "unknown",
+        "description": "用 Java、SQL 与 TypeScript 建设企业接口与管理工具，维护端到端集成测试。",
+        "requirements": "本科及以上，毕业年份不限；此公告未说明是校园招聘还是社会招聘。",
+        "url": "https://careers.example.invalid/test-employer-6/test-17",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 2,
+        "graduation": {
+          "unrestricted": true
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    },
+    {
+      "id": "test-18",
+      "split": "test",
+      "employerGroup": "test-employer-6",
+      "templateFamily": "test-transfer-and-track",
+      "tags": [
+        "transferable-skills",
+        "requirement-or-not-and"
+      ],
+      "job": {
+        "id": "test-18",
+        "company": "虚构雪沅数据",
+        "title": "智能体与策略评测研发",
+        "city": "北京",
+        "type": "campus",
+        "description": "使用 Python 建设 Agent 执行评测与强化学习仿真评估，比较工具回执、奖励和实验指标。",
+        "requirements": "2027届硕士及以上；需要模型评测、智能体或强化学习项目之一，不要求每个方向都有经历。",
+        "url": "https://careers.example.invalid/test-employer-6/test-18",
+        "sourceId": "authored-synthetic",
+        "sourceName": "原创虚构受控岗位库",
+        "observedAt": "2026-10-19T00:00:00Z",
+        "publishedAt": "2026-10-10T00:00:00Z",
+        "deadline": "2027-06-30",
+        "demo": true
+      },
+      "labelFacts": {
+        "region": "mainland",
+        "minimumDegree": 3,
+        "graduation": {
+          "years": [
+            "2027"
+          ]
+        },
+        "sourceAuthenticity": "synthetic-not-official"
+      }
+    }
+  ],
+  "qrels": [
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-01",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：RAG和工具调用项目直接覆盖核心职责。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-02",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：知识助手经历包含检索和工具异常测试。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-03",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：问答项目缺视觉模型训练证据。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-04",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本问答方向不符合图像任务。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-05",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本问答经验与文本应用相邻，但缺Java分类服务。资格：毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-06",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python问答原型未覆盖Java业务栈。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-07",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python工程可复用，缺策略研究证据。资格：硕士不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-08",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python评测可部分迁移，缺SQL业务分析。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-09",
+      "relevance": 3,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：回答依据与工具失败样例经验直接对应。资格：工作城市未确定，不能断言满足意向城市。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-10",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：检索问答与工具调用经验覆盖任务，但地点在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点伦敦不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-11",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：问答方向不同且在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点新加坡不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python有交集但缺策略研究，地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点苏黎世不在该虚构履历的意向城市中；硕士不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-13",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：职责直接匹配但岗位已明确截止。资格：截止日2026-09-30早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-14",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本应用相关，但没有五年全职经历。资格：明确社招且要求五年全职经历，该应届画像未满足。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-15",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：方向不符且不属于本套目标的正式校招。资格：岗位地点深圳不在该虚构履历的意向城市中；只招聘实习，不符合本套明确的正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-16",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：职位有AI字样但核心是销售，无研发工作。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-17",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：被否定的RAG与Python不是岗位能力需求。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "dev-18",
+      "relevance": 2,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：问答文本处理可迁移，但未声明分类研究。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-01",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：可追溯回答和工具回归经验直接对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-02",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：领域不同且毕业窗口不符。资格：毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-03",
+      "relevance": 2,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本应用可迁移但缺Java分类端。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-04",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python问答缺Java交易栈。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-05",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python评测可迁移，缺策略研究。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-06",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python回归评估有交集，缺业务SQL。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-07",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：工具异常和引用核对完整对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-08",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：评测分析有交集但缺SQL，且学历不符。资格：硕士不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-09",
+      "relevance": 3,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：检索与工具项目匹配，但工作城市未知。资格：工作城市未确定，不能断言满足意向城市。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-10",
+      "relevance": 3,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "unknown",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：助手与检索评测直接对应，但毕业资格未知。资格：岗位未给具体毕业届数。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-11",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：问答Python栈不是该业务平台。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分析工具有交集但已截止。资格：截止日2026-10-18早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-13",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：只有Python评测可迁移，否定RAG不形成匹配证据。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-14",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：研发经历不等于销售推广能力。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-15",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：失败案例和回执核对直接匹配。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-16",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：检索问答不是工业视觉检测。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-17",
+      "relevance": 0,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "unknown",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python问答不覆盖Java业务栈，招聘类型未知。资格：未声明校招或社招，资格待核对。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "llm-2027",
+      "jobId": "test-18",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：工具失败与回执评测直接覆盖可选任务之一。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-01",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉检测经历不覆盖检索问答职责。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-02",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉方向与知识助手核心任务不符。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-03",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch目标检测和误检分析完整覆盖职责。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-04",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：低光目标检测项目直接对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-05",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉项目不覆盖中文分类。资格：岗位地点上海不在该虚构履历的意向城市中；毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-06",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉算法未覆盖业务服务。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-07",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch训练工具可复用，缺强化学习证据。资格：硕士不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-08",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉训练未证明SQL分析。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-09",
+      "relevance": 1,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：模型误检评估可迁移，文本任务证据不足。资格：工作城市未确定，不能断言满足意向城市。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-10",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉方向不覆盖任务且地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点伦敦不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-11",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：检测经验很匹配但地点在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点新加坡不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch有交集但缺强化学习，地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点苏黎世不在该虚构履历的意向城市中；硕士不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-13",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉方向不符，且岗位已截止。资格：截止日2026-09-30早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-14",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉方向不符，且无全职年限。资格：明确社招且要求五年全职经历，该应届画像未满足。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-15",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：任务匹配但本套偏好只接受正式校招。资格：只招聘实习，不符合本套明确的正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-16",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉算法与电话销售无关。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-17",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：岗位明确为业务平台而非视觉建模。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "dev-18",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉检测不等于中文分类。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-01",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉任务与文档搜索核心不同。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-02",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：检测任务符合但2027年7月早于明确窗口。资格：毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-03",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉检测与文本应用不同。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-04",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉训练缺交易工程。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-05",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch训练有交集，缺策略经验。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-06",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉检测经验未覆盖指标分析。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-07",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉检测不覆盖文本工作流。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-08",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉训练不是数据科学职责且学历不符。资格：岗位地点上海不在该虚构履历的意向城市中；硕士不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-09",
+      "relevance": 0,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉方向不匹配且城市未知。资格：工作城市未确定，不能断言满足意向城市。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-10",
+      "relevance": 0,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "unknown",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉任务不同且届数未知。资格：岗位未给具体毕业届数。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-11",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉训练不覆盖平台。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-12",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉领域不同且已截止。资格：岗位地点上海不在该虚构履历的意向城市中；截止日2026-10-18早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-13",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：被否定的目标检测不是岗位需求。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-14",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉算法不等于课程销售。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-15",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉任务不覆盖智能体。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-16",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：检测增强与误检分析直接匹配。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-17",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "unknown",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：视觉训练不覆盖接口平台，招聘类型未知。资格：岗位地点杭州不在该虚构履历的意向城市中；未声明校招或社招，资格待核对。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "cv-2027",
+      "jobId": "test-18",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：模型评估经验可迁移，但视觉与智能体评估不同。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-01",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类与服务经验可迁移至文本应用，但缺检索增强证据。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-02",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本处理接口经验可迁移，仍缺检索实践。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-03",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类不等于图像检测经验。资格：岗位地点深圳不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-04",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：中文分类与图像增强任务不同。资格：毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-05",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类与Java接口项目逐项覆盖。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-06",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java预测接口有可迁移工程经验，缺业务数据栈。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-07",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本服务未覆盖策略优化。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-08",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本标注整理有数据处理交集，缺SQL分析。资格：毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-09",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类评估可迁移至文本助手评估。资格：工作城市未确定，不能断言满足意向城市；毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-10",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本处理可迁移但地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点伦敦不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-11",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本方向不同且在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点新加坡不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-12",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本方向不同且地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点苏黎世不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-13",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本处理可迁移但已截止。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上；截止日2026-09-30早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-14",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分类服务经验相符，但应届履历不满足五年社招。资格：明确社招且要求五年全职经历，该应届画像未满足。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-15",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本方向不同且仅实习。资格：岗位地点深圳不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围；只招聘实习，不符合本套明确的正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-16",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类与商务续费无关。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-17",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java接口经验可迁移但缺关系数据业务。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "dev-18",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分类任务直接匹配，但毕业届数和学历不满足。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-01",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类服务可迁移，缺检索器。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-02",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本领域不同且毕业窗口不符。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-03",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分类加Java接口完整对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-04",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java推断服务可迁移但缺交易SQL。资格：岗位地点深圳不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-05",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本服务不覆盖策略实验。资格：毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-06",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：标注清洗有交集，缺SQL分析。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-07",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本接口能力可迁移，缺Agent。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-08",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：整理文本有交集但学历不符。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-09",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本应用可迁移但城市未知。资格：工作城市未确定，不能断言满足意向城市；毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-10",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "unknown",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本应用可迁移但届数未知。资格：岗位未给具体毕业届数；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-11",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java服务有迁移能力，缺完整业务栈。资格：岗位地点杭州不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据整理有交集但已截止。资格：毕业时间2026-07不在岗位明确接收范围；截止日2026-10-18早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-13",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：被否定的文本分类和Java不形成匹配证据。资格：毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-14",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类不等于营销。资格：毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-15",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本服务可迁移但缺工具协议。资格：毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-16",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本分类非工业视觉且毕业月不符。资格：岗位地点深圳不在该虚构履历的意向城市中；毕业时间2026-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-17",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "unknown",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java接口有交集，但招聘类型未知。资格：岗位地点杭州不在该虚构履历的意向城市中；未声明校招或社招，资格待核对。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "nlp-2026",
+      "jobId": "test-18",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：文本模型评估可迁移，缺Agent与仿真。资格：毕业时间2026-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-01",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：服务端工程可迁移，缺Python和检索增强经验。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-02",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：业务服务经验可部分迁移，未覆盖Python检索。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-03",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：业务后台无视觉模型经验。资格：本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-04",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后端接口不提供图像算法证据。资格：岗位地点北京不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-05",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java服务工程可迁移，缺NLP分类证据。资格：岗位地点上海不在该虚构履历的意向城市中；毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-06",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java SQL TypeScript后台项目完整覆盖。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-07",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：业务后端未覆盖研究任务。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-08",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL查询有交集，未展示分析方法。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-09",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：集成测试可迁移，缺文本模型与Python。资格：工作城市未确定，不能断言满足意向城市；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-10",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：服务端工程有交集但缺Python，地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点伦敦不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-11",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台方向不同且在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点新加坡不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-12",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台方向不同且地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点苏黎世不在该虚构履历的意向城市中；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-13",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：服务工程有交集但已截止。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上；截止日2026-09-30早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-14",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java平台可迁移，但不满足社招年限。资格：岗位地点北京不在该虚构履历的意向城市中；明确社招且要求五年全职经历，该应届画像未满足。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-15",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台方向不同且仅实习。资格：只招聘实习，不符合本套明确的正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-16",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台研发与电话获客无关。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-17",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台接口SQL与管理界面完整对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "dev-18",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：业务后台与文本训练任务不同。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-01",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：服务端测试可迁移但缺Python检索。资格：岗位地点上海不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-02",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台领域不同且毕业窗口不符。资格：岗位地点北京不在该虚构履历的意向城市中；毕业时间2027-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-03",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java接口有交集，缺文本算法。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-04",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Java SQL TypeScript项目直接覆盖。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-05",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：业务后台不覆盖策略实验。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-06",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL服务查询可复用，但未展示分析方法。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-07",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：接口测试可迁移，缺Python检索。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-08",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL有交集，研究证据不足且学历不符。资格：岗位地点上海不在该虚构履历的意向城市中；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-09",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：服务工程可迁移但城市未知。资格：工作城市未确定，不能断言满足意向城市；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-10",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "unknown",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：服务测试可迁移但届数未知。资格：岗位地点北京不在该虚构履历的意向城市中；岗位未给具体毕业届数；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-11",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后台工作流SQL及集成测试直接匹配。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL有交集但已截止。资格：岗位地点上海不在该虚构履历的意向城市中；截止日2026-10-18早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-13",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL可迁移，Java不是本岗位要求。资格：岗位地点上海不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-14",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后端开发不等于渠道推广。资格：岗位地点北京不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-15",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：接口测试有交集，缺Python智能体。资格：岗位地点北京不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-16",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：后端服务非视觉算法。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-17",
+      "relevance": 3,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "unknown",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：技能和测试经历匹配，但招聘类型未知。资格：未声明校招或社招，资格待核对。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "backend-2027",
+      "jobId": "test-18",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：集成测试有部分交集，缺Python模型评估。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-01",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python算法实验可迁移，缺检索问答证据。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-02",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略实验可辅助工程测试，未覆盖检索。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-03",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch研究工具相同但任务不同。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-04",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch仿真训练有工具交集，非检测经验。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-05",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略优化与文本分类核心不同。资格：毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-06",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：强化学习研究不覆盖业务后台。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-07",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略优化奖励设计与泛化研究直接对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-08",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：实验结果比较可迁移，缺业务SQL。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-09",
+      "relevance": 2,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略评估和Python可迁移，需补文本助手知识。资格：工作城市未确定，不能断言满足意向城市。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-10",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：研究工具有交集，地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点伦敦不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-11",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch工具相同但缺视觉任务，地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点新加坡不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-12",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：研究能力匹配但岗位在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点苏黎世不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-13",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python实验工具可迁移但已截止。资格：截止日2026-09-30早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-14",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略研究方向不同且不满足全职年限。资格：明确社招且要求五年全职经历，该应届画像未满足。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-15",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：工具交集有限且仅实习。资格：岗位地点深圳不在该虚构履历的意向城市中；只招聘实习，不符合本套明确的正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-16",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略研究与销售无关。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-17",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：被否定的强化学习不是工作任务。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "dev-18",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略研究未覆盖文本分类。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-01",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python试验工具可迁移，缺文本检索。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-02",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：工具相同但缺视觉任务，且毕业窗口不符。资格：毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-03",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略研究与中文分类不同。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-04",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略研究不覆盖业务服务。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-05",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：奖励与仿真泛化研究直接覆盖。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-06",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：科研实验比较可迁移，缺业务分析。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-07",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python实验可复用，缺工作流项目。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-08",
+      "relevance": 2,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：博士研究实验分析有可迁移能力，缺SQL业务证据。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-09",
+      "relevance": 1,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python工具可迁移但城市未知。资格：工作城市未确定，不能断言满足意向城市。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-10",
+      "relevance": 1,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "unknown",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：研究工具有交集但届数未知。资格：岗位未给具体毕业届数。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-11",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：强化学习不是业务平台。资格：岗位地点杭州不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：研究结果分析可迁移但已截止。资格：截止日2026-10-18早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-13",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python结果分析可迁移，强化学习被排除。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-14",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：标题有强化学习但职责明确是销售。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-15",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python实验有交集，缺Agent实践。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-16",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：PyTorch工具交集但未展示检测经验。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-17",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "unknown",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：研究任务不同且招聘类型未知。资格：岗位地点杭州不在该虚构履历的意向城市中；未声明校招或社招，资格待核对。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "rl-phd-2027",
+      "jobId": "test-18",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：策略仿真奖励与指标研究直接覆盖可选任务之一。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-01",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python分析可辅助评测，缺智能体实现证据。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-02",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分析经验可辅助评估，未覆盖智能体。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-03",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：报表分析不覆盖视觉算法。资格：岗位地点深圳不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-04",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据看板不覆盖图像建模。资格：岗位地点北京不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-05",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "violation",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据清洗可辅助语料处理，缺分类经验。资格：毕业时间2027-07不在岗位明确接收范围。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-06",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL可参与查询任务，缺Java与TypeScript。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-07",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python结果分析可辅助研究但无策略开发。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-08",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据质量和实验看板经历完整对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-09",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：实验指标与Python分析支持评测，缺工具调用实现。资格：工作城市未确定，不能断言满足意向城市；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-10",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python分析有交集，地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点伦敦不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-11",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据分析方向不同且在海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点新加坡不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-12",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "violation",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：实验分析可辅助但地点海外。资格：工作地点明确在境外，违反默认大陆范围；岗位地点苏黎世不在该虚构履历的意向城市中；本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-13",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python分析有交集但已截止。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上；截止日2026-09-30早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-14",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据处理有交集但不满足社招年限。资格：岗位地点北京不在该虚构履历的意向城市中；明确社招且要求五年全职经历，该应届画像未满足。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-15",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "violation",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据方向不同且仅实习。资格：岗位地点深圳不在该虚构履历的意向城市中；只招聘实习，不符合本套明确的正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-16",
+      "relevance": 0,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据分析与销售演示任务不同。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-17",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL有交集但缺Java平台研发。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "dev-18",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据整理有交集，缺文本模型经验。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-01",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python评估分析有交集，缺文档Agent实现。资格：本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-02",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "violation",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分析领域不同且毕业窗口不符。资格：岗位地点北京不在该虚构履历的意向城市中；毕业时间2027-07不在岗位明确接收范围；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-03",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：语料清洗有交集，缺分类模型。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-04",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL查询有交集，缺Java和运维工程。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-05",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python实验分析能辅助，缺策略开发。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-06",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：指标看板和数据质量经历直接覆盖。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-07",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python分析可辅助评测，缺工具执行。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-08",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：任务直接匹配但本科不满足必须博士。资格：本科不满足岗位强制博士。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-09",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "unknown",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：分析能力有交集但城市未知。资格：工作城市未确定，不能断言满足意向城市；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-10",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "unknown",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python分析有交集但届数未知。资格：岗位地点北京不在该虚构履历的意向城市中；岗位未给具体毕业届数；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-11",
+      "relevance": 1,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL可迁移但缺Java服务。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-12",
+      "relevance": 3,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "violation",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：任务匹配但已明确截止。资格：截止日2026-10-18早于冻结日期。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-13",
+      "relevance": 3,
+      "eligibility": "eligible",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据分析SQL Python和质量看板完整对应。资格：六项明确条件满足本套虚构正式校招偏好。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-14",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据分析不等于电话转化。资格：岗位地点北京不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-15",
+      "relevance": 1,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：Python分析可辅助诊断，缺智能体实现。资格：岗位地点北京不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-16",
+      "relevance": 0,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：数据看板不覆盖检测。资格：岗位地点深圳不在该虚构履历的意向城市中。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-17",
+      "relevance": 1,
+      "eligibility": "unknown",
+      "constraints": {
+        "region": "pass",
+        "city": "pass",
+        "graduation": "pass",
+        "degree": "pass",
+        "recruitment-type": "unknown",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：SQL有交集，但招聘类型未知。资格：未声明校招或社招，资格待核对。来源为原创虚构，未验证真实官网或实时性。"
+    },
+    {
+      "personaId": "data-2027",
+      "jobId": "test-18",
+      "relevance": 2,
+      "eligibility": "ineligible",
+      "constraints": {
+        "region": "pass",
+        "city": "violation",
+        "graduation": "pass",
+        "degree": "violation",
+        "recruitment-type": "pass",
+        "deadline": "pass",
+        "source-freshness": "unknown",
+        "source-origin": "unknown"
+      },
+      "rationale": "语义：实验指标Python分析可迁移，缺Agent执行经历。资格：岗位地点北京不在该虚构履历的意向城市中；本科不满足岗位强制硕士及以上。来源为原创虚构，未验证真实官网或实时性。"
+    }
+  ]
+}
+

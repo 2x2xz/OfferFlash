@@ -1,0 +1,634 @@
+{
+  "version": "0.15.0",
+  "date": "2026-10-19",
+  "status": "implemented-measured-and-packaged",
+  "formalSample": {
+    "formalJobs": 150,
+    "collectedSnapshots": 232,
+    "companies": 8,
+    "uniqueDutiesRequirementTemplates": 136,
+    "queries": 18,
+    "fictionalProfiles": 6,
+    "qrels": 2700,
+    "GT_SHA256": "cd5f4e5dfb8366075551c7b1f46c61ef16efa755c80b393e4488c9d480559888",
+    "humanGold": false,
+    "independentHumanReview": false
+  },
+  "GTAndScoresUnchanged": true,
+  "sameCorpusForAllArms": true,
+  "sameFinalGateForAllArms": true,
+  "samePromptAndBudget": true,
+  "blindHeldOutClaim": false,
+  "stage1": {
+    "chatRequests": 54,
+    "chatTokens": 561015,
+    "embeddingRequests": 22,
+    "embeddingTokens": 58757,
+    "invalidQueries": 2,
+    "retained": true
+  },
+  "final": {
+    "chatRequests": 54,
+    "chatTokens": 557608,
+    "embeddingRequests": 23,
+    "embeddingTokens": 58757,
+    "modelAllHttp200": true,
+    "embeddingAllHttp200": true
+  },
+  "finalSummaries": {
+    "all:lexical": {
+      "queries": 18,
+      "returned": 80,
+      "semanticRelevant": 58,
+      "compatibleRelevantReturned": 58,
+      "compatibleRelevantGold": 222,
+      "fixedSlots": 90,
+      "strictSuitable": 0,
+      "strictUnknown": 58,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 65,
+          "gold": 222,
+          "macroRecall": 0.35313175011450876
+        },
+        "10": {
+          "recalled": 107,
+          "gold": 222,
+          "macroRecall": 0.519626680258864
+        },
+        "20": {
+          "recalled": 158,
+          "gold": 222,
+          "macroRecall": 0.7730350109660455
+        }
+      },
+      "requests": 18,
+      "chatTokens": 193417
+    },
+    "all:semantic": {
+      "queries": 18,
+      "returned": 80,
+      "semanticRelevant": 50,
+      "compatibleRelevantReturned": 50,
+      "compatibleRelevantGold": 222,
+      "fixedSlots": 90,
+      "strictSuitable": 0,
+      "strictUnknown": 50,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 52,
+          "gold": 222,
+          "macroRecall": 0.24278361059970255
+        },
+        "10": {
+          "recalled": 82,
+          "gold": 222,
+          "macroRecall": 0.39525866853453057
+        },
+        "20": {
+          "recalled": 129,
+          "gold": 222,
+          "macroRecall": 0.6463546776765168
+        }
+      },
+      "requests": 18,
+      "chatTokens": 178230
+    },
+    "all:hybrid": {
+      "queries": 18,
+      "returned": 85,
+      "semanticRelevant": 54,
+      "compatibleRelevantReturned": 54,
+      "compatibleRelevantGold": 222,
+      "fixedSlots": 90,
+      "strictSuitable": 0,
+      "strictUnknown": 54,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 62,
+          "gold": 222,
+          "macroRecall": 0.3367075878570132
+        },
+        "10": {
+          "recalled": 102,
+          "gold": 222,
+          "macroRecall": 0.49865583012134734
+        },
+        "20": {
+          "recalled": 151,
+          "gold": 222,
+          "macroRecall": 0.7414217434332375
+        }
+      },
+      "requests": 18,
+      "chatTokens": 185961
+    },
+    "original-campus:lexical": {
+      "queries": 6,
+      "returned": 30,
+      "semanticRelevant": 16,
+      "compatibleRelevantReturned": 16,
+      "compatibleRelevantGold": 46,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 16,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 20,
+          "gold": 46,
+          "macroRecall": 0.4437321937321937
+        },
+        "10": {
+          "recalled": 29,
+          "gold": 46,
+          "macroRecall": 0.620014245014245
+        },
+        "20": {
+          "recalled": 36,
+          "gold": 46,
+          "macroRecall": 0.840099715099715
+        }
+      },
+      "requests": 6,
+      "chatTokens": 60918
+    },
+    "original-campus:semantic": {
+      "queries": 6,
+      "returned": 30,
+      "semanticRelevant": 20,
+      "compatibleRelevantReturned": 20,
+      "compatibleRelevantGold": 46,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 20,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 15,
+          "gold": 46,
+          "macroRecall": 0.31054131054131057
+        },
+        "10": {
+          "recalled": 24,
+          "gold": 46,
+          "macroRecall": 0.48326210826210825
+        },
+        "20": {
+          "recalled": 37,
+          "gold": 46,
+          "macroRecall": 0.8133903133903134
+        }
+      },
+      "requests": 6,
+      "chatTokens": 58299
+    },
+    "original-campus:hybrid": {
+      "queries": 6,
+      "returned": 30,
+      "semanticRelevant": 17,
+      "compatibleRelevantReturned": 17,
+      "compatibleRelevantGold": 46,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 17,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 19,
+          "gold": 46,
+          "macroRecall": 0.42521367521367526
+        },
+        "10": {
+          "recalled": 28,
+          "gold": 46,
+          "macroRecall": 0.599002849002849
+        },
+        "20": {
+          "recalled": 40,
+          "gold": 46,
+          "macroRecall": 0.8621794871794872
+        }
+      },
+      "requests": 6,
+      "chatTokens": 59434
+    },
+    "original-both:lexical": {
+      "queries": 6,
+      "returned": 25,
+      "semanticRelevant": 20,
+      "compatibleRelevantReturned": 20,
+      "compatibleRelevantGold": 74,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 20,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 22,
+          "gold": 74,
+          "macroRecall": 0.36591371591371596
+        },
+        "10": {
+          "recalled": 36,
+          "gold": 74,
+          "macroRecall": 0.5254782254782254
+        },
+        "20": {
+          "recalled": 54,
+          "gold": 74,
+          "macroRecall": 0.7977207977207977
+        }
+      },
+      "requests": 6,
+      "chatTokens": 65186
+    },
+    "original-both:semantic": {
+      "queries": 6,
+      "returned": 27,
+      "semanticRelevant": 15,
+      "compatibleRelevantReturned": 15,
+      "compatibleRelevantGold": 74,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 15,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 18,
+          "gold": 74,
+          "macroRecall": 0.2548026048026048
+        },
+        "10": {
+          "recalled": 27,
+          "gold": 74,
+          "macroRecall": 0.38428978428978433
+        },
+        "20": {
+          "recalled": 42,
+          "gold": 74,
+          "macroRecall": 0.6216320716320717
+        }
+      },
+      "requests": 6,
+      "chatTokens": 59234
+    },
+    "original-both:hybrid": {
+      "queries": 6,
+      "returned": 28,
+      "semanticRelevant": 18,
+      "compatibleRelevantReturned": 18,
+      "compatibleRelevantGold": 74,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 18,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 21,
+          "gold": 74,
+          "macroRecall": 0.3421041921041921
+        },
+        "10": {
+          "recalled": 34,
+          "gold": 74,
+          "macroRecall": 0.5032560032560033
+        },
+        "20": {
+          "recalled": 50,
+          "gold": 74,
+          "macroRecall": 0.7498575498575498
+        }
+      },
+      "requests": 6,
+      "chatTokens": 61723
+    },
+    "mainland-both:lexical": {
+      "queries": 6,
+      "returned": 25,
+      "semanticRelevant": 22,
+      "compatibleRelevantReturned": 22,
+      "compatibleRelevantGold": 102,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 22,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 23,
+          "gold": 102,
+          "macroRecall": 0.24974934069761653
+        },
+        "10": {
+          "recalled": 42,
+          "gold": 102,
+          "macroRecall": 0.41338757028412204
+        },
+        "20": {
+          "recalled": 68,
+          "gold": 102,
+          "macroRecall": 0.6812845200776235
+        }
+      },
+      "requests": 6,
+      "chatTokens": 67313
+    },
+    "mainland-both:semantic": {
+      "queries": 6,
+      "returned": 23,
+      "semanticRelevant": 15,
+      "compatibleRelevantReturned": 15,
+      "compatibleRelevantGold": 102,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 15,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 19,
+          "gold": 102,
+          "macroRecall": 0.1630069164551923
+        },
+        "10": {
+          "recalled": 31,
+          "gold": 102,
+          "macroRecall": 0.31822411305169923
+        },
+        "20": {
+          "recalled": 50,
+          "gold": 102,
+          "macroRecall": 0.5040416480071652
+        }
+      },
+      "requests": 6,
+      "chatTokens": 60697
+    },
+    "mainland-both:hybrid": {
+      "queries": 6,
+      "returned": 27,
+      "semanticRelevant": 19,
+      "compatibleRelevantReturned": 19,
+      "compatibleRelevantGold": 102,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 19,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 22,
+          "gold": 102,
+          "macroRecall": 0.24280489625317211
+        },
+        "10": {
+          "recalled": 40,
+          "gold": 102,
+          "macroRecall": 0.3937086381051898
+        },
+        "20": {
+          "recalled": 61,
+          "gold": 102,
+          "macroRecall": 0.612228193262676
+        }
+      },
+      "requests": 6,
+      "chatTokens": 64804
+    }
+  },
+  "qualification": {
+    "old59:degree:before": {
+      "pairs": 354,
+      "knownViolations": 27,
+      "notExcluded": 6,
+      "falseAffirmative": 0,
+      "knownPass": 171,
+      "falseReject": 3,
+      "knownPassRecognized": 126,
+      "unknownGold": 156
+    },
+    "old59:degree:after": {
+      "pairs": 354,
+      "knownViolations": 27,
+      "notExcluded": 0,
+      "falseAffirmative": 0,
+      "knownPass": 171,
+      "falseReject": 0,
+      "knownPassRecognized": 141,
+      "unknownGold": 156
+    },
+    "old59:graduation:before": {
+      "pairs": 354,
+      "knownViolations": 41,
+      "notExcluded": 20,
+      "falseAffirmative": 0,
+      "knownPass": 295,
+      "falseReject": 0,
+      "knownPassRecognized": 225,
+      "unknownGold": 18
+    },
+    "old59:graduation:after": {
+      "pairs": 354,
+      "knownViolations": 41,
+      "notExcluded": 0,
+      "falseAffirmative": 0,
+      "knownPass": 295,
+      "falseReject": 0,
+      "knownPassRecognized": 295,
+      "unknownGold": 18
+    },
+    "new91:degree:before": {
+      "pairs": 546,
+      "knownViolations": 140,
+      "notExcluded": 74,
+      "falseAffirmative": 0,
+      "knownPass": 274,
+      "falseReject": 0,
+      "knownPassRecognized": 186,
+      "unknownGold": 132
+    },
+    "new91:degree:after": {
+      "pairs": 546,
+      "knownViolations": 140,
+      "notExcluded": 0,
+      "falseAffirmative": 0,
+      "knownPass": 274,
+      "falseReject": 0,
+      "knownPassRecognized": 274,
+      "unknownGold": 132
+    },
+    "new91:graduation:before": {
+      "pairs": 546,
+      "knownViolations": 63,
+      "notExcluded": 13,
+      "falseAffirmative": 1,
+      "knownPass": 477,
+      "falseReject": 0,
+      "knownPassRecognized": 417,
+      "unknownGold": 6
+    },
+    "new91:graduation:after": {
+      "pairs": 546,
+      "knownViolations": 63,
+      "notExcluded": 0,
+      "falseAffirmative": 0,
+      "knownPass": 477,
+      "falseReject": 0,
+      "knownPassRecognized": 477,
+      "unknownGold": 6
+    },
+    "all:degree:before": {
+      "pairs": 900,
+      "knownViolations": 167,
+      "notExcluded": 80,
+      "falseAffirmative": 0,
+      "knownPass": 445,
+      "falseReject": 3,
+      "knownPassRecognized": 312,
+      "unknownGold": 288
+    },
+    "all:degree:after": {
+      "pairs": 900,
+      "knownViolations": 167,
+      "notExcluded": 0,
+      "falseAffirmative": 0,
+      "knownPass": 445,
+      "falseReject": 0,
+      "knownPassRecognized": 415,
+      "unknownGold": 288
+    },
+    "all:graduation:before": {
+      "pairs": 900,
+      "knownViolations": 104,
+      "notExcluded": 33,
+      "falseAffirmative": 1,
+      "knownPass": 772,
+      "falseReject": 0,
+      "knownPassRecognized": 642,
+      "unknownGold": 24
+    },
+    "all:graduation:after": {
+      "pairs": 900,
+      "knownViolations": 104,
+      "notExcluded": 0,
+      "falseAffirmative": 0,
+      "knownPass": 772,
+      "falseReject": 0,
+      "knownPassRecognized": 772,
+      "unknownGold": 24
+    }
+  },
+  "checks": {
+    "fullBehavior": 1202,
+    "fullBehaviorFailed": 0,
+    "finalDefaultFocused": 46,
+    "typecheck": true,
+    "build": true,
+    "developmentUI": 18,
+    "originalScoreRows": 54,
+    "productionRetrievalReplayRows": 54,
+    "independentPythonScoreRows": 54,
+    "independentPythonBm25CosineRrfRows": 54,
+    "paidApiThroughAppButton": false,
+    "scriptedUiModelOnly": true,
+    "packagedMatching": 18,
+    "packagedBackground": 44,
+    "zipCRC": true
+  },
+  "adoptedDefault": "lexical retrieval + original model rerank + repaired hard gate",
+  "defaultDecision": "Lexical had highest compatible Recall@20 and semantic precision on this fixed development corpus. Retrieval weights, model prompt, relevance labels and scoring unchanged. Not independent Test validation.",
+  "limitations": [
+    "GT authored by assistant, not independently human-reviewed",
+    "150 includes59seen jobs;18queries reuse6CVs×3preferences",
+    "Tencent85/150;136distinct templates, not150independent tasks",
+    "All150deadlines absent; strict confirmed-suitable0; unknown not assumed satisfied",
+    "Final lexical1 and semantic1 invalid outputs retained as failures;hybrid0",
+    "30known degree-pass pairs remain parser-unknown",
+    "No whole-market recall or real-user-CV accuracy claim"
+  ],
+  "preCredentialStops": [
+    {
+      "run": "formal-v1",
+      "reason": "Colon unit case before key",
+      "API": 0
+    },
+    {
+      "run": "formal-final",
+      "reason": "Year-only precision guard before key",
+      "API": 0
+    }
+  ],
+  "normalApplicationRestarted": false,
+  "normalPrivateDatabaseRead": false,
+  "normalKeychainRead": false,
+  "personalResumeSent": false,
+  "submissions": 0,
+  "uploads": 0,
+  "externalSkillsInstalled": false,
+  "chatTools": 11,
+  "projectSkills": 3,
+  "protocolDeviation": "Retrieval NDCG retains original full-pool semantic scorer instead of prereg eligibility-conditioned wording; preserved raw, excluded from primary comparison. No retrospective scoring adjustment.",
+  "package": {
+    "version": "0.15.0",
+    "application": "release/offerflash-0.15.0-r2/OfferFlash-darwin-arm64/OfferFlash.app",
+    "backendSHA256": "c450c9db114880367166dfcbed26574e8455f74f860912eea861aa1ccd52bc7d",
+    "files": 23372,
+    "normalIdentity": "dev.offeragent.desktop",
+    "normalDataCompatibility": true,
+    "normalUserDataCopied": false,
+    "qaLauncherIncluded": false,
+    "fixtureResumeImportedIntoNormalData": false,
+    "launched": false,
+    "signedOrNotarized": false,
+    "runtimeRoots": [
+      "dist",
+      "node_modules",
+      "prompts",
+      "skills",
+      "apps/desktop/assets",
+      "apps/desktop/fixtures"
+    ],
+    "zipPath": "release/offerflash-0.15.0-r2/OfferFlash-0.15.0-mac-arm64.zip",
+    "zipSHA256": "d94de46e71d66f3247dbf73e0ec8193a11f64d629dbb9592a7de560a4c37d60b",
+    "zipBytes": 233626609,
+    "zipCRC": true,
+    "matchingChecks": 18,
+    "backgroundChecks": 44,
+    "piRuntimeFilesMatched": 2079,
+    "omittedExampleLocks": [
+      "pi-coding-agent/examples/extensions/gondolin/package-lock.json",
+      "pi-coding-agent/examples/extensions/sandbox/package-lock.json",
+      "pi-coding-agent/examples/extensions/with-deps/package-lock.json",
+      "pi-coding-agent/examples/extensions/custom-provider-anthropic/package-lock.json"
+    ],
+    "normalApplicationLaunched": false,
+    "isolatedTestLaunched": true,
+    "defaultRetrieval": "lexical",
+    "paidApiThroughAppButton": false
+  }
+}

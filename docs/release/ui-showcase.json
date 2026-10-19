@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-19",
+  "kind": "isolated desktop UI presentation",
+  "people": "fictional only",
+  "job": "ModelBest official job snapshot, not new live discovery",
+  "normalDataRead": false,
+  "paidModelCalls": 0,
+  "submissions": 0,
+  "brand": "OfferFlash",
+  "sameLogoAcrossPages": true,
+  "oldBrandVisible": false,
+  "pageChecks": [
+    {
+      "name": "home",
+      "visible": true,
+      "overflow": false
+    },
+    {
+      "name": "profile",
+      "visible": true,
+      "overflow": false
+    }
+  ],
+  "rendererHTML": "b6a0834ceb708aded1833c0c5f396c1662791e6115be78be8e89d1ed5df5bb24",
+  "images": {
+    "docs/screenshots/showcase/offerflash-home.png": "b091a4951a5be865c8a617294070c17ba98ffeb241e56edc4260461da3bc96a2",
+    "docs/screenshots/showcase/offerflash-apply.png": "2f9253eb616a3e7ef82e8ee931ea1b337a33b6283a619a3d58a1f51b04a5d886",
+    "docs/screenshots/showcase/offerflash-profile.png": "fc2cf385a9b8f6c86258e2400bf3c293cf8497414b7beb6ebaf2b0d1001c5c1d"
+  },
+  "scope": "Home/profile: isolated hidden production renderer with fictional data. Application screenshot: full real employer recording with fictional data, local profile chat and native filling. No application submitted.",
+  "applicationWorkspace": {
+    "source": "current real employer recording",
+    "report": "workspace-form-demo-report.json",
+    "chatVisible": true,
+    "brandVerified": true
+  }
+}

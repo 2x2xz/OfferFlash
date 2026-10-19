@@ -1,0 +1,140 @@
+{
+  "version": "0.12.2",
+  "pricing": {
+    "currency": "CNY",
+    "checkedAt": "2026-10-19",
+    "region": "Beijing",
+    "model": "qwen-flash",
+    "requestInputTierMax": 128000,
+    "perMillion": {
+      "uncachedInput": 0.15,
+      "implicitCachedInput": 0.03,
+      "output": 1.5
+    },
+    "officialURL": "https://help.aliyun.com/zh/model-studio/qwen-flash",
+    "actualBillVerified": false
+  },
+  "wholeResumeDemo": {
+    "sampleCount": 1,
+    "selectedFieldCount": 34,
+    "selectedFieldsMatched": 34,
+    "careerGroups": 6,
+    "educationGroups": 2,
+    "internshipGroups": 2,
+    "projectGroups": 2,
+    "requests": 12,
+    "usage": {
+      "input": 7915,
+      "output": 1245,
+      "cacheRead": 2112,
+      "cacheWrite": 0,
+      "totalTokens": 11272
+    },
+    "estimatedYuan": 0.0031181099999999995,
+    "estimatedNoCacheYuan": 0.00337155,
+    "rawRecordingSeconds": 106.793258542,
+    "formalSpeedBenchmark": false,
+    "includesWaitingAndManualChoices": true,
+    "fullApplicationCompletion": "not evaluated",
+    "successfulSubmission": false
+  },
+  "backgroundRegression": {
+    "companies": 20,
+    "plannedTasks": 60,
+    "startedModelTasks": 59,
+    "completedTasks": 56,
+    "strictCompletionRate": 0.9333333333333333,
+    "goldCorrect": 147,
+    "goldTotal": 150,
+    "goldCorrectFraction": 0.98,
+    "correctObservedGold": 147,
+    "observedGold": 147,
+    "wholeFormAccuracy": "not evaluated",
+    "usage": {
+      "input": 205134,
+      "output": 15108,
+      "cacheRead": 267200,
+      "cacheWrite": 0,
+      "totalTokens": 487442
+    },
+    "requests": 296,
+    "meanTokensPerStartedTask": 8261.728813559323,
+    "tokenP50": 8297,
+    "meanEstimatedYuanPerStartedTask": 0.001041493220338983,
+    "meanNoCacheYuanPerStartedTask": 0.001584950847457627,
+    "estimatedTotalYuan": 0.0614481,
+    "noCacheTotalYuan": 0.09351209999999999,
+    "legalNameConservativeFlags": 3,
+    "preModelPageFailure": 1,
+    "arms": [
+      {
+        "concurrency": 1,
+        "completedTasks": 19,
+        "plannedTasks": 20,
+        "completionRate": 0.95,
+        "wallSeconds": 171.72347554100003,
+        "taskP50Seconds": 7.7069900840000045,
+        "taskP95Seconds": 9.634921541999997,
+        "modelRequests": 100,
+        "usage": {
+          "known": {
+            "input": 81503,
+            "output": 5040,
+            "cacheRead": 77312,
+            "cacheWrite": 0,
+            "totalTokens": 163855
+          },
+          "missingAttempts": 0,
+          "complete": true,
+          "totalTokens": 163855
+        }
+      },
+      {
+        "concurrency": 3,
+        "completedTasks": 19,
+        "plannedTasks": 20,
+        "completionRate": 0.95,
+        "wallSeconds": 69.006494709,
+        "taskP50Seconds": 7.265549082999991,
+        "taskP95Seconds": 11.232235917000013,
+        "modelRequests": 101,
+        "usage": {
+          "known": {
+            "input": 66189,
+            "output": 5164,
+            "cacheRead": 96320,
+            "cacheWrite": 0,
+            "totalTokens": 167673
+          },
+          "missingAttempts": 0,
+          "complete": true,
+          "totalTokens": 167673
+        }
+      },
+      {
+        "concurrency": 5,
+        "completedTasks": 18,
+        "plannedTasks": 20,
+        "completionRate": 0.9,
+        "wallSeconds": 48.683293042,
+        "taskP50Seconds": 7.911255540999991,
+        "taskP95Seconds": 12.302810499999993,
+        "modelRequests": 95,
+        "usage": {
+          "known": {
+            "input": 57442,
+            "output": 4904,
+            "cacheRead": 93568,
+            "cacheWrite": 0,
+            "totalTokens": 155914
+          },
+          "missingAttempts": 0,
+          "complete": true,
+          "totalTokens": 155914
+        }
+      }
+    ]
+  },
+  "billingFormula": "(uncachedInput*0.15 + implicitCacheRead*0.03 + output*1.5)/1000000; Pi input excludes cached input; no cache-write tokens observed",
+  "scope": "Fictional profile; no upload or submission. Ordinary contact-field regression differs from full-career one-site demonstration."
+}

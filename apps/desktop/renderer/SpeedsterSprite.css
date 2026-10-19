@@ -1,0 +1,23 @@
+.speedster-sprite{--speedster-ink:#251928;--speedster-red:#e54142;--speedster-dark:#a62438;--speedster-light:#ff6b60;--speedster-gold:#ffd56a;display:block;width:80px;height:60px;flex:none;overflow:visible;image-rendering:pixelated;contain:layout style;pointer-events:none}
+.speedster-outline{fill:var(--speedster-ink)}.speedster-red{fill:var(--speedster-red)}.speedster-red-dark{fill:var(--speedster-dark)}.speedster-red-light{fill:var(--speedster-light)}.speedster-gold{fill:var(--speedster-gold)}.speedster-cream{fill:#fff1cf}.speedster-eye{fill:#fff9e9}.speedster-skin{fill:#f2bd97}.speedster-shadow{fill:#080c1860}.speedster-dust{fill:#bdc9d46b}
+.speedster-direction{transform-origin:32px 24px}.speedster-sprite[data-facing="left"] .speedster-direction{transform:scaleX(-1)}
+.speedster-running-legs,.speedster-running-arms,.speedster-celebration-arms,.speedster-trail,.speedster-skid,.speedster-attention,.speedster-confetti{display:none}
+.speedster-trail-ember{fill:#ef56524d}.speedster-trail-gold{fill:#ffd56a99}.speedster-trail-bolt{fill:#ffe39e}
+.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) .speedster-standing-legs,.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) .speedster-resting-arms{display:none}
+.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) :is(.speedster-running-legs,.speedster-running-arms,.speedster-trail){display:inline}
+.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) .speedster-hero{animation:speedster-stride .18s steps(2,end) infinite;transform-origin:36px 32px}
+.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) .speedster-frame-a{animation:speedster-frame-a .18s steps(1,end) infinite}
+.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) .speedster-frame-b{animation:speedster-frame-b .18s steps(1,end) infinite}
+.speedster-sprite:is([data-speedster-state="sprint"],[data-speedster-state="return"]) .speedster-trail{animation:speedster-trail .26s steps(3,end) infinite}
+.speedster-sprite[data-speedster-state="return"] .speedster-trail-bolt{fill:#ffd56a}
+.speedster-sprite[data-speedster-state="brake"] .speedster-skid{display:inline;animation:speedster-skid .48s steps(3,end) both}
+.speedster-sprite[data-speedster-state="brake"] .speedster-hero{transform:rotate(-8deg);transform-origin:36px 42px}
+.speedster-sprite[data-speedster-state="attention"] .speedster-attention{display:inline;animation:speedster-notice 1.6s steps(2,end) 3}
+.speedster-sprite[data-speedster-state="celebrate"] .speedster-resting-arms{display:none}.speedster-sprite[data-speedster-state="celebrate"] :is(.speedster-celebration-arms,.speedster-confetti){display:inline}.speedster-sprite[data-speedster-state="celebrate"] .speedster-hero{animation:speedster-cheer .65s steps(3,end) 2}.speedster-sprite[data-speedster-state="celebrate"] .speedster-confetti{animation:speedster-notice .65s steps(2,end) 2}
+@keyframes speedster-stride{0%,100%{transform:translate(0,0) rotate(5deg)}50%{transform:translate(1px,-1px) rotate(5deg)}}
+@keyframes speedster-frame-a{0%,49.99%{opacity:1}50%,100%{opacity:0}}@keyframes speedster-frame-b{0%,49.99%{opacity:0}50%,100%{opacity:1}}
+@keyframes speedster-trail{0%{opacity:.45;transform:translateX(2px)}50%{opacity:.9}100%{opacity:.3;transform:translateX(-3px)}}
+@keyframes speedster-skid{from{opacity:.85;transform:translateX(0)}to{opacity:.25;transform:translateX(-5px)}}
+@keyframes speedster-notice{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}@keyframes speedster-cheer{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.reduce-motion .speedster-sprite *{animation:none!important;transition:none!important}.reduce-motion .speedster-sprite :is(.speedster-trail,.speedster-running-legs,.speedster-running-arms){display:none!important}.reduce-motion .speedster-sprite :is(.speedster-standing-legs,.speedster-resting-arms){display:inline!important}.reduce-motion .speedster-sprite .speedster-hero{transform:none!important}.reduce-motion .speedster-sprite[data-speedster-state="celebrate"] .speedster-resting-arms{display:none!important}
+@media(prefers-reduced-motion:reduce){.speedster-sprite *{animation:none!important;transition:none!important}.speedster-sprite :is(.speedster-trail,.speedster-running-legs,.speedster-running-arms){display:none!important}.speedster-sprite :is(.speedster-standing-legs,.speedster-resting-arms){display:inline!important}.speedster-sprite .speedster-hero{transform:none!important}.speedster-sprite[data-speedster-state="celebrate"] .speedster-resting-arms{display:none!important}}

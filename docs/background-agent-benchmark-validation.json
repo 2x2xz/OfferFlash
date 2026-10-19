@@ -1,0 +1,4602 @@
+{
+  "date": "2026-10-19",
+  "status": "completed",
+  "scope": "actual App background Pi Agent; live qwen-flash API; frozen ordinary-draft tasks",
+  "taskDefinition": "read confirmed fact keys, inspect real form, model chooses mappings and calls fill tool, then read back; do not guess/upload/submit",
+  "completionDefinition": "Agent protocol completed plus all fixed contact gold correct, no unsupported-field writes, no executor failure, no final selected declaration/file",
+  "wholeApplicationCompletion": "not evaluated; uploads, missing personal facts and unsupported controls can remain",
+  "companies": 20,
+  "plannedAgentTasks": 80,
+  "caseSHA256": "aa188e1aff97ea83b4b54ed3513ac56b8b00628ec227155b66a3ed439ff9f9d8",
+  "actualModel": true,
+  "model": "qwen-flash",
+  "modelRequests": 402,
+  "http200": 402,
+  "usage": {
+    "known": {
+      "input": 233488,
+      "output": 21273,
+      "cacheRead": 384000,
+      "cacheWrite": 0,
+      "totalTokens": 638761
+    },
+    "missingAttempts": 0,
+    "complete": true,
+    "totalTokens": 638761
+  },
+  "sourceFrozen": true,
+  "sourceChecks": [
+    {
+      "file": "packages/agent/src/background-form-agent.ts",
+      "match": true
+    },
+    {
+      "file": "packages/agent/src/background-model-provider.ts",
+      "match": true
+    },
+    {
+      "file": "packages/runtime/src/runtime.ts",
+      "match": true
+    },
+    {
+      "file": "packages/forms/src/model-recognition.ts",
+      "match": true
+    },
+    {
+      "file": "packages/forms/src/index.ts",
+      "match": true
+    },
+    {
+      "file": "packages/browser/src/background-executor.ts",
+      "match": true
+    },
+    {
+      "file": "packages/browser/src/background-scripts.ts",
+      "match": true
+    },
+    {
+      "file": "packages/browser/src/background-readiness.ts",
+      "match": true
+    },
+    {
+      "file": "packages/domain/src/application-queue.ts",
+      "match": true
+    },
+    {
+      "file": "apps/desktop/background-queue.ts",
+      "match": true
+    },
+    {
+      "file": "apps/desktop/background-agent-benchmark.ts",
+      "match": true
+    },
+    {
+      "file": "apps/desktop/backend.ts",
+      "match": true
+    },
+    {
+      "file": "package-lock.json",
+      "match": true
+    },
+    {
+      "file": "dist/desktop/backend.js",
+      "match": true
+    },
+    {
+      "file": "dist/desktop/agent-worker.js",
+      "match": true
+    }
+  ],
+  "baselineArtifactSHA256": "fcce81844bf47f6bcb7381a3da96ac64710431fbad5a4ba6e1b9ce0f08fb9905",
+  "measuredVersion": "frozen-rc1",
+  "annotationReview": {
+    "type": "post-hoc annotation review; original negative gold and raw scores unchanged",
+    "case": "shieldai",
+    "field": "Please state your full legal name",
+    "finding": "The generator marked this as must-remain-blank although a confirmed full-name fact exists. Treat as a conservative flag needing adjudication, not proven unrelated-field error.",
+    "rawScoresUnchanged": true,
+    "possibleAdditionalSuccessPerArm": 1
+  },
+  "trajectory": {
+    "traces": 80,
+    "spans": 805,
+    "roots": 80,
+    "modelSpans": 402,
+    "toolSpans": 323,
+    "missingParents": 0,
+    "missingTaskTraces": 0,
+    "source": "actual timestamped SDK events and provider starts/durations; no invented field input spans"
+  },
+  "followup": {
+    "scope": "post-benchmark guard repair, separate 3-site panel with reviewed legal-name alias; not main-score replacement",
+    "modelRequests": 15,
+    "tokens": 25809,
+    "companies": 3,
+    "results": [
+      {
+        "company": "palantir",
+        "completed": true,
+        "gold": {
+          "eligible": 3,
+          "correct": 3,
+          "empty": 0,
+          "wrong": 0,
+          "unresolved": 0,
+          "initialNonempty": 0,
+          "rows": [
+            {
+              "label": "full name",
+              "key": "fullName",
+              "status": "correct"
+            },
+            {
+              "label": "email",
+              "key": "email",
+              "status": "correct"
+            },
+            {
+              "label": "phone",
+              "key": "phone",
+              "status": "correct"
+            }
+          ]
+        },
+        "forbiddenWrites": 0,
+        "rejectedMappings": 3,
+        "failure": null
+      },
+      {
+        "company": "shieldai",
+        "completed": true,
+        "gold": {
+          "eligible": 4,
+          "correct": 4,
+          "empty": 0,
+          "wrong": 0,
+          "unresolved": 0,
+          "initialNonempty": 0,
+          "rows": [
+            {
+              "label": "full name",
+              "key": "fullName",
+              "status": "correct"
+            },
+            {
+              "label": "email",
+              "key": "email",
+              "status": "correct"
+            },
+            {
+              "label": "phone",
+              "key": "phone",
+              "status": "correct"
+            },
+            {
+              "label": "please state your full legal name",
+              "key": "fullName",
+              "status": "correct"
+            }
+          ]
+        },
+        "forbiddenWrites": 0,
+        "rejectedMappings": 3,
+        "failure": null
+      },
+      {
+        "company": "GitLab",
+        "completed": true,
+        "gold": {
+          "eligible": 2,
+          "correct": 2,
+          "empty": 0,
+          "wrong": 0,
+          "unresolved": 0,
+          "initialNonempty": 0,
+          "rows": [
+            {
+              "label": "email",
+              "key": "email",
+              "status": "correct"
+            },
+            {
+              "label": "phone",
+              "key": "phone",
+              "status": "correct"
+            }
+          ]
+        },
+        "forbiddenWrites": 0,
+        "rejectedMappings": 1,
+        "failure": null
+      }
+    ]
+  },
+  "allPhases": {
+    "connection": {
+      "requests": 1,
+      "tokens": 26
+    },
+    "runs": [
+      {
+        "phase": "pilot1",
+        "requests": 40,
+        "tokens": 58203,
+        "unknownUsage": 0
+      },
+      {
+        "phase": "pilot2",
+        "requests": 10,
+        "tokens": 14675,
+        "unknownUsage": 0
+      },
+      {
+        "phase": "formal",
+        "requests": 402,
+        "tokens": 638761,
+        "unknownUsage": 0
+      },
+      {
+        "phase": "followup",
+        "requests": 15,
+        "tokens": 25809,
+        "unknownUsage": 0
+      }
+    ],
+    "total": {
+      "requests": 468,
+      "knownTokens": 737474
+    }
+  },
+  "baselineDefinition": "frozen initial model-Agent prototype before semantic-guard and readiness repair; not an old shipped model Agent",
+  "budgets": {
+    "modelRequests": 6,
+    "toolCalls": 10,
+    "timeoutMs": 90000,
+    "maxOutputTokensPerRequest": 1800
+  },
+  "failureDataRetained": true,
+  "normalUserDataUsed": false,
+  "submitted": false,
+  "uploads": false,
+  "arms": [
+    {
+      "id": "baseline-c1",
+      "status": "completed",
+      "concurrency": 1,
+      "plannedTasks": 20,
+      "attemptedTasks": 20,
+      "completedTasks": 5,
+      "incompleteTasks": 15,
+      "unrunTasks": 0,
+      "completionRate": 0.25,
+      "wallSeconds": 157.152313834,
+      "taskP50Seconds": 7.101201708000008,
+      "taskP95Seconds": 10.954242417000001,
+      "queueP50Seconds": 21.079,
+      "queueP95Seconds": 39.135,
+      "tasksPerMinute": 7.635904115720244,
+      "successfulTasksPerMinute": 1.908976028930061,
+      "peakActivePages": 1,
+      "peakOverlappingModelCalls": 1,
+      "modelRequests": 101,
+      "http200": 101,
+      "usage": {
+        "known": {
+          "input": 67164,
+          "output": 5181,
+          "cacheRead": 87552,
+          "cacheWrite": 0,
+          "totalTokens": 159897
+        },
+        "missingAttempts": 0,
+        "complete": true,
+        "totalTokens": 159897
+      },
+      "gold": {
+        "eligible": 50,
+        "correct": 50,
+        "empty": 0,
+        "wrong": 0,
+        "unresolved": 0,
+        "initialNonempty": 0
+      },
+      "forbiddenWriteAttempts": 11,
+      "rejectedMappings": 0,
+      "jobsWithForbiddenWrites": 6,
+      "failureCounts": {
+        "unsupported-field-written": 6,
+        "value-not-retained": 9
+      },
+      "rows": [
+        {
+          "company": "portcast",
+          "url": "https://jobs.lever.co/portcast/1f6381eb-03dd-451a-a8cc-2c862cec3fe3/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 9.651588208000002,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 3,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "f8ff5b3833c70fcb",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4827,
+              "output": 252,
+              "cacheRead": 2752,
+              "cacheWrite": 0,
+              "totalTokens": 7831
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7831
+          }
+        },
+        {
+          "company": "palantir",
+          "url": "https://jobs.lever.co/palantir/10dfc8bc-99ad-4ca2-ab76-853cb90a92c2/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.991150207999999,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 2,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "c8b49b58efa278a9",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4610,
+              "output": 295,
+              "cacheRead": 4096,
+              "cacheWrite": 0,
+              "totalTokens": 9001
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9001
+          }
+        },
+        {
+          "company": "spotify",
+          "url": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 6.594793040999997,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "23e3cd87cddb0ffd",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 5930,
+              "output": 234,
+              "cacheRead": 2112,
+              "cacheWrite": 0,
+              "totalTokens": 8276
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8276
+          }
+        },
+        {
+          "company": "sonatype",
+          "url": "https://jobs.lever.co/sonatype/8a1d474b-634b-4916-acb4-242707c7ebb7/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 8.998921041999994,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 3,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "2cdfd39304f28a0a",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 6012,
+              "output": 277,
+              "cacheRead": 2112,
+              "cacheWrite": 0,
+              "totalTokens": 8401
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8401
+          }
+        },
+        {
+          "company": "matchgroup",
+          "url": "https://jobs.lever.co/matchgroup/69396299-e587-4063-aef6-0ce2fd66e9ee/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.630261542,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "916e67374432d65a",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3956,
+              "output": 272,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 8388
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8388
+          }
+        },
+        {
+          "company": "appen",
+          "url": "https://jobs.lever.co/appen/62853079-22aa-44dd-9f1e-228832024dd9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 6.541740624999998,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "433a1e9ae1cfecbb",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 5749,
+              "output": 216,
+              "cacheRead": 4224,
+              "cacheWrite": 0,
+              "totalTokens": 10189
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 10189
+          }
+        },
+        {
+          "company": "zoox",
+          "url": "https://jobs.lever.co/zoox/e36cc53e-5bd5-43b9-9a90-ec9b7c6abda9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 4.811010332999999,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "c0e7217d0053f618",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3693,
+              "output": 205,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 8186
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8186
+          }
+        },
+        {
+          "company": "shieldai",
+          "url": "https://jobs.lever.co/shieldai/938a7ddf-521f-4581-b5ba-c3ba29f9308a/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.227060207999996,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "7d3689f42593e853",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3692,
+              "output": 222,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 9162
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9162
+          }
+        },
+        {
+          "company": "weride",
+          "url": "https://jobs.lever.co/weride/82955de9-485d-4db0-8fd9-1c018489fc8d/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 13.127521415999988,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "048eec439f7e514c",
+          "modelRequests": 6,
+          "usage": {
+            "known": {
+              "input": 4177,
+              "output": 349,
+              "cacheRead": 6272,
+              "cacheWrite": 0,
+              "totalTokens": 10798
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 10798
+          }
+        },
+        {
+          "company": "waabi",
+          "url": "https://jobs.lever.co/waabi/62700386-b9db-4c78-aec3-5ef59cbe841e/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.425629499999996,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "290faa345daba70a",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2586,
+              "output": 264,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8098
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8098
+          }
+        },
+        {
+          "company": "Verantos",
+          "url": "https://job-boards.greenhouse.io/verantos/jobs/6132688004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.037372707999995,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "4891605ef6f6a2c9",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2333,
+              "output": 223,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 6716
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6716
+          }
+        },
+        {
+          "company": "Anthropic",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5391151008",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.871371749999991,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "8a99d2a8f7a4a5aa",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2955,
+              "output": 315,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 7558
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7558
+          }
+        },
+        {
+          "company": "Figma",
+          "url": "https://job-boards.greenhouse.io/figma/jobs/5707966004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.1668834579999965,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "8aaeac7a15acca49",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1724,
+              "output": 283,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7255
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7255
+          }
+        },
+        {
+          "company": "Cloudflare",
+          "url": "https://job-boards.greenhouse.io/cloudflare/jobs/8097321",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 5.995638208000004,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "8a6688eb2ee58c6f",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1667,
+              "output": 269,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7184
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7184
+          }
+        },
+        {
+          "company": "Robinhood",
+          "url": "https://job-boards.greenhouse.io/robinhood/jobs/6669758",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 5.5361919590000035,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "2a3314a55f87c0e9",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2710,
+              "output": 292,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 7290
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7290
+          }
+        },
+        {
+          "company": "Reddit",
+          "url": "https://job-boards.greenhouse.io/reddit/jobs/7792848",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 10.954242417000001,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "232df3f136f55afb",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1410,
+              "output": 293,
+              "cacheRead": 5696,
+              "cacheWrite": 0,
+              "totalTokens": 7399
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7399
+          }
+        },
+        {
+          "company": "Discord",
+          "url": "https://job-boards.greenhouse.io/discord/jobs/8840756002",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.101201708000008,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "4b7786fc82706469",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4035,
+              "output": 234,
+              "cacheRead": 3072,
+              "cacheWrite": 0,
+              "totalTokens": 7341
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7341
+          }
+        },
+        {
+          "company": "DoorDash USA",
+          "url": "https://job-boards.greenhouse.io/doordashusa/jobs/8225722",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.349369791000004,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "17c6b0f722388639",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1253,
+              "output": 230,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 6731
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6731
+          }
+        },
+        {
+          "company": "GitLab",
+          "url": "https://job-boards.greenhouse.io/gitlab/jobs/8843512002",
+          "status": "completed",
+          "failure": null,
+          "seconds": 5.126000750000006,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "8a6bae809a91dae1",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1287,
+              "output": 227,
+              "cacheRead": 5632,
+              "cacheWrite": 0,
+              "totalTokens": 7146
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7146
+          }
+        },
+        {
+          "company": "Gusto, Inc.",
+          "url": "https://job-boards.greenhouse.io/gusto/jobs/7656216",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 5.307973957999987,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "9873ebc7b635fb5a",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2558,
+              "output": 229,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 6947
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6947
+          }
+        }
+      ]
+    },
+    {
+      "id": "improved-c1",
+      "status": "completed",
+      "concurrency": 1,
+      "plannedTasks": 20,
+      "attemptedTasks": 20,
+      "completedTasks": 9,
+      "incompleteTasks": 11,
+      "unrunTasks": 0,
+      "completionRate": 0.45,
+      "wallSeconds": 164.861017542,
+      "taskP50Seconds": 7.618344584000006,
+      "taskP95Seconds": 9.761207832999993,
+      "queueP50Seconds": 22.414,
+      "queueP95Seconds": 41.852,
+      "tasksPerMinute": 7.278858385635573,
+      "successfulTasksPerMinute": 3.2754862735360075,
+      "peakActivePages": 1,
+      "peakOverlappingModelCalls": 1,
+      "modelRequests": 100,
+      "http200": 100,
+      "usage": {
+        "known": {
+          "input": 58916,
+          "output": 5119,
+          "cacheRead": 94272,
+          "cacheWrite": 0,
+          "totalTokens": 158307
+        },
+        "missingAttempts": 0,
+        "complete": true,
+        "totalTokens": 158307
+      },
+      "gold": {
+        "eligible": 50,
+        "correct": 50,
+        "empty": 0,
+        "wrong": 0,
+        "unresolved": 0,
+        "initialNonempty": 0
+      },
+      "forbiddenWriteAttempts": 2,
+      "rejectedMappings": 36,
+      "jobsWithForbiddenWrites": 2,
+      "failureCounts": {
+        "unsupported-field-written": 2,
+        "value-not-retained": 9
+      },
+      "rows": [
+        {
+          "company": "portcast",
+          "url": "https://jobs.lever.co/portcast/1f6381eb-03dd-451a-a8cc-2c862cec3fe3/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 11.60971425000002,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "e927fc20087645a6",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3409,
+              "output": 266,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 7963
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7963
+          }
+        },
+        {
+          "company": "palantir",
+          "url": "https://jobs.lever.co/palantir/10dfc8bc-99ad-4ca2-ab76-853cb90a92c2/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 9.761207832999993,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "29ce33b2653d1bfa",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3529,
+              "output": 263,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 9040
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9040
+          }
+        },
+        {
+          "company": "spotify",
+          "url": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 7.57601575000002,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "e4191a29d896c6a1",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 5104,
+              "output": 244,
+              "cacheRead": 3008,
+              "cacheWrite": 0,
+              "totalTokens": 8356
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8356
+          }
+        },
+        {
+          "company": "sonatype",
+          "url": "https://jobs.lever.co/sonatype/8a1d474b-634b-4916-acb4-242707c7ebb7/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 8.869126333000022,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "240271c340251a6a",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2983,
+              "output": 265,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8496
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8496
+          }
+        },
+        {
+          "company": "matchgroup",
+          "url": "https://jobs.lever.co/matchgroup/69396299-e587-4063-aef6-0ce2fd66e9ee/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 8.390853999999992,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "d345290d6a35b58f",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2976,
+              "output": 243,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8467
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8467
+          }
+        },
+        {
+          "company": "appen",
+          "url": "https://jobs.lever.co/appen/62853079-22aa-44dd-9f1e-228832024dd9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 7.618344584000006,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "ca6201b3e616b682",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 6113,
+              "output": 300,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 10573
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 10573
+          }
+        },
+        {
+          "company": "zoox",
+          "url": "https://jobs.lever.co/zoox/e36cc53e-5bd5-43b9-9a90-ec9b7c6abda9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 9.314682082999992,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "5838907e36ef7cee",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3953,
+              "output": 263,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 8504
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8504
+          }
+        },
+        {
+          "company": "shieldai",
+          "url": "https://jobs.lever.co/shieldai/938a7ddf-521f-4581-b5ba-c3ba29f9308a/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 9.589483708000014,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "72212d90d8bc8f2b",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3801,
+              "output": 241,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 9290
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9290
+          }
+        },
+        {
+          "company": "weride",
+          "url": "https://jobs.lever.co/weride/82955de9-485d-4db0-8fd9-1c018489fc8d/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 7.819282957999996,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "742e71691c0d9dc5",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2400,
+              "output": 249,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7897
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7897
+          }
+        },
+        {
+          "company": "waabi",
+          "url": "https://jobs.lever.co/waabi/62700386-b9db-4c78-aec3-5ef59cbe841e/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 7.507729124999983,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "5d21ba3d9a9d8764",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4930,
+              "output": 277,
+              "cacheRead": 3072,
+              "cacheWrite": 0,
+              "totalTokens": 8279
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8279
+          }
+        },
+        {
+          "company": "Verantos",
+          "url": "https://job-boards.greenhouse.io/verantos/jobs/6132688004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.277758166000014,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "0be93c4ee1b5adbf",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2338,
+              "output": 243,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 6741
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6741
+          }
+        },
+        {
+          "company": "Anthropic",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5391151008",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.056585999999951,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "1c3fa76c01b1871b",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1375,
+              "output": 301,
+              "cacheRead": 5888,
+              "cacheWrite": 0,
+              "totalTokens": 7564
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7564
+          }
+        },
+        {
+          "company": "Figma",
+          "url": "https://job-boards.greenhouse.io/figma/jobs/5707966004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 5.8626927499999875,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "c49cbb2a15a96146",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1793,
+              "output": 239,
+              "cacheRead": 5184,
+              "cacheWrite": 0,
+              "totalTokens": 7216
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7216
+          }
+        },
+        {
+          "company": "Cloudflare",
+          "url": "https://job-boards.greenhouse.io/cloudflare/jobs/8097321",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.639451249999984,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "4c6c9b008e452547",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2558,
+              "output": 252,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 7098
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7098
+          }
+        },
+        {
+          "company": "Robinhood",
+          "url": "https://job-boards.greenhouse.io/robinhood/jobs/6669758",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 5.211208209000004,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "be9df28afc30a148",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1740,
+              "output": 248,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7236
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7236
+          }
+        },
+        {
+          "company": "Reddit",
+          "url": "https://job-boards.greenhouse.io/reddit/jobs/7792848",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.831143125000002,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "5db4ecbbda685720",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1326,
+              "output": 293,
+              "cacheRead": 5760,
+              "cacheWrite": 0,
+              "totalTokens": 7379
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7379
+          }
+        },
+        {
+          "company": "Discord",
+          "url": "https://job-boards.greenhouse.io/discord/jobs/8840756002",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.650500166999992,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "00c3d79b784bea61",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2883,
+              "output": 244,
+              "cacheRead": 4224,
+              "cacheWrite": 0,
+              "totalTokens": 7351
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7351
+          }
+        },
+        {
+          "company": "DoorDash USA",
+          "url": "https://job-boards.greenhouse.io/doordashusa/jobs/8225722",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.928937666999991,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "71ede396263e3dab",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2961,
+              "output": 219,
+              "cacheRead": 3520,
+              "cacheWrite": 0,
+              "totalTokens": 6700
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6700
+          }
+        },
+        {
+          "company": "GitLab",
+          "url": "https://job-boards.greenhouse.io/gitlab/jobs/8843512002",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 6.293110583000002,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "f795697555cf7122",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1269,
+              "output": 246,
+              "cacheRead": 5696,
+              "cacheWrite": 0,
+              "totalTokens": 7211
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7211
+          }
+        },
+        {
+          "company": "Gusto, Inc.",
+          "url": "https://job-boards.greenhouse.io/gusto/jobs/7656216",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 5.346866666999995,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "675977afc7a97a9c",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1475,
+              "output": 223,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 6946
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6946
+          }
+        }
+      ]
+    },
+    {
+      "id": "improved-c3",
+      "status": "completed",
+      "concurrency": 3,
+      "plannedTasks": 20,
+      "attemptedTasks": 20,
+      "completedTasks": 7,
+      "incompleteTasks": 13,
+      "unrunTasks": 0,
+      "completionRate": 0.35,
+      "wallSeconds": 70.104000834,
+      "taskP50Seconds": 7.841122333000007,
+      "taskP95Seconds": 10.839056541999977,
+      "queueP50Seconds": 9.858,
+      "queueP95Seconds": 18.003,
+      "tasksPerMinute": 17.117425335559556,
+      "successfulTasksPerMinute": 5.991098867445845,
+      "peakActivePages": 3,
+      "peakOverlappingModelCalls": 3,
+      "modelRequests": 100,
+      "http200": 100,
+      "usage": {
+        "known": {
+          "input": 50950,
+          "output": 5430,
+          "cacheRead": 102336,
+          "cacheWrite": 0,
+          "totalTokens": 158716
+        },
+        "missingAttempts": 0,
+        "complete": true,
+        "totalTokens": 158716
+      },
+      "gold": {
+        "eligible": 50,
+        "correct": 50,
+        "empty": 0,
+        "wrong": 0,
+        "unresolved": 0,
+        "initialNonempty": 0
+      },
+      "forbiddenWriteAttempts": 3,
+      "rejectedMappings": 30,
+      "jobsWithForbiddenWrites": 3,
+      "failureCounts": {
+        "unsupported-field-written": 3,
+        "agent-omitted-final-read": 1,
+        "value-not-retained": 9
+      },
+      "rows": [
+        {
+          "company": "portcast",
+          "url": "https://jobs.lever.co/portcast/1f6381eb-03dd-451a-a8cc-2c862cec3fe3/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 9.855430833999998,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "e494983608c79701",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2513,
+              "output": 273,
+              "cacheRead": 5184,
+              "cacheWrite": 0,
+              "totalTokens": 7970
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7970
+          }
+        },
+        {
+          "company": "palantir",
+          "url": "https://jobs.lever.co/palantir/10dfc8bc-99ad-4ca2-ab76-853cb90a92c2/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 10.839056541999977,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "e7fcb787eb8218b6",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2244,
+              "output": 258,
+              "cacheRead": 6336,
+              "cacheWrite": 0,
+              "totalTokens": 8838
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8838
+          }
+        },
+        {
+          "company": "spotify",
+          "url": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 11.917590915999957,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "6e3daafa169f997c",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3819,
+              "output": 265,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 8372
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8372
+          }
+        },
+        {
+          "company": "sonatype",
+          "url": "https://jobs.lever.co/sonatype/8a1d474b-634b-4916-acb4-242707c7ebb7/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 8.32410149999999,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "571b95a2e5f45500",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3099,
+              "output": 301,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8648
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8648
+          }
+        },
+        {
+          "company": "matchgroup",
+          "url": "https://jobs.lever.co/matchgroup/69396299-e587-4063-aef6-0ce2fd66e9ee/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 7.161346958000038,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "9d3f4cac00cae626",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4102,
+              "output": 306,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 8696
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8696
+          }
+        },
+        {
+          "company": "appen",
+          "url": "https://jobs.lever.co/appen/62853079-22aa-44dd-9f1e-228832024dd9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 8.91738416700001,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "539b9f5f44c135ba",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4733,
+              "output": 247,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 10228
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 10228
+          }
+        },
+        {
+          "company": "zoox",
+          "url": "https://jobs.lever.co/zoox/e36cc53e-5bd5-43b9-9a90-ec9b7c6abda9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 5.33427575000003,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "53d36b401ac8743f",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2837,
+              "output": 228,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8313
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8313
+          }
+        },
+        {
+          "company": "shieldai",
+          "url": "https://jobs.lever.co/shieldai/938a7ddf-521f-4581-b5ba-c3ba29f9308a/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.531104665999999,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "04fc8c298bc49ad2",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2607,
+              "output": 230,
+              "cacheRead": 6336,
+              "cacheWrite": 0,
+              "totalTokens": 9173
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9173
+          }
+        },
+        {
+          "company": "weride",
+          "url": "https://jobs.lever.co/weride/82955de9-485d-4db0-8fd9-1c018489fc8d/apply",
+          "status": "incomplete",
+          "failure": "agent-omitted-final-read",
+          "seconds": 8.729127457999974,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "fill_confirmed_fields"
+          ],
+          "taskId": "ec5032baa72c9c5d",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3903,
+              "output": 362,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 8425
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8425
+          }
+        },
+        {
+          "company": "waabi",
+          "url": "https://jobs.lever.co/waabi/62700386-b9db-4c78-aec3-5ef59cbe841e/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 6.257806708000018,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "5aaff31fef949ae5",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4930,
+              "output": 272,
+              "cacheRead": 3072,
+              "cacheWrite": 0,
+              "totalTokens": 8274
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8274
+          }
+        },
+        {
+          "company": "Verantos",
+          "url": "https://job-boards.greenhouse.io/verantos/jobs/6132688004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.87361070900003,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "f3606381d5ad7d31",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1245,
+              "output": 265,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 6758
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6758
+          }
+        },
+        {
+          "company": "Anthropic",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5391151008",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.100496791000012,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "bf20a8c9f3dba1a6",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2010,
+              "output": 313,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7571
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7571
+          }
+        },
+        {
+          "company": "Figma",
+          "url": "https://job-boards.greenhouse.io/figma/jobs/5707966004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.841122333000007,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "57e2cb68dfbec8e0",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1724,
+              "output": 238,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7210
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7210
+          }
+        },
+        {
+          "company": "Cloudflare",
+          "url": "https://job-boards.greenhouse.io/cloudflare/jobs/8097321",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.87855008299998,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "0c4b28d6b1ea7974",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1662,
+              "output": 304,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7214
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7214
+          }
+        },
+        {
+          "company": "Robinhood",
+          "url": "https://job-boards.greenhouse.io/robinhood/jobs/6669758",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.364518541999976,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "0ec044becf6b3333",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1755,
+              "output": 265,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7268
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7268
+          }
+        },
+        {
+          "company": "Reddit",
+          "url": "https://job-boards.greenhouse.io/reddit/jobs/7792848",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.733059874999977,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "5328de75892dcbf9",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1907,
+              "output": 291,
+              "cacheRead": 5184,
+              "cacheWrite": 0,
+              "totalTokens": 7382
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7382
+          }
+        },
+        {
+          "company": "Discord",
+          "url": "https://job-boards.greenhouse.io/discord/jobs/8840756002",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.32636374999996,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "a0d3b634ce524372",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1352,
+              "output": 270,
+              "cacheRead": 5760,
+              "cacheWrite": 0,
+              "totalTokens": 7382
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7382
+          }
+        },
+        {
+          "company": "DoorDash USA",
+          "url": "https://job-boards.greenhouse.io/doordashusa/jobs/8225722",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.292117542000021,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "e97accde21f2fd75",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1253,
+              "output": 224,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 6725
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6725
+          }
+        },
+        {
+          "company": "GitLab",
+          "url": "https://job-boards.greenhouse.io/gitlab/jobs/8843512002",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 6.291825458000007,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "b2e8eddadee1ab00",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1717,
+              "output": 237,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7202
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7202
+          }
+        },
+        {
+          "company": "Gusto, Inc.",
+          "url": "https://job-boards.greenhouse.io/gusto/jobs/7656216",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.250831207999959,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "04b895e8b697dd57",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1538,
+              "output": 281,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7067
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7067
+          }
+        }
+      ]
+    },
+    {
+      "id": "improved-c5",
+      "status": "completed",
+      "concurrency": 5,
+      "plannedTasks": 20,
+      "attemptedTasks": 20,
+      "completedTasks": 6,
+      "incompleteTasks": 14,
+      "unrunTasks": 0,
+      "completionRate": 0.3,
+      "wallSeconds": 44.634193042,
+      "taskP50Seconds": 7.466190833000001,
+      "taskP95Seconds": 12.699413707999978,
+      "queueP50Seconds": 7.467,
+      "queueP95Seconds": 12.702,
+      "tasksPerMinute": 26.88521777173883,
+      "successfulTasksPerMinute": 8.065565331521649,
+      "peakActivePages": 5,
+      "peakOverlappingModelCalls": 5,
+      "modelRequests": 101,
+      "http200": 101,
+      "usage": {
+        "known": {
+          "input": 56458,
+          "output": 5543,
+          "cacheRead": 99840,
+          "cacheWrite": 0,
+          "totalTokens": 161841
+        },
+        "missingAttempts": 0,
+        "complete": true,
+        "totalTokens": 161841
+      },
+      "gold": {
+        "eligible": 50,
+        "correct": 50,
+        "empty": 0,
+        "wrong": 0,
+        "unresolved": 0,
+        "initialNonempty": 0
+      },
+      "forbiddenWriteAttempts": 3,
+      "rejectedMappings": 30,
+      "jobsWithForbiddenWrites": 3,
+      "failureCounts": {
+        "unsupported-field-written": 3,
+        "model-request-or-budget": 1,
+        "agent-omitted-final-read": 1,
+        "value-not-retained": 9
+      },
+      "rows": [
+        {
+          "company": "portcast",
+          "url": "https://jobs.lever.co/portcast/1f6381eb-03dd-451a-a8cc-2c862cec3fe3/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 9.936126584000013,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "0a150dfbbd7156bb",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2444,
+              "output": 272,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7964
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7964
+          }
+        },
+        {
+          "company": "palantir",
+          "url": "https://jobs.lever.co/palantir/10dfc8bc-99ad-4ca2-ab76-853cb90a92c2/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 10.701665916999977,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "2715879b87782bf0",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 4630,
+              "output": 339,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 9257
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9257
+          }
+        },
+        {
+          "company": "spotify",
+          "url": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24/apply",
+          "status": "incomplete",
+          "failure": "model-request-or-budget",
+          "seconds": 11.028574000000022,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "fill_confirmed_fields",
+            "inspect_form",
+            "fill_confirmed_fields"
+          ],
+          "taskId": "d7f33dfa751edb38",
+          "modelRequests": 6,
+          "usage": {
+            "known": {
+              "input": 6640,
+              "output": 443,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 11371
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 11371
+          }
+        },
+        {
+          "company": "sonatype",
+          "url": "https://jobs.lever.co/sonatype/8a1d474b-634b-4916-acb4-242707c7ebb7/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 12.699413707999978,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "7fcfd7ccc8bc6097",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2998,
+              "output": 259,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8505
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8505
+          }
+        },
+        {
+          "company": "matchgroup",
+          "url": "https://jobs.lever.co/matchgroup/69396299-e587-4063-aef6-0ce2fd66e9ee/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 12.821229959000018,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "78bdf80a81962d21",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2961,
+              "output": 265,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 8474
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8474
+          }
+        },
+        {
+          "company": "appen",
+          "url": "https://jobs.lever.co/appen/62853079-22aa-44dd-9f1e-228832024dd9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 6.628353959000029,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "7d16e521836e1d70",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 5826,
+              "output": 237,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 10223
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 10223
+          }
+        },
+        {
+          "company": "zoox",
+          "url": "https://jobs.lever.co/zoox/e36cc53e-5bd5-43b9-9a90-ec9b7c6abda9/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 5.589184625000053,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "9a4c9977705acd48",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2161,
+              "output": 267,
+              "cacheRead": 6080,
+              "cacheWrite": 0,
+              "totalTokens": 8508
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8508
+          }
+        },
+        {
+          "company": "shieldai",
+          "url": "https://jobs.lever.co/shieldai/938a7ddf-521f-4581-b5ba-c3ba29f9308a/apply",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.371710957999982,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "7a0dca701f4d8582",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3791,
+              "output": 243,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 9282
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 9282
+          }
+        },
+        {
+          "company": "weride",
+          "url": "https://jobs.lever.co/weride/82955de9-485d-4db0-8fd9-1c018489fc8d/apply",
+          "status": "incomplete",
+          "failure": "agent-omitted-final-read",
+          "seconds": 6.970607583000033,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "fill_confirmed_fields"
+          ],
+          "taskId": "f0fcbdac4c3b2b32",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3263,
+              "output": 330,
+              "cacheRead": 4800,
+              "cacheWrite": 0,
+              "totalTokens": 8393
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8393
+          }
+        },
+        {
+          "company": "waabi",
+          "url": "https://jobs.lever.co/waabi/62700386-b9db-4c78-aec3-5ef59cbe841e/apply",
+          "status": "completed",
+          "failure": null,
+          "seconds": 7.466190833000001,
+          "gold": {
+            "eligible": 3,
+            "correct": 3,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "full name",
+                "key": "fullName",
+                "status": "correct"
+              },
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "f7c0a22ab4bd9322",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 3911,
+              "output": 274,
+              "cacheRead": 4096,
+              "cacheWrite": 0,
+              "totalTokens": 8281
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 8281
+          }
+        },
+        {
+          "company": "Verantos",
+          "url": "https://job-boards.greenhouse.io/verantos/jobs/6132688004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.429619833000005,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "c00f84883d13f02d",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1230,
+              "output": 249,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 6727
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6727
+          }
+        },
+        {
+          "company": "Anthropic",
+          "url": "https://job-boards.greenhouse.io/anthropic/jobs/5391151008",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.912468500000017,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 4,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "4084e1ecff9490a5",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2970,
+              "output": 320,
+              "cacheRead": 4288,
+              "cacheWrite": 0,
+              "totalTokens": 7578
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7578
+          }
+        },
+        {
+          "company": "Figma",
+          "url": "https://job-boards.greenhouse.io/figma/jobs/5707966004",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.596331999999995,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "1b4fbbe97a1311e0",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1719,
+              "output": 255,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7222
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7222
+          }
+        },
+        {
+          "company": "Cloudflare",
+          "url": "https://job-boards.greenhouse.io/cloudflare/jobs/8097321",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.611378499999992,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "c7d1feaf28213e3d",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 2696,
+              "output": 245,
+              "cacheRead": 4160,
+              "cacheWrite": 0,
+              "totalTokens": 7101
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7101
+          }
+        },
+        {
+          "company": "Robinhood",
+          "url": "https://job-boards.greenhouse.io/robinhood/jobs/6669758",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 8.025117874999996,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 2,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "b5f5df6b58dd163e",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1760,
+              "output": 285,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7293
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7293
+          }
+        },
+        {
+          "company": "Reddit",
+          "url": "https://job-boards.greenhouse.io/reddit/jobs/7792848",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.18963291699998,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 3,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "4ae3076c9d00752e",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1853,
+              "output": 311,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7412
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7412
+          }
+        },
+        {
+          "company": "Discord",
+          "url": "https://job-boards.greenhouse.io/discord/jobs/8840756002",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.746052833000023,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 1,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "a2b427f0885ddfdd",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1859,
+              "output": 251,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7358
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7358
+          }
+        },
+        {
+          "company": "DoorDash USA",
+          "url": "https://job-boards.greenhouse.io/doordashusa/jobs/8225722",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 7.187594457999977,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "896ef84f0f1329a2",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 933,
+              "output": 212,
+              "cacheRead": 5568,
+              "cacheWrite": 0,
+              "totalTokens": 6713
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6713
+          }
+        },
+        {
+          "company": "GitLab",
+          "url": "https://job-boards.greenhouse.io/gitlab/jobs/8843512002",
+          "status": "incomplete",
+          "failure": "unsupported-field-written",
+          "seconds": 7.185366708000016,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 1,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "466abd0b12be73af",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1737,
+              "output": 256,
+              "cacheRead": 5248,
+              "cacheWrite": 0,
+              "totalTokens": 7241
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 7241
+          }
+        },
+        {
+          "company": "Gusto, Inc.",
+          "url": "https://job-boards.greenhouse.io/gusto/jobs/7656216",
+          "status": "incomplete",
+          "failure": "value-not-retained",
+          "seconds": 6.6283276250000345,
+          "gold": {
+            "eligible": 2,
+            "correct": 2,
+            "empty": 0,
+            "wrong": 0,
+            "unresolved": 0,
+            "initialNonempty": 0,
+            "rows": [
+              {
+                "label": "email",
+                "key": "email",
+                "status": "correct"
+              },
+              {
+                "label": "phone",
+                "key": "phone",
+                "status": "correct"
+              }
+            ]
+          },
+          "forbiddenWriteCount": 0,
+          "rejectedMappings": 0,
+          "tools": [
+            "read_confirmed_profile",
+            "inspect_form",
+            "fill_confirmed_fields",
+            "read_fill_status"
+          ],
+          "taskId": "83a8fccc1b27435a",
+          "modelRequests": 5,
+          "usage": {
+            "known": {
+              "input": 1076,
+              "output": 230,
+              "cacheRead": 5632,
+              "cacheWrite": 0,
+              "totalTokens": 6938
+            },
+            "missingAttempts": 0,
+            "complete": true,
+            "totalTokens": 6938
+          }
+        }
+      ]
+    }
+  ],
+  "rawEvidenceSHA256": "19a9d1e5e6b178f379001e01816f796fed54972a7bf7fe4bee1ff784fae20bee",
+  "billingCost": null,
+  "limitations": [
+    "Fixed 20-company product regression panel, not 100-company model coverage or a public held-out ranking",
+    "Completion is an ordinary draft task with actual Agent tool chain, independent contact gold and no-guess checks; not whole-form/server acceptance",
+    "Single fixed-order trial, browser/network/provider-cache variability; no human speed baseline",
+    "Native input, screenshot vision, repeated career controls and final submission are outside this run",
+    "Model/API failures retain unknown usage; SDK zero prices are not billing evidence"
+  ]
+}

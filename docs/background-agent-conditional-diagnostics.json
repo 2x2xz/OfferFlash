@@ -1,0 +1,16 @@
+{
+  "primaryScoringChanged": false,
+  "conditionalFields": 3,
+  "conditionalBlank": 3,
+  "conditionalUnresolved": 0,
+  "conditionalWrites": 0,
+  "conflictReviews": 1,
+  "conflictTargetsBlank": 1,
+  "conflictUnresolved": 0,
+  "conflictWrites": 0,
+  "totalReminders": 93,
+  "toolErrors": 1,
+  "budgetFailures": 0,
+  "remindsOnly": true,
+  "automaticallyAddedProfileFacts": false
+}

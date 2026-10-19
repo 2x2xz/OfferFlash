@@ -1,0 +1,412 @@
+{
+  "passed": true,
+  "GT_SHA256": "cd5f4e5dfb8366075551c7b1f46c61ef16efa755c80b393e4488c9d480559888",
+  "GTUnchanged": true,
+  "scorersUnchanged": true,
+  "sourceArchivesAndCurrentMatch": true,
+  "originalScoreRowsRecomputed": 54,
+  "retrievalRowsReplayed": 54,
+  "archivedVectorTexts": 150,
+  "chatRequests": 54,
+  "chatTokens": 557608,
+  "embeddingRequests": 23,
+  "embeddingTokens": 58757,
+  "modelAllHttp200": true,
+  "embeddingAllHttp200": true,
+  "allInputsExcludeIdentityAndGold": true,
+  "summaries": {
+    "all:lexical": {
+      "queries": 18,
+      "returned": 80,
+      "semanticRelevant": 58,
+      "compatibleRelevantReturned": 58,
+      "compatibleRelevantGold": 222,
+      "fixedSlots": 90,
+      "strictSuitable": 0,
+      "strictUnknown": 58,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 65,
+          "gold": 222,
+          "macroRecall": 0.35313175011450876
+        },
+        "10": {
+          "recalled": 107,
+          "gold": 222,
+          "macroRecall": 0.519626680258864
+        },
+        "20": {
+          "recalled": 158,
+          "gold": 222,
+          "macroRecall": 0.7730350109660455
+        }
+      },
+      "requests": 18,
+      "chatTokens": 193417
+    },
+    "all:semantic": {
+      "queries": 18,
+      "returned": 80,
+      "semanticRelevant": 50,
+      "compatibleRelevantReturned": 50,
+      "compatibleRelevantGold": 222,
+      "fixedSlots": 90,
+      "strictSuitable": 0,
+      "strictUnknown": 50,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 52,
+          "gold": 222,
+          "macroRecall": 0.24278361059970255
+        },
+        "10": {
+          "recalled": 82,
+          "gold": 222,
+          "macroRecall": 0.39525866853453057
+        },
+        "20": {
+          "recalled": 129,
+          "gold": 222,
+          "macroRecall": 0.6463546776765168
+        }
+      },
+      "requests": 18,
+      "chatTokens": 178230
+    },
+    "all:hybrid": {
+      "queries": 18,
+      "returned": 85,
+      "semanticRelevant": 54,
+      "compatibleRelevantReturned": 54,
+      "compatibleRelevantGold": 222,
+      "fixedSlots": 90,
+      "strictSuitable": 0,
+      "strictUnknown": 54,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 62,
+          "gold": 222,
+          "macroRecall": 0.3367075878570132
+        },
+        "10": {
+          "recalled": 102,
+          "gold": 222,
+          "macroRecall": 0.49865583012134734
+        },
+        "20": {
+          "recalled": 151,
+          "gold": 222,
+          "macroRecall": 0.7414217434332375
+        }
+      },
+      "requests": 18,
+      "chatTokens": 185961
+    },
+    "original-campus:lexical": {
+      "queries": 6,
+      "returned": 30,
+      "semanticRelevant": 16,
+      "compatibleRelevantReturned": 16,
+      "compatibleRelevantGold": 46,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 16,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 20,
+          "gold": 46,
+          "macroRecall": 0.4437321937321937
+        },
+        "10": {
+          "recalled": 29,
+          "gold": 46,
+          "macroRecall": 0.620014245014245
+        },
+        "20": {
+          "recalled": 36,
+          "gold": 46,
+          "macroRecall": 0.840099715099715
+        }
+      },
+      "requests": 6,
+      "chatTokens": 60918
+    },
+    "original-campus:semantic": {
+      "queries": 6,
+      "returned": 30,
+      "semanticRelevant": 20,
+      "compatibleRelevantReturned": 20,
+      "compatibleRelevantGold": 46,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 20,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 15,
+          "gold": 46,
+          "macroRecall": 0.31054131054131057
+        },
+        "10": {
+          "recalled": 24,
+          "gold": 46,
+          "macroRecall": 0.48326210826210825
+        },
+        "20": {
+          "recalled": 37,
+          "gold": 46,
+          "macroRecall": 0.8133903133903134
+        }
+      },
+      "requests": 6,
+      "chatTokens": 58299
+    },
+    "original-campus:hybrid": {
+      "queries": 6,
+      "returned": 30,
+      "semanticRelevant": 17,
+      "compatibleRelevantReturned": 17,
+      "compatibleRelevantGold": 46,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 17,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 19,
+          "gold": 46,
+          "macroRecall": 0.42521367521367526
+        },
+        "10": {
+          "recalled": 28,
+          "gold": 46,
+          "macroRecall": 0.599002849002849
+        },
+        "20": {
+          "recalled": 40,
+          "gold": 46,
+          "macroRecall": 0.8621794871794872
+        }
+      },
+      "requests": 6,
+      "chatTokens": 59434
+    },
+    "original-both:lexical": {
+      "queries": 6,
+      "returned": 25,
+      "semanticRelevant": 20,
+      "compatibleRelevantReturned": 20,
+      "compatibleRelevantGold": 74,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 20,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 22,
+          "gold": 74,
+          "macroRecall": 0.36591371591371596
+        },
+        "10": {
+          "recalled": 36,
+          "gold": 74,
+          "macroRecall": 0.5254782254782254
+        },
+        "20": {
+          "recalled": 54,
+          "gold": 74,
+          "macroRecall": 0.7977207977207977
+        }
+      },
+      "requests": 6,
+      "chatTokens": 65186
+    },
+    "original-both:semantic": {
+      "queries": 6,
+      "returned": 27,
+      "semanticRelevant": 15,
+      "compatibleRelevantReturned": 15,
+      "compatibleRelevantGold": 74,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 15,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 18,
+          "gold": 74,
+          "macroRecall": 0.2548026048026048
+        },
+        "10": {
+          "recalled": 27,
+          "gold": 74,
+          "macroRecall": 0.38428978428978433
+        },
+        "20": {
+          "recalled": 42,
+          "gold": 74,
+          "macroRecall": 0.6216320716320717
+        }
+      },
+      "requests": 6,
+      "chatTokens": 59234
+    },
+    "original-both:hybrid": {
+      "queries": 6,
+      "returned": 28,
+      "semanticRelevant": 18,
+      "compatibleRelevantReturned": 18,
+      "compatibleRelevantGold": 74,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 18,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 21,
+          "gold": 74,
+          "macroRecall": 0.3421041921041921
+        },
+        "10": {
+          "recalled": 34,
+          "gold": 74,
+          "macroRecall": 0.5032560032560033
+        },
+        "20": {
+          "recalled": 50,
+          "gold": 74,
+          "macroRecall": 0.7498575498575498
+        }
+      },
+      "requests": 6,
+      "chatTokens": 61723
+    },
+    "mainland-both:lexical": {
+      "queries": 6,
+      "returned": 25,
+      "semanticRelevant": 22,
+      "compatibleRelevantReturned": 22,
+      "compatibleRelevantGold": 102,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 22,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 23,
+          "gold": 102,
+          "macroRecall": 0.24974934069761653
+        },
+        "10": {
+          "recalled": 42,
+          "gold": 102,
+          "macroRecall": 0.41338757028412204
+        },
+        "20": {
+          "recalled": 68,
+          "gold": 102,
+          "macroRecall": 0.6812845200776235
+        }
+      },
+      "requests": 6,
+      "chatTokens": 67313
+    },
+    "mainland-both:semantic": {
+      "queries": 6,
+      "returned": 23,
+      "semanticRelevant": 15,
+      "compatibleRelevantReturned": 15,
+      "compatibleRelevantGold": 102,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 15,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 1,
+      "retrieval": {
+        "5": {
+          "recalled": 19,
+          "gold": 102,
+          "macroRecall": 0.1630069164551923
+        },
+        "10": {
+          "recalled": 31,
+          "gold": 102,
+          "macroRecall": 0.31822411305169923
+        },
+        "20": {
+          "recalled": 50,
+          "gold": 102,
+          "macroRecall": 0.5040416480071652
+        }
+      },
+      "requests": 6,
+      "chatTokens": 60697
+    },
+    "mainland-both:hybrid": {
+      "queries": 6,
+      "returned": 27,
+      "semanticRelevant": 19,
+      "compatibleRelevantReturned": 19,
+      "compatibleRelevantGold": 102,
+      "fixedSlots": 30,
+      "strictSuitable": 0,
+      "strictUnknown": 19,
+      "eligibilityViolations": 0,
+      "eligibilityAssessed": 0,
+      "invalidModelQueries": 0,
+      "retrieval": {
+        "5": {
+          "recalled": 22,
+          "gold": 102,
+          "macroRecall": 0.24280489625317211
+        },
+        "10": {
+          "recalled": 40,
+          "gold": 102,
+          "macroRecall": 0.3937086381051898
+        },
+        "20": {
+          "recalled": 61,
+          "gold": 102,
+          "macroRecall": 0.612228193262676
+        }
+      },
+      "requests": 6,
+      "chatTokens": 64804
+    }
+  },
+  "humanGold": false,
+  "submissions": 0,
+  "independentPythonScoreRows": 54,
+  "independentBm25CosineRrfRows": 54,
+  "independentRetrievalCutoffs": [
+    5,
+    10,
+    20
+  ]
+}

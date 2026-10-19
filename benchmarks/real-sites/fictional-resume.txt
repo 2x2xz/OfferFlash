@@ -1,0 +1,64 @@
+# OfferFlash QA：完全虚构的网申测试简历
+本文件仅用于软件测试，不是真实求职者，不用于投递。
+姓名：OfferFlash QA
+英文姓名：OfferFlash QA
+邮箱：offerflash-validation@example.invalid
+电话：+1 202-555-0100
+求职方向：Software Engineer，AI Engineer，Machine Learning Engineer
+技能：Python，TypeScript，PyTorch，SQL，RAG，LLM，Docker
+
+## 教育经历
+学校：虚构海港大学
+英文学校：Fictional Harbor University
+学历：硕士
+专业：计算机科学
+开始时间：2024-09
+预计毕业时间：2027-06
+描述：虚构人工智能方向课程与软件系统研究。
+
+学校：虚构星河理工大学
+英文学校：Fictional Star Technology University
+学历：本科
+专业：软件工程
+开始时间：2020-09
+毕业时间：2024-06
+
+## 实习经历
+公司：虚构北极星软件实验室
+职位：软件工程实习生
+开始时间：2025-06
+结束时间：2025-09
+技术栈：Python，TypeScript，SQL
+职责：实现虚构资料检索服务，编写接口测试与错误恢复流程。
+
+公司：虚构晨光人工智能实验室
+职位：算法实习生
+开始时间：2026-01
+结束时间：2026-05
+技术栈：Python，PyTorch，RAG
+职责：比较虚构任务的检索结果并维护离线评测脚本。
+
+## 项目经历
+项目名称：Synthetic Resume Agent
+项目角色：主要开发者
+开始时间：2025-09
+结束时间：2026-02
+技术栈：TypeScript，LLM，RAG
+项目描述：仅使用虚构资料构建可核对的表单字段映射与运行记录。
+GitHub：https://example.invalid/synthetic-resume-agent
+
+项目名称：Synthetic Evaluation Toolkit
+项目角色：主要负责人
+开始时间：2026-03
+结束时间：2026-07
+技术栈：Python，SQL，Docker
+项目描述：为虚构任务实现独立结果核对与延迟统计。
+GitHub：https://example.invalid/synthetic-evaluation-toolkit
+
+## 论文发表
+论文标题：Synthetic Evaluation of Fictional Form Agents
+作者：OfferFlash QA
+期刊：Fictional Software Workshop
+论文状态：预印本
+发表时间：2026-07
+论文链接：https://example.invalid/synthetic-paper

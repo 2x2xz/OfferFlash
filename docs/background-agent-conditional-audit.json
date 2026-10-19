@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "rowsChecked": 60,
+  "sameOriginalCaseSHA256": true,
+  "independentlyRecomputedGoldAndNegatives": true,
+  "independentlyRecomputedCompletion": true,
+  "allCompletedHaveActualPostFillRead": true,
+  "perTaskModelBudgetRespected": true,
+  "arms": [
+    {
+      "id": "improved-c1",
+      "completed": 19,
+      "goldCorrect": 50,
+      "goldTotal": 50,
+      "forbiddenWrites": 1,
+      "finalReadsAfterFill": 20,
+      "stableReindexes": 9,
+      "protectedSnapshotChanges": 0
+    },
+    {
+      "id": "improved-c3",
+      "completed": 19,
+      "goldCorrect": 50,
+      "goldTotal": 50,
+      "forbiddenWrites": 1,
+      "finalReadsAfterFill": 20,
+      "stableReindexes": 9,
+      "protectedSnapshotChanges": 0
+    },
+    {
+      "id": "improved-c5",
+      "completed": 18,
+      "goldCorrect": 47,
+      "goldTotal": 50,
+      "forbiddenWrites": 1,
+      "finalReadsAfterFill": 19,
+      "stableReindexes": 9,
+      "protectedSnapshotChanges": 0
+    }
+  ]
+}

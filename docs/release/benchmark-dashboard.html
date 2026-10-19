@@ -1,0 +1,808 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none';style-src 'unsafe-inline';connect-src 'none'"><title>OfferFlash · v0.11.1修复对比</title><style>body{margin:0;background:#101722;color:#e3edf9;font:15px/1.7 system-ui}main{max-width:1160px;margin:30px auto;padding:24px}small{color:#ffcb71;letter-spacing:2px}h1{font-size:32px}section{background:#192332;border:1px solid #34465d;padding:22px;margin:20px 0}.notice{background:#322b20;border-left:4px solid #d4a75a;padding:16px}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;min-width:660px}th,td{text-align:left;padding:12px;border-bottom:1px solid #364b64}th{color:#9ad9fa}a{color:#a8ddff}.bar{height:14px;background:#29394e;margin:10px 0}.bar i{display:block;height:100%;background:#77d2bc}pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#b9ccde}</style><main><small>⚡ OFFERFLASH / REPAIR</small><h1>漏填与资格筛选 · 修复对比</h1><p>v0.11.1 · 同一冻结数据与评分器 · 真实浏览器终态核对</p><p class="notice">这是读过失败案例后的同集回归，不是新未见集泛化成绩。原始结果和失败不覆盖；不提交申请、不猜缺失事实。</p><section><h2>必填覆盖：漏填确实减少了吗？</h2><div class="scroll"><table><tr><th>路径</th><th>修复前</th><th>修复后</th><th>修复后已填准确率</th></tr><tr><td>后台DOM · 每模板3轮</td><td>21/75 · 28.0%</td><td>54/75 · 72.0%</td><td>54/54</td></tr><tr><td>前台规则 · 同一8模板</td><td>8/25 · 32.0%</td><td>19/25 · 76.0%</td><td>19/19</td></tr><tr><td>真实模型映射后的前台填写</td><td>9/25 · 36.0%</td><td>19/25 · 76.0%</td><td>19/19</td></tr></table></div><p>后台DOM · 每模板3轮 · 54/75 · 72.0%</p><div class="bar"><i style="width:72%"></i></div><p>前台规则 · 同一8模板 · 19/25 · 76.0%</p><div class="bar"><i style="width:76%"></i></div><p>真实模型映射后的前台填写 · 19/25 · 76.0%</p><div class="bar"><i style="width:76%"></i></div><p>前台规则与模型映射都执行实际输入；month采用守卫后的原子月份设置，明确标为foreground而非纯原生日期键盘输入。</p></section><section><h2>岗位硬资格：还有多少明确违规？</h2><div class="scroll"><table><tr><th>策略</th><th>Split / CV数</th><th>资格违规 / 已核对</th><th>返回数</th><th>确认合适数</th></tr><tr><td>production-application-shortlist</td><td>dev · n=6</td><td>2/25</td><td>26</td><td>9</td></tr><tr><td>repaired-legacy-profile</td><td>dev · n=6</td><td>2/25</td><td>26</td><td>9</td></tr><tr><td>repaired-explicit-preferences</td><td>dev · n=6</td><td>0/23</td><td>25</td><td>9</td></tr><tr><td>hard-filtered-saved-live-model-shortlist</td><td>dev · n=6</td><td>0/13</td><td>16</td><td>9</td></tr><tr><td>production-application-shortlist</td><td>test · n=6</td><td>2/24</td><td>26</td><td>12</td></tr><tr><td>repaired-legacy-profile</td><td>test · n=6</td><td>0/24</td><td>26</td><td>12</td></tr><tr><td>repaired-explicit-preferences</td><td>test · n=6</td><td>0/24</td><td>26</td><td>12</td></tr><tr><td>hard-filtered-saved-live-model-shortlist</td><td>test · n=6</td><td>0/18</td><td>20</td><td>12</td></tr></table></div><p>资格合格不等于方向相关。新“只找校招/只找实习”偏好需要使用者明确保存，旧资料不自动修改。原模型结果的过滤只是事后重放。</p></section><section><h2>还留下哪些项？</h2><ul><li>未提供的实习职位、项目链接、具体毕业日保持空白。</li><li>没有可靠关联的自定义学历/学校联想下拉继续人工处理。</li><li>网站主动清空字段时撤回成功回执，不对已发送或未知写入盲目重试。</li></ul><p>缺资料、不支持控件和网页回滚仍保留在完整度分母。</p></section><section><h2>真实模型与证据</h2><p>本次执行重放此前8次真实识别响应（输入hash一致），本次新增请求0次。修复过程两轮真实请求共16次 / 7368 tokens。未采集人工基线，不计算加速倍数。</p><p><a href="benchmark-repair-summary.json">统计与SHA</a> · <a href="benchmark-repair-details.html">逐字段最终报告</a> · <a href="benchmark-dashboard-baseline.html">原始看板</a></p><details><summary>完整分组计数与限制</summary><pre>{
+  &quot;version&quot;: &quot;0.11.1&quot;,
+  &quot;protocol&quot;: &quot;01c68d5447060b8fef342535b876829be30d05faefa8e7da9f27d437d3914217&quot;,
+  &quot;sameFrozenData&quot;: true,
+  &quot;graderUnchanged&quot;: true,
+  &quot;forms&quot;: [
+    {
+      &quot;label&quot;: &quot;后台DOM · 每模板3轮&quot;,
+      &quot;before&quot;: {
+        &quot;cases&quot;: 24,
+        &quot;correct&quot;: 21,
+        &quot;required&quot;: 75,
+        &quot;accuracyCorrect&quot;: 21,
+        &quot;filled&quot;: 21,
+        &quot;rows&quot;: [
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;failed&quot;,
+            &quot;guard&quot;: &quot;guard-or-execution-stop&quot;
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;failed&quot;,
+            &quot;guard&quot;: &quot;guard-or-execution-stop&quot;
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;failed&quot;,
+            &quot;guard&quot;: &quot;guard-or-execution-stop&quot;
+          }
+        ]
+      },
+      &quot;after&quot;: {
+        &quot;cases&quot;: 24,
+        &quot;correct&quot;: 54,
+        &quot;required&quot;: 75,
+        &quot;accuracyCorrect&quot;: 54,
+        &quot;filled&quot;: 54,
+        &quot;rows&quot;: [
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 6,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 6,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 6,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;failed&quot;,
+            &quot;guard&quot;: &quot;guard-or-execution-stop&quot;
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 1,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;failed&quot;,
+            &quot;guard&quot;: &quot;guard-or-execution-stop&quot;
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 2,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;failed&quot;,
+            &quot;guard&quot;: &quot;guard-or-execution-stop&quot;
+          }
+        ]
+      }
+    },
+    {
+      &quot;label&quot;: &quot;前台规则 · 同一8模板&quot;,
+      &quot;before&quot;: {
+        &quot;cases&quot;: 8,
+        &quot;correct&quot;: 8,
+        &quot;required&quot;: 25,
+        &quot;accuracyCorrect&quot;: 8,
+        &quot;filled&quot;: 8,
+        &quot;rows&quot;: [
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          }
+        ]
+      },
+      &quot;after&quot;: {
+        &quot;cases&quot;: 8,
+        &quot;correct&quot;: 19,
+        &quot;required&quot;: 25,
+        &quot;accuracyCorrect&quot;: 19,
+        &quot;filled&quot;: 19,
+        &quot;rows&quot;: [
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 6,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          }
+        ]
+      }
+    },
+    {
+      &quot;label&quot;: &quot;真实模型映射后的前台填写&quot;,
+      &quot;before&quot;: {
+        &quot;cases&quot;: 8,
+        &quot;correct&quot;: 9,
+        &quot;required&quot;: 25,
+        &quot;accuracyCorrect&quot;: 9,
+        &quot;filled&quot;: 9,
+        &quot;rows&quot;: [
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 2,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 0,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          }
+        ]
+      },
+      &quot;after&quot;: {
+        &quot;cases&quot;: 8,
+        &quot;correct&quot;: 19,
+        &quot;required&quot;: 25,
+        &quot;accuracyCorrect&quot;: 19,
+        &quot;filled&quot;: 19,
+        &quot;rows&quot;: [
+          {
+            &quot;caseId&quot;: &quot;forms-test-01&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-02&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-03&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 6,
+            &quot;required&quot;: 6,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-04&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-05&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 3,
+            &quot;required&quot;: 4,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-06&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 1,
+            &quot;status&quot;: &quot;succeeded&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-07&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 3,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          },
+          {
+            &quot;caseId&quot;: &quot;forms-test-08&quot;,
+            &quot;repeat&quot;: 0,
+            &quot;correct&quot;: 1,
+            &quot;required&quot;: 2,
+            &quot;status&quot;: &quot;partial&quot;,
+            &quot;guard&quot;: null
+          }
+        ]
+      }
+    }
+  ],
+  &quot;qualifications&quot;: [
+    {
+      &quot;split&quot;: &quot;dev&quot;,
+      &quot;engine&quot;: &quot;production-application-shortlist&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 26,
+      &quot;violations&quot;: 2,
+      &quot;assessed&quot;: 25,
+      &quot;suitable&quot;: 9
+    },
+    {
+      &quot;split&quot;: &quot;dev&quot;,
+      &quot;engine&quot;: &quot;repaired-legacy-profile&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 26,
+      &quot;violations&quot;: 2,
+      &quot;assessed&quot;: 25,
+      &quot;suitable&quot;: 9
+    },
+    {
+      &quot;split&quot;: &quot;dev&quot;,
+      &quot;engine&quot;: &quot;repaired-explicit-preferences&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 25,
+      &quot;violations&quot;: 0,
+      &quot;assessed&quot;: 23,
+      &quot;suitable&quot;: 9
+    },
+    {
+      &quot;split&quot;: &quot;dev&quot;,
+      &quot;engine&quot;: &quot;hard-filtered-saved-live-model-shortlist&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 16,
+      &quot;violations&quot;: 0,
+      &quot;assessed&quot;: 13,
+      &quot;suitable&quot;: 9
+    },
+    {
+      &quot;split&quot;: &quot;test&quot;,
+      &quot;engine&quot;: &quot;production-application-shortlist&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 26,
+      &quot;violations&quot;: 2,
+      &quot;assessed&quot;: 24,
+      &quot;suitable&quot;: 12
+    },
+    {
+      &quot;split&quot;: &quot;test&quot;,
+      &quot;engine&quot;: &quot;repaired-legacy-profile&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 26,
+      &quot;violations&quot;: 0,
+      &quot;assessed&quot;: 24,
+      &quot;suitable&quot;: 12
+    },
+    {
+      &quot;split&quot;: &quot;test&quot;,
+      &quot;engine&quot;: &quot;repaired-explicit-preferences&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 26,
+      &quot;violations&quot;: 0,
+      &quot;assessed&quot;: 24,
+      &quot;suitable&quot;: 12
+    },
+    {
+      &quot;split&quot;: &quot;test&quot;,
+      &quot;engine&quot;: &quot;hard-filtered-saved-live-model-shortlist&quot;,
+      &quot;queries&quot;: 6,
+      &quot;returned&quot;: 20,
+      &quot;violations&quot;: 0,
+      &quot;assessed&quot;: 18,
+      &quot;suitable&quot;: 12
+    }
+  ],
+  &quot;realAPI&quot;: {
+    &quot;finalRequests&quot;: 8,
+    &quot;finalExecutionRequests&quot;: 0,
+    &quot;responseMode&quot;: &quot;same-input-real-response-replay&quot;,
+    &quot;finalTokens&quot;: 3678,
+    &quot;earlierRequests&quot;: 8,
+    &quot;earlierTokens&quot;: 3690,
+    &quot;totalRequests&quot;: 16,
+    &quot;totalTokens&quot;: 7368
+  },
+  &quot;submissions&quot;: 0,
+  &quot;normalDatabaseRead&quot;: false,
+  &quot;codeHash&quot;: &quot;5c3c219d8e1db7f5076fc160520e92e97dce87231d7dd8e0a18cfac3f85adbf6&quot;,
+  &quot;codeFrozen&quot;: true,
+  &quot;evidenceHash&quot;: &quot;f9921efba0e66755edd5d6e0e388bc5e947245d1e67fe1fef8cb046d54669718&quot;,
+  &quot;limits&quot;: [
+    &quot;前台月份由隔离world内原子YYYY-MM设置，其余使用原生输入；保留焦点/原值/代次/遮挡守卫。&quot;,
+    &quot;缺资料不补造、无绑定下拉不猜；网页回滚后不盲目重发。&quot;,
+    &quot;显式招聘偏好是用户已有协议事实的新资料入口，与legacy相同输入一列分开。&quot;,
+    &quot;原模型短列表硬过滤为事后策略重放，不冒充新的模型排名。&quot;,
+    &quot;8个API请求一轮，不报P50/P95；没有纯人工提速对比。&quot;,
+    &quot;看过测试失败后修复，属于同集回归；不是新未见数据泛化证明。&quot;
+  ]
+}</pre></details></section></main></html>

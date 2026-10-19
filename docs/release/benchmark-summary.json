@@ -1,0 +1,825 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-19T00:00:00Z",
+  "scope": "authored-synthetic-diagnostic-and-bounded-public-source-audit",
+  "humanGold": false,
+  "data": {
+    "personas": 6,
+    "jobs": 36,
+    "qrels": 216,
+    "formTasks": 16,
+    "formFields": 76,
+    "retrievalDocuments": 18
+  },
+  "main": {
+    "browserExecutions": 72,
+    "plannerOnly": 24,
+    "fullRankingValid": 4,
+    "fullRankingScenarios": 12,
+    "formGroups": [
+      {
+        "engine": "production-background-dom",
+        "split": "dev",
+        "cases": 24,
+        "allRequiredCoverage": {
+          "numerator": 48,
+          "denominator": 57,
+          "value": 0.8421052631578947
+        },
+        "filledAccuracy": {
+          "numerator": 48,
+          "denominator": 48,
+          "value": 1
+        },
+        "fullAuditCases": 24,
+        "finalProtectedStateChanges": 3,
+        "environmentEvents": 6
+      },
+      {
+        "engine": "production-background-dom",
+        "split": "test",
+        "cases": 24,
+        "allRequiredCoverage": {
+          "numerator": 21,
+          "denominator": 75,
+          "value": 0.28
+        },
+        "filledAccuracy": {
+          "numerator": 21,
+          "denominator": 21,
+          "value": 1
+        },
+        "fullAuditCases": 24,
+        "finalProtectedStateChanges": 0,
+        "environmentEvents": 3
+      },
+      {
+        "engine": "production-native-rules",
+        "split": "dev",
+        "cases": 8,
+        "allRequiredCoverage": {
+          "numerator": 14,
+          "denominator": 19,
+          "value": 0.7368421052631579
+        },
+        "filledAccuracy": {
+          "numerator": 14,
+          "denominator": 14,
+          "value": 1
+        },
+        "fullAuditCases": 8,
+        "finalProtectedStateChanges": 1,
+        "environmentEvents": 2
+      },
+      {
+        "engine": "production-native-rules",
+        "split": "test",
+        "cases": 8,
+        "allRequiredCoverage": {
+          "numerator": 8,
+          "denominator": 25,
+          "value": 0.32
+        },
+        "filledAccuracy": {
+          "numerator": 8,
+          "denominator": 8,
+          "value": 1
+        },
+        "fullAuditCases": 8,
+        "finalProtectedStateChanges": 0,
+        "environmentEvents": 1
+      },
+      {
+        "engine": "production-native-live-mapping-replay",
+        "split": "test",
+        "cases": 8,
+        "allRequiredCoverage": {
+          "numerator": 9,
+          "denominator": 25,
+          "value": 0.36
+        },
+        "filledAccuracy": {
+          "numerator": 9,
+          "denominator": 9,
+          "value": 1
+        },
+        "fullAuditCases": 8,
+        "finalProtectedStateChanges": 0,
+        "environmentEvents": 1
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "engine": "production-application-shortlist",
+      "split": "dev",
+      "personas": 6,
+      "failures": 0,
+      "returned": 26,
+      "suitable": 9,
+      "unsuitable": 16,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 9,
+        "denominator": 30,
+        "value": 0.3
+      },
+      "upper": {
+        "numerator": 10,
+        "denominator": 30,
+        "value": 0.3333333333333333
+      },
+      "knownSuitableGold": 10,
+      "knownSubsetRecall": {
+        "numerator": 9,
+        "denominator": 10,
+        "value": 0.9
+      },
+      "knownSubsetRecallMacro": 0.9444444444444443,
+      "returnedPrecisionLower": {
+        "numerator": 9,
+        "denominator": 26,
+        "value": 0.34615384615384615
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 10,
+        "denominator": 26,
+        "value": 0.38461538461538464
+      },
+      "qualificationViolations": {
+        "numerator": 2,
+        "denominator": 25,
+        "value": 0.08
+      },
+      "qualificationUnknown": 1
+    },
+    {
+      "engine": "production-application-shortlist",
+      "split": "test",
+      "personas": 6,
+      "failures": 0,
+      "returned": 26,
+      "suitable": 12,
+      "unsuitable": 13,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 12,
+        "denominator": 30,
+        "value": 0.4
+      },
+      "upper": {
+        "numerator": 13,
+        "denominator": 30,
+        "value": 0.43333333333333335
+      },
+      "knownSuitableGold": 14,
+      "knownSubsetRecall": {
+        "numerator": 12,
+        "denominator": 14,
+        "value": 0.8571428571428571
+      },
+      "knownSubsetRecallMacro": 0.9111111111111111,
+      "returnedPrecisionLower": {
+        "numerator": 12,
+        "denominator": 26,
+        "value": 0.46153846153846156
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 13,
+        "denominator": 26,
+        "value": 0.5
+      },
+      "qualificationViolations": {
+        "numerator": 2,
+        "denominator": 24,
+        "value": 0.08333333333333333
+      },
+      "qualificationUnknown": 2
+    },
+    {
+      "engine": "keyword-top5",
+      "split": "dev",
+      "personas": 6,
+      "failures": 0,
+      "returned": 30,
+      "suitable": 9,
+      "unsuitable": 20,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 9,
+        "denominator": 30,
+        "value": 0.3
+      },
+      "upper": {
+        "numerator": 10,
+        "denominator": 30,
+        "value": 0.3333333333333333
+      },
+      "knownSuitableGold": 10,
+      "knownSubsetRecall": {
+        "numerator": 9,
+        "denominator": 10,
+        "value": 0.9
+      },
+      "knownSubsetRecallMacro": 0.9444444444444443,
+      "returnedPrecisionLower": {
+        "numerator": 9,
+        "denominator": 30,
+        "value": 0.3
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 10,
+        "denominator": 30,
+        "value": 0.3333333333333333
+      },
+      "qualificationViolations": {
+        "numerator": 14,
+        "denominator": 29,
+        "value": 0.4827586206896552
+      },
+      "qualificationUnknown": 1
+    },
+    {
+      "engine": "keyword-top5",
+      "split": "test",
+      "personas": 6,
+      "failures": 0,
+      "returned": 30,
+      "suitable": 12,
+      "unsuitable": 17,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 12,
+        "denominator": 30,
+        "value": 0.4
+      },
+      "upper": {
+        "numerator": 13,
+        "denominator": 30,
+        "value": 0.43333333333333335
+      },
+      "knownSuitableGold": 14,
+      "knownSubsetRecall": {
+        "numerator": 12,
+        "denominator": 14,
+        "value": 0.8571428571428571
+      },
+      "knownSubsetRecallMacro": 0.9111111111111111,
+      "returnedPrecisionLower": {
+        "numerator": 12,
+        "denominator": 30,
+        "value": 0.4
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 13,
+        "denominator": 30,
+        "value": 0.43333333333333335
+      },
+      "qualificationViolations": {
+        "numerator": 14,
+        "denominator": 29,
+        "value": 0.4827586206896552
+      },
+      "qualificationUnknown": 1
+    },
+    {
+      "engine": "lexical-bm25-top5",
+      "split": "dev",
+      "personas": 6,
+      "failures": 0,
+      "returned": 30,
+      "suitable": 9,
+      "unsuitable": 20,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 9,
+        "denominator": 30,
+        "value": 0.3
+      },
+      "upper": {
+        "numerator": 10,
+        "denominator": 30,
+        "value": 0.3333333333333333
+      },
+      "knownSuitableGold": 10,
+      "knownSubsetRecall": {
+        "numerator": 9,
+        "denominator": 10,
+        "value": 0.9
+      },
+      "knownSubsetRecallMacro": 0.9444444444444443,
+      "returnedPrecisionLower": {
+        "numerator": 9,
+        "denominator": 30,
+        "value": 0.3
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 10,
+        "denominator": 30,
+        "value": 0.3333333333333333
+      },
+      "qualificationViolations": {
+        "numerator": 14,
+        "denominator": 28,
+        "value": 0.5
+      },
+      "qualificationUnknown": 2
+    },
+    {
+      "engine": "lexical-bm25-top5",
+      "split": "test",
+      "personas": 6,
+      "failures": 0,
+      "returned": 30,
+      "suitable": 12,
+      "unsuitable": 17,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 12,
+        "denominator": 30,
+        "value": 0.4
+      },
+      "upper": {
+        "numerator": 13,
+        "denominator": 30,
+        "value": 0.43333333333333335
+      },
+      "knownSuitableGold": 14,
+      "knownSubsetRecall": {
+        "numerator": 12,
+        "denominator": 14,
+        "value": 0.8571428571428571
+      },
+      "knownSubsetRecallMacro": 0.9111111111111111,
+      "returnedPrecisionLower": {
+        "numerator": 12,
+        "denominator": 30,
+        "value": 0.4
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 13,
+        "denominator": 30,
+        "value": 0.43333333333333335
+      },
+      "qualificationViolations": {
+        "numerator": 13,
+        "denominator": 29,
+        "value": 0.4482758620689655
+      },
+      "qualificationUnknown": 1
+    },
+    {
+      "engine": "live-model-shortlist",
+      "split": "dev",
+      "personas": 6,
+      "failures": 0,
+      "returned": 16,
+      "suitable": 9,
+      "unsuitable": 5,
+      "unknown": 2,
+      "slots": 30,
+      "lower": {
+        "numerator": 9,
+        "denominator": 30,
+        "value": 0.3
+      },
+      "upper": {
+        "numerator": 11,
+        "denominator": 30,
+        "value": 0.36666666666666664
+      },
+      "knownSuitableGold": 10,
+      "knownSubsetRecall": {
+        "numerator": 9,
+        "denominator": 10,
+        "value": 0.9
+      },
+      "knownSubsetRecallMacro": 0.9444444444444443,
+      "returnedPrecisionLower": {
+        "numerator": 9,
+        "denominator": 16,
+        "value": 0.5625
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 11,
+        "denominator": 16,
+        "value": 0.6875
+      },
+      "qualificationViolations": {
+        "numerator": 0,
+        "denominator": 13,
+        "value": 0
+      },
+      "qualificationUnknown": 3
+    },
+    {
+      "engine": "live-model-shortlist",
+      "split": "test",
+      "personas": 6,
+      "failures": 0,
+      "returned": 26,
+      "suitable": 12,
+      "unsuitable": 13,
+      "unknown": 1,
+      "slots": 30,
+      "lower": {
+        "numerator": 12,
+        "denominator": 30,
+        "value": 0.4
+      },
+      "upper": {
+        "numerator": 13,
+        "denominator": 30,
+        "value": 0.43333333333333335
+      },
+      "knownSuitableGold": 14,
+      "knownSubsetRecall": {
+        "numerator": 12,
+        "denominator": 14,
+        "value": 0.8571428571428571
+      },
+      "knownSubsetRecallMacro": 0.8833333333333333,
+      "returnedPrecisionLower": {
+        "numerator": 12,
+        "denominator": 26,
+        "value": 0.46153846153846156
+      },
+      "returnedPrecisionUpper": {
+        "numerator": 13,
+        "denominator": 26,
+        "value": 0.5
+      },
+      "qualificationViolations": {
+        "numerator": 6,
+        "denominator": 24,
+        "value": 0.25
+      },
+      "qualificationUnknown": 2
+    }
+  ],
+  "retrieval": [
+    {
+      "split": "dev",
+      "queries": 8,
+      "answerable": 8,
+      "noAnswerAccuracy": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "metrics": {
+        "1": {
+          "queries": 8,
+          "hit": {
+            "numerator": 8,
+            "denominator": 8,
+            "value": 1
+          },
+          "recallMacro": 1,
+          "mrrMacro": 1,
+          "ndcgMacro": 1
+        },
+        "3": {
+          "queries": 8,
+          "hit": {
+            "numerator": 8,
+            "denominator": 8,
+            "value": 1
+          },
+          "recallMacro": 1,
+          "mrrMacro": 1,
+          "ndcgMacro": 1
+        },
+        "5": {
+          "queries": 8,
+          "hit": {
+            "numerator": 8,
+            "denominator": 8,
+            "value": 1
+          },
+          "recallMacro": 1,
+          "mrrMacro": 1,
+          "ndcgMacro": 1
+        }
+      }
+    },
+    {
+      "split": "test",
+      "queries": 14,
+      "answerable": 11,
+      "noAnswerAccuracy": {
+        "numerator": 3,
+        "denominator": 3,
+        "value": 1
+      },
+      "metrics": {
+        "1": {
+          "queries": 11,
+          "hit": {
+            "numerator": 10,
+            "denominator": 11,
+            "value": 0.9090909090909091
+          },
+          "recallMacro": 0.9090909090909091,
+          "mrrMacro": 0.9090909090909091,
+          "ndcgMacro": 0.9090909090909091
+        },
+        "3": {
+          "queries": 11,
+          "hit": {
+            "numerator": 11,
+            "denominator": 11,
+            "value": 1
+          },
+          "recallMacro": 1,
+          "mrrMacro": 0.9545454545454546,
+          "ndcgMacro": 0.966448159415587
+        },
+        "5": {
+          "queries": 11,
+          "hit": {
+            "numerator": 11,
+            "denominator": 11,
+            "value": 1
+          },
+          "recallMacro": 1,
+          "mrrMacro": 0.9545454545454546,
+          "ndcgMacro": 0.966448159415587
+        }
+      }
+    }
+  ],
+  "careerCases": [
+    {
+      "caseId": "career-complete-six-records",
+      "correct": 32,
+      "required": 32,
+      "accuracy": {
+        "numerator": 32,
+        "denominator": 32,
+        "value": 1
+      },
+      "durationMs": 28032.14425,
+      "fullMutationAudit": false,
+      "submissionReadiness": null
+    },
+    {
+      "caseId": "career-until-now",
+      "correct": 16,
+      "required": 16,
+      "accuracy": {
+        "numerator": 16,
+        "denominator": 16,
+        "value": 1
+      },
+      "durationMs": 12443.060875000003,
+      "fullMutationAudit": false,
+      "submissionReadiness": null
+    },
+    {
+      "caseId": "career-missing-project-facts",
+      "correct": 14,
+      "required": 16,
+      "accuracy": {
+        "numerator": 14,
+        "denominator": 14,
+        "value": 1
+      },
+      "durationMs": 13688.807667000001,
+      "fullMutationAudit": false,
+      "submissionReadiness": null
+    }
+  ],
+  "piToolContracts": {
+    "passed": 7,
+    "cases": 11,
+    "failed": 4,
+    "scope": "fixed synthetic business tools; not real employer UI"
+  },
+  "requests": {
+    "attempts": 57,
+    "tokens": {
+      "input": 101488,
+      "output": 4499,
+      "cacheRead": 70592,
+      "cacheWrite": 0,
+      "totalTokens": 176579
+    },
+    "groups": [
+      {
+        "track": "main-ranking-and-field-mapping",
+        "statistics": {
+          "attempts": 20,
+          "realAttempts": 20,
+          "scriptedAttempts": 0,
+          "succeededAttempts": 20,
+          "failedAttempts": 0,
+          "cancelledAttempts": 0,
+          "measuredRealUsageAttempts": 20,
+          "missingRealUsageAttempts": 0,
+          "usageComplete": true,
+          "tokens": {
+            "input": 29862,
+            "output": 977,
+            "cacheRead": 256,
+            "cacheWrite": 0,
+            "totalTokens": 31095
+          },
+          "inputTokensIncludingCache": 30118,
+          "latency": {
+            "samples": 20,
+            "missingSamples": 0,
+            "minMs": 349.89279199999874,
+            "maxMs": 1107.1482079999987,
+            "meanMs": 655.426329100001,
+            "p50Ms": 558.6846460000015,
+            "p95Ms": 1042.235381549997,
+            "percentileMinimumSamples": 20
+          },
+          "realLatency": {
+            "samples": 20,
+            "missingSamples": 0,
+            "minMs": 349.89279199999874,
+            "maxMs": 1107.1482079999987,
+            "meanMs": 655.426329100001,
+            "p50Ms": 558.6846460000015,
+            "p95Ms": 1042.235381549997,
+            "percentileMinimumSamples": 20
+          }
+        }
+      },
+      {
+        "track": "Pi-tool-contract",
+        "statistics": {
+          "attempts": 25,
+          "realAttempts": 25,
+          "scriptedAttempts": 0,
+          "succeededAttempts": 25,
+          "failedAttempts": 0,
+          "cancelledAttempts": 0,
+          "measuredRealUsageAttempts": 25,
+          "missingRealUsageAttempts": 0,
+          "usageComplete": true,
+          "tokens": {
+            "input": 44570,
+            "output": 3276,
+            "cacheRead": 70336,
+            "cacheWrite": 0,
+            "totalTokens": 118182
+          },
+          "inputTokensIncludingCache": 114906,
+          "latency": {
+            "samples": 25,
+            "missingSamples": 0,
+            "minMs": 464.8234169999996,
+            "maxMs": 4572.107250000001,
+            "meanMs": 1250.3035117199995,
+            "p50Ms": 783.3708750000005,
+            "p95Ms": 2791.2836002000004,
+            "percentileMinimumSamples": 20
+          },
+          "realLatency": {
+            "samples": 25,
+            "missingSamples": 0,
+            "minMs": 464.8234169999996,
+            "maxMs": 4572.107250000001,
+            "meanMs": 1250.3035117199995,
+            "p50Ms": 783.3708750000005,
+            "p95Ms": 2791.2836002000004,
+            "percentileMinimumSamples": 20
+          }
+        }
+      },
+      {
+        "track": "supplemental-top5",
+        "statistics": {
+          "attempts": 12,
+          "realAttempts": 12,
+          "scriptedAttempts": 0,
+          "succeededAttempts": 12,
+          "failedAttempts": 0,
+          "cancelledAttempts": 0,
+          "measuredRealUsageAttempts": 12,
+          "missingRealUsageAttempts": 0,
+          "usageComplete": true,
+          "tokens": {
+            "input": 27056,
+            "output": 246,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "totalTokens": 27302
+          },
+          "inputTokensIncludingCache": 27056,
+          "latency": {
+            "samples": 12,
+            "missingSamples": 0,
+            "minMs": 389.53616599999805,
+            "maxMs": 696.3510829999996,
+            "meanMs": 527.9226665833336,
+            "p50Ms": null,
+            "p95Ms": null,
+            "percentileMinimumSamples": 20
+          },
+          "realLatency": {
+            "samples": 12,
+            "missingSamples": 0,
+            "minMs": 389.53616599999805,
+            "maxMs": 696.3510829999996,
+            "meanMs": 527.9226665833336,
+            "p50Ms": null,
+            "p95Ms": null,
+            "percentileMinimumSamples": 20
+          }
+        }
+      }
+    ],
+    "cost": null,
+    "manualBaseline": null
+  },
+  "official": {
+    "sources": 3,
+    "requests": 12,
+    "httpSuccess": 12,
+    "completeJobs": 10,
+    "sourceReports": [
+      {
+        "sourceId": "tencent-campus",
+        "sourceName": "腾讯校招",
+        "status": "partial",
+        "stopReason": "page-limit",
+        "listed": 6,
+        "completeDetails": 6,
+        "officialReportedTotal": 454,
+        "globalRecall": null,
+        "coverageKnown": false,
+        "requestCount": 8
+      },
+      {
+        "sourceId": "feishu-minimax-campus",
+        "sourceName": "MiniMax · 国内校招与实习",
+        "status": "partial",
+        "stopReason": "pagination-unavailable",
+        "listed": 3,
+        "completeDetails": 3,
+        "officialReportedTotal": null,
+        "globalRecall": null,
+        "coverageKnown": false,
+        "requestCount": 3
+      },
+      {
+        "sourceId": "feishu-modelbest-campus",
+        "sourceName": "面壁智能 · 国内校招与实习",
+        "status": "partial",
+        "stopReason": "pagination-unavailable",
+        "listed": 1,
+        "completeDetails": 1,
+        "officialReportedTotal": null,
+        "globalRecall": null,
+        "coverageKnown": false,
+        "requestCount": 1
+      }
+    ],
+    "fullWebRecall": null,
+    "realCVHumanLabels": 0
+  },
+  "otel": {
+    "traces": 95,
+    "spans": 720,
+    "scope": "main-and-career-real-OTel; separate-Pi-suite-has-stream-usage-only"
+  },
+  "evidenceSha256": {
+    "integrated-live-r1/report.json": "57ba26149f1355d693c827e2a1ab4b210f06f623e111d0d7dfa2119e134518b0",
+    "career-r3/report.json": "992cf87e31b20c5977e756dfaf3e518a218ca4a65011301da8ba803d92a98086",
+    "shortlist-r1/report.json": "1764b5b9bfd01cb127c5317b0901b6012d5900fcacf6a81b498a48134238a8b7",
+    "pi-agent-live/report.json": "3b5425e0d5798efc80b66ff9e535d2fb6ceb408a0732988bf473262682ff5991",
+    "pi-agent-live/usage.json": "8094925533cdceac5ddfc756333f0951fc09e54b2bf02b0d201b79d52be33982",
+    "public-jobs-r2/public-summary.json": "3bb5fda8ab294ab4790aee974fbae94893d4a9c208d45dedb74703c0aca3a0ad",
+    "observability/manifest.json": "7c24bde6f592c666ce998e8ae6f74a451d40193272c2ef4975c6874c1930b26c"
+  },
+  "privacy": {
+    "normalApplicationDatabaseRead": false,
+    "realCVUsedOnlyInPrivateLocalReview": true,
+    "realCVSentToModel": false,
+    "rawOfficialJDPublished": false,
+    "submissions": 0,
+    "uploads": 0
+  },
+  "limitations": [
+    "原创小样本标签不是独立人工gold或公开榜单。",
+    "原完整18-ID排序与后加的0–5条推荐是不同协议。",
+    "模型获得的明确偏好比旧Profile可表达的内容更多，不能作纯架构优劣结论。",
+    "表单为原创隔离样表，不代表任意企业整表成功率。",
+    "履历扩展没有全过程值变更审计，不能声称排除全部瞬时误写。",
+    "没有真人配对基线，不计算比人工快多少。",
+    "官网三源均partial，真实CV相关性标签尚未由用户逐条复核。",
+    "Pi工具协议只捕获真实流用量，不伪造完整OTel工具树。",
+    "推荐补充仅存聚合usage，缺逐请求usage；完整57总量不代表每组均可逐请求重算。",
+    "推荐补充codeFrozen只覆盖列出的六文件，未声明整个依赖图冻结；本轮另行离线重算评分核对48行一致。"
+  ]
+}

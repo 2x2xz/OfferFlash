@@ -1,0 +1,10 @@
+{
+  "traces": 60,
+  "spans": 605,
+  "roots": 60,
+  "modelSpans": 302,
+  "toolSpans": 243,
+  "missingParents": 0,
+  "missingTaskTraces": 0,
+  "source": "actual timestamped SDK events and provider starts/durations; no invented field input spans"
+}

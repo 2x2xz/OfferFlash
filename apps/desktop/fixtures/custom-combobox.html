@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>原创本机样表 · ARIA 学历单选</title>
+<style>
+body{font:15px system-ui;color:#263f35;background:#f3f6f1;margin:0;padding:18px}main{max-width:600px;margin:auto}h1{font-size:20px;margin:0 0 8px}p{margin:8px 0;color:#52665b}form{background:#fff;border:1px solid #dce7df;border-radius:10px;padding:16px;display:grid;gap:12px}label{display:grid;gap:5px}input,button{font:inherit}input:not([type=checkbox]):not([type=file]){box-sizing:border-box;width:100%;padding:9px;border:1px solid #9eb6a7;border-radius:6px}input[role=combobox]{cursor:pointer;background:white}.combo-wrap{position:relative}#combo-degree-options{position:absolute;z-index:5;left:0;right:0;top:calc(100% + 4px);background:white;border:1px solid #8aa493;border-radius:6px;box-shadow:0 8px 20px #102d3322}#combo-degree-options[hidden]{display:none}[role=option]{padding:10px 12px;cursor:pointer}[role=option]:hover{background:#e7f0e9}[aria-selected=true]{font-weight:700;background:#dcebe0}.inline{display:flex;align-items:center;gap:8px}button{padding:9px;border:0;border-radius:6px;background:#376e50;color:white}
+</style></head><body><main>
+<h1>原创本机样表 · ARIA 学历单选</h1><p>只用于隔离桌面验收，不是企业申请；学历取自当前虚构确认资料。</p>
+<form id="combo-application">
+  <label for="combo-degree">学历</label>
+  <div class="combo-wrap">
+    <input id="combo-degree" role="combobox" aria-controls="combo-degree-options" aria-haspopup="listbox" aria-expanded="false" aria-label="学历" aria-required="true" readonly autocomplete="off" value="">
+    <div id="combo-degree-options" role="listbox" aria-label="可选学历" hidden>
+      <div id="combo-degree-bachelor" role="option" aria-selected="false">Bachelor's degree</div>
+      <div id="combo-degree-master" role="option" aria-selected="false">Master's degree</div>
+      <div id="combo-degree-doctor" role="option" aria-selected="false">Doctorate</div>
+      <div id="combo-degree-associate" role="option" aria-selected="false">Associate degree</div>
+    </div>
+  </div>
+  <label>邮箱（保留已有内容）<input id="combo-existing-email" type="email" value="keep-combobox@example.invalid"></label>
+  <label class="inline"><input id="combo-existing-check" type="checkbox" checked>已有勾选状态保持不变</label>
+  <label>附件（不上传）<input id="combo-file" type="file"></label>
+  <input id="combo-hidden" type="hidden" value="fictional-combobox-token">
+  <button id="combo-submit" type="submit">仅用户提交（本机计数）</button>
+</form><p id="combo-result" role="status"></p>
+</main><script>
+window.customComboFixture={submissions:0,opens:0,selections:0,trustedOpens:0,trustedSelections:0,lastSelectedId:'',untrustedClicks:0};
+const combo=document.getElementById('combo-degree');
+const popup=document.getElementById('combo-degree-options');
+combo.addEventListener('click',event=>{
+  if(!event.isTrusted)window.customComboFixture.untrustedClicks++;
+  window.customComboFixture.opens++;
+  if(event.isTrusted)window.customComboFixture.trustedOpens++;
+  popup.hidden=false;combo.setAttribute('aria-expanded','true');
+});
+for(const option of popup.querySelectorAll('[role="option"]'))option.addEventListener('click',event=>{
+  if(!event.isTrusted)window.customComboFixture.untrustedClicks++;
+  window.customComboFixture.selections++;
+  if(event.isTrusted)window.customComboFixture.trustedSelections++;
+  window.customComboFixture.lastSelectedId=option.id;
+  for(const item of popup.querySelectorAll('[role="option"]'))item.setAttribute('aria-selected',String(item===option));
+  combo.value=option.textContent.trim();
+  combo.dispatchEvent(new Event('input',{bubbles:true}));combo.dispatchEvent(new Event('change',{bubbles:true}));
+  popup.hidden=true;combo.setAttribute('aria-expanded','false');
+  document.getElementById('combo-result').textContent='当前学历：'+combo.value;
+});
+document.getElementById('combo-application').addEventListener('submit',event=>{event.preventDefault();window.customComboFixture.submissions++;});
+</script></body></html>

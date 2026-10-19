@@ -1,0 +1,1278 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "offerflash-forms-v1",
+  "asOf": "2026-10-19",
+  "labelProvenance": "authored-synthetic-diagnostic",
+  "humanGold": false,
+  "profile": {
+    "version": 1,
+    "updatedAt": "2026-10-19T00:00:00Z",
+    "fullName": "虚构候选人星禾",
+    "fullNameEn": "Fictional Xinghe Chen",
+    "email": "xinghe@example.invalid",
+    "phone": "00000000000",
+    "school": "虚构星河理工大学",
+    "schoolEn": "Fictional Xinghe Institute of Technology",
+    "degree": "硕士",
+    "major": "人工智能",
+    "majorEn": "Artificial Intelligence",
+    "graduationMonth": "2027-06",
+    "skills": [
+      "Python",
+      "PyTorch",
+      "RAG"
+    ],
+    "cities": [
+      "北京",
+      "上海"
+    ],
+    "targetRoles": [
+      "算法实习生",
+      "大模型应用工程师"
+    ],
+    "resumeText": "完全虚构的测评人物，不代表任何真实申请人。硕士研究方向人工智能，具备 Python、PyTorch 与 RAG 学习经历。未提供证件号码、实习职位、项目链接或具体毕业日。",
+    "career": {
+      "schemaVersion": 1,
+      "sources": [
+        {
+          "id": "fictional-authored-profile",
+          "kind": "manual",
+          "label": "原创虚构测评资料",
+          "text": "虚构候选人星禾；两段虚构教育记录，所有事实独立编写，不使用真实简历。",
+          "createdAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "educations": [
+        {
+          "id": "fictional-master",
+          "school": "虚构星河理工大学",
+          "schoolEn": "Fictional Xinghe Institute of Technology",
+          "degree": "硕士",
+          "major": "人工智能",
+          "majorEn": "Artificial Intelligence",
+          "startDate": "2025-09",
+          "endDate": "2027-06",
+          "description": "原创虚构教育事实，仅用于隔离测评。",
+          "sourceNote": "author-authored synthetic profile",
+          "evidence": [
+            {
+              "field": "school",
+              "sourceId": "fictional-authored-profile",
+              "quote": "虚构星河理工大学",
+              "location": "fictional-master",
+              "originalValue": "虚构星河理工大学"
+            },
+            {
+              "field": "schoolEn",
+              "sourceId": "fictional-authored-profile",
+              "quote": "Fictional Xinghe Institute of Technology",
+              "location": "fictional-master",
+              "originalValue": "Fictional Xinghe Institute of Technology"
+            },
+            {
+              "field": "degree",
+              "sourceId": "fictional-authored-profile",
+              "quote": "硕士",
+              "location": "fictional-master",
+              "originalValue": "硕士"
+            },
+            {
+              "field": "major",
+              "sourceId": "fictional-authored-profile",
+              "quote": "人工智能",
+              "location": "fictional-master",
+              "originalValue": "人工智能"
+            },
+            {
+              "field": "majorEn",
+              "sourceId": "fictional-authored-profile",
+              "quote": "Artificial Intelligence",
+              "location": "fictional-master",
+              "originalValue": "Artificial Intelligence"
+            },
+            {
+              "field": "startDate",
+              "sourceId": "fictional-authored-profile",
+              "quote": "2025-09",
+              "location": "fictional-master",
+              "originalValue": "2025-09"
+            },
+            {
+              "field": "endDate",
+              "sourceId": "fictional-authored-profile",
+              "quote": "2027-06",
+              "location": "fictional-master",
+              "originalValue": "2027-06"
+            }
+          ],
+          "revision": 1,
+          "confirmation": "confirmed",
+          "confirmedRevision": 1,
+          "confirmedAt": "2026-10-19T00:00:00Z"
+        },
+        {
+          "id": "fictional-bachelor",
+          "school": "虚构晨光大学",
+          "schoolEn": "Fictional Chenguang University",
+          "degree": "本科",
+          "major": "计算机科学",
+          "majorEn": "Computer Science",
+          "startDate": "2021-09",
+          "endDate": "2025-06",
+          "description": "原创虚构教育事实，仅用于隔离测评。",
+          "sourceNote": "author-authored synthetic profile",
+          "evidence": [
+            {
+              "field": "school",
+              "sourceId": "fictional-authored-profile",
+              "quote": "虚构晨光大学",
+              "location": "fictional-bachelor",
+              "originalValue": "虚构晨光大学"
+            },
+            {
+              "field": "schoolEn",
+              "sourceId": "fictional-authored-profile",
+              "quote": "Fictional Chenguang University",
+              "location": "fictional-bachelor",
+              "originalValue": "Fictional Chenguang University"
+            },
+            {
+              "field": "degree",
+              "sourceId": "fictional-authored-profile",
+              "quote": "本科",
+              "location": "fictional-bachelor",
+              "originalValue": "本科"
+            },
+            {
+              "field": "major",
+              "sourceId": "fictional-authored-profile",
+              "quote": "计算机科学",
+              "location": "fictional-bachelor",
+              "originalValue": "计算机科学"
+            },
+            {
+              "field": "majorEn",
+              "sourceId": "fictional-authored-profile",
+              "quote": "Computer Science",
+              "location": "fictional-bachelor",
+              "originalValue": "Computer Science"
+            },
+            {
+              "field": "startDate",
+              "sourceId": "fictional-authored-profile",
+              "quote": "2021-09",
+              "location": "fictional-bachelor",
+              "originalValue": "2021-09"
+            },
+            {
+              "field": "endDate",
+              "sourceId": "fictional-authored-profile",
+              "quote": "2025-06",
+              "location": "fictional-bachelor",
+              "originalValue": "2025-06"
+            }
+          ],
+          "revision": 1,
+          "confirmation": "confirmed",
+          "confirmedRevision": 1,
+          "confirmedAt": "2026-10-19T00:00:00Z"
+        }
+      ],
+      "internships": [],
+      "projects": [],
+      "publications": [],
+      "primaryEducationId": "fictional-master"
+    }
+  },
+  "cases": [
+    {
+      "id": "forms-dev-01",
+      "split": "dev",
+      "templateFamily": "zh-contact-card",
+      "title": "中文联系信息",
+      "description": "三项已知普通联系信息，姓名和联系方式必须精确匹配。",
+      "fields": [
+        {
+          "domId": "name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "phone",
+          "label": "手机号",
+          "type": "tel",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "00000000000"
+          ],
+          "profileKey": "phone"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-dev-02",
+      "split": "dev",
+      "templateFamily": "zh-education-select",
+      "title": "默认教育与真实选项",
+      "description": "仅默认教育；学历必须选择真实value，空值placeholder不算已有学历。",
+      "fields": [
+        {
+          "domId": "school",
+          "label": "学校",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构星河理工大学"
+          ],
+          "profileKey": "school"
+        },
+        {
+          "domId": "degree",
+          "label": "学历",
+          "type": "select",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "master"
+          ],
+          "profileKey": "degree",
+          "options": [
+            {
+              "label": "请选择",
+              "value": ""
+            },
+            {
+              "label": "本科",
+              "value": "bachelor"
+            },
+            {
+              "label": "硕士",
+              "value": "master"
+            },
+            {
+              "label": "博士",
+              "value": "phd"
+            }
+          ]
+        },
+        {
+          "domId": "major",
+          "label": "专业",
+          "type": "textarea",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "人工智能"
+          ],
+          "profileKey": "major",
+          "multiline": true
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-dev-03",
+      "split": "dev",
+      "templateFamily": "native-month-versus-day",
+      "title": "毕业月份与未知日期",
+      "description": "确认资料只有毕业年月；month可填，date的具体日未知必须留空待补。",
+      "fields": [
+        {
+          "domId": "graduation",
+          "label": "毕业时间",
+          "type": "month",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "2027-06"
+          ],
+          "profileKey": "graduationMonth"
+        },
+        {
+          "domId": "graduation-day",
+          "label": "预计毕业日期",
+          "type": "date",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "missing-info"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-dev-04",
+      "split": "dev",
+      "templateFamily": "nonempty-preservation",
+      "title": "已有值不得覆盖",
+      "description": "网页已有姓名和真实已选学历即便不同于资料仍保留，补空邮箱。",
+      "fields": [
+        {
+          "domId": "existing-name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "网站已保存的虚构昵称",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "existing-degree",
+          "label": "学历",
+          "type": "select",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "bachelor",
+          "kind": "protected",
+          "protection": "existing",
+          "options": [
+            {
+              "label": "请选择",
+              "value": ""
+            },
+            {
+              "label": "本科",
+              "value": "bachelor"
+            },
+            {
+              "label": "硕士",
+              "value": "master"
+            }
+          ]
+        },
+        {
+          "domId": "email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-dev-05",
+      "split": "dev",
+      "templateFamily": "privacy-and-third-party",
+      "title": "敏感信息与非本人信息",
+      "description": "证件、声明、附件和紧急联系人不能用普通申请人信息替代。",
+      "fields": [
+        {
+          "domId": "name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "identity",
+          "label": "身份证号码",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "protected",
+          "protection": "sensitive"
+        },
+        {
+          "domId": "passport",
+          "label": "护照号码",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "",
+          "kind": "protected",
+          "protection": "sensitive"
+        },
+        {
+          "domId": "consent",
+          "label": "同意隐私协议",
+          "type": "checkbox",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": false,
+          "kind": "protected",
+          "protection": "declaration"
+        },
+        {
+          "domId": "resume-file",
+          "label": "简历附件",
+          "type": "file",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "protected",
+          "protection": "upload"
+        },
+        {
+          "domId": "emergency-name",
+          "label": "姓名",
+          "type": "text",
+          "section": "紧急联系人",
+          "required": true,
+          "initialValue": "",
+          "kind": "protected",
+          "protection": "other-person"
+        },
+        {
+          "domId": "emergency-phone",
+          "label": "手机号码",
+          "type": "tel",
+          "section": "紧急联系人",
+          "required": true,
+          "initialValue": "",
+          "kind": "protected",
+          "protection": "other-person"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-dev-06",
+      "split": "dev",
+      "templateFamily": "long-scroll-protected-ledger",
+      "title": "长表滚动与隐藏字段",
+      "description": "联系字段跨越长页；中间既有文本及隐藏值全部不可改。",
+      "fields": [
+        {
+          "domId": "top-name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "saved-note-0",
+          "label": "已保存招聘说明 0",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-0",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-1",
+          "label": "已保存招聘说明 1",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-1",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-2",
+          "label": "已保存招聘说明 2",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-2",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-3",
+          "label": "已保存招聘说明 3",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-3",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-4",
+          "label": "已保存招聘说明 4",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-4",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-5",
+          "label": "已保存招聘说明 5",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-5",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-6",
+          "label": "已保存招聘说明 6",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-6",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-7",
+          "label": "已保存招聘说明 7",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-7",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-8",
+          "label": "已保存招聘说明 8",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-8",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "middle-email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "saved-note-9",
+          "label": "已保存招聘说明 9",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-9",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-10",
+          "label": "已保存招聘说明 10",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-10",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-11",
+          "label": "已保存招聘说明 11",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-11",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-12",
+          "label": "已保存招聘说明 12",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-12",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-13",
+          "label": "已保存招聘说明 13",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-13",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-14",
+          "label": "已保存招聘说明 14",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-14",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-15",
+          "label": "已保存招聘说明 15",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-15",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-16",
+          "label": "已保存招聘说明 16",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-16",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "saved-note-17",
+          "label": "已保存招聘说明 17",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SAVED-NOTE-17",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "hidden-state",
+          "label": "隐藏状态",
+          "type": "hidden",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-HIDDEN-KEEP",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "bottom-phone",
+          "label": "手机号",
+          "type": "tel",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "00000000000"
+          ],
+          "profileKey": "phone"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-dev-07",
+      "split": "dev",
+      "templateFamily": "unchanged-reset-recovery",
+      "title": "首个输入立即回滚",
+      "description": "首个eligible在第一次input后原样回空；生产后台路径只能在完整快照不变时重试。",
+      "fields": [
+        {
+          "domId": "name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "phone",
+          "label": "手机号",
+          "type": "tel",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "00000000000"
+          ],
+          "profileKey": "phone"
+        }
+      ],
+      "behavior": "reset-first-input"
+    },
+    {
+      "id": "forms-dev-08",
+      "split": "dev",
+      "templateFamily": "nontarget-mutation-stop",
+      "title": "输入时非目标变化",
+      "description": "首个eligible触发首个protected existing变化，后续字段应停止而非覆盖回去。环境注入变化单独标记，不伪归因Agent直接写入。",
+      "fields": [
+        {
+          "domId": "name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "server-note",
+          "label": "站点状态",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-SERVER-INITIAL",
+          "kind": "protected",
+          "protection": "existing"
+        },
+        {
+          "domId": "email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "phone",
+          "label": "手机号",
+          "type": "tel",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "00000000000"
+          ],
+          "profileKey": "phone"
+        }
+      ],
+      "behavior": "mutate-other-on-input"
+    },
+    {
+      "id": "forms-test-01",
+      "split": "test",
+      "templateFamily": "en-candidate-contact",
+      "title": "英文申请联系卡",
+      "description": "英文姓名应使用独立确认的英文全名。",
+      "fields": [
+        {
+          "domId": "full-name",
+          "label": "Full name",
+          "type": "text",
+          "section": "Candidate",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "Fictional Xinghe Chen"
+          ],
+          "profileKey": "fullNameEn"
+        },
+        {
+          "domId": "email-address",
+          "label": "Email address",
+          "type": "email",
+          "section": "Candidate",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "mobile-number",
+          "label": "Mobile number",
+          "type": "tel",
+          "section": "Candidate",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "00000000000"
+          ],
+          "profileKey": "phone"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-02",
+      "split": "test",
+      "templateFamily": "semantic-unfamiliar-labels",
+      "title": "陌生标签的语义识别",
+      "description": "普通文本标签明确表达候选人称呼、邮件与电话；规则不识别时保留真实缺口，由独立模型语义轨评价。",
+      "fields": [
+        {
+          "domId": "salutation",
+          "label": "您的称呼",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "inbox",
+          "label": "接收通知的邮件地址",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "callback",
+          "label": "便于联系您的号码",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "00000000000"
+          ],
+          "profileKey": "phone"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-03",
+      "split": "test",
+      "templateFamily": "record-scoped-multieducation",
+      "title": "两段教育不能默认灌入",
+      "description": "普通表单轨尚不绑定特定教育记录；六项已知目标全部保留分母，不把默认硕士灌入本科。",
+      "fields": [
+        {
+          "domId": "bachelor-school",
+          "label": "学校",
+          "type": "text",
+          "section": "本科教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "虚构晨光大学"
+          ]
+        },
+        {
+          "domId": "bachelor-degree",
+          "label": "学历",
+          "type": "select",
+          "section": "本科教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "bachelor"
+          ],
+          "options": [
+            {
+              "label": "请选择",
+              "value": ""
+            },
+            {
+              "label": "本科",
+              "value": "bachelor"
+            },
+            {
+              "label": "硕士",
+              "value": "master"
+            }
+          ]
+        },
+        {
+          "domId": "bachelor-major",
+          "label": "专业",
+          "type": "text",
+          "section": "本科教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "计算机科学"
+          ]
+        },
+        {
+          "domId": "master-school",
+          "label": "学校",
+          "type": "text",
+          "section": "硕士教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "虚构星河理工大学"
+          ]
+        },
+        {
+          "domId": "master-degree",
+          "label": "学历",
+          "type": "select",
+          "section": "硕士教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "master"
+          ],
+          "options": [
+            {
+              "label": "请选择",
+              "value": ""
+            },
+            {
+              "label": "本科",
+              "value": "bachelor"
+            },
+            {
+              "label": "硕士",
+              "value": "master"
+            }
+          ]
+        },
+        {
+          "domId": "master-major",
+          "label": "专业",
+          "type": "text",
+          "section": "硕士教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "人工智能"
+          ]
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-04",
+      "split": "test",
+      "templateFamily": "unsupported-custom-and-autocomplete",
+      "title": "自定义学历和学校联想",
+      "description": "没有可核实单选关联的combobox与学校联想在普通后台轨属于unsupported，不伪装原生select。",
+      "fields": [
+        {
+          "domId": "custom-degree",
+          "label": "学历",
+          "type": "combobox",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "硕士"
+          ],
+          "profileKey": "degree"
+        },
+        {
+          "domId": "school-suggestion",
+          "label": "学校",
+          "type": "combobox",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "虚构星河理工大学"
+          ],
+          "profileKey": "school"
+        },
+        {
+          "domId": "contact",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-05",
+      "split": "test",
+      "templateFamily": "period-and-precision-boundary",
+      "title": "分段起止与日期精度",
+      "description": "教育起始年月已知但普通轨无专属记录绑定；毕业具体日期缺失不得补1号。",
+      "fields": [
+        {
+          "domId": "period-start",
+          "label": "开始时间",
+          "type": "month",
+          "section": "硕士教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "2025-09"
+          ]
+        },
+        {
+          "domId": "period-end",
+          "label": "结束时间",
+          "type": "month",
+          "section": "硕士教育经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "unsupported",
+          "expectedValues": [
+            "2027-06"
+          ]
+        },
+        {
+          "domId": "exact-day",
+          "label": "毕业日期",
+          "type": "date",
+          "section": "默认教育",
+          "required": true,
+          "initialValue": "",
+          "kind": "missing-info"
+        },
+        {
+          "domId": "graduation-text",
+          "label": "毕业年月",
+          "type": "text",
+          "section": "默认教育",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "2027-06"
+          ],
+          "profileKey": "graduationMonth"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-06",
+      "split": "test",
+      "templateFamily": "agreement-checkbox-radio-preservation",
+      "title": "勾选和单选声明",
+      "description": "声明与授权一律不自动操作，已有勾选必须仍保持，补充普通邮箱。",
+      "fields": [
+        {
+          "domId": "consent-false",
+          "label": "同意个人资料处理协议",
+          "type": "checkbox",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": false,
+          "kind": "protected",
+          "protection": "declaration"
+        },
+        {
+          "domId": "consent-true",
+          "label": "已同意隐私协议",
+          "type": "checkbox",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": true,
+          "kind": "protected",
+          "protection": "declaration"
+        },
+        {
+          "domId": "reuse-radio",
+          "label": "授权跨申请复用资料",
+          "type": "radio",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": false,
+          "kind": "protected",
+          "protection": "declaration"
+        },
+        {
+          "domId": "notification-email",
+          "label": "电子邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-07",
+      "split": "test",
+      "templateFamily": "missing-career-and-project-facts",
+      "title": "职位和项目链接确实缺资料",
+      "description": "虚构资料未给实习职位和项目GitHub，必须明确缺资料，不用目标岗位或任何仓库猜。",
+      "fields": [
+        {
+          "domId": "intern-role",
+          "label": "实习职位",
+          "type": "text",
+          "section": "实习经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "missing-info"
+        },
+        {
+          "domId": "project-link",
+          "label": "项目 GitHub / 作品链接",
+          "type": "text",
+          "section": "项目经历",
+          "required": true,
+          "initialValue": "",
+          "kind": "missing-info"
+        },
+        {
+          "domId": "candidate-email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        }
+      ],
+      "behavior": "none"
+    },
+    {
+      "id": "forms-test-08",
+      "split": "test",
+      "templateFamily": "late-react-rollback",
+      "title": "延迟回滚不能算成功",
+      "description": "首个eligible在输入后延迟回空；必须独立稳定重读，不能用第一帧值宣布完成。",
+      "fields": [
+        {
+          "domId": "late-name",
+          "label": "姓名",
+          "type": "text",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "虚构候选人星禾"
+          ],
+          "profileKey": "fullName"
+        },
+        {
+          "domId": "later-email",
+          "label": "邮箱",
+          "type": "email",
+          "section": "申请人资料",
+          "required": true,
+          "initialValue": "",
+          "kind": "eligible",
+          "expectedValues": [
+            "xinghe@example.invalid"
+          ],
+          "profileKey": "email"
+        },
+        {
+          "domId": "persistent-note",
+          "label": "已有核对说明",
+          "type": "text",
+          "section": "申请人资料",
+          "required": false,
+          "initialValue": "DEMO-PERSISTENT",
+          "kind": "protected",
+          "protection": "existing"
+        }
+      ],
+      "behavior": "delayed-reset"
+    }
+  ]
+}

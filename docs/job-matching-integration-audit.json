@@ -1,0 +1,97 @@
+{
+  "rowsRecomputed": 60,
+  "scorerAndDatasetUnchanged": true,
+  "checks": {
+    "formal-v1": {
+      "archiveHashes": true,
+      "currentHashes": {
+        "scripts/evaluate-integrated-job-matching.ts": false,
+        "packages/agent/src/job-matching.ts": false,
+        "packages/shared/src/job-matching.ts": true,
+        "packages/profile/src/career-input.ts": true,
+        "packages/domain/src/matching.ts": true,
+        "packages/ui/src/apply-flow.ts": true,
+        "packages/evaluation/src/recommendation-scoring.ts": true,
+        "packages/evaluation/src/ranking-scoring.ts": true,
+        "packages/evaluation/src/protocol.ts": true,
+        "packages/evaluation/src/credential-input.ts": true,
+        "package-lock.json": true
+      },
+      "dataDigestMatches": true
+    },
+    "deployment-v1": {
+      "archiveHashes": true,
+      "currentHashes": {
+        "scripts/evaluate-integrated-job-matching.ts": true,
+        "packages/agent/src/job-matching.ts": true,
+        "packages/shared/src/job-matching.ts": true,
+        "packages/profile/src/career-input.ts": true,
+        "packages/domain/src/matching.ts": true,
+        "packages/ui/src/apply-flow.ts": true,
+        "packages/evaluation/src/recommendation-scoring.ts": true,
+        "packages/evaluation/src/ranking-scoring.ts": true,
+        "packages/evaluation/src/protocol.ts": true,
+        "packages/evaluation/src/credential-input.ts": true,
+        "package-lock.json": true
+      },
+      "dataDigestMatches": true
+    }
+  },
+  "summaries": {
+    "formal-v1:rules-current": {
+      "returned": 26,
+      "suitable": 12,
+      "unsuitable": 13,
+      "unknown": 1,
+      "knownPositive": 14,
+      "violations": 0,
+      "assessed": 24,
+      "fixedSlots": 30
+    },
+    "formal-v1:baseline-post-gate": {
+      "returned": 19,
+      "suitable": 12,
+      "unsuitable": 6,
+      "unknown": 1,
+      "knownPositive": 14,
+      "violations": 0,
+      "assessed": 17,
+      "fixedSlots": 30
+    },
+    "formal-v1:evidence-pre-post-gate": {
+      "returned": 22,
+      "suitable": 11,
+      "unsuitable": 8,
+      "unknown": 3,
+      "knownPositive": 14,
+      "violations": 0,
+      "assessed": 17,
+      "fixedSlots": 30
+    },
+    "deployment-v1:rules-current": {
+      "returned": 26,
+      "suitable": 12,
+      "unsuitable": 13,
+      "unknown": 1,
+      "knownPositive": 14,
+      "violations": 0,
+      "assessed": 24,
+      "fixedSlots": 30
+    },
+    "deployment-v1:baseline-post-gate": {
+      "returned": 19,
+      "suitable": 12,
+      "unsuitable": 5,
+      "unknown": 2,
+      "knownPositive": 14,
+      "violations": 0,
+      "assessed": 16,
+      "fixedSlots": 30
+    }
+  },
+  "independentPythonRows": 60,
+  "allInputsExcludeIdentityAndGold": true,
+  "humanGold": false,
+  "submissions": 0,
+  "normalDatabaseRead": false
+}

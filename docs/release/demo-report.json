@@ -1,0 +1,86 @@
+{
+  "ok": true,
+  "frames": 89,
+  "capturedDurationMs": 4627.640959,
+  "fillingMs": 2564.828542,
+  "verified": [
+    {
+      "count": 1,
+      "atMs": 347.984833
+    },
+    {
+      "count": 2,
+      "atMs": 649.2558329999999
+    },
+    {
+      "count": 3,
+      "atMs": 966.6135419999998
+    },
+    {
+      "count": 4,
+      "atMs": 1292.126583
+    },
+    {
+      "count": 5,
+      "atMs": 1626.1866670000002
+    },
+    {
+      "count": 6,
+      "atMs": 1952.2368330000002
+    },
+    {
+      "count": 7,
+      "atMs": 2276.25825
+    },
+    {
+      "count": 8,
+      "atMs": 2564.742375
+    }
+  ],
+  "writes": 8,
+  "verifiedCount": 8,
+  "pendingCount": 0,
+  "page": "original local demonstration form",
+  "job": {
+    "company": "面壁智能",
+    "title": "语言大模型算法研究员",
+    "officialURL": "https://modelbest.jobs.feishu.cn/campus/m/position/7550158206165944639/detail",
+    "checkedOn": "2026-10-19"
+  },
+  "people": "fictional only",
+  "productionModules": [
+    "runBackgroundOrdinaryFill",
+    "backgroundWriteScript",
+    "FieldCompanion"
+  ],
+  "nativeInputs": 0,
+  "enterpriseRequests": 0,
+  "paidModelCalls": 0,
+  "submissions": 0,
+  "animationSeeking": false,
+  "speedup": false,
+  "blockedRequests": 0,
+  "gif": {
+    "path": "docs/screenshots/offerflash-autofill-demo.gif",
+    "width": 1280,
+    "height": 780,
+    "frames": 94,
+    "distinctDecodedFrames": 51,
+    "durationMs": 4700,
+    "bytes": 566261,
+    "sha256": "ae559fe8f15ed31452aca2c7cbd2578b29a8b309b710d337d402ee21164a2d1e"
+  },
+  "officialJobVerification": {
+    "httpStatus": 200,
+    "apiCode": 0,
+    "titleMatches": true,
+    "checkedOn": "2026-10-19"
+  },
+  "scope": "Local demonstration of production background ordinary-field filling plus the production decoration; not a recording of a real employer application or the full desktop UI.",
+  "productionSourceDigestsAtPublication": {
+    "packages/browser/src/field-companion.ts": "4745bb1d1a6b424aa12a0e49e95965a648591b49a2f46ac20ea1d539b6faf40d",
+    "packages/browser/src/background-executor.ts": "89c32e6d818e47262c78c89b63fc366c0d115e21b9e0cd8215e654ab5cc6305f",
+    "packages/browser/src/background-scripts.ts": "ff85abe66f10f4f808e8e6bdf5d7abd129caa574f8575c9aa9f7e9e1e170cfe6",
+    "packages/forms/src/index.ts": "ae02bb1df4e3d547c4a44148de8285adbd947600d86a9890ee2b17c2074a628a"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-19",
+  "scope": "Actual ModelBest employer application, fictional career information; bound account phone unchanged and redacted",
+  "employer": "面壁智能",
+  "role": "语言大模型算法研究员",
+  "officialJobURL": "https://modelbest.jobs.feishu.cn/campus/m/position/7550158206165944639/detail",
+  "realEmployerPage": true,
+  "localFixturePage": false,
+  "reconstructedWebsite": false,
+  "productionController": true,
+  "modelCalls": 0,
+  "counts": {
+    "contactFieldsVerified": 2,
+    "careerFieldsVerified": 32,
+    "totalAutomaticFieldsVerified": 34,
+    "careerRecords": {
+      "educations": 2,
+      "internships": 2,
+      "projects": 2
+    },
+    "addedGroups": 5,
+    "careerJournalVerifiedActions": 37
+  },
+  "independentReadback": {
+    "careerValuesMatched": 32,
+    "careerMismatches": 0,
+    "nativeAccessibilityContactAndSelectionsVerified": true,
+    "initialAutomatedAuditFlagged": 4,
+    "resolvedByNativeReadback": {
+      "unselectedPeerInSelectedRadioGroup": 1,
+      "blankSearchInsideSelectedCombobox": 3
+    },
+    "originalFailedAuditPreserved": true
+  },
+  "preparationBeforeRecording": [
+    "推荐方式：无",
+    "意向城市：北京",
+    "没有工作经历"
+  ],
+  "boundPhone": {
+    "changed": false,
+    "redacted": true,
+    "fictionalized": false
+  },
+  "attachmentsUploaded": false,
+  "agentClickedSubmit": false,
+  "serverAcceptanceVerified": false,
+  "serverSaveVerified": false,
+  "network": {
+    "newRequestsBlockedDuringRecording": true,
+    "blockedCount": 151,
+    "existingConnectionPayloadsInspected": false
+  },
+  "video": {
+    "width": 1280,
+    "height": 532,
+    "seconds": 31.6,
+    "frames": 316,
+    "originalCapturedFrames": 315,
+    "speedup": false,
+    "animationSeeking": false,
+    "phoneRedaction": true,
+    "sha256": "71e9bdede06804b5c67da0cf9f1c0ed9c5f1a919be1fa17c2d55187b50a26e6c",
+    "bytes": 2238657
+  },
+  "privacy": {
+    "ocrFramesReviewed": 316,
+    "remainingPhoneLikeMatches": 0,
+    "manualStartMotionEndFramesReviewed": true,
+    "rawFramesShared": false,
+    "credentialsShared": false
+  },
+  "strictContinuousMutationAudit": "not measured",
+  "humanSpeedComparison": "not measured",
+  "recordedProductionSourceDigests": {
+    "packages/browser/src/controller.ts": "78dad02c30ea503cd28ebdfb3bf2743e3bdf91d41bca465158edf3f271b552c2",
+    "packages/browser/src/feishu-native.ts": "70862126546dda73de7a7887470590214f4044c9b1d21e1da9d4fd1933d40cc9",
+    "packages/browser/src/feishu-scripts.ts": "475e0233b4990b41b4ab40269f1c40ec82e54e9bedf49fd507b22cea3f2e3b88",
+    "packages/browser/src/field-companion.ts": "f8a734260c1b85226e71a99d752371fe53d21626920c1e475347c924086b4224",
+    "packages/forms/src/career-plan.ts": "7e3f5725eabe6f46728d925b28c1ea6ab741a3425f5ee3b4096e34996dff5eb3",
+    "packages/forms/src/career-runner.ts": "84e40b8ef67b4a40d6dcd227c60b00b933ecc662638fa1a4d02b6932c8c444b5"
+  },
+  "businessInformationCompleteAfterNativeReview": true,
+  "automatedWholeFormAuditOriginallyPassed": false
+}

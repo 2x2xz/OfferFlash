@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-19",
+  "scope": "Full production desktop renderer and real ModelBest application in an isolated recording host; fictional candidate, local fixed profile review, no model inference",
+  "realEmployerOrigin": "https://modelbest.jobs.feishu.cn",
+  "officialJobURL": "https://modelbest.jobs.feishu.cn/campus/m/position/7550158206165944639/detail",
+  "productionCommit": "09311627447c90f429dd997dcb81b75dc83ae257",
+  "otherUncommittedProductionRepairsIncluded": false,
+  "execution": {
+    "ordinaryFieldsVerified": 2,
+    "careerFieldsVerified": 32,
+    "totalFieldsVerified": 34,
+    "educations": 2,
+    "internships": 2,
+    "projects": 2,
+    "addedGroups": 5,
+    "observedGroups": 6,
+    "careerStatus": "completed",
+    "careerPending": 0,
+    "independentlyMatchingCareerValues": 32,
+    "careerJournalEvents": 74
+  },
+  "wholeFormAudit": {
+    "originalComplete": false,
+    "originalConservativeFlags": 4,
+    "originalRewritten": false,
+    "semanticReview": {
+      "chatVisible": true,
+      "twoSchools": true,
+      "internshipRoles": true,
+      "projectRoles": true,
+      "projectLinks": true,
+      "beijingSelected": true,
+      "completionShown": true,
+      "submitButtonStillPresent": true,
+      "automatedAuditUnchanged": true,
+      "unselectedRadioAndInternalSearchInputsRequireSemanticReview": true,
+      "referralNoneSelected": true,
+      "noWorkSelected": true,
+      "educationSchoolsSelected": true
+    },
+    "attachmentsUploaded": false,
+    "agentClickedSubmit": false,
+    "serverAcceptanceVerified": false,
+    "continuousMutationAudit": "unknown"
+  },
+  "workspace": [
+    {
+      "chatVisible": true,
+      "chatText": true,
+      "logo": true,
+      "busy": true
+    }
+  ],
+  "paidModelCalls": 0,
+  "ordinaryUserStoreRead": false,
+  "capture": {
+    "rawSamples": 349,
+    "rawSourceDurationMs": 54959.03350000002,
+    "mode": "simultaneous capture of real renderer and real child view, placed at actual bounds",
+    "atomicWholeScreenRecording": false,
+    "trimmedLeadingLayoutMs": 200,
+    "actualFillingPreserved": true,
+    "speedup": false,
+    "paletteCompression": true,
+    "pixelLosslessClaim": false
+  },
+  "media": {
+    "path": "docs/screenshots/offerflash-workspace-rules-autofill.gif",
+    "width": 1480,
+    "height": 928,
+    "encodedFrames": 348,
+    "decodedFrames": 549,
+    "durationMs": 54900,
+    "bytes": 4139371,
+    "sha256": "d4a30f8f4dc5fb81f3b675cace2320cfc8add54fe473030e7fc6120f5b77c398"
+  },
+  "privacy": {
+    "finalDecodedFramesChecked": 549,
+    "phoneLikeMatches": 0,
+    "rawSamplesMasked": 31,
+    "localOCR": true,
+    "controls": {
+      "rawPhonePositive": true,
+      "maskedPhoneNegative": true,
+      "jobURLNotMisclassified": true
+    },
+    "rawFramesPublished": false,
+    "authenticationPublished": false,
+    "manuallyReviewedStartMotionEnd": true
+  },
+  "validation": {
+    "typecheck": "passed",
+    "focusedTestsPassed": 5,
+    "liveUIChatBrandAndBusyChecks": "passed",
+    "coreExecutorMatchesPrivateRelease": true
+  },
+  "limitations": [
+    "Local fixed review is not online model reasoning.",
+    "Recording duration includes capture and layout overhead, not an efficiency benchmark.",
+    "New requests were blocked during recording, which may display website network error notices.",
+    "Four conservative internal-control audit flags retained; semantic review is separate."
+  ]
+}

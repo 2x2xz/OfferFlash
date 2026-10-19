@@ -1,0 +1,44 @@
+{
+  "version": "0.15.0",
+  "basedOnReleaseRepositoryCommit": "25bfa04",
+  "repositoryVisibilityBefore": "PRIVATE",
+  "cleanReleaseCheckout": true,
+  "originalDevelopmentHistoryPushed": false,
+  "behaviorTests": {
+    "passed": 1199,
+    "failed": 0
+  },
+  "initialSandboxRun": {
+    "passed": 1198,
+    "failed": 1,
+    "cause": "EPERM on isolated loopback test server",
+    "retainedLogLocally": true
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "projectOwnedSkills": 3,
+  "backendWorkerRendererMatchPackagedApp": true,
+  "zipSHA256": "d94de46e71d66f3247dbf73e0ec8193a11f64d629dbb9592a7de560a4c37d60b",
+  "privateDataIncluded": false,
+  "realProfileSentToModel": false,
+  "submissions": 0,
+  "paidModelCallsThisDelivery": 0,
+  "limitations": [
+    "Unsigned and not notarized",
+    "Benchmark GT has no independent human review",
+    "Missing eligibility facts remain unknown",
+    "Deadline absent for all150 benchmark jobs"
+  ],
+  "privacyGate": {
+    "checked": 540,
+    "binaries": 14,
+    "passed": true,
+    "failures": [],
+    "hashNumbersExcludedFromPhoneScan": true
+  },
+  "runtimeImplementation": {
+    "modelSessions": "Pi SDK",
+    "desktopHost": "Electron",
+    "formExecution": "Local guarded executor"
+  }
+}

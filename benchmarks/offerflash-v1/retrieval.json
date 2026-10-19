@@ -1,0 +1,2355 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "offerflash-retrieval-v1",
+  "labelProvenance": "authored-synthetic-diagnostic",
+  "humanGold": false,
+  "documents": [
+    {
+      "id": "j-rag",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-rag",
+      "kind": "public-job",
+      "title": "检索增强算法校招",
+      "text": "北京杭州，2027届硕士，Python，RAG，向量检索，检索评估。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-agent",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-agent",
+      "kind": "public-job",
+      "title": "智能体工程师",
+      "text": "上海北京，2027届，Agent，工具调用，TypeScript，Python。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-cv",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-cv",
+      "kind": "public-job",
+      "title": "视觉算法工程师",
+      "text": "深圳，目标检测，PyTorch，图像分割，2027届。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-rl",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-rl",
+      "kind": "public-job",
+      "title": "强化学习研究",
+      "text": "上海，博士，强化学习，PPO，策略优化，2027届。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-java",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-java",
+      "kind": "public-job",
+      "title": "服务端开发",
+      "text": "杭州深圳，Java，SQL，Spring，2027届本科。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-data",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-data",
+      "kind": "public-job",
+      "title": "数据分析校招",
+      "text": "上海，SQL，Python，数据分析，实验设计，2027届。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-nlp",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-nlp",
+      "kind": "public-job",
+      "title": "自然语言处理",
+      "text": "北京，NLP，文本分类，语言模型，2026届本科。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "j-test",
+      "sourceId": "authored-benchmark",
+      "entityId": "j-test",
+      "kind": "public-job",
+      "title": "质量工程",
+      "text": "北京，自动化测试，Java，测试报告，2027届本科。",
+      "scope": {
+        "type": "public"
+      }
+    },
+    {
+      "id": "f-school",
+      "sourceId": "authored-benchmark",
+      "entityId": "education-master",
+      "kind": "confirmed-fact",
+      "title": "教育学校",
+      "text": "虚构云桥科技大学，硕士，计算机科学。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "f-major",
+      "sourceId": "authored-benchmark",
+      "entityId": "education-master",
+      "kind": "confirmed-fact",
+      "title": "硕士专业",
+      "text": "人工智能，计算机科学，2025-09入学，2027-06毕业。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "f-role",
+      "sourceId": "authored-benchmark",
+      "entityId": "internship-search",
+      "kind": "confirmed-fact",
+      "title": "实习职位",
+      "text": "在虚构星图研究院担任算法实习生，2026-04开始，至今。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "f-project",
+      "sourceId": "authored-benchmark",
+      "entityId": "project-search",
+      "kind": "confirmed-fact",
+      "title": "项目角色",
+      "text": "流光检索台项目，主要开发者，构建RAG和检索评估系统。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "f-link",
+      "sourceId": "authored-benchmark",
+      "entityId": "project-search",
+      "kind": "confirmed-fact",
+      "title": "项目作品地址",
+      "text": "流光检索台的GitHub作品链接：https://example.invalid/fictional/search-workbench。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "f-paper",
+      "sourceId": "authored-benchmark",
+      "entityId": "paper-search",
+      "kind": "confirmed-fact",
+      "title": "论文成果",
+      "text": "原创虚构论文，检索评测实验设计，作者角色为共同第一作者。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "a-a",
+      "sourceId": "authored-benchmark",
+      "entityId": "answer-start",
+      "kind": "confirmed-answer",
+      "title": "到岗时间",
+      "text": "可于2027年7月到岗。",
+      "scope": {
+        "type": "application",
+        "applicationId": "apply-a"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "a-b",
+      "sourceId": "authored-benchmark",
+      "entityId": "answer-start",
+      "kind": "confirmed-answer",
+      "title": "到岗时间",
+      "text": "可于2027年9月到岗。",
+      "scope": {
+        "type": "application",
+        "applicationId": "apply-b"
+      },
+      "profileVersion": 7,
+      "recordVersion": 2,
+      "confirmedVersion": 2
+    },
+    {
+      "id": "f-old",
+      "sourceId": "authored-benchmark",
+      "entityId": "project-search",
+      "kind": "confirmed-fact",
+      "title": "旧版项目角色",
+      "text": "流光检索台项目，角色为观察员，旧版本不可用。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 1,
+      "confirmedVersion": 1
+    },
+    {
+      "id": "f-pending",
+      "sourceId": "authored-benchmark",
+      "entityId": "internship-search",
+      "kind": "confirmed-fact",
+      "title": "待确认实习职位",
+      "text": "虚构待确认实习职位，数据实习生，不是确认事实。",
+      "scope": {
+        "type": "profile"
+      },
+      "profileVersion": 7,
+      "recordVersion": 3,
+      "confirmedVersion": 2
+    }
+  ],
+  "queries": [
+    {
+      "id": "r01",
+      "query": "北京杭州 RAG 向量检索校招",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 3
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r02",
+      "query": "Agent 工具调用 TypeScript",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 3
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r03",
+      "query": "目标检测 图像分割",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 3
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r04",
+      "query": "PPO 策略优化 博士",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 3
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r05",
+      "query": "Java Spring 服务端",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 3
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r06",
+      "query": "SQL 数据分析 实验设计",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 3
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r07",
+      "query": "文本分类 自然语言处理",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 3
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r08",
+      "query": "自动化测试 质量工程",
+      "split": "dev",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 3
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r09",
+      "query": "我的硕士学校叫什么",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "education-master"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 3
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r10",
+      "query": "硕士专业和毕业时间",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "education-master"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 3
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r11",
+      "query": "实习职位名称和起始时间",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "internship-search"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 3
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r12",
+      "query": "流光检索台 项目角色",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "project-search"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 3
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r13",
+      "query": "项目的 GitHub 作品地址",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "project-search"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 3
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r14",
+      "query": "论文 作者角色",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "paper-search"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 3
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r15",
+      "query": "本次申请可以什么时候到岗",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "entityIds": [
+          "answer-start"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 3
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r16",
+      "query": "检索增强研发",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 3
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r17",
+      "query": "计算机视觉 图像算法",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 3
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r18",
+      "query": "大语言模型智能体",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 3
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r19",
+      "query": "强化学习 研究员",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 3
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": false
+    },
+    {
+      "id": "r20",
+      "query": "zzyxunanswerable987",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "public-job"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": true
+    },
+    {
+      "id": "r21",
+      "query": "清空确认版本后我的项目角色",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 8,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-a"
+        },
+        "kinds": [
+          "confirmed-fact"
+        ],
+        "entityIds": [
+          "project-search"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": true
+    },
+    {
+      "id": "r22",
+      "query": "到岗时间",
+      "split": "test",
+      "options": {
+        "context": {
+          "profileVersion": 7,
+          "entityVersions": {
+            "education-master": 2,
+            "internship-search": 2,
+            "project-search": 2,
+            "paper-search": 2,
+            "answer-start": 2
+          },
+          "applicationId": "apply-c"
+        },
+        "kinds": [
+          "confirmed-answer"
+        ]
+      },
+      "qrels": [
+        {
+          "documentId": "j-rag",
+          "grade": 0
+        },
+        {
+          "documentId": "j-agent",
+          "grade": 0
+        },
+        {
+          "documentId": "j-cv",
+          "grade": 0
+        },
+        {
+          "documentId": "j-rl",
+          "grade": 0
+        },
+        {
+          "documentId": "j-java",
+          "grade": 0
+        },
+        {
+          "documentId": "j-data",
+          "grade": 0
+        },
+        {
+          "documentId": "j-nlp",
+          "grade": 0
+        },
+        {
+          "documentId": "j-test",
+          "grade": 0
+        },
+        {
+          "documentId": "f-school",
+          "grade": 0
+        },
+        {
+          "documentId": "f-major",
+          "grade": 0
+        },
+        {
+          "documentId": "f-role",
+          "grade": 0
+        },
+        {
+          "documentId": "f-project",
+          "grade": 0
+        },
+        {
+          "documentId": "f-link",
+          "grade": 0
+        },
+        {
+          "documentId": "f-paper",
+          "grade": 0
+        },
+        {
+          "documentId": "a-a",
+          "grade": 0
+        },
+        {
+          "documentId": "a-b",
+          "grade": 0
+        },
+        {
+          "documentId": "f-old",
+          "grade": 0
+        },
+        {
+          "documentId": "f-pending",
+          "grade": 0
+        }
+      ],
+      "expectedNoAnswer": true
+    }
+  ]
+}

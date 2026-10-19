@@ -1,0 +1,1515 @@
+{
+  "formalJobs": 150,
+  "collectedSnapshots": 232,
+  "companies": 8,
+  "uniqueDutiesRequirementTemplates": 136,
+  "queries": 18,
+  "fictionalProfiles": 6,
+  "qrels": 2700,
+  "GT_SHA256": "cd5f4e5dfb8366075551c7b1f46c61ef16efa755c80b393e4488c9d480559888",
+  "humanGold": false,
+  "independentHumanReview": false,
+  "samplingPolicy": "All65 non-Tencent snapshots +24 old Tencent +61 new Tencent by fixed SHA256 prefix seed; company balance, not fit or model output;150 formal,232 collected. Original59 retained. No ranking executed.",
+  "sources": [
+    {
+      "id": "real-modelbest-7550158206165944639",
+      "company": "面壁智能",
+      "title": "语言大模型算法研究员",
+      "city": "北京 / 深圳 / 上海 / 西安 / 成都",
+      "type": "campus",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7550158206165944639/detail",
+      "publishedAt": "2025-09-15T03:52:48.454Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7550160030407199002",
+      "company": "面壁智能",
+      "title": "大模型算法工程师- 行业应用",
+      "city": "北京 / 深圳 / 上海 / 西安 / 成都",
+      "type": "campus",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7550160030407199002/detail",
+      "publishedAt": "2025-09-15T03:58:14.974Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7685613435107232054",
+      "company": "面壁智能",
+      "title": "大模型 Agent 数据算法实习生",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7685613435107232054/detail",
+      "publishedAt": "2026-09-15T04:32:30.211Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7688270353286924590",
+      "company": "面壁智能",
+      "title": "强化学习算法实习生（LLM Agent 方向）",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7688270353286924590/detail",
+      "publishedAt": "2026-09-22T08:20:03.830Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7689004710846662922",
+      "company": "面壁智能",
+      "title": "agentic算法实习生",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7689004710846662922/detail",
+      "publishedAt": "2026-09-24T07:47:32.038Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7694501311970806042",
+      "company": "面壁智能",
+      "title": "大模型评测算法实习生",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7694501311970806042/detail",
+      "publishedAt": "2026-10-09T03:15:46.048Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7695750179614705947",
+      "company": "面壁智能",
+      "title": "大语言模型算法研究实习生（法律数据方向）",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7695750179614705947/detail",
+      "publishedAt": "2026-10-12T12:02:18.210Z",
+      "deadline": null
+    },
+    {
+      "id": "real-modelbest-7695759047416613129",
+      "company": "面壁智能",
+      "title": "code agent 后训练算法实习生",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://modelbest.jobs.feishu.cn/campus/position/7695759047416613129/detail",
+      "publishedAt": "2026-10-12T12:36:58.280Z",
+      "deadline": null
+    },
+    {
+      "id": "real-nwd4iy9rd2s-7672031985867295002",
+      "company": "千寻智能",
+      "title": "【2027 届校招】具身智能产品经理",
+      "city": "北京 / 杭州",
+      "type": "campus",
+      "url": "https://nwd4iy9rd2s.jobs.feishu.cn/campusofSpiritAI/position/7672031985867295002/detail",
+      "publishedAt": "2026-08-09T14:09:42.940Z",
+      "deadline": null
+    },
+    {
+      "id": "real-nwd4iy9rd2s-7672033022140959003",
+      "company": "千寻智能",
+      "title": "【2027 届校招】机器人产品经理",
+      "city": "北京 / 杭州",
+      "type": "campus",
+      "url": "https://nwd4iy9rd2s.jobs.feishu.cn/campusofSpiritAI/position/7672033022140959003/detail",
+      "publishedAt": "2026-08-09T14:10:54.577Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7564312014039435539",
+      "company": "它石智航",
+      "title": "招聘实习生",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7564312014039435539/detail",
+      "publishedAt": "2025-10-23T07:15:53.984Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7667918400576981291",
+      "company": "它石智航",
+      "title": "2027校招-强化学习算法工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7667918400576981291/detail",
+      "publishedAt": "2026-07-29T13:38:21.299Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7667918558487415090",
+      "company": "它石智航",
+      "title": "2027-端到端大模型算法工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7667918558487415090/detail",
+      "publishedAt": "2026-07-29T13:46:15.507Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7667923370213820681",
+      "company": "它石智航",
+      "title": "2027校招-机器人产品经理",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7667923370213820681/detail",
+      "publishedAt": "2026-07-29T14:14:10.183Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7667936622214220068",
+      "company": "它石智航",
+      "title": "2027校招-机器人通用软件开发工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7667936622214220068/detail",
+      "publishedAt": "2026-07-29T13:51:25.643Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7667936622214924580",
+      "company": "它石智航",
+      "title": "2027校招-机器人机械设计工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7667936622214924580/detail",
+      "publishedAt": "2026-07-29T13:59:25.929Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668204630397061426",
+      "company": "它石智航",
+      "title": "2027校招-灵巧手电机设计工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668204630397061426/detail",
+      "publishedAt": "2026-07-30T07:44:30.242Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668218467347073334",
+      "company": "它石智航",
+      "title": "2027校招-灵巧手结构设计工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668218467347073334/detail",
+      "publishedAt": "2026-07-30T07:41:42.501Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668218880107759914",
+      "company": "它石智航",
+      "title": "2027校招-灵巧手运动仿真工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668218880107759914/detail",
+      "publishedAt": "2026-07-30T07:33:49.931Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668220094622861614",
+      "company": "它石智航",
+      "title": "2027校招-灵巧手电机控制算法工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668220094622861614/detail",
+      "publishedAt": "2026-07-30T07:48:29.301Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668221926657771819",
+      "company": "它石智航",
+      "title": "2027校招-灵巧手系统工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668221926657771819/detail",
+      "publishedAt": "2026-07-30T07:53:13.354Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668221926658345259",
+      "company": "它石智航",
+      "title": "2027校招-机器人运动仿真工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668221926658345259/detail",
+      "publishedAt": "2026-07-30T07:57:09.137Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668224499520096531",
+      "company": "它石智航",
+      "title": "2027校招-机器人电机控制工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668224499520096531/detail",
+      "publishedAt": "2026-07-30T08:10:46.077Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668524839929628966",
+      "company": "它石智航",
+      "title": "2027校招-机器人力学仿真工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668524839929628966/detail",
+      "publishedAt": "2026-07-31T03:44:58.551Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668533063265290539",
+      "company": "它石智航",
+      "title": "2027校招-机器人结构设计工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668533063265290539/detail",
+      "publishedAt": "2026-07-31T04:04:25.249Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7668566314080176410",
+      "company": "它石智航",
+      "title": "2027校招-数据智能算法工程师",
+      "city": "上海",
+      "type": "campus",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7668566314080176410/detail",
+      "publishedAt": "2026-07-31T06:12:31.132Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7680203959492151595",
+      "company": "它石智航",
+      "title": "人形机器人灵巧操作算法实习生",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7680203959492151595/detail",
+      "publishedAt": "2026-08-31T14:48:43.609Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7694148132846340398",
+      "company": "它石智航",
+      "title": "具身世界模型算法实习生",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7694148132846340398/detail",
+      "publishedAt": "2026-10-08T04:27:31.583Z",
+      "deadline": null
+    },
+    {
+      "id": "real-tarsrobot-7694231276648696118",
+      "company": "它石智航",
+      "title": "采购实习生",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://tarsrobot.jobs.feishu.cn/021343/position/7694231276648696118/detail",
+      "publishedAt": "2026-10-08T09:49:26.113Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7573257185578617142",
+      "company": "MiniMax",
+      "title": " 高性能服务研发实习生-2027 届",
+      "city": "北京 / 上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7573257185578617142/detail",
+      "publishedAt": "2025-11-16T10:13:59.348Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7633405814624373030",
+      "company": "MiniMax",
+      "title": "AI推理框架工程师-2027届",
+      "city": "北京 / 上海",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7633405814624373030/detail",
+      "publishedAt": "2026-04-27T13:18:53.847Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7654500111376156964",
+      "company": "MiniMax",
+      "title": "机器学习系统研发工程师-2027 届",
+      "city": "上海 / 北京",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7654500111376156964/detail",
+      "publishedAt": "2026-06-23T08:11:12.026Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7662376183711222058",
+      "company": "MiniMax",
+      "title": "可观测平台研发工程师-2027届",
+      "city": "北京 / 上海",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7662376183711222058/detail",
+      "publishedAt": "2026-07-14T13:46:06.425Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7662380007045761343",
+      "company": "MiniMax",
+      "title": "资源调度研发工程师-2027届",
+      "city": "北京 / 上海",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7662380007045761343/detail",
+      "publishedAt": "2026-07-14T13:53:58.622Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7663392882951014666",
+      "company": "MiniMax",
+      "title": "系统研发实习生—AI Infra（工单智能化方向）",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7663392882951014666/detail",
+      "publishedAt": "2026-07-17T07:21:23.337Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7670838753011550507",
+      "company": "MiniMax",
+      "title": "存储平台研发工程师-2027 届",
+      "city": "北京 / 上海",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7670838753011550507/detail",
+      "publishedAt": "2026-08-06T08:55:20.834Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7682701718954953011",
+      "company": "MiniMax",
+      "title": "大模型工程师-RL框架&RL推理-2027届",
+      "city": "北京 / 上海",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7682701718954953011/detail",
+      "publishedAt": "2026-09-07T08:08:38.459Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7682703190769305910",
+      "company": "MiniMax",
+      "title": "大模型训练框架工程师-2027届",
+      "city": "北京 / 上海",
+      "type": "campus",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7682703190769305910/detail",
+      "publishedAt": "2026-09-07T08:15:32.520Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7682786920195836186",
+      "company": "MiniMax",
+      "title": "大模型工程师-RL框架&RL推理-2028届",
+      "city": "北京 / 上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7682786920195836186/detail",
+      "publishedAt": "2026-09-07T13:42:42.124Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7682787337483389238",
+      "company": "MiniMax",
+      "title": "大模型训练框架工程师-2028届",
+      "city": "北京 / 上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7682787337483389238/detail",
+      "publishedAt": "2026-09-07T13:45:31.050Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7683006384095807798",
+      "company": "MiniMax",
+      "title": "大模型工程师-RL框架&RL推理-日常实习",
+      "city": "北京 / 上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7683006384095807798/detail",
+      "publishedAt": "2026-09-08T03:53:43.928Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7683006429335570697",
+      "company": "MiniMax",
+      "title": "大模型训练框架工程师-日常实习",
+      "city": "北京 / 上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7683006429335570697/detail",
+      "publishedAt": "2026-09-08T03:50:51.315Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7685277183518427419",
+      "company": "MiniMax",
+      "title": "Agent系统工程实习生（AI Infra）",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7685277183518427419/detail",
+      "publishedAt": "2026-09-14T06:41:58.913Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7685301565117532458",
+      "company": "MiniMax",
+      "title": "AI Infra研发工程师-FinOps 平台实习生",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7685301565117532458/detail",
+      "publishedAt": "2026-09-14T08:17:54.341Z",
+      "deadline": null
+    },
+    {
+      "id": "real-vrfi1sk8a0-7686409262847822123",
+      "company": "MiniMax",
+      "title": "Agent前端工程师实习-海螺&minimax design",
+      "city": "北京 / 上海",
+      "type": "internship",
+      "url": "https://vrfi1sk8a0.jobs.feishu.cn/379481/position/7686409262847822123/detail",
+      "publishedAt": "2026-09-17T07:55:36.288Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7652253703286720814",
+      "company": "自变量机器人",
+      "title": "【27届】大模型infra工程师",
+      "city": "深圳 / 北京 / 上海",
+      "type": "campus",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7652253703286720814/detail",
+      "publishedAt": "2026-06-17T06:55:22.528Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7677437713956505902",
+      "company": "自变量机器人",
+      "title": "运控算法实习生",
+      "city": "深圳",
+      "type": "internship",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7677437713956505902/detail",
+      "publishedAt": "2026-08-24T03:42:38.220Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7678599261966403849",
+      "company": "自变量机器人",
+      "title": "【实习】计算机视觉算法工程师",
+      "city": "深圳",
+      "type": "internship",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7678599261966403849/detail",
+      "publishedAt": "2026-08-27T06:49:03.231Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7683352576704678170",
+      "company": "自变量机器人",
+      "title": "【实习】具身智能仿真算法工程师 / 研究员",
+      "city": "北京 / 深圳",
+      "type": "internship",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7683352576704678170/detail",
+      "publishedAt": "2026-09-09T03:01:51.510Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7683862185903114550",
+      "company": "自变量机器人",
+      "title": "具身智能模型实验实习生",
+      "city": "深圳 / 北京",
+      "type": "internship",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7683862185903114550/detail",
+      "publishedAt": "2026-09-10T11:12:51.982Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7685689775568013577",
+      "company": "自变量机器人",
+      "title": "【实习】导航Agent算法工程师",
+      "city": "深圳",
+      "type": "internship",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7685689775568013577/detail",
+      "publishedAt": "2026-09-15T09:25:02.489Z",
+      "deadline": null
+    },
+    {
+      "id": "real-x2-robot-7690412372905543977",
+      "company": "自变量机器人",
+      "title": "【27届】大模型数据平台研发工程师",
+      "city": "北京 / 深圳",
+      "type": "campus",
+      "url": "https://x2-robot.jobs.feishu.cn/912130/position/7690412372905543977/detail",
+      "publishedAt": "2026-09-28T02:50:53.195Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7675617604505667876",
+      "company": "德赛西威",
+      "title": "端到端算法工程师（2027届-上海）",
+      "city": "上海",
+      "type": "unknown",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7675617604505667876/detail",
+      "publishedAt": "2026-08-19T06:01:14.713Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7687566688954812735",
+      "company": "德赛西威",
+      "title": "感知算法数据工程师（2027届-上海）",
+      "city": "上海",
+      "type": "unknown",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7687566688954812735/detail",
+      "publishedAt": "2026-09-20T10:47:29.947Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7690396195420981558",
+      "company": "德赛西威",
+      "title": "MCU嵌入式开发工程师（2027届-南京）",
+      "city": "南京",
+      "type": "campus",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7690396195420981558/detail",
+      "publishedAt": "2026-09-28T02:51:08.558Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7694569541754046762",
+      "company": "德赛西威",
+      "title": "感知算法工程师（2027届-惠州）",
+      "city": "惠州",
+      "type": "unknown",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7694569541754046762/detail",
+      "publishedAt": "2026-10-09T07:41:00.732Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7695647870176069907",
+      "company": "德赛西威",
+      "title": "云端软件开发工程师（2027届-惠州）",
+      "city": "惠州",
+      "type": "campus",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7695647870176069907/detail",
+      "publishedAt": "2026-10-12T05:30:01.386Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7696081044805830938",
+      "company": "德赛西威",
+      "title": "企业文化专员（2027届-惠州）",
+      "city": "惠州",
+      "type": "campus",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7696081044805830938/detail",
+      "publishedAt": "2026-10-13T09:25:47.368Z",
+      "deadline": null
+    },
+    {
+      "id": "real-yesv-desaysv-7696081980006254875",
+      "company": "德赛西威",
+      "title": "招聘专员（2027届-惠州）",
+      "city": "惠州",
+      "type": "campus",
+      "url": "https://yesv-desaysv.jobs.feishu.cn/campus/position/7696081980006254875/detail",
+      "publishedAt": "2026-10-13T09:29:17.716Z",
+      "deadline": null
+    },
+    {
+      "id": "real-zj-innolight-7674618509422528810",
+      "company": "中际旭创",
+      "title": "算法类（研发）",
+      "city": "苏州",
+      "type": "campus",
+      "url": "https://zj-innolight.jobs.feishu.cn/300308/position/7674618509422528810/detail",
+      "publishedAt": "2026-08-16T14:53:59.810Z",
+      "deadline": null
+    },
+    {
+      "id": "real-zj-innolight-7675596861859809563",
+      "company": "中际旭创",
+      "title": "工艺开发类（研发）",
+      "city": "成都",
+      "type": "campus",
+      "url": "https://zj-innolight.jobs.feishu.cn/300308/position/7675596861859809563/detail",
+      "publishedAt": "2026-08-19T04:46:29.313Z",
+      "deadline": null
+    },
+    {
+      "id": "real-zj-innolight-7683824810938272054",
+      "company": "中际旭创",
+      "title": "IE设计",
+      "city": "成都",
+      "type": "campus",
+      "url": "https://zj-innolight.jobs.feishu.cn/300308/position/7683824810938272054/detail",
+      "publishedAt": "2026-09-10T08:46:19.182Z",
+      "deadline": null
+    },
+    {
+      "id": "real-zj-innolight-7685198320130312454",
+      "company": "中际旭创",
+      "title": "系统工程师",
+      "city": "苏州",
+      "type": "campus",
+      "url": "https://zj-innolight.jobs.feishu.cn/300308/position/7685198320130312454/detail",
+      "publishedAt": "2026-09-14T01:39:05.898Z",
+      "deadline": null
+    },
+    {
+      "id": "real-zj-innolight-7685221029862541622",
+      "company": "中际旭创",
+      "title": "模块封测类（智能制造）",
+      "city": "铜陵",
+      "type": "campus",
+      "url": "https://zj-innolight.jobs.feishu.cn/300308/position/7685221029862541622/detail",
+      "publishedAt": "2026-09-14T03:04:22.673Z",
+      "deadline": null
+    },
+    {
+      "id": "real-zj-innolight-7687519816043448617",
+      "company": "中际旭创",
+      "title": "结构设计工程师",
+      "city": "成都",
+      "type": "campus",
+      "url": "https://zj-innolight.jobs.feishu.cn/300308/position/7687519816043448617/detail",
+      "publishedAt": "2026-09-20T08:12:17.510Z",
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1199423750186201088",
+      "company": "腾讯",
+      "title": "算法-多模态方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1199423750186201088",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1200791473415778304",
+      "company": "腾讯",
+      "title": "后台开发",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都 / 杭州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1200791473415778304",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1200889496565214208",
+      "company": "腾讯",
+      "title": "算法-自然语言处理方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1200889496565214208",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1208929084714208256",
+      "company": "腾讯",
+      "title": "算法-自然语言处理方向",
+      "city": "深圳总部",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1208929084714208256",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1211674473603010560",
+      "company": "腾讯",
+      "title": "移动客户端开发",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1211674473603010560",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1211674487037366272",
+      "company": "腾讯",
+      "title": "算法-计算机图形学方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1211674487037366272",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1211741014633886720",
+      "company": "腾讯",
+      "title": "PC客户端开发",
+      "city": "深圳总部",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1211741014633886720",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1211741015405638656",
+      "company": "腾讯",
+      "title": "移动客户端开发",
+      "city": "深圳总部 / 广州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1211741015405638656",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1212080125831811072",
+      "company": "腾讯",
+      "title": "硬件开发-系统设计和验证方向",
+      "city": "深圳总部",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1212080125831811072",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1212183856388912129",
+      "company": "腾讯",
+      "title": "算法-机器学习方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1212183856388912129",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1212220582939332608",
+      "company": "腾讯",
+      "title": "PC客户端开发",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1212220582939332608",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1212816216566272000",
+      "company": "腾讯",
+      "title": "游戏客户端开发",
+      "city": "深圳总部 / 北京 / 上海",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1212816216566272000",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1212816233335099392",
+      "company": "腾讯",
+      "title": "AI安全技术工程师（风控算法）",
+      "city": "深圳总部 / 北京 / 广州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1212816233335099392",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1224696223685345280",
+      "company": "腾讯",
+      "title": "游戏引擎开发",
+      "city": "深圳总部 / 北京 / 上海 / 杭州",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1224696223685345280",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1227041736422233088",
+      "company": "腾讯",
+      "title": "软件开发-渲染引擎开发",
+      "city": "深圳总部",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1227041736422233088",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1231829074687944765",
+      "company": "腾讯",
+      "title": "基于AI大模型的数据库自学习优化器方向研发和探索",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1231829074687944765",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1231829074687944766",
+      "company": "腾讯",
+      "title": "基于AI大模型的异构数据库智能语句改写方向研发与探索",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1231829074687944766",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1231829074687944777",
+      "company": "腾讯",
+      "title": "DATA+AI 统一数据湖存储引擎",
+      "city": "上海",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1231829074687944777",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1231829074687944825",
+      "company": "腾讯",
+      "title": "混元基座模型-强化学习算法研究&强推理能力优化",
+      "city": "北京",
+      "type": "internship",
+      "url": "https://join.qq.com/post_detail.html?postid=1231829074687944825",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274481034578500656",
+      "company": "腾讯",
+      "title": "基于AI大模型的数据库自学习优化器方向研发和探索",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274481034578500656",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274481034578500696",
+      "company": "腾讯",
+      "title": "混元基座模型-Mid-Train数据的高效筛选与合成研究",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274481034578500696",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274481034578500699",
+      "company": "腾讯",
+      "title": "混元基座模型-强化学习算法研究&强推理能力优化",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274481034578500699",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274481034578500720",
+      "company": "腾讯",
+      "title": "微信搜索-强化学习算法研究",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274481034578500720",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274481034578500838",
+      "company": "腾讯",
+      "title": "混元-多模态理解与生成模型压缩算法(蒸馏、量化、投机采样、稀疏化)研究",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274481034578500838",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274481034578500846",
+      "company": "腾讯",
+      "title": "混元基座模型-可在线持续进化的智能体算法研究",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274481034578500846",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1274781284287519744",
+      "company": "腾讯",
+      "title": "微信视频号-视频生成基座大模型算法研究",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1274781284287519744",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1277366754477467648",
+      "company": "腾讯",
+      "title": "投资运营分析师",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1277366754477467648",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1277366755316311040",
+      "company": "腾讯",
+      "title": "投资分析",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1277366755316311040",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1277774706287944733",
+      "company": "腾讯",
+      "title": "面向 Agent 应用开发的易用 API 抽象与平台化建设",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1277774706287944733",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1279259043688719360",
+      "company": "腾讯",
+      "title": "面向游戏数据科学的智能分析 Agent",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1279259043688719360",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1279259071920579586",
+      "company": "腾讯",
+      "title": "光子AI-Omni 数据引擎仿真与高保真物理渲染研究",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1279259071920579586",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282032033786619904",
+      "company": "腾讯",
+      "title": "游戏策划培训生",
+      "city": "深圳总部 / 北京 / 上海 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282032033786619904",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282032033786619905",
+      "company": "腾讯",
+      "title": "游戏发行/运营培训生",
+      "city": "深圳总部 / 上海",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282032033786619905",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282032034373805056",
+      "company": "腾讯",
+      "title": "游戏客户端开发",
+      "city": "深圳总部 / 北京 / 上海 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282032034373805056",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282064466091287555",
+      "company": "腾讯",
+      "title": "微信视频号-加热Agent智能投放与素材生成算法研究",
+      "city": "广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282064466091287555",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707374754604032",
+      "company": "腾讯",
+      "title": "产品策划",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707374754604032",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707375417304064",
+      "company": "腾讯",
+      "title": "市场营销",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707375417304064",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707379615819776",
+      "company": "腾讯",
+      "title": "项目管理",
+      "city": "西安 / 深圳总部 / 北京 / 上海",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707379615819776",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707379615819777",
+      "company": "腾讯",
+      "title": "产品运营",
+      "city": "深圳总部 / 北京 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707379615819777",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707380882482176",
+      "company": "腾讯",
+      "title": "商务拓展",
+      "city": "深圳总部 / 北京 / 广州 / 中国香港",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707380882482176",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707381767480320",
+      "company": "腾讯",
+      "title": "商业分析",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707381767480320",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707383965295616",
+      "company": "腾讯",
+      "title": "后台开发",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707383965295616",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707383965295617",
+      "company": "腾讯",
+      "title": "移动客户端开发",
+      "city": "深圳总部 / 北京 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707383965295617",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707390126745600",
+      "company": "腾讯",
+      "title": "算法-机器学习方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707390126745600",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707391506654208",
+      "company": "腾讯",
+      "title": "2D角色设计",
+      "city": "深圳总部 / 上海 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707391506654208",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707391506654209",
+      "company": "腾讯",
+      "title": "2D场景设计",
+      "city": "深圳总部 / 上海 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707391506654209",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707392714613760",
+      "company": "腾讯",
+      "title": "交互设计",
+      "city": "深圳总部 / 上海",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707392714613760",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707395466077184",
+      "company": "腾讯",
+      "title": "Agent开发工程师",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707395466077184",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707395466077185",
+      "company": "腾讯",
+      "title": "AI应用工程师",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707395466077185",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707395466077186",
+      "company": "腾讯",
+      "title": "AI算法工程",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707395466077186",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707398326592512",
+      "company": "腾讯",
+      "title": "AI全栈工程师",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707398326592512",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707403120699392",
+      "company": "腾讯",
+      "title": "算法-多媒体处理方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707403120699392",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707405033302016",
+      "company": "腾讯",
+      "title": "算法-自然语言处理方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707405033302016",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707420237636608",
+      "company": "腾讯",
+      "title": "游戏引擎开发",
+      "city": "深圳总部 / 北京 / 上海 / 成都 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707420237636608",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707425254024192",
+      "company": "腾讯",
+      "title": "3D角色设计",
+      "city": "深圳总部 / 上海 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707425254024192",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707427871269888",
+      "company": "腾讯",
+      "title": "特效",
+      "city": "深圳总部 / 上海",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707427871269888",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1282707439695012865",
+      "company": "腾讯",
+      "title": "前端开发",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1282707439695012865",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283045530146251776",
+      "company": "腾讯",
+      "title": "秘书",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283045530146251776",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283045533715604480",
+      "company": "腾讯",
+      "title": "物业运营与办公规划管理",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283045533715604480",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126436643021824",
+      "company": "腾讯",
+      "title": "算法-推荐算法方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126436643021824",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126456553382912",
+      "company": "腾讯",
+      "title": "AI产品经理",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126456553382912",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126460798018560",
+      "company": "腾讯",
+      "title": "技术研究-高性能计算方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126460798018560",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126465243980800",
+      "company": "腾讯",
+      "title": "算法-计算机视觉方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126465243980800",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126469811577856",
+      "company": "腾讯",
+      "title": "战略商业分析师",
+      "city": "深圳总部 / 北京 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126469811577856",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126495480718338",
+      "company": "腾讯",
+      "title": "AI安全技术工程师（风控算法）",
+      "city": "深圳总部 / 北京 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126495480718338",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126501084308480",
+      "company": "腾讯",
+      "title": "测试开发",
+      "city": "深圳总部 / 北京 / 上海 / 广州 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126501084308480",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126524891177984",
+      "company": "腾讯",
+      "title": "技术研究-基础架构方向",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126524891177984",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283126696601756672",
+      "company": "腾讯",
+      "title": "AI安全技术工程师",
+      "city": "深圳总部 / 北京 / 上海 / 广州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283126696601756672",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283878428566955008",
+      "company": "腾讯",
+      "title": "游戏GUI视觉设计",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283878428566955008",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1283878440197760000",
+      "company": "腾讯",
+      "title": "算法-计算机图形学方向",
+      "city": "深圳总部 / 北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1283878440197760000",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1284501739072168960",
+      "company": "腾讯",
+      "title": "硬件开发-芯片设计方向",
+      "city": "深圳总部 / 北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1284501739072168960",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1284501739072168961",
+      "company": "腾讯",
+      "title": "硬件开发-芯片验证方向",
+      "city": "深圳总部 / 北京 / 上海",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1284501739072168961",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1287398722585903104",
+      "company": "腾讯",
+      "title": "算法-强化学习方向",
+      "city": "深圳总部 / 北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1287398722585903104",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292597521964973056",
+      "company": "腾讯",
+      "title": "腾讯云—面向智能体的数据语义层自动化构建和推理研究",
+      "city": "深圳总部 / 北京 / 上海 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292597521964973056",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292597521964973057",
+      "company": "腾讯",
+      "title": "共享内存驱动下的云原生数据库“多主对等”内核研究",
+      "city": "深圳总部 / 北京 / 上海 / 成都",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292597521964973057",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292597531922250752",
+      "company": "腾讯",
+      "title": "WorkBuddy/CodeBuddy—利用强化学习方法基于经验数据训练提升大模型Agent能力研究",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292597531922250752",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292597531922250756",
+      "company": "腾讯",
+      "title": "腾讯云音视频多模态理解、生成、编辑算法",
+      "city": "深圳总部 / 北京 / 上海",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292597531922250756",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292597531922250757",
+      "company": "腾讯",
+      "title": "腾讯云大数据-DataAgent—数据决策智能体关键技术研究",
+      "city": "上海 / 杭州",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292597531922250757",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365255",
+      "company": "腾讯",
+      "title": "混元-人机协同的专家生产数据质量评估方案研究",
+      "city": "深圳总部 / 北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365255",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365256",
+      "company": "腾讯",
+      "title": "原生多模态(Any-to-Any模型)预训练及数据构建范式研究",
+      "city": "深圳总部 / 北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365256",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365259",
+      "company": "腾讯",
+      "title": "大语言模型数据质量优化与数据实验",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365259",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365260",
+      "company": "腾讯",
+      "title": "GUIAgent Bench及数据构建方式研究",
+      "city": "深圳总部 / 北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365260",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365262",
+      "company": "腾讯",
+      "title": "下一代大语言模型主要预训练数据提升空间",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365262",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365265",
+      "company": "腾讯",
+      "title": "预训练数据价值刻画研究",
+      "city": "北京",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365265",
+      "publishedAt": null,
+      "deadline": null
+    },
+    {
+      "id": "tencent-campus-1292723595709365266",
+      "company": "腾讯",
+      "title": "混元-面向大模型数据处理的智能执行与超大规模调度关键技术研究",
+      "city": "深圳总部",
+      "type": "campus",
+      "url": "https://join.qq.com/post_detail.html?postid=1292723595709365266",
+      "publishedAt": null,
+      "deadline": null
+    }
+  ]
+}

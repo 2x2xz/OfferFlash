@@ -1,0 +1,808 @@
+{
+  "version": "0.11.1",
+  "protocol": "01c68d5447060b8fef342535b876829be30d05faefa8e7da9f27d437d3914217",
+  "sameFrozenData": true,
+  "graderUnchanged": true,
+  "forms": [
+    {
+      "label": "后台DOM · 每模板3轮",
+      "before": {
+        "cases": 24,
+        "correct": 21,
+        "required": 75,
+        "accuracyCorrect": 21,
+        "filled": 21,
+        "rows": [
+          {
+            "caseId": "forms-test-01",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-01",
+            "repeat": 1,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-01",
+            "repeat": 2,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 0,
+            "correct": 0,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 1,
+            "correct": 0,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 2,
+            "correct": 0,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 0,
+            "correct": 0,
+            "required": 6,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 1,
+            "correct": 0,
+            "required": 6,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 2,
+            "correct": 0,
+            "required": 6,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 1,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 2,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 0,
+            "correct": 1,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 1,
+            "correct": 1,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 2,
+            "correct": 1,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 0,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 1,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 2,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 1,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 2,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 0,
+            "correct": 0,
+            "required": 2,
+            "status": "failed",
+            "guard": "guard-or-execution-stop"
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 1,
+            "correct": 0,
+            "required": 2,
+            "status": "failed",
+            "guard": "guard-or-execution-stop"
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 2,
+            "correct": 0,
+            "required": 2,
+            "status": "failed",
+            "guard": "guard-or-execution-stop"
+          }
+        ]
+      },
+      "after": {
+        "cases": 24,
+        "correct": 54,
+        "required": 75,
+        "accuracyCorrect": 54,
+        "filled": 54,
+        "rows": [
+          {
+            "caseId": "forms-test-01",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-01",
+            "repeat": 1,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-01",
+            "repeat": 2,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 1,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 2,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 0,
+            "correct": 6,
+            "required": 6,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 1,
+            "correct": 6,
+            "required": 6,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 2,
+            "correct": 6,
+            "required": 6,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 1,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 2,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 0,
+            "correct": 3,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 1,
+            "correct": 3,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 2,
+            "correct": 3,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 0,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 1,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 2,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 1,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 2,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 0,
+            "correct": 0,
+            "required": 2,
+            "status": "failed",
+            "guard": "guard-or-execution-stop"
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 1,
+            "correct": 0,
+            "required": 2,
+            "status": "failed",
+            "guard": "guard-or-execution-stop"
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 2,
+            "correct": 0,
+            "required": 2,
+            "status": "failed",
+            "guard": "guard-or-execution-stop"
+          }
+        ]
+      }
+    },
+    {
+      "label": "前台规则 · 同一8模板",
+      "before": {
+        "cases": 8,
+        "correct": 8,
+        "required": 25,
+        "accuracyCorrect": 8,
+        "filled": 8,
+        "rows": [
+          {
+            "caseId": "forms-test-01",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 0,
+            "correct": 0,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 0,
+            "correct": 0,
+            "required": 6,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 0,
+            "correct": 1,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 0,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 0,
+            "correct": 1,
+            "required": 2,
+            "status": "partial",
+            "guard": null
+          }
+        ]
+      },
+      "after": {
+        "cases": 8,
+        "correct": 19,
+        "required": 25,
+        "accuracyCorrect": 19,
+        "filled": 19,
+        "rows": [
+          {
+            "caseId": "forms-test-01",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 0,
+            "correct": 6,
+            "required": 6,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 0,
+            "correct": 3,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 0,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 0,
+            "correct": 1,
+            "required": 2,
+            "status": "partial",
+            "guard": null
+          }
+        ]
+      }
+    },
+    {
+      "label": "真实模型映射后的前台填写",
+      "before": {
+        "cases": 8,
+        "correct": 9,
+        "required": 25,
+        "accuracyCorrect": 9,
+        "filled": 9,
+        "rows": [
+          {
+            "caseId": "forms-test-01",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 0,
+            "correct": 2,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 0,
+            "correct": 0,
+            "required": 6,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 0,
+            "correct": 0,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 0,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 0,
+            "correct": 1,
+            "required": 2,
+            "status": "partial",
+            "guard": null
+          }
+        ]
+      },
+      "after": {
+        "cases": 8,
+        "correct": 19,
+        "required": 25,
+        "accuracyCorrect": 19,
+        "filled": 19,
+        "rows": [
+          {
+            "caseId": "forms-test-01",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-02",
+            "repeat": 0,
+            "correct": 3,
+            "required": 3,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-03",
+            "repeat": 0,
+            "correct": 6,
+            "required": 6,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-04",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-05",
+            "repeat": 0,
+            "correct": 3,
+            "required": 4,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-06",
+            "repeat": 0,
+            "correct": 1,
+            "required": 1,
+            "status": "succeeded",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-07",
+            "repeat": 0,
+            "correct": 1,
+            "required": 3,
+            "status": "partial",
+            "guard": null
+          },
+          {
+            "caseId": "forms-test-08",
+            "repeat": 0,
+            "correct": 1,
+            "required": 2,
+            "status": "partial",
+            "guard": null
+          }
+        ]
+      }
+    }
+  ],
+  "qualifications": [
+    {
+      "split": "dev",
+      "engine": "production-application-shortlist",
+      "queries": 6,
+      "returned": 26,
+      "violations": 2,
+      "assessed": 25,
+      "suitable": 9
+    },
+    {
+      "split": "dev",
+      "engine": "repaired-legacy-profile",
+      "queries": 6,
+      "returned": 26,
+      "violations": 2,
+      "assessed": 25,
+      "suitable": 9
+    },
+    {
+      "split": "dev",
+      "engine": "repaired-explicit-preferences",
+      "queries": 6,
+      "returned": 25,
+      "violations": 0,
+      "assessed": 23,
+      "suitable": 9
+    },
+    {
+      "split": "dev",
+      "engine": "hard-filtered-saved-live-model-shortlist",
+      "queries": 6,
+      "returned": 16,
+      "violations": 0,
+      "assessed": 13,
+      "suitable": 9
+    },
+    {
+      "split": "test",
+      "engine": "production-application-shortlist",
+      "queries": 6,
+      "returned": 26,
+      "violations": 2,
+      "assessed": 24,
+      "suitable": 12
+    },
+    {
+      "split": "test",
+      "engine": "repaired-legacy-profile",
+      "queries": 6,
+      "returned": 26,
+      "violations": 0,
+      "assessed": 24,
+      "suitable": 12
+    },
+    {
+      "split": "test",
+      "engine": "repaired-explicit-preferences",
+      "queries": 6,
+      "returned": 26,
+      "violations": 0,
+      "assessed": 24,
+      "suitable": 12
+    },
+    {
+      "split": "test",
+      "engine": "hard-filtered-saved-live-model-shortlist",
+      "queries": 6,
+      "returned": 20,
+      "violations": 0,
+      "assessed": 18,
+      "suitable": 12
+    }
+  ],
+  "realAPI": {
+    "finalRequests": 8,
+    "finalExecutionRequests": 0,
+    "responseMode": "same-input-real-response-replay",
+    "finalTokens": 3678,
+    "earlierRequests": 8,
+    "earlierTokens": 3690,
+    "totalRequests": 16,
+    "totalTokens": 7368
+  },
+  "submissions": 0,
+  "normalDatabaseRead": false,
+  "codeHash": "5c3c219d8e1db7f5076fc160520e92e97dce87231d7dd8e0a18cfac3f85adbf6",
+  "codeFrozen": true,
+  "evidenceHash": "f9921efba0e66755edd5d6e0e388bc5e947245d1e67fe1fef8cb046d54669718",
+  "limits": [
+    "前台月份由隔离world内原子YYYY-MM设置，其余使用原生输入；保留焦点/原值/代次/遮挡守卫。",
+    "缺资料不补造、无绑定下拉不猜；网页回滚后不盲目重发。",
+    "显式招聘偏好是用户已有协议事实的新资料入口，与legacy相同输入一列分开。",
+    "原模型短列表硬过滤为事后策略重放，不冒充新的模型排名。",
+    "8个API请求一轮，不报P50/P95；没有纯人工提速对比。",
+    "看过测试失败后修复，属于同集回归；不是新未见数据泛化证明。"
+  ]
+}

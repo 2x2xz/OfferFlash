@@ -1,0 +1,728 @@
+[
+  {
+    "company": "portcast",
+    "title": "Backend Engineer",
+    "url": "https://jobs.lever.co/portcast/1f6381eb-03dd-451a-a8cc-2c862cec3fe3/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "where are you currently based, and do you have the legal right to work in that location?",
+      "current location",
+      "current company",
+      "linkedin url",
+      "github url",
+      "# of years with python or python-based backend frameworks",
+      "expected fixed/base salary in your local currency"
+    ]
+  },
+  {
+    "company": "palantir",
+    "title": "Backend Software Engineer - Application Development",
+    "url": "https://jobs.lever.co/palantir/10dfc8bc-99ad-4ca2-ab76-853cb90a92c2/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "github url",
+      "portfolio url",
+      "preferred name | what would you like us to call you?",
+      "name pronunciation | how do you pronounce your name?",
+      "please tell us how you heard about this opportunity.",
+      "describe your experience designing and implementing a backend service to support a complex/new user workflow requirement, and/or a way you improved user experience through backend optimizations.",
+      "what has been your favorite project or proudest accomplishment? why?",
+      "why do you want to work at palantir?",
+      "additional information"
+    ]
+  },
+  {
+    "company": "spotify",
+    "title": "AV Engineer - Platform",
+    "url": "https://jobs.lever.co/spotify/785989a6-b219-43b1-92d9-750a67054f24/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "github url",
+      "portfolio url",
+      "other website",
+      "what is your location?"
+    ]
+  },
+  {
+    "company": "sonatype",
+    "title": "Java Product Support Engineer",
+    "url": "https://jobs.lever.co/sonatype/8a1d474b-634b-4916-acb4-242707c7ebb7/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "github url",
+      "other website",
+      "portfolio url",
+      "twitter url",
+      "if you were referred by a current employee, please provide their full name.",
+      "how many years of experience with java & java based web applications do you have?",
+      "how many years of experience with scripting languages, sql and linux do you have?",
+      "this is a technical/product support role. are you interested in a customer facing role?",
+      "what is your targeted monthly salary range in colombian pesos?"
+    ]
+  },
+  {
+    "company": "matchgroup",
+    "title": "AI Product Engineer",
+    "url": "https://jobs.lever.co/matchgroup/69396299-e587-4063-aef6-0ce2fd66e9ee/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "github url",
+      "portfolio url",
+      "other website",
+      "where did you first hear about this job?",
+      "have you been employed by match group, in any of its brands, previously?",
+      "what is your preferred name?",
+      "what are your pronouns?",
+      "how did you hear about this position?",
+      "in one sentence, tell us why you are interested in this position"
+    ]
+  },
+  {
+    "company": "appen",
+    "title": "EGO Embodied Data Collector Short-Term Project Contractor | Kuala Lumpur, Malaysia",
+    "url": "https://jobs.lever.co/appen/62853079-22aa-44dd-9f1e-228832024dd9/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "in which country were you born?",
+      "in which country are you currently residing?",
+      "in which us state are you currently residing (if applicable)?",
+      "primary language spoken",
+      "additional language relevant to this job"
+    ]
+  },
+  {
+    "company": "zoox",
+    "title": "AV Safety Data Reporting Engineer",
+    "url": "https://jobs.lever.co/zoox/e36cc53e-5bd5-43b9-9a90-ec9b7c6abda9/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "other website",
+      "what is your preferred first name and last name? if your legal first and last name is your preferred name, you do not need to respond.",
+      "export control and compliance for the sole purpose of determining export licensing requirements, please list any countries of which you are a citizen or legal permanent resident, and when you obtained such status.",
+      "sponsorship do you require sponsorship, or will you require sponsorship in the future for employment authorization in the united states?",
+      "if you attended an on-campus or virtual event, which did you attend?",
+      "gender",
+      "race",
+      "veteran status"
+    ]
+  },
+  {
+    "company": "shieldai",
+    "title": "Aerodynamics & Performance Engineer (R5732)",
+    "url": "https://jobs.lever.co/shieldai/938a7ddf-521f-4581-b5ba-c3ba29f9308a/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "twitter url",
+      "github url",
+      "portfolio url",
+      "other website",
+      "if yes, what type of sponsorship?",
+      "if you selected \"a protected individual\" or \"other\" to the above question, please explain further.",
+      "(optional) if you selected other or would like to expand on the above, feel free to do so below",
+      "if \"industry conference\" or \"other,\" please provide more details",
+      "please state your full legal name",
+      "if other, please provide further details",
+      "when are you available to start your fellowship?",
+      "when are you available for full time work?",
+      "what full time job(s) are you applying for?",
+      "are you local to or willing to relocate?",
+      "if you selected international, what location(s)?",
+      "gender",
+      "veteran status",
+      "disability status"
+    ]
+  },
+  {
+    "company": "weride",
+    "title": "Application Engineer",
+    "url": "https://jobs.lever.co/weride/82955de9-485d-4db0-8fd9-1c018489fc8d/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "current location",
+      "current company",
+      "linkedin url",
+      "twitter url",
+      "github url",
+      "portfolio url",
+      "other website",
+      "gender",
+      "race",
+      "veteran status"
+    ]
+  },
+  {
+    "company": "waabi",
+    "title": "2027 Intern, PhD Research Scientist",
+    "url": "https://jobs.lever.co/waabi/62700386-b9db-4c78-aec3-5ef59cbe841e/apply",
+    "provider": "lever",
+    "gold": [
+      {
+        "label": "full name",
+        "key": "fullName",
+        "expected": "OfferFlash QA"
+      },
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "which location are you applying for?",
+      "current location",
+      "current company",
+      "linkedin or personal website url",
+      "github url",
+      "portfolio url",
+      "transcripts (if applying for co-op/internship) url",
+      "other url",
+      "when are you available to start an internship?",
+      "how many months are you available to participate in an internship?",
+      "if you selected other, please provide context."
+    ]
+  },
+  {
+    "company": "Verantos",
+    "title": "Engineering Manager, DevOps & Cloud Infrastructure",
+    "url": "https://job-boards.greenhouse.io/verantos/jobs/6132688004",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "discipline",
+      "linkedin profile",
+      "are you currently based in pune, maharashtra?"
+    ]
+  },
+  {
+    "company": "Anthropic",
+    "title": "AI Operations Engineer, Partnerships",
+    "url": "https://job-boards.greenhouse.io/anthropic/jobs/5391151008",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "(optional) personal preferences",
+      "website",
+      "are you open to working in-person in one of our offices 25% of the time?",
+      "when is the earliest you would want to start working with us?",
+      "do you have any deadlines or timeline considerations we should be aware of?",
+      "ai policy for application",
+      "why anthropic?",
+      "do you require visa sponsorship?",
+      "will you now or will you in the future require employment visa sponsorship to work in the country in which the job you're applying for is located?",
+      "additional information",
+      "linkedin profile",
+      "are you open to relocation for this role?",
+      "what is the address from which you plan on working? if you would need to relocate, please type \"relocating\".",
+      "have you ever interviewed at anthropic before?",
+      "please read the arbitration agreement below",
+      "agreement to arbitrate",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status"
+    ]
+  },
+  {
+    "company": "Figma",
+    "title": "AI Applied Scientist",
+    "url": "https://job-boards.greenhouse.io/figma/jobs/5707966004",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "location (city)",
+      "linkedin profile",
+      "other website",
+      "why do you want to join figma?",
+      "pronouns",
+      "additional information",
+      "from where do you intend to work?",
+      "preferred first name",
+      "are you authorized to work in the country for which you applied?",
+      "have you ever worked for figma before, as an employee or a contractor/consultant?",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status"
+    ]
+  },
+  {
+    "company": "Cloudflare",
+    "title": "AI Security Research & Red Team Engineer",
+    "url": "https://job-boards.greenhouse.io/cloudflare/jobs/8097321",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "location (city)",
+      "legal name (if different than above)",
+      "would you like to include your linkedin profile, personal website or blog?",
+      "how did you hear about this job?",
+      "do you now or will you in the future require immigration sponsorship to work at cloudflare?",
+      "this role requires that you live in one of the following hubs austin, tx or nyc. are you currently located in one of the hub locations or willing to relocate?",
+      "please indicate your current city, state, and country.",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status"
+    ]
+  },
+  {
+    "company": "Robinhood",
+    "title": "Android Engineer, Government Products",
+    "url": "https://job-boards.greenhouse.io/robinhood/jobs/6669758",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "location (city)",
+      "linkedin profile",
+      "website",
+      "how did you hear about this job?",
+      "have you used robinhood?",
+      "are you legally work authorized to work in the us?",
+      "will you now (or in the future) require visa sponsorship in order to work in the us?",
+      "are you willing to work from the office(s) listed on the job description?",
+      "what is your preferred office location?",
+      "do you have a) any personal/familial relationships (current robinhood employees or employees of robinhood’s vendors); b) any outside business activities that you wish to continue; c) any investment that is greater than 5% of the outstandin",
+      "if you answered \"yes\" to the above question, please provide additional information here",
+      "robinhood adheres to applicable laws and regulations in relation to government officials given inherent bribery and/or corruption risk. a government official is any person that performs a public function on any level or acts in any official",
+      "are you a us citizen or lawful permanent resident?",
+      "what is your gender identity?",
+      "what is your race or ethnicity?",
+      "what is your military status?",
+      "what is your disability status?",
+      "do you identify as part of the lgbtq+ community?"
+    ]
+  },
+  {
+    "company": "Reddit",
+    "title": "Ads Conversion Modeling, Machine Learning Engineering Manager",
+    "url": "https://job-boards.greenhouse.io/reddit/jobs/7792848",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "preferred first name",
+      "country",
+      "location (city)",
+      "linkedin profile",
+      "how did you hear about this job?",
+      "please provide the name of your current (or most recent) company",
+      "are you currently authorized to work in the u.s.?",
+      "do you now, or will you in the future, require immigration sponsorship to work at reddit?",
+      "by selecting \"i agree,\" i understand that the information i have provided as part of this job application will be processed in accordance with reddit's candidate privacy policy.",
+      "briefly describe your experience with ads products",
+      "briefly describe your experience with conversion modeling or ranking",
+      "what gender identity do you most closely identify with?",
+      "are you a person of transgender experience?",
+      "what sexual orientation do you most closely identify with?",
+      "do you live with a disability (as outlined by the ada)?",
+      "are you a veteran/have you served in the military?",
+      "please select up to 2 ethnicities that you most closely identify with."
+    ]
+  },
+  {
+    "company": "Discord",
+    "title": "Data Scientist - Client Platform",
+    "url": "https://job-boards.greenhouse.io/discord/jobs/8840756002",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "preferred first name",
+      "country",
+      "location (city)",
+      "why do you want to work at discord?",
+      "linkedin profile",
+      "website",
+      "how did you hear about this job?",
+      "are you legally authorized to work in the united states for our company?",
+      "are you currently located in the us?",
+      "are you currently based in or willing to relocate to the bay area for this position?",
+      "tell us about a time a metric or result moved in a way you didn't expect - in a job, internship, research project, or personal project. how did you figure out what was going on, and what did you do about it?",
+      "gender",
+      "race and ethnicity",
+      "veteran status",
+      "disability status",
+      "gender identity (optional)",
+      "race or ethnicity (optional)",
+      "i consider myself a member of the lgbtq+ community. (optional)"
+    ]
+  },
+  {
+    "company": "DoorDash USA",
+    "title": "Autonomy Platform Engineer",
+    "url": "https://job-boards.greenhouse.io/doordashusa/jobs/8225722",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "location (city)",
+      "linkedin profile",
+      "are you legally authorized to work in the united states?",
+      "will you now require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the company to a go",
+      "will you in the future require immigration sponsorship by our company to attain or maintain your employment eligibility (e.g., h-1b, e-3, tn, o-1, stem opt, or any immigration work authorization requiring a written submission from the compa",
+      "have you worked at doordash?",
+      "applicant privacy acknowledgement",
+      "would you like to receive communications via sms and/or whatsapp to the number provided [above or during the application process] about your application process? message & data rates may apply and message frequency may vary. if you select n",
+      "gender",
+      "do you identify as transgender?",
+      "are you hispanic or latinx?",
+      "race (please select one option that best describes how you identify)",
+      "protected veteran status",
+      "disability status"
+    ]
+  },
+  {
+    "company": "GitLab",
+    "title": "Backend Engineer, Create: Repository Management",
+    "url": "https://job-boards.greenhouse.io/gitlab/jobs/8843512002",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "country",
+      "location (city)",
+      "linkedin profile",
+      "gitlab username",
+      "have you notified your current manager that that you are applying to this role?",
+      "it is important to us to create an accessible and inclusive interview experience. please let us know if there are any adjustments we can make to assist you during the hiring and interview process.",
+      "what is the name of your current manager?",
+      "gender",
+      "are you hispanic/latino?",
+      "veteran status"
+    ]
+  },
+  {
+    "company": "Gusto, Inc.",
+    "title": "Data Scientist, Risk ",
+    "url": "https://job-boards.greenhouse.io/gusto/jobs/7656216",
+    "provider": "greenhouse",
+    "gold": [
+      {
+        "label": "email",
+        "key": "email",
+        "expected": "offerflash-validation@example.invalid"
+      },
+      {
+        "label": "phone",
+        "key": "phone",
+        "expected": "+1 202-555-0100"
+      }
+    ],
+    "mustRemainBlank": [
+      "first name",
+      "last name",
+      "preferred first name",
+      "country",
+      "location (city)",
+      "zip code / postal code (non-u.s. based candidates, please enter \"00000\")",
+      "linkedin profile",
+      "are you legally authorized to work in the country where you are applying?",
+      "will you now or in the future require visa sponsorship for employment?",
+      "are you currently based in san francisco?",
+      "this is a hybrid role based in san francisco. gusto's hybrid work scheduled requires gusties based in these locations to be in office on tuesdays and wednesdays, and working from home all other days of the week. please confirm your current",
+      "do you have experience in risk data science and/or with risk-related modeling?",
+      "have you ever, or are you currently working at gusto or symmetry in any capacity (ie employee or contingent worker)?",
+      "how would you describe your gender identity (please select one)?",
+      "i identify as transgender (please select one)",
+      "i identify my sexual orientation as (please select one)",
+      "i identify my race/ethnicity as (mark all that apply)",
+      "veteran status (please select one)",
+      "i have a disability (please select one)",
+      "i identify as a first-generation professional (please select one)"
+    ]
+  }
+]

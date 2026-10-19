@@ -1,0 +1,14 @@
+import {build} from 'esbuild';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {resolve,join} from 'node:path';
+import {createRequire} from 'node:module';
+import {spawnSync} from 'node:child_process';
+const output=resolve(process.argv.find(arg=>arg.startsWith('--output='))?.slice(9)??'.backups/readme-demo-20261019/recording');
+if(!output.startsWith(resolve('.backups')+'/'))throw new Error('Demo output must be inside ignored .backups/');
+await mkdir(output,{recursive:true,mode:0o700});
+const entry=join(output,'recording.mjs');
+await build({entryPoints:['apps/desktop/record-autofill-demo.ts'],outfile:entry,bundle:true,platform:'node',format:'esm',packages:'external',target:'node22'});
+const launcher=join(output,'recording.cjs');
+await writeFile(launcher,"const {pathToFileURL}=require('node:url');import(pathToFileURL(require('node:path').join(__dirname,'recording.mjs')).href).catch(error=>{console.error(error);process.exit(1)});\n");
+const result=spawnSync(createRequire(import.meta.url)('electron'),[launcher,'--record-fictional-autofill',`--demo-output=${output}`,`--demo-root=${resolve('.')}`],{stdio:'inherit',env:{...process.env},timeout:30000,killSignal:'SIGTERM'});
+if(result.status!==0)throw new Error('Demo recording failed; see isolated evidence');

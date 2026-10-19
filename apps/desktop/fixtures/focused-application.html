@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>虚构企业 · 快速网申测试</title>
+<style>body{font:15px system-ui;color:#263f35;background:#f3f6f1;margin:0;padding:24px}main{max-width:660px;margin:auto}h1{font-size:23px}form{background:#fff;border:1px solid #dce7df;border-radius:16px;padding:22px;display:grid;gap:15px}label{display:grid;gap:6px}input,select{font:inherit;padding:10px;border:1px solid #c7d6ca;border-radius:7px}button{padding:12px;border:0;border-radius:8px;background:#376e50;color:white}small{color:#65776a}.inline{display:flex;align-items:center}</style>
+</head><body><main><h1>虚构企业 · 快速网申测试</h1><p>这张表仅用于本机验收，不是真实企业申请。字段使用不同叫法，验证模型识别。</p>
+<form id="focused-application">
+<label>您的称呼<input id="focus-name" autocomplete="name" required></label>
+<label>接收通知的邮件地址<input id="focus-email" type="email" required></label>
+<label>便于联系您的号码<input id="focus-phone" type="tel"></label>
+<label>就读高校<input id="focus-school"></label>
+<label>研究方向（专业）<input id="focus-major"></label>
+<label>获得的最高学位<select id="focus-degree"><option value="-1">请选择</option><option value="bachelor">本科</option><optgroup label="不再开放" disabled><option value="disabled-master">硕士</option></optgroup><option value="master">硕士</option><option value="doctor">博士</option></select></label>
+<label>邮箱<input id="focus-existing" type="email" value="keep-this@example.invalid"></label>
+<label>紧急联系人姓名<input id="focus-emergency"></label>
+<label>身份证号码<input id="focus-identity"></label>
+<label class="inline"><input id="focus-consent" type="checkbox">我同意隐私协议</label>
+<button type="submit">由用户提交（本地测试）</button><small>自动填写只处理已有资料；不应覆盖已有内容、填写敏感信息、接受协议或提交。</small>
+</form><p id="focus-result" aria-live="polite"></p></main>
+<script>window.focusedSubmissions=0;document.querySelector('form').addEventListener('submit',event=>{event.preventDefault();window.focusedSubmissions++;document.querySelector('#focus-result').textContent='用户手动提交了本地样表';});</script>
+</body></html>

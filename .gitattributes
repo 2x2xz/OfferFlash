@@ -1,0 +1,4 @@
+# Keep the upstream font license byte-for-byte.
+apps/desktop/assets/fonts/OFL.txt -whitespace
+# Frozen benchmark bytes include the authored terminal blank line; preserve the recorded digest.
+benchmarks/offerflash-v1/matching.json whitespace=-blank-at-eof

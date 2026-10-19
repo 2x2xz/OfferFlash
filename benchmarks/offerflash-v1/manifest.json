@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "offerflash-bench-v1",
+  "registration": "local-frozen-diagnostic-not-external-preregistration",
+  "files": [
+    {
+      "name": "protocol.json",
+      "sha256": "c78953a1c501042263bfd43a9357acf5a668590c8eef23673289c99c6b555d52"
+    },
+    {
+      "name": "matching.json",
+      "sha256": "30f355870d513d6f9103fbc5cf7869376c2a8132d6f0213ce90568e2e94fb5b5"
+    },
+    {
+      "name": "forms.json",
+      "sha256": "abfac58321f81241d288481a5b6fa23dff6481a7cc36b6697ef8a687f0580aca"
+    },
+    {
+      "name": "retrieval.json",
+      "sha256": "c9de94789b9ba4d1813c608f60b6c9f073021adcd9df83881cd671099fc7ffc0"
+    }
+  ],
+  "datasetHash": "01c68d5447060b8fef342535b876829be30d05faefa8e7da9f27d437d3914217"
+}

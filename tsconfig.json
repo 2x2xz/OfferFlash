@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "jsx": "react-jsx",
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["packages/**/*.ts", "apps/**/*.ts", "apps/**/*.tsx", "scripts/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "reference-sources", "runtime-home"]
+}

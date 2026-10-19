@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="night" x1="160" y1="96" x2="864" y2="928" gradientUnits="userSpaceOnUse"><stop stop-color="#203047"/><stop offset="1" stop-color="#090f19"/></linearGradient>
+    <linearGradient id="bolt" x1="640" y1="160" x2="384" y2="856" gradientUnits="userSpaceOnUse"><stop stop-color="#fff4c5"/><stop offset=".48" stop-color="#ffd36c"/><stop offset="1" stop-color="#f4a940"/></linearGradient>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="208" fill="url(#night)"/>
+  <path d="M224 128H800L896 224V800L800 896H224L128 800V224L224 128Z" fill="none" stroke="#8cb8ef" stroke-opacity=".4" stroke-width="12"/>
+  <path d="M567 159H754L565 430H746L332 879L422 565H240L567 159Z" fill="url(#bolt)" stroke="#ffd36c" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M567 159H655L448 462H594L376 726L432 526H329L567 159Z" fill="#ecfbff"/>
+  <path d="M160 638H238M141 706H286M715 242H838" stroke="#72dbff" stroke-width="16" stroke-linecap="square"/>
+</svg>

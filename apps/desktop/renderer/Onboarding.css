@@ -1,0 +1,23 @@
+.onboarding { color: var(--pc-text); }
+.onboarding-brand { display: flex; align-items: center; gap: 11px; color: #91c8ed; margin-bottom: 24px; }
+.onboarding-brand svg { width: 26px; height: 26px; }
+.onboarding-brand span { font-family: var(--pc-pixel-font); font-size: 11px; letter-spacing: .1em; }
+.onboarding-steps { display: flex; list-style: none; margin: 0 0 23px; padding: 0; gap: 15px; }
+.onboarding-steps li { display: flex; align-items: center; gap: 8px; flex: 1; color: #8d9aaa; font-size: 12px; }
+.onboarding-step-number { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex: 0 0 24px; border: 1px solid #526174; font-family: var(--pc-pixel-font); font-size: 12px; }
+.onboarding-steps [data-status='current'] { color: #d5e8f8; font-weight: 650; }
+.onboarding-steps [data-status='current'] .onboarding-step-number { background: #233b4e; border-color: #91c8ed; color: #b5defa; box-shadow: 3px 3px 0 #102535; }
+.onboarding-steps [data-status='complete'] { color: #a4c9e0; }
+.onboarding-main { display: flex; gap: 15px; padding: 20px; background: #18222e; border: 1px solid #354457; }
+.onboarding-main > svg { color: #91c8ed; flex-shrink: 0; margin-top: 2px; }
+.onboarding-main h3, .onboarding-guide-copy h3 { margin: 0 0 8px; color: #e1e9f1; font-size: 15px; line-height: 1.5; }
+.onboarding-main p, .onboarding-guide-copy p { margin: 0; color: #b2bfcd; font-size: 13px; line-height: 1.8; }
+.onboarding-note { margin: 15px 0 0; padding-left: 1px; color: #b9c8d6; font-size: 12px; line-height: 1.8; }
+.onboarding-reopen { color: #97a6b8; font-size: 11px; margin: 21px 0 0; }
+.onboarding-profile-guide { border: 1px solid #496178; background: #1a2836; padding: 20px 23px; margin-bottom: 23px; box-shadow: 4px 4px 0 #111923; }
+.onboarding-profile-guide .onboarding-steps { max-width: 540px; margin-bottom: 19px; }
+.onboarding-guide-copy { display: flex; gap: 18px; align-items: center; justify-content: space-between; }
+.onboarding-guide-copy > div:first-child { max-width: 700px; }
+.onboarding-guide-actions { display: flex; flex-shrink: 0; gap: 5px; }
+@media (max-width: 1150px) { .onboarding-guide-copy { align-items: flex-start; flex-direction: column; gap: 12px; } }
+@media (prefers-reduced-motion: reduce) { .onboarding *, .onboarding-profile-guide * { animation: none !important; transition: none !important; } }

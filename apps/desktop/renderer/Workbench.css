@@ -1,0 +1,130 @@
+/* A compact desktop workbench: one navigation rail and one stable application space. */
+.workbench{--ink:#252a30;--muted:#717983;--accent:#17785f;--accent-dark:#12634e;--line:#e5e8eb;--card:#fff;--shadow:none;background:#f6f7f8;color:var(--ink);font-size:13px}
+.workbench [hidden]{display:none!important}
+.workbench .card{border-radius:10px;box-shadow:none}
+.workbench .button{height:32px;border-radius:6px;font-size:12px;box-shadow:none}
+.workbench .button-primary:hover:not(:disabled){transform:none}
+.workbench input,.workbench textarea,.workbench select{border-radius:6px;font-size:12px}
+.workbench .text-link{font-size:11px}
+.workbench .topbar{height:58px;padding:0 24px;background:#f6f7f8;border-bottom:1px solid var(--line)}
+.workbench .topbar h1{font-size:17px;font-weight:650;letter-spacing:-.35px}
+.workbench .date-pill{font-size:10px}
+.workbench .avatar{height:28px;width:28px;border-width:2px}
+.workbench .page-scroll{padding:20px 24px 28px}
+.workbench .page{gap:16px}
+.workbench .section-heading h2{font-size:15px}
+.workbench .section-heading p{font-size:11px;line-height:1.5;margin-top:4px}
+.workbench .card-pad{padding:18px}
+.workbench .stat-value{font-size:23px;letter-spacing:-.5px}
+.workbench .hero{min-height:124px;padding:20px 23px;border-radius:10px;background:#f0f5f2}
+.workbench .hero h2{font-size:21px;letter-spacing:-.5px}
+.workbench .hero-visual{display:none}
+.workbench .workbench-nav{width:156px;padding:16px 9px 12px;background:#f0f2f3;border-right:1px solid #e0e4e7;gap:12px}
+.workbench .workbench-nav .brand{padding:0 5px 11px;gap:8px}
+.workbench .workbench-nav .brand-mark{height:30px;width:30px;border-radius:8px;font-size:19px;font-weight:720;box-shadow:none;flex-shrink:0}
+.workbench .workbench-nav .brand-name{font-size:15px;letter-spacing:-.5px}
+.workbench .workbench-nav .nav{gap:5px}
+.workbench .workbench-nav .nav-button{width:100%;height:39px;min-height:39px;gap:9px;border-radius:7px;padding:0 11px;color:#667079;font-size:12px;position:relative}
+.workbench .workbench-nav .nav-button:hover:not(:disabled){background:#e6e9eb;color:#313b43}
+.workbench .workbench-nav .nav-button.active{background:#e1ece6;color:#176d54;font-weight:620}
+.workbench .workbench-nav .nav-count{font-size:9px;background:transparent;color:#82958c;padding:0;margin-left:auto}
+.workbench .workbench-nav .sidebar-foot{padding:0;margin-top:auto;display:flex;flex-direction:column;gap:9px}
+.workbench .workbench-nav .sidebar-toggle{margin:0;padding:6px;justify-content:center;color:#7c858c}
+.workbench.sidebar-collapsed .workbench-nav{width:64px;padding:16px 7px 12px}
+.workbench.sidebar-collapsed .workbench-nav .brand{padding:0 0 10px;justify-content:center}
+.workbench.sidebar-collapsed .workbench-nav .nav-button{height:57px;padding:6px 0;flex-direction:column;justify-content:center;gap:5px}
+.workbench.sidebar-collapsed .workbench-nav .nav-button-label{display:inline;font-size:10px;line-height:1}
+.workbench.sidebar-collapsed .workbench-nav .nav-count{display:none}
+.workbench.in-application-space .topbar{display:none}
+.workbench.browser-focus-mode .workbench-nav{display:none}
+.application-space{display:grid;flex:1;min-width:0;min-height:0;overflow:hidden}
+.application-space.browser-focus-space>.workspace-dock,.application-space.browser-focus-space>.workspace-dock-resizer{display:none}
+.application-space.browser-focus-space>.workspace-canvas{grid-column:3;min-width:0}
+.workspace-dock{min-width:0;min-height:0;display:flex;flex-direction:column;background:#fbfcfc;border-right:1px solid #e5e8eb;overflow:hidden}
+.workspace-dock-tabs{height:44px;min-height:44px;display:flex;align-items:center;padding:0 10px;gap:4px;background:#f6f7f8;border-bottom:1px solid #e5e8eb}
+.workspace-dock-tabs>button{height:29px;border:0;background:transparent;color:#7b838c;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 8px;border-radius:5px;font-size:11px;white-space:nowrap}
+.workspace-dock-tabs>button[aria-selected=true]{background:#fff;box-shadow:0 1px 3px #121b2310;color:#28332d;font-weight:600}
+.workspace-dock-tabs>button:hover:not(:disabled){background:#e9edef;color:#3b454e}
+.workspace-dock-tabs>.workspace-dock-toggle{margin-left:auto;padding:0 5px}
+.workspace-dock-pane{min-width:0;min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
+.workspace-dock-pane.workspace-activity,.workspace-dock-pane.workspace-details{overflow:auto}
+.workspace-dock-resizer{cursor:col-resize;min-width:0;background:#f5f6f7;touch-action:none;position:relative}
+.workspace-dock-resizer:hover,.workspace-dock-resizer:focus-visible{background:#dde8e2;outline:none}
+.workspace-dock-resizer[aria-disabled=true]{cursor:default}
+.application-space.dock-collapsed .workspace-dock-tabs{height:auto;flex:1;align-items:center;flex-direction:column;padding:10px 4px;gap:8px}
+.application-space.dock-collapsed .workspace-dock-tabs>button{width:32px;height:32px;padding:0}
+.application-space.dock-collapsed .workspace-dock-tabs>button>span{display:none}
+.application-space.dock-collapsed .workspace-dock-toggle{margin:0!important;order:-1}
+.application-space.dock-collapsed .workspace-dock-resizer{visibility:hidden}
+.workspace-canvas{min-width:0;min-height:0;display:flex;flex-direction:column;background:#fff;overflow:hidden}
+.workspace-canvas-tabs{height:44px;min-height:44px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f6f7f8;border-bottom:1px solid var(--line)}
+.workspace-canvas-tabs>div{display:flex;align-items:center;min-width:0;gap:5px;overflow:hidden}
+.workspace-canvas-tabs button{height:28px;max-width:340px;display:inline-flex;align-items:center;gap:6px;min-width:0;border:0;border-radius:5px;background:transparent;color:#828990;padding:0 9px;font-size:11px;white-space:nowrap}
+.workspace-canvas-tabs button.selected{background:#fff;color:#35433c;box-shadow:0 1px 3px #121b2310}
+.workspace-canvas-tabs button span{overflow:hidden;text-overflow:ellipsis}
+.workspace-canvas-note{font-size:10px;color:#9a9fa4;white-space:nowrap}
+.workspace-current-label{font-size:11px;color:#3b4b42;padding:0 9px}
+.workspace-browser-host{display:flex;flex:1;min-width:0;min-height:0}
+.workspace-canvas .embedded-browser{padding:0;min-width:0;flex:1;gap:0}
+.workspace-canvas .embedded-browser .browser-toolbar{border:0;border-radius:0;box-shadow:none;padding:9px 12px;gap:5px;min-height:49px;background:#fff;flex-wrap:nowrap}
+.workspace-canvas .embedded-browser .browser-toolbar>.icon-button{width:27px;height:29px}
+.workspace-canvas .embedded-browser .browser-address{border-radius:6px;flex:1 1 160px;min-width:115px;padding:0 7px;height:31px}
+.workspace-canvas .embedded-browser .browser-address input{font-size:11px}
+.workspace-canvas .embedded-browser .browser-address>.button{display:none}
+.workspace-canvas .embedded-browser .browser-auto-fill{width:112px;min-width:112px;height:32px;min-height:32px;padding:0 10px;font-size:12px}
+.workspace-canvas .embedded-browser .browser-auto-fill>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workspace-canvas .embedded-browser .browser-auto-fill[aria-busy=true]>svg:not(.spin){display:none}
+.workspace-canvas .embedded-browser .browser-auto-fill svg{width:14px;height:14px}
+.workspace-canvas .embedded-browser .browser-toolbar>.button:nth-last-child(2){display:none}
+.workspace-canvas .embedded-browser .browser-panel-toggle{height:30px;font-size:11px;padding:0 7px}
+.workspace-canvas .embedded-browser .browser-panel-toggle span{display:none}
+.workspace-canvas .embedded-browser .browser-auto-status{height:31px;min-height:31px;max-height:31px;padding:5px 12px;border:0;border-top:1px solid #f1f3f4;border-bottom:1px solid var(--line);border-radius:0;font-size:10px;background:#fafcfb}
+.workspace-canvas .embedded-browser .browser-auto-status>.text-link{font-size:10px}
+.workspace-canvas .embedded-browser .browser-grid{gap:0;border:0;border-radius:0;overflow:hidden;min-height:0}
+.workspace-canvas .embedded-browser .browser-content{border:0;border-radius:0;box-shadow:none}
+.workspace-canvas .embedded-browser .browser-content-heading{display:none}
+.workspace-canvas .embedded-browser .browser-placeholder{border-radius:0}
+.workspace-details .browser-panel{width:100%;padding:14px;border:0;background:#fbfcfc;min-width:0;overflow:visible;gap:0}
+.workspace-details .browser-panel>h2,.workspace-details .browser-panel>.browser-panel-sub,.workspace-details .browser-panel>.browser-panel-back,.workspace-details .browser-hint-footer{display:none}
+.workspace-details .career-fill-panel{margin-top:0}
+.workspace-details .career-fill-panel h3{font-size:13px}
+.workspace-details .career-fill-panel>p{font-size:11px;line-height:1.55}
+.workspace-dock .agent-dock .chat-heading{min-height:53px;padding:11px 14px}
+.workspace-dock .agent-dock .chat-body{padding:16px 13px}
+.workspace-dock .agent-dock .chat-compose{padding:12px}
+.workspace-dock .agent-dock .agent-task-starters{padding:9px 12px}
+.workspace-dock .agent-dock .chat-message-actions{border-top:0;padding-top:2px;margin-top:5px;opacity:.45}
+.workspace-dock .agent-dock .chat-message:hover .chat-message-actions,.workspace-dock .agent-dock .chat-message:focus-within .chat-message-actions{opacity:1}
+.workspace-dock .agent-dock .chat-message.assistant .message-content{background:transparent;border:0;padding:0 3px}
+.workspace-dock .agent-dock .chat-activity{padding:6px 14px;font-size:10px}
+.workspace-dock .telemetry-compact{border-top:0;background:transparent;padding:14px 12px}
+.workspace-dock .telemetry-compact .telemetry-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 0;padding:12px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.workspace-dock .telemetry-compact .telemetry-overview dl:nth-child(2){border-right:0}
+.workspace-dock .telemetry-compact .telemetry-overview dl{padding-left:10px!important}
+.workspace-dock .telemetry-compact .telemetry-overview dd{font-size:16px}
+.workspace-dock .telemetry-compact .telemetry-overview dt{font-size:10px}
+.workspace-dock .telemetry-compact .telemetry-stage-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;overflow:visible}
+.workspace-dock .telemetry-compact .telemetry-stage{min-width:0}
+.workspace-dock .telemetry-compact .telemetry-run-picker{min-width:0}
+.workspace-dock .telemetry-compact .telemetry-run-picker select{max-width:145px}
+.workbench .workspace-recommendations{padding:20px;overflow:auto;background:#f8f9fa;flex:1}
+.workspace-recommendations .apply-heading,.workspace-recommendations .apply-steps,.workspace-recommendations .apply-model-strip,.workspace-recommendations .apply-bottom-note{display:none}
+.workspace-recommendations .apply-resume-card{padding:14px 16px;border-radius:9px;gap:12px}
+.workspace-recommendations .apply-resume-card .apply-card-icon{width:32px;height:32px}
+.workspace-recommendations .apply-resume-card h3{font-size:13px}
+.workspace-recommendations .apply-resume-card p{font-size:11px;line-height:1.5}
+.workspace-recommendations .apply-job-grid{grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.workspace-recommendations .apply-job-card{padding:16px;border-radius:9px}
+.workspace-recommendations .apply-job-card h4{font-size:13px;line-height:1.5}
+.workspace-recommendations .apply-job-reasons{font-size:11px;line-height:1.6}
+.workspace-recommendations .apply-section-heading h3{font-size:14px}
+.workspace-recommendations .apply-section-heading p{font-size:10px}
+.workspace-recommendations .apply-more{font-size:10px}
+.workbench .workspace-telemetry-full{padding:20px;flex:1}
+.workbench .workspace-telemetry-full .telemetry-intro h2{font-size:16px}
+.workbench .workspace-telemetry-full .telemetry-overview dd{font-size:20px}
+.workbench-settings{display:flex;flex-direction:column;gap:10px}
+.workbench-settings>.button{justify-content:flex-start;height:42px}
+.workbench-settings details{padding:10px 0;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.workbench-settings details p{font-size:11px;margin:10px 0}
+@media(max-width:1200px){.workspace-canvas-note{display:none}.workbench .workspace-recommendations{padding:15px}.workspace-recommendations .apply-resume-card{align-items:flex-start;flex-wrap:wrap}.workspace-recommendations .apply-card-actions{width:100%;justify-content:flex-start}.workspace-canvas .embedded-browser .browser-toolbar{padding-left:8px;padding-right:8px;gap:3px}}

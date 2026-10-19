@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; frame-src 'none'; form-action 'none'">
+<title>OfferFlash · 飞书控件只读诊断</title>
+<style>body{margin:0;background:#f4f6fa;color:#182536;font:14px system-ui}main{height:150px;box-sizing:border-box;padding:12px 18px}h1{font-size:16px;margin:0 0 8px}p{margin:6px 0;color:#4f5b6c}form{display:flex;gap:8px}input{flex:1;min-width:120px;padding:8px;border:1px solid #b8c1ce;border-radius:6px}button{padding:7px 12px;border:1px solid #a5b2c4;border-radius:6px;background:white}#result{font-size:12px;overflow-wrap:anywhere;white-space:pre-wrap}#status{font-size:12px}</style>
+</head><body><main><h1 id="heading">独立登录窗口 · 仅采集控件结构</h1>
+<p id="description">请手动登录并打开教育、实习或项目区域。程序不会填写、点击网页、提交申请或调用模型。</p>
+<form id="navigation"><input id="url" type="url" autocomplete="off" spellcheck="false" placeholder="粘贴 HTTPS 招聘网址（仅用于本窗口导航）" aria-label="招聘网址"><button id="navigate" type="submit">打开网址</button><button type="button" id="read">读取控件结构</button><button type="button" id="validate" hidden>锁写并验证适配</button></form>
+<p id="status" role="status">尚未选定网站。</p><div id="result" role="status"></div></main><script src="site-diagnostic-renderer.js"></script></body></html>

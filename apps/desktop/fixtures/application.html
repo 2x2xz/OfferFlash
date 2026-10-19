@@ -1,0 +1,27 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>OfferAgent 本地网申测试表单</title>
+<style>body{font:16px system-ui;background:#f4f7fb;color:#183047;padding:36px;max-width:720px;margin:auto}h1{font-size:25px}form{padding:24px;background:white;border-radius:16px;display:grid;gap:18px}label{display:grid;gap:8px}input,select,textarea{font:inherit;padding:10px;border:1px solid #ccd5e2;border-radius:8px}small{color:#6f7e91}button{padding:12px;background:#176f5c;color:white;border:0;border-radius:8px}#result{padding:14px;}.fixture-scroll-space{height:110vh;color:#6f7e91;background:linear-gradient(#f7fafc,#fff);border-radius:8px;padding:14px;box-sizing:border-box}</style>
+</head><body><h1>本地网申测试表单</h1><p>用于验证字段识别与填写，不会发送到企业。提交必须由用户手动点击。</p>
+<form id="application"><div class="fixture-scroll-space">滚动验证区域：填写项在下方，用于检查自动滚动。</div><label>姓名<input id="name" name="fullName" required></label>
+<label>邮箱<input id="email" type="email" name="email" required></label>
+<label>手机号<input id="phone" type="tel" name="phone"></label>
+<label>学校<input id="school" name="school"></label>
+<label>专业<input id="major" name="major"></label>
+<label>学历<select id="degree"><option value="">请选择</option><option>本科</option><option>硕士</option><option>博士</option></select></label>
+<label>毕业时间<input id="graduation" placeholder="YYYY-MM"></label>
+<label>紧急联系人姓名<input id="emergency" name="emergencyName"></label>
+<label>身份证号码<input id="identity" name="identity"></label>
+<label>已填写字段<input id="existing" value="用户已有内容"></label>
+<label><span><input type="checkbox" id="agreement"> 我已阅读并同意声明</span></label>
+<button type="submit">手动提交测试表单</button><small>自动填写应跳过身份证、联系人、声明和已有内容。</small><input type="hidden" id="fixture-hidden-state" name="id" value="keep-fictional-hidden-state"></form><div id="result"></div>
+<script>
+const form=document.getElementById('application'),hidden=document.getElementById('fixture-hidden-state');
+// Original regression fixture: a form's named input shadows form.id. React's
+// enumerable private expando makes serializing that DOM node a circular JSON error.
+Object.defineProperty(hidden,'__reactInternalInstance',{value:{stateNode:hidden},enumerable:true});
+const metrics=window.offerAgentNativeFixture={wheels:0,trustedWheels:0,scrolls:0,maxScrollY:scrollY,submissions:0,submitClicks:0};
+window.addEventListener('wheel',event=>{metrics.wheels++;if(event.isTrusted)metrics.trustedWheels++;},{capture:true,passive:true});
+window.addEventListener('scroll',()=>{metrics.scrolls++;metrics.maxScrollY=Math.max(metrics.maxScrollY,scrollY);},{passive:true});
+form.querySelector('button[type=submit]').addEventListener('click',()=>{metrics.submitClicks++;});
+form.addEventListener('submit',e=>{metrics.submissions++;e.preventDefault();document.getElementById('result').textContent='用户已手动提交测试表单（仅本地）';});
+</script>
+</body></html>
