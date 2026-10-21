@@ -1,8 +1,8 @@
 /** Narrow host task intent, not a model router or another agent loop. */
 export type JobSearchIntent = 'fresh' | 'local';
-export const JOB_SEARCH_DEADLINE_MS = 35_000;
+export const JOB_SEARCH_DEADLINE_MS = 120_000;
 export const JOB_SEARCH_DISCOVERY_BUDGET = Object.freeze({
-  maxSources: 3, maxPages: 2, pageSize: 20, detailLimit: 10, includeExperienced: false,
+  maxSources: 8, maxPages: 2, pageSize: 20, detailLimit: 10, includeExperienced: false,
 });
 export interface JobSearchTask {
   intent: JobSearchIntent; scope: 'mainland-official' | 'overseas-official' | 'local-snapshot'; deadlineMs: number;
@@ -39,6 +39,7 @@ function localConstraint(input: string): boolean {
   // "Don't ONLY search the local database" requests broader research, while
   // "don't go online" constrains an otherwise authorized job search to local.
   const positive = input
+    .replace(/(?:不止|不限于|不局限于|不要只局限于|不要只限于|别只限于)[^，,。！？?;\n]{0,25}(?:本地(?:岗位)?库|岗位库|本地|已保存(?:的岗位)?|现有岗位|当前库)/gu, ' ')
     .replace(/(?:不要|别|不用|不必|不是)(?:只|仅)(?:查找|查询|查|看|从)?[^，,。！？?;\n]{0,25}(?:本地(?:岗位)?库|岗位库|本地|已保存(?:的岗位)?|现有岗位|当前库)/gu, ' ')
     .replace(/\b(?:do not|don't|not)\s+(?:only|just)\s+(?:search|query|look at|use).{0,35}\b(?:local database|saved jobs|stored jobs)\b/giu, ' ');
   return /(?:不要|别|禁止|无需|不用|不)(?:再|自动)?(?:联网|上网|访问网络|访问官网)|\b(?:do not|don't|no|without|never)\s+(?:go(?:ing)?\s+online|internet|network|web(?:\s+search)?|brows(?:e|ing))\b/iu.test(positive)
@@ -48,7 +49,8 @@ function localConstraint(input: string): boolean {
 /** A question about workflow or a quoted example is never authorization to search. */
 export function classifyJobSearchIntent(input: string): JobSearchIntent | null {
   if (typeof input !== 'string' || !input.trim() || input.length > 20_000) return null;
-  const text = outsideQuotes(input.normalize('NFKC')).replace(/\r/gu, '');
+  const text = outsideQuotes(input.normalize('NFKC')).replace(/\r/gu, '')
+    .replace(/(?:不止|不限于|不局限于)(?:简历库|岗位库|本地库)(?:里(?:的)?)?/gu, '更多公开岗位');
   if (!jobs.test(text)) return null;
   const hypothetical = /(?:如果|假如|假设|例如|比如|示例|举例|当用户|用户说|用户输入|用户问).{0,45}(?:查|找|搜|推荐).{0,60}(?:岗位|职位)|\b(?:for example|suppose|if a user|someone says)\b.{0,100}\b(?:find|search|recommend)\b/iu.test(text);
   const explanation = /解释|说明|意思|识别|如何处理|怎么处理|怎么回复|如何回复|原理|工作流|流程|教程|\b(?:explain|classify|meaning|respond|handle)\b/iu.test(text);

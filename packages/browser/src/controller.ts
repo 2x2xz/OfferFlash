@@ -2,7 +2,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { basename, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { setTimeout as delay } from 'node:timers/promises';
-import { WebContentsView, type BrowserWindow, type DownloadItem, type Event, type WebContents } from 'electron';
+import { WebContentsView, type BrowserWindow, type DownloadItem, type Event, type WebContents, type Session, type WebPreferences, type HandlerDetails, type WindowOpenHandlerResponse } from 'electron';
 import type {
   BrowserBounds, BrowserState, CapturedPage, FieldObservation, FillItem, FillPlan, FillResult,
   FormObservation, JobInput, Profile,
@@ -13,7 +13,9 @@ import type {
 import {
   buildFillPlan, fieldSignature, isVerifiedValue, matchSelectOption, pageSignature, validateApprovedFields,
 } from '../../forms/src/index.js';
-import { READ_FORM, READ_JOB_LINKS, READ_PAGE, readTarget, readLocationWheelTarget, writeObservedMonth, locationObservationSnapshot, revealObservedField } from './read-scripts.js';
+import { READ_FORM, READ_FORM_STRUCTURE, READ_JOB_LINKS, READ_PAGE, readTarget, readLocationWheelTarget, writeObservedMonth, locationObservationSnapshot, revealObservedField } from './read-scripts.js';
+import { formDiagnostic } from '../../forms/src/form-diagnostic.js';
+import {READ_UNIVERSAL_FORM} from './universal-read.js';
 import { readComboboxOptionTarget, readComboboxPopup } from './combobox-scripts.js';
 import { FeishuCareerDriver } from './feishu-native.js';
 import { createFeishuFixtureScripts } from './feishu-scripts.js';
@@ -24,6 +26,7 @@ import { safePreparationRetry } from '../../forms/src/fill-retry.js';
 import { workflowOrdinaryTarget, workflowCareerTarget } from './workflow-location.js';
 import { prepareOneClickCareer } from '../../ui/src/one-click-career.js';
 import { FieldCompanion, type FieldCompanionTarget } from './field-companion.js';
+import {browserTabShortcut} from './tab-shortcuts.js';
 import { buildCareerPlan, type CareerFillPlan } from '../../forms/src/career-plan.js';
 import { runCareerPlan, type CareerRunnerJournalEvent } from '../../forms/src/career-runner.js';
 import { isAllowedNavigation } from './navigation-policy.js';
@@ -36,7 +39,7 @@ import { READ_COLLECTION_DETAIL, READ_COLLECTION_LIST, readPaginationTarget } fr
 import { checkCollectionDetail } from './detail-observation.js';
 import type { SourceCollectionResult } from '../../shared/src/contracts.js';
 
-interface BrowserOptions {
+export interface BrowserOptions {
   window: BrowserWindow;
   onState(state: BrowserState): void;
   getProfile(): Promise<Profile>;
@@ -47,7 +50,15 @@ interface BrowserOptions {
   enableFieldCompanion?: boolean;
   /** Test-only exact loopback scope, never accepted through application IPC. */
   careerFixtureOrigin?: string;
+  onNewWindow?(details:HandlerDetails):WindowOpenHandlerResponse;
+  /** Host-only callbacks; none are exposed to a remote page or model. */
+  confirmLeave?():Promise<{leave:boolean;approved:boolean}>;
+  confirmNativeLeave?():boolean;
+  popupPreferences?:WebPreferences;
+  popupContents?:WebContents;
+  onBrowserShortcut?(action:'new'|'close'|'next'|'previous'):void;
 }
+const INSTALL_DIRTY_TRACKER=`(()=>{if(window.__offerflashDirtyTracker)return;Object.defineProperty(window,'__offerflashDirtyTracker',{value:{dirty:false},configurable:false});const mark=event=>{const target=event.target;if(target instanceof Element&&target.matches('input:not([type=hidden]):not([type=search]),textarea,select,[contenteditable=true]'))window.__offerflashDirtyTracker.dirty=true;};document.addEventListener('input',mark,true);document.addEventListener('change',mark,true);})()`;
 interface ObservationView { rawSnapshot?:string; observation: FormObservation; width: number; height: number; generation: number; }
 interface StoredPlan { plan: FillPlan; original: FormObservation; generation: number; }
 type FillExecutionStage = 'read-field' | 'focus-view' | 'settle-field' | 'reveal-field' | 'hit-field' | 'hover-field'
@@ -78,9 +89,13 @@ function annotateOrdinaryPlan(plan:FillPlan,observation:FormObservation,profile:
 /** A single remote tab, with no application preload or Node access. */
 export class BrowserController {
   readonly view: WebContentsView;
+  private readonly session:Session;
+  private leaveApproved=false;
+  private closeDecision?: (closed:boolean)=>void;
   private readonly fixtureURL?: string;
   private state: BrowserState = { url: '', title: '内置浏览器', loading: false, canGoBack: false, canGoForward: false, visible: false, zoomPercent: 100 };
   private generation = 0;
+  private documentGeneration = 0;
   private disposed = false;
   private filling = false;
   private fillInterrupted = false;
@@ -102,14 +117,16 @@ export class BrowserController {
   constructor(private readonly options: BrowserOptions) {
     this.careerFixtureScripts = options.careerFixtureOrigin ? createFeishuFixtureScripts(options.careerFixtureOrigin) : undefined;
     this.fixtureURL = options.testFormPath ? pathToFileURL(resolve(options.testFormPath)).href : undefined;
-    this.view = new WebContentsView({ webPreferences: {
+    this.view = new WebContentsView({...(options.popupContents?{webContents:options.popupContents}:{}), webPreferences: {
+      ...options.popupPreferences,
       partition: 'persist:offeragent-recruiting', sandbox: true, contextIsolation: true,
-      nodeIntegration: false, nodeIntegrationInSubFrames: false, webSecurity: true,
-      allowRunningInsecureContent: false,
+      nodeIntegration: false, nodeIntegrationInSubFrames: false, nodeIntegrationInWorker:false,webSecurity: true,
+      allowRunningInsecureContent: false,preload:undefined,webviewTag:false,additionalArguments:[],session:undefined,
     } });
     options.window.contentView.addChildView(this.view);
     this.view.setVisible(false);
     const contents = this.view.webContents;
+    this.session=contents.session;
     if (options.enableFieldCompanion) {
       this.fieldCompanion = new FieldCompanion(contents);
       options.window.on('blur',this.clearDecoration);
@@ -123,7 +140,9 @@ export class BrowserController {
       this.publish({ error: `网页请求的 ${permission} 权限未开启，请手动处理。` });
     });
     contents.session.on('will-download', this.onDownload);
-    contents.setWindowOpenHandler(({ url }) => {
+    contents.setWindowOpenHandler(details => {
+      const {url}=details;
+      if(options.onNewWindow&&(this.isAllowed(url)||url==='about:blank'))return options.onNewWindow(details);
       if (!this.isAllowed(url)) {
         this.publish({ error: '已阻止不支持的新窗口地址。' });
       } else {
@@ -133,6 +152,16 @@ export class BrowserController {
       }
       return { action: 'deny' };
     });
+    contents.on('dom-ready',()=>{void contents.executeJavaScript(INSTALL_DIRTY_TRACKER).catch(()=>{});});
+    contents.on('will-prevent-unload',event=>{
+      const leave=this.leaveApproved||(options.confirmNativeLeave?.()??false);this.leaveApproved=false;
+      if(leave)event.preventDefault();else this.closeDecision?.(false);
+    });
+    contents.on('before-input-event',(event,input)=>{
+      if(input.type!=='keyDown'||!options.onBrowserShortcut)return;
+      const action=browserTabShortcut(input);
+      if(action){event.preventDefault();options.onBrowserShortcut(action);}
+    });
     contents.on('will-navigate', (event, url) => { if (!this.isAllowed(url)) event.preventDefault(); });
     contents.on('will-redirect', (event, url) => {
       if (!this.isAllowed(url)) { event.preventDefault(); this.publish({ error: '网页重定向地址不受支持。' }); }
@@ -140,6 +169,7 @@ export class BrowserController {
     contents.on('will-frame-navigate', event => { if (!this.isAllowed(event.url)) event.preventDefault(); });
     contents.on('did-start-navigation', (_event, _url, inPlace, isMainFrame) => {
       if (isMainFrame) {
+        if(!inPlace)this.documentGeneration++;
         this.generation++; this.plans.clear(); this.careerPlans.clear(); this.locations.clear();
         // The tab's loading spinner also tracks background iframes. Only a
         // main-document navigation cancels the UI's current quick-fill task.
@@ -147,20 +177,21 @@ export class BrowserController {
       }
     });
     contents.on('did-frame-finish-load', (_event, isMainFrame) => {
-      if (isMainFrame) this.publish({ loading: false });
+      if (isMainFrame) {this.leaveApproved=false;this.publish({ loading: false });}
     });
     contents.on('did-stop-loading', () => {
       // An aborted main navigation may not emit frame-finish. Do not wait for
       // analytics/subframes, or let their spinner restart create a new task.
       if (this.state.loading && !contents.isLoadingMainFrame()) this.publish({ loading: false });
     });
-    contents.on('did-navigate', () => this.publish({}));
-    contents.on('did-navigate-in-page', () => this.publish({}));
+    contents.on('did-navigate', () => this.publish({ error: undefined }));
+    contents.on('did-navigate-in-page', () => this.publish({ error: undefined }));
     contents.on('page-title-updated', () => this.publish({}));
     contents.on('did-fail-load', (_event, code, description, _url, isMainFrame) => {
       if (isMainFrame && code !== -3) this.publish({ loading: false, error: `网页加载失败：${description}` });
     });
     contents.on('render-process-gone', (_event, details) => {
+      this.documentGeneration++;
       this.generation++;
       this.plans.clear();
       this.careerPlans.clear(); this.locations.clear();
@@ -195,7 +226,26 @@ export class BrowserController {
     try { this.options.onState(this.getState()); } catch { /* Observers cannot control the browser. */ }
   }
 
-  getState(): BrowserState { return { ...this.state }; }
+  getState(): BrowserState { return { ...this.state,documentRevision:this.documentGeneration }; }
+  async hasUnsavedChanges():Promise<boolean>{
+    if(this.disposed||!this.view.webContents||this.view.webContents.isDestroyed())return false;
+    const contents=this.view.webContents,url=contents.getURL();
+    // A newly allocated blank WebContents has no loaded document. Electron
+    // queues executeJavaScript until load, so asking it can block quit forever.
+    if(!url||url==='about:blank')return false;
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    try{return await Promise.race([contents.executeJavaScript('window.__offerflashDirtyTracker?.dirty===true').then(value=>value===true).catch(()=>true),new Promise<boolean>(resolve=>{timer=setTimeout(()=>resolve(true),1200);})]);}
+    finally{clearTimeout(timer);}
+  }
+  private async allowLeave():Promise<boolean>{
+    const decision=await this.options.confirmLeave?.()??{leave:true,approved:false};this.leaveApproved=decision.leave&&decision.approved;return decision.leave;
+  }
+  async requestClose():Promise<boolean>{
+    this.assertLive();if(this.filling||this.preparing||this.collecting)throw Error('请等待当前页面操作结束，再关闭标签页。');
+    if(!await this.allowLeave())return false;
+    const contents=this.view.webContents;
+    return new Promise<boolean>(resolve=>{let settled=false;const finish=(closed:boolean)=>{if(settled)return;settled=true;clearTimeout(timer);this.closeDecision=undefined;contents.removeListener('destroyed',destroyed);resolve(closed);};const destroyed=()=>finish(true);const timer=setTimeout(()=>finish(contents.isDestroyed()),5000);this.closeDecision=finish;contents.once('destroyed',destroyed);contents.close({waitForBeforeUnload:true});});
+  }
   setFieldCompanionMotion(input:{enabled:boolean;reducedMotion:boolean}):Promise<void> {
     if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(key=>!['enabled','reducedMotion'].includes(key))
       ||typeof input.enabled!=='boolean'||typeof input.reducedMotion!=='boolean')throw new Error('动画偏好无效。');
@@ -229,11 +279,15 @@ export class BrowserController {
     if (this.collecting) throw new Error('正在采集官网列表，请等待本次采集结束再导航。');
     const url = /^[a-z][a-z\d+.-]*:/i.test(raw.trim()) ? raw.trim() : `https://${raw.trim()}`;
     if (!this.isAllowed(url)) throw new Error('只支持 HTTP/HTTPS 招聘网页及应用内固定测试表单。');
+    if(this.state.url&&this.state.url!=='about:blank'&&!await this.allowLeave())return this.getState();
     this.options.onNavigate?.();
     this.plans.clear();
     this.publish({ error: undefined });
     try { await this.view.webContents.loadURL(url); }
-    catch (error) { this.publish({ error: error instanceof Error ? error.message : '网页加载失败。', loading: false }); }
+    catch (error) {
+      const aborted=error instanceof Error&&(/ERR_ABORTED|\(-3\)/.test(error.message)||(error as Error&{errno?:number}).errno===-3);
+      this.publish(aborted?{error:undefined,loading:this.view.webContents.isLoadingMainFrame()}:{ error: error instanceof Error ? error.message : '网页加载失败。', loading: false });
+    }
     this.publish({});
     return this.getState();
   }
@@ -248,7 +302,7 @@ export class BrowserController {
     if (this.preparing) throw new Error('正在识别网页字段，请等待识别结束再切换网页。');
     if (this.filling) throw new Error('填写过程中不能切换网页。');
     if (this.collecting) throw new Error('官网采集过程中不能切换网页。');
-    if (this.view.webContents.navigationHistory.canGoBack()) this.view.webContents.navigationHistory.goBack();
+    if (this.view.webContents.navigationHistory.canGoBack()&&await this.allowLeave()) this.view.webContents.navigationHistory.goBack();
     this.publish({}); return this.getState();
   }
   async forward(): Promise<BrowserState> {
@@ -256,7 +310,7 @@ export class BrowserController {
     if (this.preparing) throw new Error('正在识别网页字段，请等待识别结束再切换网页。');
     if (this.filling) throw new Error('填写过程中不能切换网页。');
     if (this.collecting) throw new Error('官网采集过程中不能切换网页。');
-    if (this.view.webContents.navigationHistory.canGoForward()) this.view.webContents.navigationHistory.goForward();
+    if (this.view.webContents.navigationHistory.canGoForward()&&await this.allowLeave()) this.view.webContents.navigationHistory.goForward();
     this.publish({}); return this.getState();
   }
   async reload(): Promise<BrowserState> {
@@ -264,6 +318,7 @@ export class BrowserController {
     if (this.preparing) throw new Error('正在识别网页字段，请等待识别结束再刷新。');
     if (this.filling) throw new Error('填写过程中不能刷新网页。');
     if (this.collecting) throw new Error('官网采集过程中不能刷新网页。');
+    if(!await this.allowLeave())return this.getState();
     this.plans.clear(); this.view.webContents.reload(); this.publish({}); return this.getState();
   }
 
@@ -284,7 +339,7 @@ export class BrowserController {
   }
 
   private assertLive(): void {
-    if (this.disposed || this.view.webContents.isDestroyed()) throw new Error('浏览器已关闭。');
+    if (this.disposed || !this.view.webContents || this.view.webContents.isDestroyed()) throw new Error('浏览器已关闭。');
   }
   private assertReadable(): void {
     this.assertLive();
@@ -331,6 +386,29 @@ export class BrowserController {
       signature: createHash('sha256').update(`${generation}:${pageSignature(fields)}`).digest('hex'),
     };
     return { rawSnapshot:locationObservationSnapshot(raw), observation, generation, width: finite(viewport.width), height: finite(viewport.height) };
+  }
+
+  async diagnoseFormReadOnly() {
+    if(this.preparing||this.filling||this.collecting)throw Error('请等待当前操作结束后再诊断。');
+    this.preparing=true;
+    try {
+      const before=await this.observe(),profile=await this.options.getProfile();
+      const semanticBefore=await this.view.webContents.executeJavaScript(READ_UNIVERSAL_FORM);
+      const structure=await this.view.webContents.executeJavaScript(READ_FORM_STRUCTURE);
+      const semanticAfter=await this.view.webContents.executeJavaScript(READ_UNIVERSAL_FORM);
+      const after=await this.observe(),latest=await this.options.getProfile();
+      if(before.generation!==after.generation||before.rawSnapshot!==after.rawSnapshot||JSON.stringify(semanticBefore)!==JSON.stringify(semanticAfter)||profile.version!==latest.version)throw Error('诊断期间页面或资料变化，请重新诊断。');
+      return formDiagnostic(after.observation,profile,structure,semanticAfter);
+    } finally {this.preparing=false;}
+  }
+
+  async withUniversalContents<T>(operation:(contents:import('electron').WebContents,generation:()=>number,onFieldActivity:(target:FieldCompanionTarget)=>void)=>Promise<T>):Promise<T>{
+    if(this.preparing||this.filling||this.collecting)throw Error('BROWSER_BUSY');
+    this.filling=true;this.fillInterrupted=false;this.plans.clear();this.careerPlans.clear();this.locations.clear();this.clearDecoration();
+    let active=true;const url=this.view.webContents.getURL();
+    const onFieldActivity=(target:FieldCompanionTarget)=>{if(active&&this.view.webContents.getURL()===url)this.decorate(target);};
+    try{return await operation(this.view.webContents,()=>this.documentGeneration,onFieldActivity);}
+    finally{active=false;this.clearDecoration();this.filling=false;}
   }
 
   async preparePlan(resolver?: (observation: FormObservation, profile: Profile) => Promise<FillPlan>, options: {rememberLocation?:boolean} = {}): Promise<FillPlan> {
@@ -1521,8 +1599,8 @@ export class BrowserController {
     this.plans.clear();
     this.locations.clear();
     this.careerAbort?.abort(); this.careerPlans.clear();
-    this.view.webContents.session.removeListener('will-download', this.onDownload);
+    this.session.removeListener('will-download', this.onDownload);
     if (!this.options.window.isDestroyed()) this.options.window.contentView.removeChildView(this.view);
-    if (!this.view.webContents.isDestroyed()) this.view.webContents.close({ waitForBeforeUnload: false });
+    if (this.view.webContents&&!this.view.webContents.isDestroyed()) this.view.webContents.close({ waitForBeforeUnload: false });
   }
 }

@@ -12,7 +12,7 @@ import type {
   Profile, ProfileInput, ProjectInput, PublicationInput,
 } from "../packages/shared/src/contracts.js";
 
-const flat: Omit<ProfileInput, "career"> = {
+const flat: Omit<ProfileInput, "career" | "personal"> = {
   fullName: "虚构履历用户", fullNameEn: "Fictional User", email: "test@example.invalid", phone: "",
   school: "", schoolEn: "", degree: "", major: "", majorEn: "", graduationMonth: "",
   skills: ["Python"], cities: ["杭州"], targetRoles: ["算法"], resumeText: "虚构测试资料",

@@ -1,0 +1,14 @@
+import type {Profile} from '../../packages/shared/src/contracts.js';
+const confirmed={revision:1,confirmation:'confirmed' as const,confirmedAt:'2026-10-20',confirmedRevision:1,evidence:[],sourceNote:'原创虚构资料'};
+export const overrideProfile:Profile={version:1,updatedAt:'',fullName:'虚构候选人',fullNameEn:'Fictional Candidate',email:'fixture@example.invalid',phone:'2025550100',school:'',schoolEn:'',degree:'',major:'',majorEn:'',graduationMonth:'',resumeText:'',skills:[],cities:[],targetRoles:[],career:{schemaVersion:1,sources:[],primaryEducationId:'e1',
+ educations:[{...confirmed,id:'e1',school:'虚构甲大学',schoolEn:'',college:'虚构计算学院',degree:'硕士',major:'人工智能',majorEn:'',startDate:'2025-09',endDate:'2027-06',description:''},{...confirmed,id:'e2',school:'虚构乙大学',schoolEn:'',college:'虚构数学学院统计系',degree:'本科',major:'统计学',majorEn:'',startDate:'2021-09',endDate:'2025-06',description:''}],
+ internships:[{...confirmed,id:'i1',organization:'虚构研究中心',role:'算法实习生',startDate:'2026-06',endDate:'',current:true,technologies:[],description:'本地已确认的实习内容。'}],
+ projects:['DemoAgent','DemoRL'].map((name,i)=>({...confirmed,id:'p'+i,name:name+'｜虚构演示项目',role:i?'主要负责人':'主要开发者',description:'本地已确认的描述'+(i+1)+'。\n第二行保留原始排版。',startDate:'2026-06',endDate:'2026-08',ongoing:false,technologies:[],url:''})),publications:[]}};
+export const overrideHTML=`<meta charset="utf-8"><form onsubmit="window.submits++;return false">
+<label>姓名<input id="n" value="错误姓名"></label><label>邮箱<input id="e" type="email" value="wrong@example.invalid"></label>
+<div class="form-part"><label>学校名称<input id="s1" value="虚构甲大学"></label><label>学院名称<input id="c1"></label><label>专业名称<input value="人工智能"></label></div>
+<div class="form-part"><label>学校名称<input id="s2" value="虚构乙大学"></label><label>学院名称<input id="c2" value="解析错误的学院"></label></div>
+<div class="form-part"><label>单位名称<input value="虚构研究中心"></label><label>职位名称<input id="role-i"></label><label>实习内容<textarea id="di">网站解析错了</textarea></label></div>
+<div class="form-part"><label>项目名称<input id="p1" value="Demo Agent"></label><label>职务<input id="r1"></label><label>开始时间<input type="month" value="2026-06"></label><label>结束时间<input type="month" value="2026-08"></label><label>项目描述<textarea id="d1">混合了其他项目的描述</textarea></label></div>
+<div class="form-part"><label>项目名称<input id="p2" value="Demo RL"></label><label>职务<input id="r2"></label><label>开始时间<input type="month" value="2026-06"></label><label>结束时间<input type="month" value="2026-08"></label><label>项目描述<textarea id="d2">本地 已确认的描述2。第二行保留原始排版。</textarea></label></div>
+<label>推荐人姓名<input id="ref" value="保留"></label><label>身份证<input id="id" value="INVALID-ID"></label><label>密码<input id="password" type="password" value="fixture-only"></label><label>验证码<input id="captcha" value="KEEP"></label><label>同意隐私协议<input type="checkbox"></label><button>提交申请</button></form><script>window.submits=0</script>`;

@@ -219,7 +219,7 @@ export async function smokeWorkspace(window: BrowserWindow, methods: Methods,
     steps.setStage('recommendation-position-and-dock-width');
     await click('workspace-show-recommendations');
     await waitFor('recommendations-mounted-in-existing-space', 'document.querySelectorAll("[data-apply-job-id]").length===6');
-    await waitFor('discovery-default-domestic-source-loaded', `document.querySelectorAll('.discovery-source-row[data-provider="feishu"] input:checked,.discovery-source-row[data-provider="tencent-campus"] input:checked').length===3`);
+    await waitFor('discovery-default-domestic-source-loaded', `document.querySelectorAll('.discovery-source-row[data-provider="feishu"] input:checked,.discovery-source-row[data-provider="tencent-campus"] input:checked').length===8`);
     expect(await ui<boolean>('new-jobs-primary-visible-by-default', `(() => {
       const discovery=document.querySelector('[data-testid="job-discovery"]');
       return discovery instanceof HTMLDetailsElement&&discovery.open&&discovery.checkVisibility()
@@ -228,7 +228,7 @@ export async function smokeWorkspace(window: BrowserWindow, methods: Methods,
     })()`), 'newJobDiscoveryIsExpandedPrimaryActionInApplicationSpace');
     expect(await ui<boolean>('default-three-domestic-only', `(() => {
       const checked=[...document.querySelectorAll('.discovery-source-row')].filter(row=>row.querySelector('input')?.checked);
-      return checked.length===3&&checked.every(row=>['feishu','tencent-campus'].includes(row.getAttribute('data-provider')))
+      return checked.length===8&&checked.every(row=>['feishu','tencent-campus'].includes(row.getAttribute('data-provider')))
         &&document.querySelector('.discovery-experienced input')?.checked===false;
     })()`), 'defaultSelectionIncludesOnlyThreeDomesticSourcesAndExcludesOverseasAndExperienced');
     expect(await ui<boolean>('bounded-local-preview-not-new-search', `(() => {
@@ -267,7 +267,7 @@ export async function smokeWorkspace(window: BrowserWindow, methods: Methods,
       if(!(input instanceof HTMLInputElement)||input.disabled||!input.checked)throw new Error('国内来源选项不可用');input.click();
     })()`); await settle();
     await click('workspace-show-web'); await click('workspace-show-recommendations');
-    await waitFor('source-selection-memory-loaded', `document.querySelector(${JSON.stringify(sourceInputSelector)})?.checked===false&&document.querySelectorAll('.discovery-source-row input:checked').length===2`);
+    await waitFor('source-selection-memory-loaded', `document.querySelector(${JSON.stringify(sourceInputSelector)})?.checked===false&&document.querySelectorAll('.discovery-source-row input:checked').length===${domesticIds.length-1}`);
     expect(await ui<boolean>('source-selection-retained-on-return', `document.querySelector(${JSON.stringify(sourceInputSelector)})?.checked===false`), 'sourceChoiceSurvivesRoundTripWithoutResettingToDefaults');
     await ui('restore-owned-source-selection', `(() => {const settings=document.querySelector('[data-testid="discovery-source-settings"]');if(!settings.open)settings.querySelector('summary').click();document.querySelector(${JSON.stringify(sourceInputSelector)}).click();settings.querySelector('summary').click();})()`); await settle();
 

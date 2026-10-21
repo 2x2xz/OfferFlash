@@ -24,8 +24,10 @@ export function jobSearchWorkflow(input: string, host: Host, options?:{modelMatc
         : { limit: matchOnline?20:6 }, controller.signal);
       let jobs = Array.isArray(result?.jobs) ? result.jobs.filter((job: any) => job && !job.demo && job.match?.eligible !== 'unsuitable').slice(0, 6) : [];
       const fresh = task.intent === 'fresh', report = result?.discovery;
+      const webSearch = fresh ? report?.publicSearch : undefined;
+      const webLeads = webSearch?.status === 'completed' && Array.isArray(webSearch.leads) ? webSearch.leads.slice(0,20) : [];
       const actualStatus = fresh ? report?.status ?? result?.sourceRun?.status : result?.coverage === 'local-snapshot' ? 'success' : 'failed';
-      const failed = actualStatus === 'failed' || fresh && !(report?.sourcesAttempted > 0);
+      const failed = !webLeads.length && (actualStatus === 'failed' || fresh && !(report?.sourcesAttempted > 0));
       const cancelled = signal.aborted || actualStatus === 'cancelled';
       const count = fresh ? result?.sourceRun?.count ?? jobs.length : result?.totalMatched ?? jobs.length;
       const scope = fresh ? task.region === 'overseas' ? '本轮按你明确要求查找海外官网来源' : '本轮国内官网查找' : matchOnline?'本轮检索岗位库，没有新增采集官网岗位':'本轮仅查询岗位库，没有联网';
@@ -37,16 +39,19 @@ export function jobSearchWorkflow(input: string, host: Host, options?:{modelMatc
         const pool=Array.isArray(result?.jobs)?result.jobs.filter((j:any)=>j&&!j.demo&&typeof j.id==='string'):[];
         if(count>0||pool.length){
           progress('match-profile');
-          try{const matched=await host('match_profile_jobs',{expectedVersion:profile.version,region:task.region,includeCareerDetails:true,...(explicitGoal?{intent:explicitGoal}:{})},controller.signal);
+          const newJobIds = fresh && Array.isArray(report?.jobIds) ? report.jobIds : undefined;
+          try{const matched=await host('match_profile_jobs',{expectedVersion:profile.version,region:task.region,includeCareerDetails:true,...(newJobIds?.length?{jobIds:newJobIds}:{}),...(explicitGoal?{intent:explicitGoal}:{})},controller.signal);
             controller.signal.throwIfAborted();const displayed=Array.isArray(matched.jobs)?matched.jobs:pool;
             if(matched.status!=='completed'||matched.profileVersion!==profile.version||!Array.isArray(matched.ranking)||matched.ranking.some((id:unknown)=>!displayed.some((j:any)=>j.id===id)))throw Error('Invalid matching snapshot');
             jobs=matched.ranking.map((id:string)=>displayed.find((j:any)=>j.id===id));modelApplied=true;
-            heading=`${scope}：从岗位库${matched.retrieval?.scannedCount??count}条记录中检索并重排，模型保留${jobs.length}条。`;matchingNote='模型已比较已确认经历与检索候选的岗位职责，明确硬条件冲突已排除；未知条件仍需核对。'+(matched.retrieval?.warning??'');
+            heading=`${scope}：从${newJobIds?.length?'本轮采集的':'岗位库'}${matched.retrieval?.scannedCount??count}条记录中检索并重排，模型保留${jobs.length}条。`;matchingNote='模型已比较已确认经历与检索候选的岗位职责，明确硬条件冲突已排除；未知条件仍需核对。'+(matched.retrieval?.warning??'');
           }catch{controller.signal.throwIfAborted();matchingNote='本轮模型匹配未完成，下面仅保留规则候选，不是模型推荐。';}
         }
       }
       const rows = jobs.map((job: any, index: number) => `${index + 1}. ${job.company} · [${job.title}](${job.url}) · ${job.city || '城市待核对'}${job.match?.eligible === 'review' ? ' · 条件待核对' : ''}`);
-      const summary = [heading, details, matchingNote, ...rows, jobs.length ? '可以在右侧点“加入待申请”或“去网申”，也可以告诉我“把第一个加入待申请”或“打开第二个网申”。本次未提交申请。' : modelApplied?'本轮没有筛出有足够依据的推荐，不凑数量；其它记录可在岗位库查看。':'没有得到可展示的完整候选；可查看来源报告了解失败或未覆盖范围。'].join('\n\n');
+      const webNote = webSearch ? `公开网页搜索：${webLeads.length}条待核实线索。${webSearch.reason}` : '';
+      const leadRows = webLeads.map((lead: any) => `网页线索 · [${String(lead.title).replace(/[\[\]\r\n]/g,' ')}](${lead.url}) · 正文与资格待核实`);
+      const summary = [heading, details, matchingNote, ...rows, webNote, ...leadRows, jobs.length ? '可以在右侧点“加入待申请”或“去网申”，也可以告诉我“把第一个加入待申请”或“打开第二个网申”。本次未提交申请。' : webLeads.length?'可以在右侧打开网页线索核对；这些来源链接尚未作为已确认岗位入库，也没有提交申请。':modelApplied?'本轮没有筛出有足够依据的推荐，不凑数量；其它记录可在岗位库查看。':'没有得到可展示的完整候选；可查看来源报告了解失败或未覆盖范围。'].join('\n\n');
       progress(cancelled ? 'cancelled' : failed ? 'failed' : 'results');
       return { status, summary, context: JSON.stringify({ scope, status: actualStatus, profileVersion: profile.version,
         matchingNote,preferences: { roles: profile.targetRoles, cities: profile.cities }, evidence: report,

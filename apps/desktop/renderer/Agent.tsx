@@ -1,3 +1,4 @@
+import {AgentQuestionPrompt} from './AgentQuestionPrompt.js';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, Bot, Copy, Globe, RotateCcw, Settings2, Sparkles, Square } from 'lucide-react';
 import { Badge, Button, EmptyState, ErrorMessage } from './components.js';
@@ -10,7 +11,7 @@ import './AgentDock.css';
 
 export function AgentPage({ embedded = false, inputLocked = false, children }: { embedded?: boolean; inputLocked?: boolean; children?: ReactNode } = {}) {
   const { api, model, messages, events, streamText, agentBusy, runAgent, openModel, openBrowser, notify,
-    composerDraft, setComposerDraft, restoreAgentRequest, navigate } = useWorkspace();
+    composerDraft, setComposerDraft, restoreAgentRequest, navigate,agentQuestion,answerAgentQuestion } = useWorkspace();
   const [cancelling, setCancelling] = useState(false); const [following, setFollowing] = useState(true);
   const interactionLocked = embedded && inputLocked;
   const body = useRef<HTMLDivElement>(null); const composer = useRef<HTMLTextAreaElement>(null);
@@ -24,7 +25,7 @@ export function AgentPage({ embedded = false, inputLocked = false, children }: {
   }, [composerDraft]);
   const timeline = events.filter(event => event.type !== 'text_delta').slice(-14);
   const lastEvent = timeline.at(-1);
-  const activity = cancelling ? '正在停止，等待在途操作收尾。' : agentBusy
+  const activity = agentQuestion?'正在等待你的回答':cancelling ? '正在停止，等待在途操作收尾。' : agentBusy
     ? lastEvent ? agentEventLabel(lastEvent) : '正在开始本次任务。' : '可以发送新的问题。';
   const starters = model.mode === 'demo' ? [
     { label: '查看本地岗位', text: '演示：查看本地已保存的岗位，并区分虚构记录。' },
@@ -43,7 +44,7 @@ export function AgentPage({ embedded = false, inputLocked = false, children }: {
     { label: '申请进度', text: '整理我未来7天的申请截止事项，区分需要我处理的事项和等待企业反馈。' },
   ];
   function prepareQuestion(text: string) {
-    if (interactionLocked) return;
+    if (interactionLocked||agentQuestion) return;
     if (composerDraft.trim()) { notify('输入框已有草稿，请先保留或清空它，再准备其他问题。'); return; }
     setComposerDraft(text); composer.current?.focus();
   }
@@ -67,8 +68,8 @@ export function AgentPage({ embedded = false, inputLocked = false, children }: {
       </div> : <div className="chat-heading"><span className="row"><span className="dot" />OfferFlash 助手<Badge tone={model.mode === 'demo' ? 'amber' : 'green'}>{model.mode === 'demo' ? '离线演示' : '在线模型模式'}</Badge></span><button className="text-link" disabled={agentBusy} onClick={openModel}><Settings2 size={13} />模型设置</button></div>}
       {model.mode === 'live' && <ModelUsageStrip api={api} />}
       <div className="agent-task-starters" aria-label="准备常用问题">
-        {!embedded && <span>准备问题</span>}{(embedded ? dockStarters : starters).map(starter => <button type="button" className="quick-prompt" key={starter.label} disabled={interactionLocked} onClick={() => prepareQuestion(starter.text)} aria-label={`准备问题：${starter.label}`}>{starter.label}</button>)}
-        {embedded && <button type="button" className="quick-prompt" disabled={interactionLocked} onClick={() => navigate('browser')} aria-label="打开网申页面"><Globe size={12} />打开网申</button>}
+        {!embedded && <span>准备问题</span>}{(embedded ? dockStarters : starters).map(starter => <button type="button" className="quick-prompt" key={starter.label} disabled={interactionLocked||!!agentQuestion} onClick={() => prepareQuestion(starter.text)} aria-label={`准备问题：${starter.label}`}>{starter.label}</button>)}
+        {embedded && <button type="button" className="quick-prompt" disabled={interactionLocked||!!agentQuestion} onClick={() => navigate('browser')} aria-label="打开网申页面"><Globe size={12} />打开网申</button>}
       </div>
       <div ref={body} className="chat-body" data-testid={embedded ? 'agent-dock-messages' : undefined} role="log" aria-label="对话记录" aria-live="off" onScroll={event => { const element = event.currentTarget; setFollowing(shouldFollowChatScroll(element.scrollHeight, element.scrollTop, element.clientHeight)); }}>
         {!messages.length && !agentBusy ? embedded ? <div className="agent-dock-intro"><p>{model.mode === 'demo' ? '一键填写在右侧；这里可查询已保存的岗位与进度。' : '选岗位、看进度，或说说你的下一步。'}</p></div> : <div className="chat-intro">
@@ -98,16 +99,17 @@ export function AgentPage({ embedded = false, inputLocked = false, children }: {
         {children}
       </div>
       {!following && <button type="button" className="chat-jump-latest" onClick={() => setFollowing(true)}><ArrowDown size={13} />回到最新回复</button>}
+      {agentQuestion&&answerAgentQuestion&&<AgentQuestionPrompt key={agentQuestion.id} request={agentQuestion} onReply={answerAgentQuestion} onStop={cancel}/>}
       <div className="chat-activity" role="status" aria-live="polite" aria-atomic="true">{interactionLocked && !agentBusy ? '正在填写网页，结束后可继续对话' : embedded && !agentBusy && !cancelling ? '准备就绪' : activity}</div>
-      <form className="chat-compose" onSubmit={event => { event.preventDefault(); void send(); }}>
+      {!agentQuestion&&<form className="chat-compose" onSubmit={event => { event.preventDefault(); void send(); }}>
         <div className="compose-box">
-          <textarea ref={composer} aria-label="发送给助手的消息" disabled={interactionLocked} placeholder={interactionLocked ? '网页填写中…' : agentBusy ? '可以先写下一条问题，当前任务结束后再发送…' : model.mode === 'demo' ? embedded ? '查询岗位、进度，或配置模型后自由对话…' : '准备一次本地演示查询…' : '描述你想分析或准备的事情…'} rows={2} value={composerDraft} onChange={event => setComposerDraft(event.target.value)} onKeyDown={event => {
+          <textarea ref={composer} aria-label="发送给助手的消息" disabled={interactionLocked||!!agentQuestion} placeholder={interactionLocked ? '网页填写中…' : agentBusy ? '可以先写下一条问题，当前任务结束后再发送…' : model.mode === 'demo' ? embedded ? '查询岗位、进度，或配置模型后自由对话…' : '准备一次本地演示查询…' : '描述你想分析或准备的事情…'} rows={2} value={composerDraft} onChange={event => setComposerDraft(event.target.value)} onKeyDown={event => {
             if (isComposerSubmitKey({ key: event.key, shiftKey: event.shiftKey, isComposing: event.nativeEvent.isComposing, keyCode: event.nativeEvent.keyCode })) { event.preventDefault(); void send(); }
           }} />
           {agentBusy ? <Button type="button" variant="danger" busy={cancelling} onClick={() => void cancel()} aria-label="停止当前任务">{!cancelling && <Square size={13} />}</Button> : <Button type="submit" disabled={interactionLocked || !canSubmitComposer(composerDraft, agentBusy)} aria-label="发送"><ArrowUp size={17} /></Button>}
         </div>
         <div className="compose-foot">{!embedded && <span>{model.mode === 'demo' ? '演示数据与真实招聘信息分开' : '发送后，相关任务上下文会交给你配置的模型服务'}</span>}<span>Enter 发送 · Shift + Enter 换行</span></div>
-      </form>
+      </form>}
     </section>
     {!embedded && <aside className="agent-side">
       <div className="card model-card"><div className="model-title"><Sparkles size={15} color="#85a88e" />当前助手模式</div><Badge tone={model.mode === 'demo' ? 'amber' : 'green'}>{model.mode === 'demo' ? '离线演示 · 无需密钥' : '在线 AI · 用户自配'}</Badge><p className="model-caption">{model.mode === 'demo' ? '以固定演示响应读取本地岗位和申请；虚构记录有独立标记。' : `${model.provider} / ${model.modelId}`}</p><Button variant="secondary" className="button-full" disabled={agentBusy} onClick={openModel}><Settings2 size={13} />配置模型</Button></div>

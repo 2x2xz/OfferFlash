@@ -1,3 +1,4 @@
+import type {AgentQuestionRequest,AgentQuestionResponse,AgentQuestionResult} from './agent-questions.js';
 import type {JobMatchingRequest,JobMatchingState} from './job-matching.js';
 import type { TelemetryBeginInput, TelemetryFinishInput, TelemetryReviewInput, TelemetryRun, TelemetryState } from '../../telemetry/src/contracts.js';
 export type * from '../../telemetry/src/contracts.js';
@@ -31,7 +32,8 @@ export interface CareerRecordInput {
   id: string; evidence: CareerEvidence[]; sourceNote: string;
 }
 export interface EducationInput extends CareerRecordInput {
-  school: string; schoolEn: string; degree: string; major: string; majorEn: string;
+  school: string; schoolEn: string; college?: string; degree: string; major: string; majorEn: string;
+  majorCategory?: string; schoolCategory?: string; studyMode?: string;
   startDate: string; endDate: string; description: string;
 }
 export interface InternshipInput extends CareerRecordInput {
@@ -64,15 +66,28 @@ export interface CareerHistory extends CareerInput {
   sources: CareerSource[]; educations: EducationRecord[]; internships: InternshipRecord[];
   projects: ProjectRecord[]; publications: PublicationRecord[];
 }
+export interface LanguageInput {
+  id: string; language: string; examName: string; score: string; certificateName: string;
+  selfAssessment: string; listeningSpeaking: string; readingWriting: string; sourceNote: string;
+}
+export interface SoftwareInput { id: string; name: string; proficiency: string; description: string; sourceNote: string; }
+export interface AwardInput { id: string; name: string; issuer: string; date: string; description: string; sourceNote: string; }
+export interface PersonalProfileInput {
+  schemaVersion: 1; languages: LanguageInput[]; software: SoftwareInput[]; awards: AwardInput[];
+  selfEvaluation: string; sourceNote: string;
+}
+export interface PersonalProfile extends PersonalProfileInput { revision: number; confirmedRevision: number | null; confirmedAt: string | null; }
 export interface ProfileInput {
   fullName: string; fullNameEn: string; email: string; phone: string;
   school: string; schoolEn: string; degree: string; major: string; majorEn: string;
   graduationMonth: string; skills: string[]; cities: string[]; targetRoles: string[];
   acceptedRecruitmentTypes?: Array<'campus'|'internship'|'experienced'>;
   resumeText: string;
+  birthDate?: string;
+  personal?: PersonalProfileInput;
   career?: CareerInput;
 }
-export interface Profile extends ProfileInput { version: number; updatedAt: string; career?: CareerHistory; }
+export interface Profile extends ProfileInput { version: number; updatedAt: string; career?: CareerHistory; personal?: PersonalProfile; }
 export interface MatchResult {
   score: number; reasons: string[]; concerns: string[]; eligible: 'likely' | 'review' | 'unsuitable';
   profileVersion: number;
@@ -126,6 +141,9 @@ export interface BrowserBounds { x: number; y: number; width: number; height: nu
 export interface BrowserState {
   url: string; title: string; loading: boolean; canGoBack: boolean; canGoForward: boolean;
   visible: boolean; error?: string; zoomPercent?: 80 | 90 | 100;
+  activeTabId?: string;
+  documentRevision?:number;
+  tabs?: Array<{id:string;url:string;title:string;loading:boolean}>;
 }
 /** Local UI can request a previously observed field, never a selector or coordinates. */
 export interface ApplicationFieldLocationInput {
@@ -184,12 +202,15 @@ export interface ResumeImport {
   career?: CareerInput;
 }
 export interface ModelConfig {
-  mode: 'demo' | 'live'; provider: string; modelId: string; apiKey: string; baseURL?: string;
+  mode: 'demo' | 'live'; provider: string; modelId: string; apiKey: string; baseURL?: string; remember?: boolean; reuseKey?: boolean;
 }
-export interface ModelStatus { mode: 'demo' | 'live'; provider: string; modelId: string; configured: boolean; }
+export interface ModelStatus { mode: 'demo' | 'live'; provider: string; modelId: string; configured: boolean; configurationProvider?: string; baseURL?: string; remembered?: boolean; canReuseKey?: boolean; connectionWarning?: string; }
 export type AgentEvent = RuntimeEvent;
 export type AgentRunResult = RunResult;
 export type AppEvent =
+  | {type:'agent-question';request:AgentQuestionRequest|null}
+  | {type:'agent-question-answered';request:AgentQuestionRequest;result:AgentQuestionResult}
+  | {type:'universal-fill-progress';message:string}
   | {type:'job-matching';state:JobMatchingState}
   | { type: 'application-queue'; state: ApplicationQueueState }
   | { type: 'form-retry'; kind: 'ordinary' | 'career'; label: string; attempt: number; maxAttempts: number }
@@ -224,6 +245,7 @@ export interface OfferAPI extends ApplicationWorkflowAPI, ApplicationAssetsAPI, 
   importApplyDock(): Promise<{ cancelled: boolean; state?: AppState; addedFields?: number; conflictCount?: number; warnings?: string[] }>;
   getState(): Promise<AppState>;
   saveProfile(profile: ProfileInput, expectedVersion?: number): Promise<AppState>;
+  confirmPersonalProfile(expectedVersion: number, expectedRevision: number): Promise<AppState>;
   confirmCareerRecord(collection: CareerCollection, recordId: string, expectedVersion: number, expectedRevision: number): Promise<AppState>;
   importResume(): Promise<ResumeImport>;
   saveJob(job: JobInput): Promise<AppState>;
@@ -237,6 +259,10 @@ export interface OfferAPI extends ApplicationWorkflowAPI, ApplicationAssetsAPI, 
   getSources(): Promise<SourceDefinition[]>;
   refreshSource(sourceId: string, query?: string, options?: SourceCollectionOptions): Promise<AppState>;
   browserNavigate(url: string): Promise<BrowserState>;
+  browserNavigateCurrent?(url:string):Promise<BrowserState>;
+  browserNewTab?(url?:string):Promise<BrowserState>;
+  browserSelectTab?(id:string):Promise<BrowserState>;
+  browserCloseTab?(id:string):Promise<BrowserState>;
   browserBack(): Promise<BrowserState>;
   browserForward(): Promise<BrowserState>;
   browserReload(): Promise<BrowserState>;
@@ -251,6 +277,10 @@ export interface OfferAPI extends ApplicationWorkflowAPI, ApplicationAssetsAPI, 
   collectPageJobs(options?: PageCollectionOptions): Promise<AppState>;
   prepareFill(options?: { useModel?: boolean; scope?: 'contacts' }): Promise<FillPlan>;
   fillApproved(planId: string, fieldIds: string[]): Promise<FillResult>;
+  inspectResumeUpload?():Promise<import('./resume-upload.js').ResumeUploadInspection>;
+  uploadApplicationResume?(input:import('./resume-upload.js').ResumeUploadRequest):Promise<import('./resume-upload.js').ResumeUploadReceipt>;
+  runUniversalFill?(input:{profileVersion:number;overwriteExisting?:boolean;retryFailed?:boolean}):Promise<import('../../browser/src/universal-form.js').UniversalResult>;
+  cancelUniversalFill?():Promise<void>;
   prepareCareerFill(options?: CareerFillOptions): Promise<CareerFillPreview>;
   runCareerFill(planId: string): Promise<CareerFillOutcome>;
   cancelCareerFill(): Promise<void>;
@@ -258,8 +288,13 @@ export interface OfferAPI extends ApplicationWorkflowAPI, ApplicationAssetsAPI, 
   jobMatchingState?(): Promise<JobMatchingState>;
   matchSavedJobs?(input: JobMatchingRequest): Promise<JobMatchingState>;
   cancelJobMatching?(): Promise<void>;
+  applicationSetup?():Promise<import('./application-setup.js').ApplicationSetupState>;
+  saveApplicationSetup?(input:import('./application-setup.js').ApplicationSetupInput,expectedVersion:number,profileVersion:number):Promise<{setup:import('./application-setup.js').ApplicationSetupState;state:AppState}>;
   modelStatus(): Promise<ModelStatus>;
   configureModel(config: ModelConfig): Promise<ModelStatus>;
+  forgetModelConnection?(): Promise<ModelStatus>;
+  pendingAgentQuestion():Promise<AgentQuestionRequest|null>;
+  respondAgentQuestion(input:AgentQuestionResponse):Promise<{accepted:true}>;
   runAgent(input: string): Promise<AgentRunResult>;
   cancelAgent(): Promise<void>;
   onEvent(listener: (event: AppEvent) => void): () => void;

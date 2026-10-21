@@ -1,7 +1,7 @@
 {
   "apps/desktop/assets/fonts/GeistPixel-Square.woff2": "80887afede26bc861e92dbfbb17a775d769e46e7c84f336b1c9f17959f60606d",
-  "apps/desktop/assets/icon.png": "bc48b8bef4cd3395dc5edfaba6a27c68f00144d88fd474dcac352a6bd80bf91b",
-  "apps/desktop/assets/OfferFlash.icns": "7318872b6f32df8cb6b7772de4d30b97a79872ff4de618f4483c251232f1b466",
+  "apps/desktop/assets/icon.png": "1341411f0365cad6b0cc2268567afc5d72268166d66a5b339353465fdb25b6ab",
+  "apps/desktop/assets/OfferFlash.icns": "b567622e9652a4aa820b180571640f7d5f716274b9d4000e66ecf81a5ef00973",
   "apps/desktop/fixtures/resume.pdf": "cc9e850b696cd80267ef2591b9410bc71ca8c14c8d073c4fb683b48e78e011ac",
   "apps/desktop/fixtures/resume.docx": "c4644c51544ea3916ad901e4cbcc27c7bcd1964d272333f50fb5f14fbeebcb03",
   "docs/screenshots/offerflash-field-lightning-fictional.png": "cf847521865763d6cb9e3627c5bf714d5bdc926a77cfd7116e00a9f654673252",
@@ -12,5 +12,7 @@
   "docs/screenshots/showcase/offerflash-profile.png": "fc2cf385a9b8f6c86258e2400bf3c293cf8497414b7beb6ebaf2b0d1001c5c1d",
   "docs/screenshots/offerflash-workspace-autofill.gif": "da8a73bc679e9ee155d1a5a998b0e2e7964d72b463483ca74da495500e609536",
   "docs/screenshots/offerflash-workspace-rules-autofill.gif": "d4a30f8f4dc5fb81f3b675cace2320cfc8add54fe473030e7fc6120f5b77c398",
-  "docs/screenshots/offerflash-workspace-full.gif": "48d0086ef7a2130901b80263bb6492d4f99c82d36795820739b9cbb30f2ab206"
+  "docs/screenshots/offerflash-workspace-full.gif": "48d0086ef7a2130901b80263bb6492d4f99c82d36795820739b9cbb30f2ab206",
+  "docs/screenshots/agent-live-question.png": "2b94de5afe263af3c66dc8faa4f0cce1b91897b38600a8dc4858314e1adf8e38",
+  "docs/screenshots/agent-live-question-continued.png": "1bc965a04790dac0f6e9ae5541e7f901dec5fb680b43c11eadaa616824d21f3d"
 }

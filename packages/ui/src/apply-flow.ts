@@ -39,6 +39,17 @@ export function summarizeApplicationFill(plan: FillPlan, result?: FillResult) {
   return { filled, needsUser, preserved };
 }
 
+/** Execution outcome only; never equates a finished model request with a completed application. */
+export function quickFillOutcome(plan:FillPlan,result?:FillResult):{status:'completed'|'partial'|'failed';message:string}{
+  const summary=summarizeApplicationFill(plan,result);
+  if(!result){
+    const unknown=plan.items.filter(item=>/^(?:请输入.*|请选择.*|未识别.*|未命名.*)?$/.test(item.label.trim())).length;
+    return {status:'partial',message:`本次没有写入。识别到 ${plan.items.length} 项${unknown?`，其中 ${unknown} 项没读到明确字段名`:''}；保留已有 ${summary.preserved.length} 项，${summary.needsUser.length} 项需要核对。已展开具体原因。`};
+  }
+  if(!summary.filled.length)return{status:'failed',message:`本次没有核实成功的写入，${summary.needsUser.length} 项仍待检查。请查看详细原因，不要连续重复点击。`};
+  return{status:summary.needsUser.length?'partial':'completed',message:`已核实填写 ${summary.filled.length} 项${summary.needsUser.length?`，${summary.needsUser.length} 项仍需处理`:''}。仅覆盖本次字段，不代表整份申请完成。`};
+}
+
 export class QuickFillInterrupted extends Error {
   constructor() { super('页面、资料或当前操作已变化，本次自动填写已停止；请回到目标表单后重新点击。'); }
 }

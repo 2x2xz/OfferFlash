@@ -1,7 +1,10 @@
+export interface QuestionDecisionInput {url:string;key:string;prompt:string;disposition:'skip'|'none'|'ask';profileVersion:number;}
+export interface QuestionDecision extends QuestionDecisionInput {id:string;updatedAt:string;}
 /** Local user-authored answers and files. These are ordinary business data, never telemetry payloads. */
 export type AnswerScope = { kind: 'general' } | { kind: 'application'; applicationId: string };
 export interface ConfirmedAnswerInput {
   id?: string; questionPattern: string; answer: string; scope: AnswerScope; demo: boolean;
+  contextLabel?:string;
   risk: 'ordinary' | 'high-impact';
 }
 export interface ConfirmedAnswer extends ConfirmedAnswerInput {
@@ -33,12 +36,13 @@ export interface ApplicationCalendarEvent extends ApplicationCalendarEventInput 
   id: string; revision: number; demo: boolean; createdAt: string; updatedAt: string;
 }
 export interface ApplicationAssetsState {
-  profileVersion: number; answers: ConfirmedAnswer[]; resumeVersions: ResumeVersion[];
+  profileVersion: number; questionDecisions?:QuestionDecision[]; answers: ConfirmedAnswer[]; resumeVersions: ResumeVersion[];
   resumeSelections: ApplicationResumeSelection[]; calendarEvents: ApplicationCalendarEvent[];
   resumeRecommendations: Record<string, ResumeRecommendation[]>;
 }
 export interface AnswerSuggestion { answer: ConfirmedAnswer; automaticEligible: boolean; reason: string; }
 export interface ApplicationAssetsAPI {
+  setQuestionDecision?(input:QuestionDecisionInput):Promise<ApplicationAssetsState>;
   applicationAssets(): Promise<ApplicationAssetsState>;
   saveAnswer(input: ConfirmedAnswerInput, expectedRevision: number | null): Promise<ApplicationAssetsState>;
   confirmAnswer(id: string, expectedRevision: number, expectedProfileVersion: number): Promise<ApplicationAssetsState>;

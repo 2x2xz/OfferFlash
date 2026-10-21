@@ -1,0 +1,29 @@
+{
+  "releaseTag": "v0.23.0-preview.1",
+  "applicationVersion": "0.23.0",
+  "typecheck": true,
+  "productionBuild": true,
+  "targetedNodeTests": 62,
+  "liveQuestionUiAssertions": 14,
+  "packagedBrowserTabsAndConnectionAssertions": 15,
+  "fixedSkills": 3,
+  "questionModel": "local faux response with real Pi SDK loop",
+  "newPaidRequests": 0,
+  "normalUserDataCopied": false,
+  "normalAppUpdated": false,
+  "normalWebsiteTouched": false,
+  "signedOrNotarized": false,
+  "knownLimitations": [
+    "Cross-site complete form acceptance remains incomplete",
+    "Month-only facts cannot supply a required exact day",
+    "Final declarations and submission require user action"
+  ],
+  "testRepair": "Updated the isolated tab-display fixture to explicitly provide a fictional prepared setup; production setup policy unchanged",
+  "privacyCheck": {
+    "passed": true,
+    "packageFilesChecked": 23501,
+    "packageTextFilesChecked": 21330,
+    "findings": 0,
+    "developmentDependenciesRemoved": 54
+  }
+}

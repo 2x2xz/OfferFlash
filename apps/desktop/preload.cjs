@@ -5,16 +5,16 @@ const names = [
   'sensitiveIdentityState','saveSensitiveIdentity','clearSensitiveIdentity','prepareSensitiveIdentityFill','fillSensitiveIdentity','cancelSensitiveIdentityFill',
   'queueState','enqueueApplications','startApplicationQueue','cancelApplicationQueue','reviewQueuedApplication','closeQueuedApplication','refreshApplicationAttention',
   'importApplicationFacts','applyApplicationFactsImport','exportApplicationFactsTemplate',
-  'workflowState','selectApplicationWorkflow','setApplicationIssueStatus','applicationAssets','saveAnswer','confirmAnswer','deleteAnswer','answerSuggestions',
+  'workflowState','selectApplicationWorkflow','setApplicationIssueStatus','applicationAssets','setQuestionDecision','saveAnswer','confirmAnswer','deleteAnswer','answerSuggestions',
   'importResumeVersion','exportResumeVersion','saveResumeVersion','deleteResumeVersion','selectApplicationResume',
   'saveCalendarEvent','deleteCalendarEvent','exportApplicationCalendar',
   'discoveryState','addDiscoverySource','discoverJobs','cancelDiscovery',
   'telemetryState','beginMeasurement','finishMeasurement','reviewMeasurement','exportTelemetry','importApplyDock',
-  'getState','saveProfile','confirmCareerRecord','importResume','saveJob','deleteJob','trackJob','saveApplication','deleteApplication',
+  'getState','saveProfile','confirmPersonalProfile','confirmCareerRecord','importResume','saveJob','deleteJob','trackJob','saveApplication','deleteApplication',
   'loadDemo','clearDemo','exportData','getSources','refreshSource','browserNavigate','browserBack',
-  'browserForward','browserReload','browserZoom','locateApplicationField','locateWorkflowIssue','setFieldCompanionMotion','browserBounds','browserState','capturePage','collectPageJobs',
+  'browserNewTab','browserSelectTab','browserCloseTab','browserNavigateCurrent','browserForward','browserReload','browserZoom','locateApplicationField','locateWorkflowIssue','setFieldCompanionMotion','browserBounds','browserState','capturePage','collectPageJobs',
   'jobMatchingState','matchSavedJobs','cancelJobMatching',
-  'prepareFill','fillApproved','prepareCareerFill','runCareerFill','cancelCareerFill','openTestForm','modelStatus','configureModel','runAgent','cancelAgent',
+  'inspectResumeUpload','uploadApplicationResume','runUniversalFill','cancelUniversalFill','prepareFill','fillApproved','prepareCareerFill','runCareerFill','cancelCareerFill','openTestForm','applicationSetup','saveApplicationSetup','modelStatus','forgetModelConnection','configureModel','runAgent','cancelAgent','pendingAgentQuestion','respondAgentQuestion',
 ];
 const api = Object.fromEntries(names.map(name => [name, (...args) => invoke(name, ...args)]));
 api.onEvent = listener => {

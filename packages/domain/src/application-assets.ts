@@ -1,3 +1,4 @@
+import {createQuestionDecisionStore,readQuestionDecisions} from './question-decisions.js';
 import { randomUUID } from 'node:crypto';
 import type { Database } from 'sql.js';
 import type { Application, AppSettings, Profile } from '../../shared/src/contracts.js';
@@ -43,7 +44,7 @@ function answerInput(db: Database, input: ConfirmedAnswerInput): ConfirmedAnswer
   const scope = input.scope.kind === 'general' ? { kind: 'general' as const } : { kind: 'application' as const, applicationId: application(db, input.scope.applicationId).id };
   if (scope.kind === 'application' && application(db, scope.applicationId).demo !== input.demo) throw new Error('演示资料与真实申请必须分开');
   if (!/[\p{L}\p{N}]/u.test(questionPattern)) throw new Error('问题不能只有符号');
-  return { ...(input.id ? { id: id(input.id) } : {}), questionPattern, answer, scope, demo: input.demo,
+  return { ...(input.id ? { id: id(input.id) } : {}),...(input.contextLabel!==undefined?{contextLabel:text(input.contextLabel,'回答适用说明',500)}:{}), questionPattern, answer, scope, demo: input.demo,
     risk: isHighImpactQuestion(questionPattern) ? 'high-impact' : input.risk };
 }
 function visibleState(db: Database): ApplicationAssetsState {
@@ -64,7 +65,7 @@ function visibleState(db: Database): ApplicationAssetsState {
       matchedDirections: resume.directions.filter(direction => title.includes(normalizeAnswerQuestion(direction))) }))
       .filter(recommendation => recommendation.matchedDirections.length > 0).sort((a, b) => b.matchedDirections.length - a.matchedDirections.length || a.resumeVersionId.localeCompare(b.resumeVersionId))];
   }));
-  return { profileVersion: current.version, answers, resumeVersions, resumeSelections, calendarEvents, resumeRecommendations };
+  return { profileVersion: current.version, questionDecisions:readQuestionDecisions(db), answers, resumeVersions, resumeSelections, calendarEvents, resumeRecommendations };
 }
 export function removeApplicationAssets(db: Database, applicationId: string): void {
   for (const answer of readDocuments<ConfirmedAnswer>(db, kinds.answer)) if (answer.scope.kind === 'application' && answer.scope.applicationId === applicationId) deleteDocument(db, kinds.answer, answer.id);
@@ -106,6 +107,7 @@ export function createApplicationAssetsStore(file: DatabaseFile): ApplicationAss
   const mutation = (operation: (db: Database, now: string) => void) => file.transact(db => { operation(db, new Date().toISOString()); return visibleState(db); });
   return {
     getState: () => file.read(visibleState),
+    async setQuestionDecision(input){await createQuestionDecisionStore(file).save(input);return file.read(visibleState);},
     saveAnswer(input: ConfirmedAnswerInput, expectedRevision: number | null) {
       return mutation((db, now) => {
         const value = answerInput(db, input); const old = value.id ? readDocument<ConfirmedAnswer>(db, kinds.answer, value.id) : undefined;

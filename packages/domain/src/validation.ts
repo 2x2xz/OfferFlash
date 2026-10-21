@@ -1,6 +1,6 @@
 import { Type, type Static, type TSchema } from "typebox";
 import { Value } from "typebox/value";
-import type { ApplicationInput, CareerInput, JobInput, ProfileInput, SourceRun } from "../../shared/src/contracts.js";
+import type { ApplicationInput, CareerInput, JobInput, PersonalProfileInput, ProfileInput, SourceRun } from "../../shared/src/contracts.js";
 import { sourceCollectionReportSchema, sourceCollectionStatusSchema, validateCollectionReport } from "../../shared/src/source-collection.js";
 
 const text = (maxLength = 200) => Type.String({ maxLength });
@@ -32,7 +32,8 @@ export const careerInputSchema = Type.Object({
     fileName: Type.Optional(text(500)), fileHash: Type.Optional(Type.String({ pattern: "^[a-fA-F0-9]{64}$" })),
   }, { additionalProperties: false }), { maxItems: 1000 }),
   educations: Type.Array(Type.Object({
-    ...record, school: text(500), schoolEn: text(500), degree: text(100), major: text(500), majorEn: text(500),
+    ...record, school: text(500), schoolEn: text(500), college: Type.Optional(text(500)), degree: text(100), major: text(500), majorEn: text(500),
+    majorCategory: Type.Optional(text(500)), schoolCategory: Type.Optional(text(500)), studyMode: Type.Optional(text(500)),
     startDate: careerDate, endDate: careerDate, description: text(50_000),
   }, { additionalProperties: false }), { maxItems: 100 }),
   internships: Type.Array(Type.Object({
@@ -51,11 +52,21 @@ export const careerInputSchema = Type.Object({
   primaryEducationId: Type.Union([Type.Null(), identifier]),
 }, { additionalProperties: false });
 
+export const personalProfileInputSchema = Type.Object({
+  schemaVersion: Type.Literal(1),
+  languages: Type.Array(Type.Object({ id: identifier, language: text(200), examName: text(500), score: text(200), certificateName: text(500),
+    selfAssessment: text(2000), listeningSpeaking: text(500), readingWriting: text(500), sourceNote: text(2000) }, { additionalProperties: false }), { maxItems: 50 }),
+  software: Type.Array(Type.Object({ id: identifier, name: text(500), proficiency: text(500), description: text(10000), sourceNote: text(2000) }, { additionalProperties: false }), { maxItems: 100 }),
+  awards: Type.Array(Type.Object({ id: identifier, name: text(1000), issuer: text(1000), date: text(10), description: text(10000), sourceNote: text(2000) }, { additionalProperties: false }), { maxItems: 100 }),
+  selfEvaluation: text(20000), sourceNote: text(2000),
+}, { additionalProperties: false });
+
 export const profileInputSchema = Type.Object({
   fullName: text(), fullNameEn: text(), email: text(254), phone: text(60),
   school: text(500), schoolEn: text(500), degree: text(100), major: text(500), majorEn: text(500),
   graduationMonth: text(7), skills: words, cities: words, targetRoles: words, resumeText: text(500_000),
   career: Type.Optional(careerInputSchema),
+  birthDate: Type.Optional(text(10)), personal: Type.Optional(personalProfileInputSchema),
   acceptedRecruitmentTypes: Type.Optional(Type.Array(Type.Union([Type.Literal('campus'),Type.Literal('internship'),Type.Literal('experienced')]),{minItems:1,maxItems:3,uniqueItems:true})),
 }, { additionalProperties: false });
 
@@ -135,12 +146,38 @@ function uniqueWords(values: string[]): string[] {
 export function normalizeProfile(value: unknown): ProfileInput {
   const input = validated(profileInputSchema, value, "个人资料");
   const profile = Object.fromEntries(Object.entries(input).map(([key, entry]) =>
-    [key, key === "career" ? normalizeCareer(entry) : Array.isArray(entry) ? uniqueWords(entry) : (entry as string).trim()])) as unknown as ProfileInput;
+    [key, key === "career" ? normalizeCareer(entry) : key === 'personal' ? normalizePersonalProfile(entry) : Array.isArray(entry) ? uniqueWords(entry) : (entry as string).trim()])) as unknown as ProfileInput;
   if (profile.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email)) throw new TypeError("邮箱格式有误");
   if (profile.graduationMonth && !/^\d{4}-(0[1-9]|1[0-2])$/.test(profile.graduationMonth)) {
     throw new TypeError("毕业时间必须是 YYYY-MM，或留空待确认");
   }
+  if (profile.birthDate) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(profile.birthDate)) throw new TypeError('出生日期须填写完整 YYYY-MM-DD，未知时留空');
+    validDate(profile.birthDate, '出生日期');
+  }
   return profile;
+}
+
+export function normalizePersonalProfile(value: unknown): PersonalProfileInput {
+  const input = validated(personalProfileInputSchema, value, '网申补充资料') as PersonalProfileInput;
+  const ids = new Set<string>();
+  for (const collection of ['languages', 'software', 'awards'] as const) {
+    for (const record of input[collection]) {
+      if (ids.has(record.id)) throw new TypeError('网申补充资料的记录 ID 不能重复');
+      ids.add(record.id);
+      for (const [key, entry] of Object.entries(record)) if (key !== 'id' && typeof entry === 'string') {
+        if (entry.includes('\0')) throw new TypeError('网申补充资料包含不支持的字符');
+        (record as unknown as Record<string, string>)[key] = entry.trim();
+      }
+    }
+  }
+  input.selfEvaluation = input.selfEvaluation.trim(); input.sourceNote = input.sourceNote.trim();
+  if (input.selfEvaluation.includes('\0') || input.sourceNote.includes('\0')) throw new TypeError('网申补充资料包含不支持的字符');
+  input.languages = input.languages.filter(item => Object.entries(item).some(([key, value]) => !['id', 'sourceNote'].includes(key) && value));
+  input.software = input.software.filter(item => Object.entries(item).some(([key, value]) => !['id', 'sourceNote'].includes(key) && value));
+  input.awards = input.awards.filter(item => Object.entries(item).some(([key, value]) => !['id', 'sourceNote'].includes(key) && value));
+  for (const award of input.awards) validCareerDate(award.date, '获奖日期');
+  return input;
 }
 
 /** Keep the precision the user supplied; a year is never completed with a guessed month. */

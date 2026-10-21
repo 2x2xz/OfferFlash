@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { App } from './App.js';
 import './styles.css';
 import './Workbench.css';
-import './PixelConsole.css';
 import './MissionHome.css';
 import './MissionProgress.css';
+import './InteractionDesign.css';
 
 class AppBoundary extends Component<{ children: ReactNode }, { message?: string }> {
   state: { message?: string } = {};

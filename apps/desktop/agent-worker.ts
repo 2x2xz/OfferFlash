@@ -43,8 +43,8 @@ function hostTool(name: string, args: unknown, signal?: AbortSignal): Promise<an
     const id = `tool-${++counter}`;
     if (signal?.aborted) { reject(new Error('任务已取消')); return; }
     const onAbort = () => send({ kind: 'tool-cancel', id });
-    const cleanup = () => { clearTimeout(timer); signal?.removeEventListener('abort', onAbort); };
-    const timer = setTimeout(() => {
+    const cleanup = () => { if(timer)clearTimeout(timer); signal?.removeEventListener('abort', onAbort); };
+    const timer = name==='request_user_input'?undefined:setTimeout(() => {
       send({ kind: 'tool-cancel', id });
       cleanup(); pending.delete(id); reject(new Error('操作等待超时，请检查网页或停止任务。'));
     }, 45_000);

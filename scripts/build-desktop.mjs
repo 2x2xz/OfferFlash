@@ -19,6 +19,7 @@ await build({
   outdir: 'dist/desktop', platform: 'node', format: 'esm', bundle: true,
   packages: 'external', target: 'node22', sourcemap: true,
 });
+await build({entryPoints:['packages/agent/src/universal-form-agent.ts'],outfile:'dist/desktop/universal-form-agent.js',platform:'node',format:'esm',bundle:true,packages:'external',target:'node22',sourcemap:true});
 await viteBuild({ configFile: 'apps/desktop/vite.config.ts' });
 const sourceDigests = await digestSources();
 const engineSourceDigests = await digestSources(engineSources);

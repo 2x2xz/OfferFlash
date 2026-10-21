@@ -24,8 +24,8 @@ const fetcher = (handler: (url: URL, init?: RequestInit) => Response | Promise<R
   return handler(url, init);
 }) as typeof fetch;
 
-test('two official source configurations carry public seed evidence and reject unreviewed tenants or apply URLs', () => {
-  assert.equal(MAINLAND_FEISHU_SOURCES.length, 2);
+test('seven official source configurations carry public seed evidence and reject unreviewed tenants or apply URLs', () => {
+  assert.equal(MAINLAND_FEISHU_SOURCES.length, 7);
   assert.equal(mainlandSourceForURL('https://modelbest.jobs.feishu.cn/campus/position')?.company, '面壁智能');
   assert.equal(mainlandSourceForURL('https://vrfi1sk8a0.jobs.feishu.cn/379481/')?.company, 'MiniMax');
   for (const url of ['http://modelbest.jobs.feishu.cn/campus', 'https://127.0.0.1/campus', 'https://other.jobs.feishu.cn/campus',

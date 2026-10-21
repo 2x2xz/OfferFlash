@@ -13,6 +13,12 @@ export interface DiscoveryOptions {
 export interface DiscoveryPlan {
   profileVersion: number; keywords: string[]; cities: string[]; educationSummary: string; notes: string[];
 }
+export interface PublicJobSearchInput { keywords: string[]; cities: string[]; region: 'mainland' | 'overseas'; }
+export interface PublicJobSearchResult {
+  status: 'completed' | 'failed' | 'cancelled' | 'unavailable';
+  leads: Array<{ title: string; url: string; verification: 'search-source-only' }>;
+  reason: string; observedAt: string; durationMs: number; totalTokens: number | null;
+}
 export interface DiscoverySourceReport {
   sourceId: string; name: string; url: string; provider: DiscoverySource['provider'];
   status: 'success' | 'partial' | 'failed' | 'skipped'; reason: string;
@@ -29,6 +35,7 @@ export interface DiscoveryReport {
   unviewedSources: Array<{ sourceId: string; name: string; reason: string }>;
   uniqueJobs: number; completeDetails: number; duplicateCount: number;
   scopeNote: string;
+  publicSearch?: PublicJobSearchResult;
 }
 export interface DiscoveryResult {
   jobs: JobInput[];

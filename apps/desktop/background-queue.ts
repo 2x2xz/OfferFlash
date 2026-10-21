@@ -14,11 +14,14 @@ import {BackgroundModelProvider} from '../../packages/agent/src/background-model
 import {runBackgroundFormAgent,type BackgroundAgentEvidence} from '../../packages/agent/src/background-form-agent.js';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
+import {attachPlaywrightView} from '../../packages/browser/src/playwright-view.js';
+import {runUniversalFormAgent} from '../../packages/agent/src/universal-form-agent.js';
 
 /** One isolated view per draft: moving to the next company never throws away the previous DOM. */
 export class BackgroundPage implements BackgroundDraftPage {
   readonly view:WebContentsView;
   private generation = 0;
+  private documentGeneration = 0;
   private disposed = false;
   private reviewWindow?: BrowserWindow;
   private writePending=false;
@@ -28,7 +31,7 @@ export class BackgroundPage implements BackgroundDraftPage {
   private readonly session:Session;
   private agentEvidence?:BackgroundAgentEvidence;
   constructor(private readonly target: ApplicationQueueTarget, private readonly store: DomainStore,private readonly qaAudit=false,
-    private readonly modelTask?:{provider:BackgroundModelProvider;directory:string;taskId:string;variant:'baseline'|'improved';baselineRunner?:typeof runBackgroundFormAgent},partition?:string) {
+    private readonly modelTask?:{provider:BackgroundModelProvider;directory:string;taskId:string;variant:'baseline'|'improved';legacyBenchmark?:boolean;baselineRunner?:typeof runBackgroundFormAgent},partition?:string) {
     this.view=new WebContentsView({webPreferences:{partition:partition??'persist:offeragent-recruiting',sandbox:true,contextIsolation:true,
       nodeIntegration:false,nodeIntegrationInSubFrames:false,webSecurity:true,allowRunningInsecureContent:false,backgroundThrottling:false}});
     this.view.setVisible(false); this.view.setBounds({x:0,y:0,width:1280,height:900});
@@ -38,7 +41,7 @@ export class BackgroundPage implements BackgroundDraftPage {
     contents.on('will-navigate', (event, url) => { if (!this.allowed(url, origin)) event.preventDefault(); });
     contents.on('will-redirect', (event, url) => { if (!this.allowed(url, origin)) event.preventDefault(); });
     contents.on('will-frame-navigate', event => { if (!this.allowed(event.url, origin)) event.preventDefault(); });
-    contents.on('did-start-navigation', (_event, _url, _inPlace, mainFrame) => { if (mainFrame) this.generation++; });
+    contents.on('did-start-navigation', (_event, _url, inPlace, mainFrame) => { if (mainFrame){this.generation++;if(!inPlace)this.documentGeneration++;} });
     this.session.on('will-download', this.blockDownload);
   }
   private allowed(raw: string, origin: string): boolean {
@@ -84,6 +87,18 @@ export class BackgroundPage implements BackgroundDraftPage {
       interruptPending:interrupt,
       getProfile,...(this.qaAudit?{onGuardStop:(reason:string,planned:boolean)=>this.qaGuardStops.push({reason,planned})}:{})};
     try {
+      if(this.modelTask&&!this.modelTask.legacyBenchmark){
+        const attached=await attachPlaywrightView(contents);
+        try{const assets=await this.store.assets.getState(),state=await this.store.getState(),applications=state.applications.filter(a=>a.jobId===this.target.jobId&&a.url===this.target.url),application=applications.length===1?applications[0]:undefined;
+          const result=await runUniversalFormAgent({page:attached.page,profile,getProfile,getGeneration:()=>this.documentGeneration,
+          answerContext:{answers:assets.answers,applicationId:application?.id,demo:application?.demo??false},
+          signal,provider:this.modelTask.provider,directory:this.modelTask.directory,taskId:this.modelTask.taskId,
+          progress:message=>progress(0,0,message)});
+          progress(result.verified,result.pending,result.message);
+          return{verifiedCount:result.verified,pendingCount:result.pending,canReview:true,message:result.message,attention:result.pending?'info':undefined,
+            modelRequests:result.modelRequests,modelTokens:result.modelTokens};
+        }finally{await attached.close();}
+      }
       if(this.modelTask){const result=await (this.modelTask.baselineRunner??runBackgroundFormAgent)({...this.modelTask,transport,profile,signal,progress,
         onEvidence:e=>{this.agentEvidence=e;}});
         const attempts=this.modelTask.provider.attempts.filter(a=>a.taskId===this.modelTask!.taskId);
@@ -138,6 +153,7 @@ export class BackgroundQueueHost {
   private benchmarkVariant:'baseline'|'improved'='improved';
   private benchmarkPartition?:string;
   private benchmarkRunner?:typeof runBackgroundFormAgent;
+  private legacyBenchmark=false;
   constructor(private readonly options: {store: DomainStore; getCurrentPage(): {url: string;jobId?: string};onState(state:ApplicationQueueState):void;qaAudit?:boolean;
     getModelProvider?():BackgroundModelProvider|undefined;agentDirectory?:string;agentVariant?:'baseline'|'improved'}) {
     if(options.agentVariant==='baseline'&&!options.qaAudit)throw Error('Baseline ablation is isolated QA only');
@@ -147,7 +163,7 @@ export class BackgroundQueueHost {
         const provider=this.useModel?options.getModelProvider?.():undefined;
         if(this.useModel&&!provider)throw Error('请先连接后台模型Agent；不会回退规则填写。');
         const taskId=randomUUID();const page=new BackgroundPage(target,options.store,options.qaAudit,provider?{provider,taskId,
-          directory:join(options.agentDirectory!,taskId),variant:this.benchmarkVariant,
+          directory:join(options.agentDirectory!,taskId),variant:this.benchmarkVariant,legacyBenchmark:this.legacyBenchmark,
           ...(this.benchmarkVariant==='baseline'&&this.benchmarkRunner?{baselineRunner:this.benchmarkRunner}:{})}:undefined,this.benchmarkPartition);
         try {await page.load(signal);return page;} catch(error) {page.dispose();throw error instanceof BackgroundFillError?error:new BackgroundFillError('load-failed');}
       }, onState: state=>options.onState({...state,executionMode:this.useModel?'model-agent':'rules'})});
@@ -156,6 +172,7 @@ export class BackgroundQueueHost {
   setBenchmarkContext(variant:'baseline'|'improved',partition:string,baselineRunner?:typeof runBackgroundFormAgent){
     if(!this.options.qaAudit||this.queue.isExecuting()||this.state().items.some(i=>i.canReview)||!/^offerflash-agent-bench-[a-z0-9-]{1,100}$/.test(partition))throw Error('ISOLATED_IDLE_BENCHMARK_REQUIRED');
     this.benchmarkVariant=variant;this.benchmarkPartition=partition;this.benchmarkRunner=baselineRunner;
+    this.legacyBenchmark=true;
   }
   state(): ApplicationQueueState {return {...this.queue.getState(),executionMode:this.useModel?'model-agent':'rules'};}
   async qaEvidence(id:string){if(!this.options.qaAudit)throw new Error('非测评实例。');const page=this.queue.getPage(id);if(!(page instanceof BackgroundPage))return null;return page.qaEvidence();}

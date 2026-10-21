@@ -1,0 +1,45 @@
+.job-library .jobs-type-tabs { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:4px 0 2px; margin:0 0 16px; }
+.job-library .jobs-type-tabs>button { display:inline-flex; align-items:center; gap:9px; min-height:40px; padding:8px 14px; border:1px solid var(--pc-line); border-radius:5px; color:var(--pc-muted); background:var(--pc-panel); cursor:pointer; font:inherit; font-size:13px; }
+.job-library .jobs-type-tabs>button:hover { color:var(--pc-text); border-color:var(--pc-line-strong); background:var(--pc-panel-raised); }
+.job-library .jobs-type-tabs>button[aria-selected=true] { color:var(--pc-accent); border-color:#667da0; background:var(--pc-accent-soft); box-shadow:inset 0 -2px 0 var(--pc-accent); }
+.job-library .jobs-type-count { padding:2px 6px; min-width:22px; text-align:center; border-radius:3px; background:#080d152b; font:11px var(--pc-pixel-font); font-variant-numeric:tabular-nums; }
+.job-library .filters { margin-bottom:15px; }
+.job-library .filter-count { margin-left:auto; white-space:nowrap; }
+.job-library .jobs-filter-summary { color:var(--pc-muted); }
+.jobs-group-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin:18px 0 12px; font-size:12px; color:var(--pc-muted); }
+.jobs-group-toolbar>span { display:flex; align-items:center; gap:7px; }
+.job-company-list { display:flex; flex-direction:column; gap:18px; }
+.workbench .job-company-group { overflow:hidden; padding:0; min-width:0; }
+.job-company-heading { margin:0; }
+.job-company-toggle { display:flex; align-items:center; gap:12px; width:100%; min-height:78px; padding:16px 20px; text-align:left; color:var(--pc-text); background:transparent; border:0; cursor:pointer; font:inherit; }
+.job-company-toggle:hover { background:var(--pc-panel-raised); }
+.job-company-toggle .company-icon { flex-shrink:0; width:38px; height:38px; font-family:var(--pc-pixel-font); }
+.job-company-name { flex:1; min-width:0; font-size:16px; font-weight:600; overflow-wrap:anywhere; }
+.job-company-name small { display:block; margin-top:5px; font-size:11px; font-weight:400; color:var(--pc-muted); }
+.job-company-types { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px; }
+.job-company-types>span { font-size:11px; font-weight:400; color:var(--pc-muted); padding:4px 8px; border:1px solid var(--pc-line); border-radius:4px; white-space:nowrap; }
+.job-company-types>span[data-type=campus] { color:var(--pc-accent); background:var(--pc-accent-soft); }
+.job-company-types>span[data-type=internship] { color:var(--pc-amber); background:var(--pc-amber-soft); }
+.job-company-chevron { flex-shrink:0; color:var(--pc-muted); transition:transform .12s; }
+.job-company-toggle[aria-expanded=false] .job-company-chevron { transform:rotate(-90deg); }
+.job-company-content { border-top:1px solid var(--pc-line); padding:18px; }
+.job-company-content[hidden] { display:none; }
+.job-type-section+ .job-type-section { margin-top:24px; padding-top:20px; border-top:1px dashed var(--pc-line-strong); }
+.job-type-section>h3 { display:flex; align-items:center; gap:8px; margin:0 0 12px; font-size:13px; font-weight:500; color:var(--pc-muted); }
+.job-type-section>h3>span:last-child { font:11px var(--pc-pixel-font); color:var(--pc-dim); }
+.job-type-dot { width:7px; height:7px; background:var(--pc-dim); flex-shrink:0; }
+.job-type-dot[data-type=campus] { background:var(--pc-accent); }
+.job-type-dot[data-type=internship] { background:var(--pc-amber); }
+.job-library .job-grid { grid-template-columns:repeat(auto-fill,minmax(min(100%,350px),1fr)); }
+.workbench .job-library .job-card { background-color:var(--pc-panel-raised); box-shadow:none; }
+.job-library .job-card .job-heading { align-items:flex-start; }
+.job-library .job-title { margin:0; font-size:14px; line-height:1.6; }
+@media(max-width:800px) {
+  .job-company-toggle { padding:14px; gap:9px; flex-wrap:wrap; }
+  .job-company-name { font-size:14px; }
+  .job-company-types { order:4; width:100%; justify-content:flex-start; padding-left:47px; }
+  .job-company-content { padding:12px; }
+  .job-library .filter-count { margin-left:0; }
+  .job-library .jobs-type-tabs>button { padding:8px 10px; }
+}
+@media(prefers-reduced-motion:reduce) { .job-company-chevron { transition:none; } }

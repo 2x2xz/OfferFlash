@@ -1,0 +1,13 @@
+.workbench .application-browser-tabs{display:flex;align-items:center;gap:4px;flex:1;min-width:0;overflow:hidden}
+.workbench .browser-page>.application-browser-tabs{flex:none;height:36px}
+.workbench .application-browser-tabs-scroll{display:flex;align-items:center;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:thin;flex:0 1 auto}
+.workbench .application-browser-tab{display:flex;align-items:center;flex:0 1 205px;min-width:100px;max-width:230px;border-radius:6px;background:transparent}
+.workbench .application-browser-tab.selected{background:#fff;box-shadow:0 1px 5px #202a4012}
+.workbench .application-browser-tab>button[role=tab]{background:transparent;box-shadow:none;flex:1;min-width:0;max-width:none;text-align:left;padding:0 5px 0 9px;color:#65718a}
+.workbench .application-browser-tab.selected>button[role=tab]{color:#4d43cd}
+.workbench .application-browser-tab .application-browser-tab-close{width:24px;min-width:24px;height:24px;margin-right:3px;padding:0;justify-content:center;border-radius:4px}
+.workbench .application-browser-tab-close:hover:not(:disabled){background:#e9e8f7}
+.workbench .application-browser-tabs .application-browser-tab-new{width:28px;min-width:28px;padding:0;justify-content:center}
+.workbench .workspace-canvas-tabs>.workspace-page-tabs{flex:1;overflow:hidden}
+.workbench .workspace-canvas-tabs>.workspace-page-tabs>.workspace-browse-jobs{flex:none}
+@media(max-width:1200px){.workbench .workspace-canvas-tabs:has(.application-browser-tabs)>.workspace-canvas-note{display:none}.workbench .application-browser-tab{flex-basis:170px}}

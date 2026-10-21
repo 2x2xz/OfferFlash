@@ -22,7 +22,9 @@ export function pickCareerInput(value?: CareerInput | CareerHistory): CareerInpu
   return {
     schemaVersion: 1, sources: value.sources.map(source), primaryEducationId: value.primaryEducationId,
     educations: value.educations.map(item => ({ id: item.id, evidence: evidence(item.evidence), sourceNote: item.sourceNote,
-      school: item.school, schoolEn: item.schoolEn, degree: item.degree, major: item.major, majorEn: item.majorEn,
+      school: item.school, schoolEn: item.schoolEn, ...(item.college !== undefined ? {college:item.college} : {}),
+      ...(item.majorCategory !== undefined ? {majorCategory:item.majorCategory} : {}), ...(item.schoolCategory !== undefined ? {schoolCategory:item.schoolCategory} : {}),
+      ...(item.studyMode !== undefined ? {studyMode:item.studyMode} : {}), degree: item.degree, major: item.major, majorEn: item.majorEn,
       startDate: item.startDate, endDate: item.endDate, description: item.description })),
     internships: value.internships.map(item => ({ id: item.id, evidence: evidence(item.evidence), sourceNote: item.sourceNote,
       organization: item.organization, role: item.role, startDate: item.startDate, endDate: item.endDate,
@@ -51,7 +53,7 @@ export function mergeCareerImport(current: CareerInput, imported: CareerInput): 
 export function newCareerRecord<K extends CareerCollection>(collection: K, id: string = crypto.randomUUID()): CareerInput[K][number] {
   const base = { id, evidence: [], sourceNote: '' };
   const records = {
-    educations: { ...base, school: '', schoolEn: '', degree: '', major: '', majorEn: '', startDate: '', endDate: '', description: '' },
+    educations: { ...base, school: '', schoolEn: '', college: '', degree: '', major: '', majorEn: '', startDate: '', endDate: '', description: '' },
     internships: { ...base, organization: '', role: '', startDate: '', endDate: '', current: false, description: '', technologies: [] },
     projects: { ...base, name: '', role: '', startDate: '', endDate: '', ongoing: false, description: '', technologies: [], url: '' },
     publications: { ...base, title: '', authors: '', venue: '', publicationDate: '', status: 'in-progress' as const, doi: '', url: '' },

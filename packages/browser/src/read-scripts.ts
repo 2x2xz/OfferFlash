@@ -1,5 +1,6 @@
 /** Read-only page observations. No setters, focus(), clicks or synthetic DOM events. */
 import { COMBOBOX_READ_HELPERS } from './combobox-scripts.js';
+import {OWNED_SELECT_HELPERS} from './select-shape.js';
 
 export const READ_FORM = String.raw`(() => {
   ${COMBOBOX_READ_HELPERS}
@@ -29,9 +30,27 @@ export const READ_FORM = String.raw`(() => {
     if (!group) return '';
     const headings = Array.from(group.querySelectorAll?.('legend,h1,h2,h3,h4,.application-label') || [])
       .filter(candidate => candidate.closest(sectionSelector) === group && text(labelText(candidate)));
-    return headings.length === 1 ? text(labelText(headings[0])) : '';
+    if (headings.length === 1) return text(labelText(headings[0]));
+    if (headings.length) return '';
+    const localTitles = Array.from(group.children || []).filter(candidate => candidate.matches?.('div,span')
+      && !candidate.querySelector(controlSelector) && !candidate.querySelector('button,a[href],[role="button"]')
+      && visibleTextNode(candidate) && text(labelText(candidate)) && labelText(candidate).trim().length <= 120);
+    return localTitles.length === 1 ? text(labelText(localTitles[0])) : '';
   };
   const nearbyLabel = element => {
+    // Phoenix separates its label and control, sometimes by nine wrapper levels.
+    // Use the nearest explicit field owner, never a whole section or widget hint.
+    let phoenixOwner = null;
+    for (let p = element.parentElement, depth = 0; p && depth < 12; p = p.parentElement, depth++) {
+      if (['FORM','BODY','HTML','MAIN'].includes(p.tagName)) break;
+      if (p.matches('.form-item') && p.matches('.form-item--phoenix')) { phoenixOwner = p; break; }
+    }
+    if (phoenixOwner) {
+      const owned = formControls(phoenixOwner).filter(c => c.type !== 'hidden' && visibleTextNode(c) && c.getBoundingClientRect().width > 0 && c.getBoundingClientRect().height > 0);
+      const titles = Array.from(phoenixOwner.querySelectorAll('.form-item__title')).filter(t => t.closest('.form-item') === phoenixOwner && visibleTextNode(t) && text(labelText(t)));
+      if (owned.length === 1 && owned[0] === element && titles.length === 1) return text(labelText(titles[0]));
+      return '';
+    }
     // A single field wrapper may omit for/ARIA. Do not infer ownership from
     // a whole form or from a container holding another visible control.
     const parents = [];
@@ -52,10 +71,13 @@ export const READ_FORM = String.raw`(() => {
     }
     for (const parent of parents) {
       const children = Array.from(parent.children || []);
-      for (const selector of ['label', 'p,h1,h2,h3,h4']) {
+      for (const selector of ['label', 'p,h1,h2,h3,h4', 'div,span']) {
         const candidates = children.filter(candidate => candidate.matches(selector)
           && (!candidate.getAttribute('for') || candidate.getAttribute('for') === element.id)
-          && !candidate.querySelector(controlSelector) && text(labelText(candidate)));
+          && !candidate.querySelector(controlSelector) && text(labelText(candidate))
+          && (selector !== 'div,span' || (labelText(candidate).trim().length <= 120
+            && !candidate.matches('[role="alert"],[role="status"],.error,.help,.hint,.form-item-error,.ant-form-item-explain,.ant-form-item-extra')
+            && !candidate.querySelector('button,a[href],[role="button"],h1,h2,h3,h4,label'))));
         if (candidates.length === 1) return text(labelText(candidates[0]));
       }
     }
@@ -65,7 +87,7 @@ export const READ_FORM = String.raw`(() => {
   const fields = controls.flatMap((element, index) => {
     const rect = element.getBoundingClientRect();
     const style = getComputedStyle(element);
-    const type = element.tagName !== 'SELECT' && (element.getAttribute('role') || '').trim().toLowerCase() === 'combobox'
+    const type = element.tagName !== 'SELECT' && ((element.getAttribute('role') || '').trim().toLowerCase() === 'combobox' || element.matches?.('.phoenix-select__input'))
       ? 'combobox' : element.tagName === 'SELECT' ? (element.multiple || element.size > 1 ? 'select-multiple' : 'select') : element.tagName === 'TEXTAREA' ? 'textarea' : element.type || 'text';
     const binding = type === 'combobox' ? comboBinding(element) : null;
     if (type === 'hidden' || rect.width <= 0 || rect.height <= 0 || style.display === 'none' || style.visibility === 'hidden' || !visibleTextNode(element)) return [];
@@ -79,7 +101,7 @@ export const READ_FORM = String.raw`(() => {
     const rawValue = type === 'combobox' ? comboValue(element, binding) : String(element.value || '');
     const value = unsafe ? (rawValue ? '[已有值]' : '') : rawValue.slice(0, 2000);
     const options = type==='combobox'&&binding?.kind==='local-single-select'?Array.from(localComboMenu(element).querySelectorAll('[role="option"]')).map(n=>({label:text(n.textContent),value:text(n.textContent)})):type === 'select' ? Array.from(element.options).filter(option => !option.disabled && !option.hidden && !option.closest('optgroup')?.disabled).map(option => ({ label: text(option.text), value: String(option.value).slice(0, 500) })) : [];
-    return [{ index, label, type, value, section, options, required: Boolean(element.required) || element.getAttribute('aria-required') === 'true',
+    return [{ index, label, type, value, section, options, required: Boolean(element.required) || element.getAttribute('aria-required') === 'true' || /^[*＊﹡✱✳⋆]/u.test(label),
       ...(['radio', 'checkbox'].includes(type) ? { checked: Boolean(element.checked) } : {}),
       ...(binding ? { customSelect: binding } : {}),
       editable: !comboDisabled(element) && (!element.readOnly || Boolean(binding)) && !(type === 'select' && element.options.length > 500),
@@ -122,6 +144,29 @@ export const READ_PAGE = String.raw`(() => ({
   url: location.href, title: document.title,
   text: (document.body?.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 12000)
 }))()`;
+
+/** Local diagnostics only. No values, IDs, URLs or executable selectors are returned. */
+export const READ_FORM_STRUCTURE = String.raw`(() => {
+  ${COMBOBOX_READ_HELPERS}
+  ${OWNED_SELECT_HELPERS}
+  const visible = e => {for(let n=e;n;n=n.parentElement){const s=getComputedStyle(n);if(n.hidden||n.getAttribute('aria-hidden')==='true'||s.display==='none'||s.visibility==='hidden')return false;}const r=e.getBoundingClientRect();return r.width>0&&r.height>0;};
+  const classes = e => Array.from(e.classList||[]).filter(s=>/^[a-zA-Z][a-zA-Z_-]{1,70}$/.test(s)).slice(0,8);
+  const label = e => {if(e.querySelector(formControlSelector))return '';const value=(e.textContent||'').replace(/\s+/g,' ').trim();return value.length<=120?value:'';};
+  return {controls:formControls(document).slice(0,300).flatMap((e,index)=>{
+    if(e.type==='hidden'||!visible(e))return [];
+    const ancestors=[];
+    for(let p=e.parentElement,depth=1;p&&depth<=10;p=p.parentElement,depth++){
+      if(['FORM','BODY','HTML','MAIN'].includes(p.tagName))break;
+      const children=Array.from(p.children||[]);
+      ancestors.push({depth,tag:p.tagName,classes:classes(p),visibleControls:formControls(p).filter(visible).length,
+        labels:children.filter(n=>n.matches('label,p,h1,h2,h3,h4,div,span')&&visible(n)&&label(n)).slice(0,8).map(n=>({tag:n.tagName,classes:classes(n),text:label(n)})),
+        nestedLabelCount:Array.from(p.querySelectorAll('label')).filter(n=>visible(n)&&label(n)).length});
+    }
+    const owner=selectLabel(e),scope=owner?selectScope(e):null;
+    return [{index,tag:e.tagName,type:e.type||e.getAttribute('role')||'',classes:classes(e),ancestors,
+      selectSignals:{owned:selectOwned(e),labelSelect:!!owner?.matches('label.select'),range:!!e.closest('.month-range-select'),arrowInLabel:!!owner&&selectArrow(owner),scopeFound:!!scope,selectedMarkers:owner?Array.from(owner.querySelectorAll('[class*="Input-display-value-"]')).filter(visible).length:0}}];
+  })};
+})()`;
 
 export const READ_JOB_LINKS = String.raw`(() => {
   const anchors = Array.from(document.querySelectorAll('a[href]')).slice(0, 3000).flatMap(anchor => {

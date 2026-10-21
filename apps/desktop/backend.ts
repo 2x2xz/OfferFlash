@@ -1,4 +1,15 @@
+import {PausableDeadline} from './pausable-deadline.js';
+import {AgentQuestionBroker} from './agent-question-broker.js';
+import {ApplicationSetupVault,validateApplicationSetup} from '../../packages/domain/src/application-setup.js';
+import {pickCareerInput} from '../../packages/profile/src/career-input.js';
+import {pickPersonalInput} from '../../packages/profile/src/personal-input.js';
+import {smokeRepairFlowUI} from './smoke-repair-flow.js';
+import {createResumeUploadService} from './resume-upload-service.js';
+import {ModelConnectionVault,normalizeModelConnection,sameModelDestination} from '../../packages/domain/src/model-connection.js';
 import {smokeJobMatching} from './smoke-job-matching.js';
+import {installFormDiagnosticMenu} from './form-diagnostic-menu.js';
+import type {runUniversalFormAgent as UniversalFormAgent} from '../../packages/agent/src/universal-form-agent.js';
+import {attachPlaywrightView} from '../../packages/browser/src/playwright-view.js';
 import {createDemoModel} from '../../packages/runtime/src/demo-model.js';
 import {fauxAssistantMessage} from '@earendil-works/pi-ai';
 import {hardGateMatching} from '../../packages/agent/src/job-matching.js';
@@ -6,11 +17,11 @@ import {JobMatchingService} from './job-matching-service.js';
 import {matchJobsWithModel} from '../../packages/agent/src/job-matching.js';
 import { smokeIdentity, ephemeralIdentityCryptor } from './smoke-identity.js';
 import { PRODUCT_NAME, LEGACY_APP_DATA_NAME } from '../../packages/shared/src/brand.js';
-import { app, BrowserWindow, dialog, ipcMain, safeStorage, utilityProcess, type UtilityProcess } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, safeStorage, screen, utilityProcess, type UtilityProcess } from 'electron';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
-import { randomUUID } from 'node:crypto';
+import { rename, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { randomUUID, createHash } from 'node:crypto';
 import { stat } from 'node:fs/promises';
 import { TelemetryStore } from '../../packages/telemetry/src/store.js';
 import { TelemetryHost } from './telemetry-host.js';
@@ -24,6 +35,9 @@ import { createStore, type DomainStore } from '../../packages/domain/src/index.j
 import { SensitiveIdentityVault } from '../../packages/domain/src/sensitive-identity.js';
 import { SensitiveIdentityHost } from './sensitive-identity-host.js';
 import { BrowserController } from '../../packages/browser/src/controller.js';
+import {BrowserTabs} from '../../packages/browser/src/tabs.js';
+import {browserTabShortcut} from '../../packages/browser/src/tab-shortcuts.js';
+import {browserTabSession,browserPageForAgent} from '../../packages/browser/src/tab-session.js';
 import { SOURCES, collectTencentJobs, attributeBrowserJobs } from '../../packages/sources/src/catalog.js';
 import { persistSourceCollection } from '../../packages/sources/src/persist.js';
 import { collectionOptions } from '../../packages/shared/src/source-collection.js';
@@ -41,6 +55,7 @@ import { smokeFeishuCareer } from './smoke-feishu-career.js';
 import { smokeCareerFillPanel } from './smoke-career-panel.js';
 import { smokeTelemetry } from './smoke-telemetry.js';
 import { smokeWorkspace } from './smoke-workspace.js';
+import {smokeBrowserTabsUI} from './smoke-browser-tabs.js';
 import { smokeApplicationServices } from './smoke-application-services.js';
 import { smokeApplicationProfile } from './smoke-application-profile.js';
 import { smokePixelConsole } from './smoke-pixel-console.js';
@@ -65,13 +80,13 @@ import { loadCareerSkill } from '../../packages/agent/src/skills.js';
 import { validateDomainToolArguments } from '../../packages/agent/src/tools.js';
 import { recognizeModelForm, type ModelFormResult } from '../../packages/forms/src/model-recognition.js';
 import type {
-  AppEvent, AppState, ModelStatus, OfferAPI, JobInput, SourceDefinition, ActionRecord, ProfileInput, SourceCollectionOptions, PageCollectionOptions, SourceCollectionResult,
+  AppEvent, AppState, ModelStatus, ModelConfig, OfferAPI, JobInput, SourceDefinition, ActionRecord, ProfileInput, SourceCollectionOptions, PageCollectionOptions, SourceCollectionResult,
   FillPlan, CareerFillPreview, ApplicationWorkflowTarget,
 } from '../../packages/shared/src/contracts.js';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const smoke = process.argv.includes('--smoke-test');
-const smokeSubmodes = ['--smoke-job-matching-only', '--smoke-identity-only', '--smoke-field-companion-only', '--smoke-speedster-only', '--smoke-assistant-only', '--smoke-background-only', '--smoke-onboarding-only', '--smoke-feishu-only', '--smoke-career-ui-only', '--smoke-career-suite', '--smoke-native-pointer-only', '--smoke-telemetry-only', '--smoke-workspace-only', '--smoke-workflow-only', '--smoke-profile-only', '--smoke-pixel-only'];
+const smokeSubmodes = ['--smoke-repair-flow-only','--smoke-browser-tabs-only','--smoke-job-matching-only', '--smoke-identity-only', '--smoke-field-companion-only', '--smoke-speedster-only', '--smoke-assistant-only', '--smoke-background-only', '--smoke-onboarding-only', '--smoke-feishu-only', '--smoke-career-ui-only', '--smoke-career-suite', '--smoke-native-pointer-only', '--smoke-telemetry-only', '--smoke-workspace-only', '--smoke-workflow-only', '--smoke-profile-only', '--smoke-pixel-only'];
 const enabledSmokeSubmodes = smokeSubmodes.filter(flag => process.argv.includes(flag));
 if (!smoke && enabledSmokeSubmodes.length) throw new Error('验收子模式必须同时指定隔离 smoke。');
 if (enabledSmokeSubmodes.length > 1) throw new Error('一次只能选择一个隔离 smoke 子模式。');
@@ -80,6 +95,8 @@ const smokeTelemetryOnly = enabledSmokeSubmodes.includes('--smoke-telemetry-only
 const smokeNativePointerOnly = enabledSmokeSubmodes.includes('--smoke-native-pointer-only');
 const liveProductCheck = process.argv.includes('--live-product-check');
 const realSiteQA = process.argv.includes('--real-site-qa');
+const universalAgentQA=process.argv.includes('--universal-agent-qa');
+if(universalAgentQA&&!realSiteQA)throw Error('ISOLATED_REAL_SITE_QA_REQUIRED');
 const backgroundAgentBenchmark=process.argv.includes('--background-agent-benchmark');
 if(backgroundAgentBenchmark&&!realSiteQA)throw Error('ISOLATED_REAL_SITE_QA_REQUIRED');
 if (realSiteQA && (smoke || liveProductCheck)) throw new Error('完整应用真实测评不能与样表或旧有界验收混用。');
@@ -106,14 +123,24 @@ await mkdir(app.getPath('sessionData'), { recursive: true, mode: 0o700 });
 
 let window: BrowserWindow;
 let browser: BrowserController;
+let browserTabs:BrowserTabs;
+let browserSessionWrite:Promise<void>=Promise.resolve();let lastBrowserSession='';
+function saveBrowserTabs(state:import('../../packages/shared/src/contracts.js').BrowserState){
+ const text=JSON.stringify(browserTabSession(state));if(text===lastBrowserSession)return;lastBrowserSession=text;
+ browserSessionWrite=browserSessionWrite.catch(()=>{}).then(async()=>{const file=join(stateDirectory,'browser-tabs.json'),temporary=file+'.next';await writeFile(temporary,text,{mode:0o600});await rename(temporary,file);});
+}
+
 let identityHost: SensitiveIdentityHost;
 let backgroundQueue: BackgroundQueueHost;
 let queueTray: ApplicationQueueTray | undefined;
 let store: DomainStore;
 let telemetry: TelemetryHost;
 let agent: AgentBridge;
+let agentQuestions:AgentQuestionBroker;
 let backgroundModelProvider:BackgroundModelProvider|undefined;
+let universalModelProvider:BackgroundModelProvider|undefined;
 let jobMatching:JobMatchingService|undefined;
+let disposeFormDiagnosticMenu:(()=>void)|undefined;
 let modelConfigurationActive=false;
 let shuttingDown = false;
 let cleanupTask: Promise<void> | undefined;
@@ -122,6 +149,7 @@ let desktopMethods: Record<string, (...args: any[]) => Promise<any>> | undefined
 let realSiteQAObserver:Awaited<ReturnType<typeof installRealSiteQA>>|undefined;
 let formExecutionActive = false;
 let selectedWorkflowTarget: Pick<ApplicationWorkflowTarget, 'url' | 'applicationId' | 'jobId'> | undefined;
+const workflowTargetsByTab=new Map<string,typeof selectedWorkflowTarget>();
 const attemptedOrdinaryPlans = new Set<string>();
 const ordinaryWorkflowPlans = new Map<string, { target: ApplicationWorkflowTarget; plan: FillPlan; answers: PreparedAnswerBinding[] }>();
 const careerWorkflowPlans = new Map<string, { target: ApplicationWorkflowTarget; preview: CareerFillPreview }>();
@@ -132,6 +160,7 @@ const publishState = (state: AppState) => { send({ type: 'state', state }); retu
 
 let collectionActive = false;
 let formPreparationActive = false;
+let universalController:AbortController|undefined;
 let formPreparationCancelled = false;
 function assertNoCollection(): void {
   if(modelConfigurationActive)throw Error('模型配置正在更新，请稍候。');
@@ -172,7 +201,7 @@ async function refreshSource(sourceId: string, keyword = '', options: SourceColl
         send({ type: 'navigate', page: 'browser' });
         const target = new URL(source.url);
         if (source.id === 'bytedance-campus' && keyword.trim()) target.searchParams.set('keywords', keyword.trim());
-        await browser.navigate(target.href);
+        await browserTabs.openOrFocus(target.href);
         result = await browser.collectSourceJobs({ sourceId, ...budget, keyword, signal });
       }
     } catch (error) {
@@ -214,6 +243,7 @@ async function handleAgentTool(name: string, args: any, signal: AbortSignal): Pr
   const state = await store.getState();
   signal.throwIfAborted();
   switch (name) {
+    case 'request_user_input': {const taskId=agent.currentTaskId;if(!taskId)throw Error('没有正在运行的对话任务。');return agentQuestions.ask(taskId,args,signal);}
     case 'get_profile_summary': {
       return getProfileSummary(state.profile);
     }
@@ -233,7 +263,7 @@ async function handleAgentTool(name: string, args: any, signal: AbortSignal): Pr
           const updated = await store.getState();
           return { ...queryDiscoveryJobs(updated, result.report),
             sourceRun: { id: result.report.id, sourceId: 'profile-discovery', sourceName: '按确认资料搜索已接入官网', status: result.report.status === 'success' ? 'success' : result.report.status === 'failed' ? 'failed' : 'partial', count: result.jobs.length, observedAt: result.report.finishedAt },
-            discovery: { status: result.report.status, coverage: 'configured-official-sources', sourcesAttempted: result.report.sources.filter((item: { status: string }) => item.status !== 'skipped').length, unviewedSources: result.report.unviewedSources.length, completeDetails: result.report.completeDetails, scopeNote: result.report.scopeNote } };
+            discovery: { status: result.report.status, coverage: 'configured-official-sources', sourcesAttempted: result.report.sources.filter((item: { status: string }) => item.status !== 'skipped').length, unviewedSources: result.report.unviewedSources.length, completeDetails: result.report.completeDetails, scopeNote: result.report.scopeNote, publicSearch: result.report.publicSearch, jobIds: [...new Set(result.report.sources.flatMap((source: { jobIds: string[] }) => source.jobIds))] } };
         } finally { signal.removeEventListener('abort', cancel); }
       }
       if (typeof args.sourceId !== 'string') throw new Error('请指定招聘来源。');
@@ -254,9 +284,9 @@ async function handleAgentTool(name: string, args: any, signal: AbortSignal): Pr
       const job = state.jobs.find(item => item.id === args.jobId);
       if (!job) throw new Error('岗位不存在。');
       const linked = state.applications.filter(item => item.jobId === job.id);
-      selectedWorkflowTarget = { url: job.url, jobId: job.id, ...(linked.length === 1 ? { applicationId: linked[0]!.id } : {}) };
+      const selection = { url: job.url, jobId: job.id, ...(linked.length === 1 ? { applicationId: linked[0]!.id } : {}) };
       send({ type: 'navigate', page: 'browser' });
-      return browser.navigate(job.url);
+      const opened=await browserTabs.openOrFocus(job.url);if(opened.url===job.url)selectedWorkflowTarget=selection;else{const tab=opened.tabs?.find(tab=>tab.url===job.url);if(tab)workflowTargetsByTab.set(tab.id,selection);}return browserPageForAgent(opened);
     }
     case 'prepare_form_preview': {
       assertNoCollection();
@@ -273,8 +303,10 @@ async function handleAgentTool(name: string, args: any, signal: AbortSignal): Pr
 
 class AgentBridge {
   private process: UtilityProcess;
+  currentTaskId?:string;
+  private waitingForUser=false;
   private ready: Promise<void>;
-  private requests = new Map<string, { resolve: (data: any) => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
+  private requests = new Map<string, { resolve: (data: any) => void; reject: (error: Error) => void; deadline:PausableDeadline;humanPausable:boolean }>();
   private tools = new Map<string, AbortController>();
   private model: ModelStatus = { mode: 'demo', provider: 'offeragent-demo', modelId: 'offline-fixture', configured: true };
   private disposed = false;
@@ -292,12 +324,12 @@ class AgentBridge {
     });
     void this.ready.catch(error => send({ type: 'error', message: error instanceof Error ? error.message : 'Agent 启动失败。' }));
     this.process.on('message', data => {
-      if (data.kind === 'event') send({ type: 'agent', event: data.event });
+      if (data.kind === 'event') {if(data.event.type==='task_started')this.currentTaskId=data.event.taskId;if(data.event.type==='task_settled'){agentQuestions?.cancel();this.currentTaskId=undefined;}send({ type: 'agent', event: data.event });}
       else if (data.kind === 'model') { this.model = data.status; send({ type: 'model', status: this.model }); }
       else if (data.kind === 'result') {
         const request = this.requests.get(data.id);
         if (request) {
-          clearTimeout(request.timer); this.requests.delete(data.id);
+          request.deadline.dispose(); this.requests.delete(data.id);
           if (data.ok) request.resolve(data.data);
           else {
             const failure = data.formFailure;
@@ -331,10 +363,11 @@ class AgentBridge {
     this.process.on('exit', code => {
       this.disposed = true;
       for (const controller of this.tools.values()) controller.abort();
-      for (const call of this.requests.values()) { clearTimeout(call.timer); call.reject(new Error(`Agent 内核已退出 (${code})`)); }
+      for (const call of this.requests.values()) { call.deadline.dispose(); call.reject(new Error(`Agent 内核已退出 (${code})`)); }
       this.requests.clear();
     });
   }
+  setWaitingForUser(value:boolean){this.waitingForUser=value;for(const request of this.requests.values())if(request.humanPausable){if(value)request.deadline.pause();else request.deadline.resume();}}
   getStatus(): ModelStatus { return this.model; }
   async syncJobCandidates(state: AppState, report: import('../../packages/shared/src/discovery.js').DiscoveryReport): Promise<void> {
     await this.ready;
@@ -354,7 +387,7 @@ class AgentBridge {
     await this.ready;
     return new Promise((resolveCall, reject) => {
       const id = randomUUID();
-      const timer = setTimeout(() => {
+      const expire=()=>{
         this.requests.delete(id);
         if (method === 'run') {
           for (const controller of this.tools.values()) controller.abort();
@@ -363,8 +396,9 @@ class AgentBridge {
             () => reject(new Error('Agent 请求超时，取消尚未确认；请重启应用后再运行。')),
           );
         } else reject(new Error('Agent 请求超时，请停止当前任务后重试。'));
-      }, method === 'run' ? 180_000 : 30_000);
-      this.requests.set(id, { resolve: resolveCall, reject, timer });
+      };
+      const deadline=new PausableDeadline(method==='run'?180_000:30_000,expire);
+      this.requests.set(id,{resolve:resolveCall,reject,deadline,humanPausable:method==='run'});if(method==='run'&&this.waitingForUser)deadline.pause();
       this.process.postMessage({ kind: 'request', id, method, args });
     });
   }
@@ -386,18 +420,27 @@ async function createApp(): Promise<void> {
   telemetry = new TelemetryHost(await TelemetryStore.create(join(stateDirectory, 'telemetry')).catch(() => TelemetryStore.volatile()),
     async () => ({ url: browser?.getState().url ?? '', version: (await store.getState()).profile.version }),
     state => send({ type: 'telemetry', state }), smoke);
+  const workArea = screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
+  const initialWindow = smoke || backgroundAgentBenchmark || universalAgentQA || realSiteQA
+    ? { width: 1480, height: 980, minWidth: 1080, minHeight: 720 }
+    : { x: workArea.x + 12, y: workArea.y + 12, width: Math.max(1, workArea.width - 24), height: Math.max(1, workArea.height - 24),
+      minWidth: Math.min(1080, Math.max(1, workArea.width - 24)), minHeight: Math.min(720, Math.max(1, workArea.height - 24)) };
   window = new BrowserWindow({
-    title: `${PRODUCT_NAME} v${app.getVersion()} · ${realSiteQA ? '真实官网全流程测评 · 虚构资料 · 禁止提交' : smoke ? '隔离验收（虚构资料）' : '你的求职工作台'}`, width: 1480, height: 980, minWidth: 1080, minHeight: 720,
-    show: !smoke&&!backgroundAgentBenchmark, backgroundColor: '#11141b',
+    title: `${PRODUCT_NAME} v${app.getVersion()} · ${universalAgentQA?'通用Agent隔离验收 · 虚构资料':realSiteQA ? '真实官网全流程测评 · 虚构资料 · 禁止提交' : smoke ? '隔离验收（虚构资料）' : '你的求职工作台'}`, ...initialWindow,
+    show: !smoke&&!backgroundAgentBenchmark&&!universalAgentQA, backgroundColor: '#f5f6fa',
     // Hidden/occluded smoke renderers still need to service read-only frame
     // waits. Native actions retain their real foreground checks. Ordinary and
     // real-site runs keep Electron's normal background throttling behavior.
     webPreferences: { preload: join(projectRoot, 'apps/desktop/preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true,
-      backgroundThrottling: !smoke },
+      backgroundThrottling: !smoke&&!universalAgentQA },
   });
   window.on('page-title-updated', event => event.preventDefault());
-  browser = new BrowserController({ window, onState: state => send({ type: 'browser', state }), getProfile: async () => (await store.getState()).profile,
+  let restoredTabs:unknown;try{restoredTabs=JSON.parse(await readFile(join(stateDirectory,'browser-tabs.json'),'utf8'));}catch{}
+  browserTabs = new BrowserTabs({ window, onState: state => {send({ type: 'browser', state });saveBrowserTabs(state);}, assertIdle:assertNoCollection, beforeActivate:(previous,next)=>{identityHost?.invalidate();workflowTargetsByTab.set(previous,selectedWorkflowTarget);selectedWorkflowTarget=workflowTargetsByTab.get(next);},getProfile: () => store.getProfile(),
     enableFieldCompanion: true, fillRetryLimit: 2, onRetry: event => send({ type: 'form-retry', ...event }), testFormPath: join(projectRoot, 'apps/desktop/fixtures/application.html') });
+  browser=browserTabs.browser;
+  browserTabs.restore(restoredTabs);
+  window.webContents.on('before-input-event',(event,input)=>{const action=browserTabShortcut(input);if(action){event.preventDefault();void browserTabs.shortcut(action).then(()=>send({type:'navigate',page:'browser'})).catch(error=>send({type:'error',message:error instanceof Error?error.message:'标签页操作未完成。'}));}});
   // Smoke runs never touch the system keychain. Identity crypto is exercised with an injected test codec separately.
   const identityVault = new SensitiveIdentityVault(join(stateDirectory, 'sensitive'), smoke && enabledSmokeSubmodes.includes('--smoke-identity-only') ? ephemeralIdentityCryptor() : {
     available: () => !smoke && !liveProductCheck && !realSiteQA && safeStorage.isEncryptionAvailable()
@@ -405,7 +448,22 @@ async function createApp(): Promise<void> {
     encrypt: value => safeStorage.encryptString(value), decrypt: value => safeStorage.decryptString(value),
   });
   identityHost = new SensitiveIdentityHost(browser, identityVault);
-  backgroundQueue = new BackgroundQueueHost({ store, qaAudit:realSiteQA,getModelProvider:()=>backgroundModelProvider,
+  const applicationSetupVault=new ApplicationSetupVault(join(stateDirectory,'application-setup'),smoke&&enabledSmokeSubmodes.includes('--smoke-repair-flow-only')?ephemeralIdentityCryptor():{
+    available:()=>!smoke&&!liveProductCheck&&!realSiteQA&&safeStorage.isEncryptionAvailable()&&(process.platform!=='linux'||!['basic_text','unknown'].includes(safeStorage.getSelectedStorageBackend())),
+    encrypt:value=>safeStorage.encryptString(value),decrypt:value=>safeStorage.decryptString(value),
+  });
+
+  const resumeUpload=createResumeUploadService({browser,store,stateDirectory,assertIdle:assertApplicationIdle,withLock:async work=>{formPreparationActive=true;try{return await work();}finally{formPreparationActive=false;}}});
+  const modelVault=new ModelConnectionVault(join(stateDirectory,'model-connection'),smoke&&enabledSmokeSubmodes.includes('--smoke-browser-tabs-only')?ephemeralIdentityCryptor():{
+    available:()=>!smoke&&!liveProductCheck&&!realSiteQA&&!backgroundAgentBenchmark&&!universalAgentQA&&safeStorage.isEncryptionAvailable()
+      &&(process.platform!=='linux'||!['basic_text','unknown'].includes(safeStorage.getSelectedStorageBackend())),
+    encrypt:value=>safeStorage.encryptString(value),decrypt:value=>safeStorage.decryptString(value),
+  });
+  let activeModelConnection:ModelConfig|undefined;let modelRemembered=false;let modelConnectionWarning:string|undefined;
+  const publicModelStatus=():ModelStatus=>({...agent.getStatus(),remembered:modelRemembered,canReuseKey:!!activeModelConnection,
+    configurationProvider:activeModelConnection?.provider,baseURL:activeModelConnection?.baseURL,connectionWarning:modelConnectionWarning});
+
+  backgroundQueue = new BackgroundQueueHost({ store, qaAudit:realSiteQA,getModelProvider:()=>universalModelProvider,
     agentDirectory:join(stateDirectory,'background-agent'),getCurrentPage: () => ({ url: browser.getState().url }), onState: state => {
     send({ type: 'application-queue', state }); queueTray?.update(state);
   } });
@@ -413,10 +471,15 @@ async function createApp(): Promise<void> {
     queueTray = new ApplicationQueueTray(join(projectRoot, 'apps/desktop/assets/icon.png'), window, () => { void backgroundQueue.cancel().catch(() => {}); });
     queueTray.update(backgroundQueue.state());
     window.on('close', event => {
-      if (!shuttingDown && backgroundQueue.state().status === 'running') { event.preventDefault(); window.hide(); }
+      if(!shuttingDown){event.preventDefault();if(backgroundQueue.state().status==='running')window.hide();else void requestAppQuit();}
     });
   }
+  agentQuestions=new AgentQuestionBroker(async()=>{const state=await store.getState(),page=browser.getState();return {profileVersion:state.profile.version,tabId:page.activeTabId??'legacy',documentRevision:page.documentRevision??0,url:page.url};},request=>{agent?.setWaitingForUser(!!request);send({type:'agent-question',request});},(request,result)=>send({type:'agent-question-answered',request,result}));
   agent = new AgentBridge();
+  if(!smoke&&!liveProductCheck&&!realSiteQA)disposeFormDiagnosticMenu=installFormDiagnosticMenu(window,async()=>{
+    assertApplicationIdle();if(formPreparationActive)throw Error('已有识别正在运行。');formPreparationActive=true;
+    try{return await browser.diagnoseFormReadOnly();}finally{formPreparationActive=false;}
+  });
   jobMatching=new JobMatchingService({getState:()=>store.getState(),onState:state=>send({type:'job-matching',state}),...(!smoke?{embed:(texts:readonly string[],signal?:AbortSignal)=>{if(!backgroundModelProvider)throw Error('JOB_EMBEDDING_NOT_CONFIGURED');return backgroundModelProvider.embedJobTexts(texts,signal);}}:{}),runModel:async(input,signal,id)=>{
     if(smoke&&enabledSmokeSubmodes.includes('--smoke-job-matching-only')){
       const demo=await createDemoModel(),id=hardGateMatching(input)[0];const raw={ranking:id?[id]:[]};
@@ -426,6 +489,10 @@ async function createApp(): Promise<void> {
     return provider.withTask('job-match-'+id,()=>matchJobsWithModel(provider.runtime,provider.model,input,{signal,variant:'baseline-post-gate'}));
   }});
   applicationServices = createApplicationServices({ store, window, stateDirectory, send, publishState, assertIdle: assertApplicationIdle, withCollection,
+    ...(!smoke ? { searchPublicJobs: async (input, signal) => {
+      if (!backgroundModelProvider) return { status: 'unavailable' as const, leads: [], reason: '官网采集不需要模型；如需同时搜索更多公开招聘网页，请在模型设置里配置百炼北京 qwen-flash。', observedAt: new Date().toISOString(), durationMs: 0, totalTokens: null };
+      return backgroundModelProvider.searchPublicJobs(input, signal);
+    } } : {}),
     onDiscovery: (state, result) => agent.syncJobCandidates(state, result.report) });
   const previousDiscovery = (await store.discovery.getState()).runs[0];
   if (previousDiscovery) await agent.syncJobCandidates(await store.getState(), previousDiscovery);
@@ -462,6 +529,7 @@ async function createApp(): Promise<void> {
     },
     getState: () => store.getState(),
     saveProfile: async (value, version) => { assertApplicationIdle(); return publishState(await store.saveProfile(value, version)); },
+    confirmPersonalProfile: async (version, revision) => { assertApplicationIdle(); return publishState(await store.confirmPersonalProfile(version, revision)); },
     confirmCareerRecord: async (collection, id, version, revision) => { assertApplicationIdle(); return publishState(await store.confirmCareerRecord(collection, id, version, revision)); },
     saveJob: async value => { assertApplicationIdle(); return publishState(await store.saveJob(value)); },
     deleteJob: async id => { assertApplicationIdle(); return publishState(await store.deleteJob(id)); },
@@ -514,7 +582,9 @@ async function createApp(): Promise<void> {
     },
     getSources: async () => SOURCES,
     refreshSource: (id, keyword, options) => refreshSource(id, keyword, options),
-    browserNavigate: url => { assertNoCollection(); selectedWorkflowTarget = undefined; return browser.navigate(url); }, browserBack: () => { assertNoCollection(); selectedWorkflowTarget = undefined; return browser.back(); },
+    browserNavigate: url => browserTabs.openOrFocus(url),
+    browserNavigateCurrent: async url => {assertNoCollection();selectedWorkflowTarget=undefined;await browser.navigate(url);return browserTabs.getState();},
+    browserNewTab: url=>browserTabs.open(url),browserSelectTab:async id=>browserTabs.select(id),browserCloseTab:id=>browserTabs.close(id), browserBack: () => { assertNoCollection(); selectedWorkflowTarget = undefined; return browser.back(); },
     browserForward: () => { assertNoCollection(); selectedWorkflowTarget = undefined; return browser.forward(); }, browserReload: () => { assertNoCollection(); selectedWorkflowTarget = undefined; return browser.reload(); },
     browserZoom: async percent => { assertNoCollection(); return browser.setZoom(percent); },
     locateApplicationField: async input => {
@@ -677,29 +747,96 @@ async function createApp(): Promise<void> {
       } finally { formExecutionActive = false; careerWorkflowPlans.delete(planId); for (const span of actionSpans.values()) await span.end(true); }
 
     },
+    applicationSetup:()=>applicationSetupVault.state(),
+    saveApplicationSetup:async(input,expectedVersion,profileVersion)=>{
+      assertApplicationIdle();formPreparationActive=true;
+      try{const value=validateApplicationSetup(input),previous=await applicationSetupVault.state(),profile=await store.getProfile();
+        if(!previous.encryptionAvailable)throw Error('系统加密不可用，未保存。');if(previous.version!==expectedVersion||profile.version!==profileVersion)throw Error('资料已变化，请重新核对。');
+        const assets=await store.assets.getState();if(value.resumeVersionId&&!assets.resumeVersions.some(item=>item.id===value.resumeVersionId&&!item.demo))throw Error('所选简历版本不存在。');
+        const career=profile.career?pickCareerInput(profile.career):undefined;const changed:string[]=[];
+        for(const policy of value.educations){const current=profile.career?.educations.find(item=>item.id===policy.recordId);if(!current||current.revision!==policy.sourceRevision)throw Error('教育记录已变化，请重新核对。');const next=career!.educations.find(item=>item.id===policy.recordId)!;
+          if(next.major!==policy.major||(next.majorCategory??'')!==policy.category){next.major=policy.major;next.majorCategory=policy.category;next.sourceNote+='；用户在网申资料引导中确认专业与类别';changed.push(next.id);}}
+        let state=await store.getState();if(changed.length){const {version,updatedAt,...base}=profile;state=await store.saveProfile({...base,...(career?{career}:{}),...(profile.personal?{personal:pickPersonalInput(profile.personal)}:{})},profile.version);for(const id of changed){const previous=profile.career!.educations.find(item=>item.id===id)!;if(previous.confirmation!=='confirmed'||previous.confirmedRevision!==previous.revision)continue;const record=state.profile.career!.educations.find(item=>item.id===id)!;state=await store.confirmCareerRecord('educations',id,state.profile.version,record.revision);}}
+        const next={...value,educations:value.educations.map(policy=>({...policy,sourceRevision:state.profile.career!.educations.find(item=>item.id===policy.recordId)!.revision}))};
+        const setup=await applicationSetupVault.save(next,expectedVersion,state.profile.version);publishState(state);return{setup,state};
+      }catch(error){publishState(await store.getState());throw error;
+      }finally{formPreparationActive=false;}
+    },
+    inspectResumeUpload:()=>resumeUpload.inspect(),
+    uploadApplicationResume:input=>resumeUpload.upload(input),
+    runUniversalFill:async input=>{
+      assertApplicationIdle();
+      if(!input||Object.keys(input).some(k=>!['profileVersion','overwriteExisting','retryFailed'].includes(k))||!Number.isSafeInteger(input.profileVersion)||input.overwriteExisting!==undefined&&typeof input.overwriteExisting!=='boolean'||input.retryFailed!==undefined&&typeof input.retryFailed!=='boolean')throw Error('INVALID_APPLICATION_REQUEST');
+      const provider=universalModelProvider;
+      formPreparationActive=true;let profile:AppState['profile'];let answerContext:import('../../packages/forms/src/universal-answers.js').UniversalAnswerContext;
+      try{profile=(await store.getState()).profile;if(profile.version!==input.profileVersion)throw Error('资料已变化，请重新确认。');
+        const url=new URL(browser.getState().url);if(url.protocol!=='https:'||url.username||url.password)throw Error('通用填写只处理当前HTTPS申请页。');
+        const assets=await store.assets.getState(),state=await store.getState(),matches=state.applications.filter(a=>a.url===url.href);
+        const selected=selectedWorkflowTarget?.url===url.href?matches.find(a=>a.id===selectedWorkflowTarget?.applicationId):undefined;
+        const application=selected??(matches.length===1?matches[0]:undefined);
+        if(assets.profileVersion!==profile.version||state.profile.version!==profile.version)throw Error('资料已变化，请重新确认。');
+        answerContext={answers:assets.answers,decisions:assets.questionDecisions,applicationId:application?.id,demo:application?.demo??false};
+      }finally{formPreparationActive=false;}
+      formExecutionActive=true;universalController=new AbortController();const control=universalController;
+      const timer=setTimeout(()=>control.abort(),180000),taskId=randomUUID();const spans=new Map<string,ReturnType<TelemetryStore['startStep']>>();
+      try{
+        // One package-owned engine per source revision. Replacing this local
+        // development module while idle does not destroy the logged-in browser.
+        // No renderer/model path or arbitrary module URL is accepted.
+        const engineURL=new URL('./universal-form-agent.js',import.meta.url),engineHash=createHash('sha256').update(await readFile(engineURL)).digest('hex');
+        const {runUniversalFormAgent}=await import(engineURL.href+'?revision='+engineHash) as {runUniversalFormAgent:typeof UniversalFormAgent};
+        const setup=await applicationSetupVault.state().catch(()=>undefined);const result=await browser.withUniversalContents(async(contents,getGeneration,onFieldActivity)=>{const attached=await attachPlaywrightView(contents);try{return await runUniversalFormAgent({setup,pageTitle:contents.getTitle(),page:attached.page,getGeneration,onFieldActivity,profile,getProfile:()=>store.getProfile(),
+          provider,answerContext,contextId:browser.getState().activeTabId??'current',retryFailed:input.retryFailed,overwriteExisting:input.overwriteExisting??true,signal:control.signal,directory:join(stateDirectory,'universal-agent',taskId),taskId,
+          independentVerify:read=>telemetry.step('form.verify',read),
+          progress:message=>send({type:'universal-fill-progress',message}),onEvent:event=>{
+            if(event.type==='tool_started')spans.set(String(event.data.callId),telemetry.store.startStep(event.data.toolName==='inspect_application'?'form.observe':event.data.toolName==='verify_application'?'form.verify':event.data.toolName==='fill_application_group'?'form.fill':'tool.execute'));
+            if(event.type==='tool_finished'){const span=spans.get(String(event.data.callId));if(span){void span.end(event.data.isError===true);spans.delete(String(event.data.callId));}}
+          }});}finally{await attached.close();}});
+        await telemetry.counts(result.verified,result.pending);return result;
+      }finally{clearTimeout(timer);for(const attempt of provider?.attempts.filter(a=>a.taskId===taskId)??[])await telemetry.modelCall(attempt.usage??undefined,'offerflash-background',attempt.model);
+        for(const span of spans.values())await span.end(true);universalController=undefined;formExecutionActive=false;}
+    },
+    cancelUniversalFill:async()=>{universalController?.abort();telemetry.cancel();},
     cancelCareerFill: async () => { browser.cancelCareerFill(); telemetry.cancel(); },
     openTestForm: () => { assertNoCollection(); return browser.openTestForm(); },
     jobMatchingState:async()=>jobMatching!.state(),
     matchSavedJobs:async input=>{assertApplicationIdle();const result=await jobMatching!.run(input);await agent.syncMatchingCandidates();return result;},
     cancelJobMatching:async()=>jobMatching?.cancel(),
-    modelStatus: async () => agent.getStatus(), configureModel: async config => {
+    modelStatus: async () => publicModelStatus(),
+    forgetModelConnection:async()=>{if(modelConfigurationActive)throw Error('请等待配置完成。');await modelVault.clear();modelRemembered=false;modelConnectionWarning=undefined;const status=publicModelStatus();send({type:'model',status});return status;},
+    configureModel: async config => {
+      assertNoCollection();
       if(jobMatching?.isRunning())throw Error('请先停止岗位匹配再更换模型。');
       if (formPreparationActive) throw new Error('请等待表单识别完成后再更换模型。');
       if(backgroundQueue.hasPendingMutation())throw Error('请先停止后台队列再更换模型。');
       if(modelConfigurationActive)throw Error('模型配置正在更新，请稍候。');
       modelConfigurationActive=true;
       try{
-      const status=await agent.request('configure', config);
-      backgroundModelProvider?.close();backgroundModelProvider=undefined;
-      if(config.mode==='live'&&config.modelId==='qwen-flash'&&config.baseURL==='https://dashscope.aliyuncs.com/compatible-mode/v1')backgroundModelProvider=await BackgroundModelProvider.create(config,2500);
-      return status;
+      const resolved=config.mode==='live'?normalizeModelConnection({...config,apiKey:config.apiKey?.trim()||(config.reuseKey&&activeModelConnection&&sameModelDestination(config,activeModelConnection)?activeModelConnection.apiKey:'')}):{mode:'demo' as const,provider:'',modelId:'',apiKey:''};
+      let nextBackground:BackgroundModelProvider|undefined;let nextUniversal:BackgroundModelProvider|undefined;
+      try{
+        if(resolved.mode==='live'&&resolved.modelId==='qwen-flash'&&resolved.baseURL==='https://dashscope.aliyuncs.com/compatible-mode/v1')nextBackground=await BackgroundModelProvider.create(resolved,2500);
+        if(resolved.mode==='live')nextUniversal=await BackgroundModelProvider.create(resolved,2500,'universal');
+        await agent.request('configure',resolved);
+      }catch(error){nextBackground?.close();nextUniversal?.close();throw error;}
+      if(universalModelProvider!==backgroundModelProvider)universalModelProvider?.close();backgroundModelProvider?.close();
+      universalModelProvider=nextUniversal;backgroundModelProvider=nextBackground;
+      activeModelConnection=resolved.mode==='live'?resolved:undefined;modelConnectionWarning=undefined;
+      if(resolved.mode==='live'){
+        try{if(config.remember!==false){await modelVault.save(resolved);modelRemembered=true;}else{await modelVault.clear();modelRemembered=false;}}
+        catch{modelRemembered=false;modelConnectionWarning='连接已应用，但本机加密保存未完成；下次打开可能需要重新输入。';}
+      }
+      const status=publicModelStatus();send({type:'model',status});return status;
       }finally{modelConfigurationActive=false;}
     },
+    pendingAgentQuestion:async()=>agentQuestions.current(),
+    respondAgentQuestion:input=>agentQuestions.respond(input),
     runAgent: input => {
+      assertNoCollection();
       if(jobMatching?.isRunning())throw Error('请先等待或停止岗位匹配，再开始聊天任务。');
       if (formPreparationActive) throw new Error('请等待表单识别完成后再运行聊天任务。');
       return agent.request('run', input);
-    }, cancelAgent: async () => { await jobMatching?.cancel(); if (formPreparationActive) formPreparationCancelled = true; telemetry.cancel(); return agent.request('cancel'); },
+    }, cancelAgent: async () => { agentQuestions.cancel();await jobMatching?.cancel(); if (formPreparationActive) formPreparationCancelled = true; telemetry.cancel(); return agent.request('cancel'); },
   };
   // Observers receive counts and fixed action keys only. They never receive the
   // journal payload (which includes private values, record IDs and target URLs).
@@ -723,6 +860,10 @@ async function createApp(): Promise<void> {
     return methods[value.method]!(...value.args);
   });
   window.on('closed', () => { void cleanupApp(); });
+  if(!smoke&&!liveProductCheck&&!realSiteQA&&!backgroundAgentBenchmark&&!universalAgentQA){
+    try{const saved=await modelVault.load();if(saved)await methods.configureModel!({...saved,remember:true});}
+    catch{modelConnectionWarning='保存的模型连接未恢复，请打开模型设置重新输入。';}
+  }
   await window.loadFile(uiPath);
   if(backgroundAgentBenchmark){
     const benchFile=(name:string,fallback:string)=>{const value=process.argv.find(a=>a.startsWith('--'+name+'='))?.slice(name.length+3);if(!value)return join(projectRoot,fallback);
@@ -762,6 +903,8 @@ async function createApp(): Promise<void> {
 async function smokeTest(methods: Record<string, (...args: any[]) => Promise<any>>): Promise<void> {
   const assertions: Record<string, unknown> = {};
   try {
+    if(enabledSmokeSubmodes.includes('--smoke-repair-flow-only')){const report=await smokeRepairFlowUI(window,methods,send,stateDirectory,store);console.log(JSON.stringify(report));await cleanupApp();app.exit(0);return;}
+    if(enabledSmokeSubmodes.includes('--smoke-browser-tabs-only')){const report=await smokeBrowserTabsUI(window,methods,send,stateDirectory);console.log(JSON.stringify(report));await cleanupApp();app.exit(0);return;}
     if(enabledSmokeSubmodes.includes('--smoke-job-matching-only')){
       browser.setVisible(false);assertions.jobMatching=await smokeJobMatching(window,methods,send);
       await writeFile(join(stateDirectory,'smoke-report.json'),JSON.stringify({ok:true,focusedFixtureOnly:true,assertions},null,2));await cleanupApp();app.exit(0);return;
@@ -1038,11 +1181,13 @@ async function smokeTest(methods: Record<string, (...args: any[]) => Promise<any
 
 function cleanupApp(): Promise<void> {
   cleanupTask ??= (async () => {
+    universalController?.abort();
+    disposeFormDiagnosticMenu?.();disposeFormDiagnosticMenu=undefined;
     await jobMatching?.cancel();
-    await backgroundQueue?.cancel();backgroundQueue?.dispose(); queueTray?.dispose();backgroundModelProvider?.close();
+    await backgroundQueue?.cancel();backgroundQueue?.dispose(); queueTray?.dispose();if(universalModelProvider!==backgroundModelProvider)universalModelProvider?.close();backgroundModelProvider?.close();
     await applicationServices?.close();
     identityHost?.invalidate();
-    browser?.dispose();
+    await browserSessionWrite.catch(()=>{});browser?.dispose();
     await agent?.close();
     await realSiteQAObserver?.flush();
     await store?.close();
@@ -1051,14 +1196,19 @@ function cleanupApp(): Promise<void> {
   return cleanupTask;
 }
 
+let quitPending=false;
+async function requestAppQuit(){
+ if(quitPending||shuttingDown)return;quitPending=true;
+ try{if(browserTabs&&!await browserTabs.confirmCloseAll())return;shuttingDown=true;try{await cleanupApp();}finally{app.quit();}}finally{quitPending=false;}
+}
+
 if (!smoke && !liveProductCheck && !realSiteQA && !app.requestSingleInstanceLock()) app.quit();
 else {
   await app.whenReady();
   app.on('before-quit', event => {
     if (shuttingDown || smoke) return;
     event.preventDefault();
-    shuttingDown = true;
-    void cleanupApp().finally(() => app.quit());
+    void requestAppQuit();
   });
   app.on('window-all-closed', () => app.quit());
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) void createApp(); });

@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { CareerEvidence, CareerSourceInput, Profile, ProfileInput } from '../../shared/src/contracts.js';
 import { pickCareerInput } from './career-input.js';
+import { pickPersonalInput } from './personal-input.js';
 
 export type ApplicationFactsCollection = 'educations' | 'internships' | 'projects';
 export type ApplicationFactValue = string | boolean | string[];
@@ -19,11 +20,11 @@ export interface ApplicationFactsPreview {
 }
 const COLLECTIONS: readonly ApplicationFactsCollection[] = ['educations', 'internships', 'projects'];
 const fields = {
-  educations: ['school', 'schoolEn', 'degree', 'major', 'majorEn', 'startDate', 'endDate', 'description'],
+  educations: ['school', 'schoolEn', 'college', 'degree', 'major', 'majorEn', 'startDate', 'endDate', 'description'],
   internships: ['organization', 'role', 'startDate', 'endDate', 'current', 'description', 'technologies'],
   projects: ['name', 'role', 'startDate', 'endDate', 'ongoing', 'description', 'technologies', 'url'],
 } as const;
-const labels: Record<string, string> = { school: '学校', schoolEn: '英文学校', degree: '学历', major: '专业', majorEn: '英文专业', startDate: '开始时间', endDate: '结束时间', description: '经历说明', organization: '实习单位', role: '职务 / 角色', current: '目前在职', name: '项目名称', ongoing: '项目进行中', technologies: '技术栈', url: '项目 / GitHub / 作品链接' };
+const labels: Record<string, string> = { college: '学院 / 院系', school: '学校', schoolEn: '英文学校', degree: '学历', major: '专业', majorEn: '英文专业', startDate: '开始时间', endDate: '结束时间', description: '经历说明', organization: '实习单位', role: '职务 / 角色', current: '目前在职', name: '项目名称', ongoing: '项目进行中', technologies: '技术栈', url: '项目 / GitHub / 作品链接' };
 const MAX_BYTES = 500_000, MAX_RECORDS = 100, MAX_NODES = 6000;
 const digest = (value: string | Uint8Array) => createHash('sha256').update(value).digest('hex');
 const object = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -151,10 +152,11 @@ function profileInput(current: Profile): ProfileInput {
   return { fullName: current.fullName, fullNameEn: current.fullNameEn, email: current.email, phone: current.phone,
     school: current.school, schoolEn: current.schoolEn, degree: current.degree, major: current.major, majorEn: current.majorEn,
     graduationMonth: current.graduationMonth, skills: [...current.skills], cities: [...current.cities], targetRoles: [...current.targetRoles], resumeText: current.resumeText,
+    ...(current.birthDate !== undefined ? { birthDate: current.birthDate } : {}), ...(current.personal ? { personal: pickPersonalInput(current.personal) } : {}),
     career: pickCareerInput(current.career) };
 }
 function valueEqual(left: ApplicationFactValue, right: unknown) { return JSON.stringify(left) === JSON.stringify(right); }
-function blank(value: unknown) { return typeof value === 'string' && !value.trim() || Array.isArray(value) && value.length === 0; }
+function blank(value: unknown) { return value === undefined || typeof value === 'string' && !value.trim() || Array.isArray(value) && value.length === 0; }
 function previewIdentity(profile: Profile, sourceHash: string) {
   return digest(JSON.stringify([sourceHash, profile.version, COLLECTIONS.map(collection => profile.career?.[collection].map(record => Object.fromEntries(Object.entries(record).filter(([key]) => key !== 'evidence' && key !== 'sourceNote'))))]));
 }
@@ -231,7 +233,7 @@ export function applyApplicationFactsSelection(preview: ApplicationFactsPreview,
 /** Empty examples only: no candidate profile, IDs, dates or private facts are exported. */
 export function exportApplicationFactsTemplate(): string {
   return `${JSON.stringify({ schemaVersion: 1,
-    educations: [{ recordId: '', school: '', degree: '', major: '', startDate: '', endDate: '', description: '' }],
+    educations: [{ recordId: '', school: '', college: '', degree: '', major: '', startDate: '', endDate: '', description: '' }],
     internships: [{ recordId: '', organization: '', role: '', startDate: '', endDate: '', current: false, description: '' }],
     projects: [{ recordId: '', name: '', role: '', startDate: '', endDate: '', ongoing: false, description: '', url: '' }],
   }, null, 2)}\n`;

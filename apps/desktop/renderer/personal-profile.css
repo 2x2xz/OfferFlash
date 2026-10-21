@@ -1,0 +1,10 @@
+.personal-profile-editor{min-width:0;padding-block:18px;border-top:1px solid var(--line);margin-top:14px}
+.personal-profile-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:12px 0}
+.personal-profile-heading h3,.personal-profile-heading h4{margin:0;font-size:13px}
+.personal-profile-row{border:1px solid var(--line);padding:14px;margin-block:10px;border-radius:8px;min-width:0}
+.personal-profile-row .form-grid{gap:12px}.personal-profile-row strong{font-size:12px}
+.personal-profile-row input,.personal-profile-row textarea,.personal-profile-editor>fieldset>.field{min-width:0;max-width:100%}
+.personal-profile-empty{font-size:12px;line-height:1.8;color:var(--muted);margin-block:12px}
+.personal-profile-confirm{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:15px}
+.personal-profile-confirm p{margin:0;flex:1 1 220px}.personal-profile-editor .field-hint{overflow-wrap:anywhere}
+@media(max-width:760px){.personal-profile-row .form-grid{grid-template-columns:minmax(0,1fr)}}
