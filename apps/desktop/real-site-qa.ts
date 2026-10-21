@@ -18,7 +18,7 @@ export function qaRequestAllowed(input: {url:string; method:string; resourceType
 
 const observedMethods=new Set(['importResume','saveProfile','confirmCareerRecord','discoverJobs','saveJob','trackJob',
   'browserNavigate','capturePage','collectPageJobs','prepareFill','fillApproved','prepareCareerFill','runCareerFill',
-  'refreshApplicationAttention','runAgent','beginMeasurement','finishMeasurement','enqueueApplications','startApplicationQueue']);
+  'runUniversalFill','refreshApplicationAttention','runAgent','beginMeasurement','finishMeasurement','enqueueApplications','startApplicationQueue']);
 const withoutValues=(fields:QAObservation['fields'])=>fields.map(({value,...field})=>field);
 
 /** Wrap the normal IPC handlers; there is no alternative execution path or fake result. */
@@ -43,15 +43,20 @@ export async function installRealSiteQA(options:{directory:string; session:Sessi
   for(const name of observedMethods){
     const original=options.methods[name];if(!original)continue;
     options.methods[name]=async(...args:any[])=>{
-      if(auditFailed&&['fillApproved','runCareerFill','enqueueApplications','startApplicationQueue'].includes(name))throw new Error('测评独立核对不可用，已停止后续填写。');
+      if(auditFailed&&['runUniversalFill','fillApproved','runCareerFill','enqueueApplications','startApplicationQueue'].includes(name))throw new Error('测评独立核对不可用，已停止后续填写。');
       const id=++order, startedAt=new Date().toISOString(),start=performance.now();
       let result:any;
+      const universalBefore=name==='runUniversalFill'?await options.observe():undefined;
       try {result=await original(...args);} catch(error){
         events.push({id,method:name,startedAt,durationMs:performance.now()-start,status:'failed',errorName:error instanceof Error?error.name:'UnknownError'});
         await persist();throw error;
       }
       const event:any={id,method:name,startedAt,durationMs:performance.now()-start,status:'returned'};
       try{
+      if(name==='runUniversalFill'){
+        const after=await options.observe();event.executorVerifiedCount=result.verified;event.unresolvedCount=result.pending;event.modelRequests=result.modelRequests;
+        await writeFile(join(options.directory,`universal-readback-${id}.private.json`),JSON.stringify({before:universalBefore,after,result},null,2),{mode:0o600});
+      }
       if(name==='prepareFill'){
         lastPlan=structuredClone(result);
         const observation=await options.observe();

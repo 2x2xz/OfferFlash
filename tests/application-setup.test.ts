@@ -1,0 +1,40 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,readFile,writeFile,symlink,stat} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {randomBytes,createCipheriv,createDecipheriv} from 'node:crypto';
+import {ApplicationSetupVault,validateApplicationSetup} from '../packages/domain/src/application-setup.js';import {emptyApplicationSetup} from '../packages/shared/src/application-setup.js';import {appendApplicationSetupFacts} from '../packages/forms/src/application-setup-facts.js';import {applicationFacts,factFitsField} from '../packages/forms/src/application-facts.js';import {profileFactView} from '../packages/forms/src/profile-fact-view.js';import {overrideProfile} from './fixtures/override-profile.js';import {prepareApplicationResume} from '../packages/ui/src/resume-preparation.js';import {UniversalFormSession} from '../packages/browser/src/universal-form.js';
+const setup=()=>({version:1,confirmedAt:'2026-10-22',profileVersion:1,encryptionAvailable:true,value:emptyApplicationSetup()});
+test('encrypted guidance survives reopening, serializes concurrent saves and never falls back to plaintext',async()=>{
+ const key=randomBytes(32),cryptor={available:()=>true,encrypt:(text:string)=>{const iv=randomBytes(12),cipher=createCipheriv('aes-256-gcm',key,iv);return Buffer.concat([iv,cipher.update(text),cipher.final(),cipher.getAuthTag()]);},decrypt:(bytes:Buffer)=>{const decipher=createDecipheriv('aes-256-gcm',key,bytes.subarray(0,12));decipher.setAuthTag(bytes.subarray(-16));return Buffer.concat([decipher.update(bytes.subarray(12,-16)),decipher.final()]).toString();}};
+ const directory=await mkdtemp(join(tmpdir(),'offer-setup-')),vault=new ApplicationSetupVault(directory,cryptor),value={...emptyApplicationSetup(),hometown:'虚构省份',politicalStatus:'本人确认的测试选项'};
+ await vault.save(value,0,1);const stored=await readFile(join(directory,'setup.enc'));assert.ok(!stored.includes(Buffer.from(value.politicalStatus)));assert.equal((await stat(join(directory,'setup.enc'))).mode&0o777,0o600);assert.deepEqual((await new ApplicationSetupVault(directory,cryptor).state()).value,value);
+ const results=await Promise.allSettled([vault.save(value,1,1),vault.save(value,1,1)]);assert.equal(results.filter(item=>item.status==='fulfilled').length,1);
+ await assert.rejects(new ApplicationSetupVault(directory,{...cryptor,available:()=>false}).save(value,2,1));await writeFile(join(directory,'setup.enc'),Buffer.from('corrupted'));await assert.rejects(vault.state());
+ const linked=join(directory,'link');await symlink(directory,linked);await assert.rejects(new ApplicationSetupVault(linked,cryptor).state());
+});
+test('guidance starts without a science category, political answer, transfer or upload authorization',()=>{
+ const value=emptyApplicationSetup();assert.equal(value.educations.length,0);assert.equal(value.politicalStatus,'');assert.equal(value.acceptTransfer,'ask');assert.equal(value.autoUploadResume,false);
+ assert.throws(()=>validateApplicationSetup({...value,educations:[{recordId:'e1',sourceRevision:1,major:'测试专业',category:'',fallbackMajor:'',awardDate:'2027-02-30'}]}));assert.throws(()=>validateApplicationSetup({...value,companyAnswers:[{origin:'http://example.invalid',company:'甲公司',hasRelatives:'no'}]}));
+});
+test('private guidance is host-only, employer scoped, and cannot fill relatives education or family fields',()=>{
+ const saved=setup();Object.assign(saved.value,{hometown:'虚构省份',politicalStatus:'虚构政治选项',acceptTransfer:'yes',companyAnswers:[{origin:'https://application.invalid',company:'甲公司',hasRelatives:'no'}]});const facts=applicationFacts(overrideProfile);appendApplicationSetupFacts(facts,saved,overrideProfile,'https://application.invalid/apply','甲公司 - 招聘');
+ const politics=facts.find(fact=>fact.kind==='applicationPolitics')!;assert.ok(politics);assert.ok(factFitsField(politics,{label:'政治面貌 *',section:'个人信息',type:'combobox'}));assert.equal(factFitsField(politics,{label:'政治面貌',section:'家庭成员',type:'combobox'}),false);
+ const view=profileFactView(overrideProfile,facts);assert.ok(!JSON.stringify(view).includes(saved.value.politicalStatus));assert.ok(facts.some(fact=>fact.kind==='applicationRelatives'));
+ const other=applicationFacts(overrideProfile);appendApplicationSetupFacts(other,saved,overrideProfile,'https://application.invalid/other','乙公司招聘');assert.equal(other.some(fact=>fact.kind==='applicationRelatives'),false);
+ const major=facts.find(fact=>fact.kind==='major')!,category={...major,kind:'majorCategory',value:'理工类'};assert.equal(factFitsField(major,{label:'专业类型',section:'教育经历',type:'combobox'}),false);assert.ok(factFitsField(category,{label:'专业类型',section:'教育经历',type:'combobox'}));assert.equal(factFitsField(major,{label:'推荐码',type:'text'}),false);
+});
+test('education category and closest-major permission expire when the source record changes',()=>{
+ const saved=setup();saved.value.educations=[{recordId:'e1',sourceRevision:1,major:'人工智能',category:'交叉学科',fallbackMajor:'计算机科学',awardDate:'2027-07'}];const facts=applicationFacts(overrideProfile);appendApplicationSetupFacts(facts,saved,overrideProfile,'https://application.invalid','');assert.ok(facts.some(fact=>fact.kind==='majorCategory'&&fact.value==='交叉学科'));assert.equal(facts.find(fact=>fact.record==='summary'&&fact.kind==='endDate')?.value,'2027-07');
+ const session:any=Object.create(UniversalFormSession.prototype);session.setup=saved;const major=facts.find(fact=>fact.sourceRecordId==='e1'&&fact.kind==='major')!;assert.equal(session.majorFallback(major),'计算机科学');assert.equal(session.majorFallback({...major,sourceRevision:2}),undefined);assert.equal(session.majorFallback({...major,kind:'majorCategory'}),undefined);
+ const changed=structuredClone(overrideProfile);changed.career!.educations[0]!.revision=2;const stale=applicationFacts(changed);appendApplicationSetupFacts(stale,saved,changed,'https://application.invalid','');assert.equal(stale.some(fact=>fact.kind==='majorCategory'),false);
+});
+test('automatic resume preparation keeps existing attachments, detects overwrite choices and stops on navigation',async()=>{
+ const saved=setup();saved.value.autoUploadResume=true;saved.value.resumeVersionId='fixture-resume-version';let uploads=0,t=0;const before={url:'https://application.invalid/apply',tabId:'one',documentRevision:1,targets:[{id:'resume',label:'简历',accept:'.pdf',recommended:true,hasAttachment:true}],formDigest:'one'};let page=before;
+ const options={setup:saved,profileVersion:1,inspect:async()=>page,upload:async()=>{uploads++;return{status:'selected' as const,fileName:'fixture.pdf',destination:'application.invalid',message:''};},current:()=>true,cancelled:()=>false,progress:()=>{},now:()=>t,wait:async()=>{t+=700;}};
+ await prepareApplicationResume(options);assert.equal(uploads,0);
+ let pendingReads=0;await prepareApplicationResume({...options,inspect:async()=>({...page,targets:[],parsing:++pendingReads<3})});assert.ok(pendingReads>=4);assert.equal(uploads,0);
+ page={...before,targets:[{...before.targets[0]!,hasAttachment:false}]};await prepareApplicationResume(options);assert.equal(uploads,1);
+ await assert.rejects(prepareApplicationResume({...options,inspect:async()=>({...page,needsOverwriteChoice:uploads>1})}),/覆盖/);assert.equal(uploads,2);
+ let inspections=0;await assert.rejects(prepareApplicationResume({...options,inspect:async()=>++inspections===1?page:{...page,url:'https://application.invalid/other'}}),/页面或资料已变化/);
+});
+test('no awards suppresses optional blank rows, but required empty rows remain unresolved without invented dates',()=>{
+ const session:any=Object.create(UniversalFormSession.prototype);session.setup=setup();session.setup.value.awards='none';session.decisionFor=()=>undefined;session.priorFailure=()=>undefined;session.retainedDraft=()=>false;session.candidates=()=>[];
+ const field={section:'获奖经历',label:'获奖时间',type:'date',value:'',required:false};assert.equal(session.needsWrite(field),false);assert.equal(session.needsWrite(field,true),false);assert.equal(session.needsWrite({...field,required:true},true),true);
+});

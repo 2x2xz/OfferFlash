@@ -38,8 +38,8 @@ test('methods, MCP questions, given-job comparison, denials and quotations do no
 });
 test('fresh task is bounded, mainland-scoped, and cannot mutate the shared default budget', () => {
   const task = createJobSearchTask('能帮我查查适合我的岗位吗？')!;
-  assert.equal(task.scope, 'mainland-official'); assert.equal(task.deadlineMs, 35_000);
-  assert.deepEqual(task.discoveryOptions, { maxSources: 3, maxPages: 2, pageSize: 20, detailLimit: 10, includeExperienced: false });
+  assert.equal(task.scope, 'mainland-official'); assert.equal(task.deadlineMs, 120_000);
+  assert.deepEqual(task.discoveryOptions, { maxSources: 8, maxPages: 2, pageSize: 20, detailLimit: 10, includeExperienced: false });
   assert.notEqual(task.discoveryOptions, JOB_SEARCH_DISCOVERY_BUDGET);
   Object.assign(task.discoveryOptions!, { maxPages: 5 });
   assert.equal(JOB_SEARCH_DISCOVERY_BUDGET.maxPages, 2);
@@ -48,6 +48,12 @@ test('local task has no discovery budget and an unrelated request creates no hos
   const task = createJobSearchTask('只查本地岗位')!;
   assert.equal(task.intent, 'local'); assert.equal(task.scope, 'local-snapshot'); assert.equal(task.discoveryOptions, undefined);
   assert.equal(task.deadlineMs, JOB_SEARCH_DEADLINE_MS); assert.equal(createJobSearchTask('讲讲 Agent loop'), null);
+});
+test('requests beyond the saved library stay online while an explicit no-network constraint remains local', () => {
+  assert.equal(classifyJobSearchIntent('能不能帮我找一下不止简历库里的？'), 'fresh');
+  assert.equal(classifyJobSearchIntent('帮我搜索更多算法岗位，不要只限于岗位库'), 'fresh');
+  assert.equal(classifyJobSearchIntent('帮我找岗位，不局限于本地库'), 'fresh');
+  assert.equal(classifyJobSearchIntent('不要联网，帮我搜索更多算法岗位，不要只限于岗位库'), 'local');
 });
 const evidence = (input: Partial<JobSearchExecutionEvidence> = {}): JobSearchExecutionEvidence => ({
   intent: 'fresh', profileRead: true, searchStatus: 'completed', scope: 'mainland-official', jobCount: 3, attemptedSources: 2, unviewedSources: 0, ...input,

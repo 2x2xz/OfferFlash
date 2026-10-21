@@ -9,7 +9,7 @@
 <p>一个用于求职申请的桌面 Agent：整理简历、推荐岗位、辅助填写招聘网页，并跟踪投递进度。</p>
 
 <p>
-  <a href="https://github.com/2x2xz/OfferFlash/releases/tag/v0.15.0"><strong>macOS Demo ↗</strong></a>
+  <a href="https://github.com/2x2xz/OfferFlash/releases/tag/v0.23.0-preview.1"><strong>macOS 最新预览版 ↗</strong></a>
   &nbsp;·&nbsp;
   <a href="docs/model-workspace-demo.md">完整演示</a>
   &nbsp;·&nbsp;
@@ -21,6 +21,18 @@
 </div>
 
 ---
+
+## 最新预览版：即时问答与填写修复
+
+Agent 执行任务需要补充信息时，问答块会直接浮现在对话输入区；选择或输入回答后，自动继续同一次任务。临时回答不会自动写入长期个人资料。
+
+本版同时带来多标签申请空间、实习与项目记录识别修复、复杂下拉及日期处理改进，以及本机加密记住模型连接。切换标签保留原页面；关闭或重启后的未保存内容仍由网站决定是否可恢复。
+
+[查看 v0.23.0-preview.1 完整说明](docs/release/offerflash-0.23.0-preview.1.md)。问答已通过隔离交互验证，部分填写修复已有真实页面字段回读；尚未完成所有网站、整张申请表的验收。
+
+<p align="center"><img src="docs/screenshots/agent-live-question.png" width="430" alt="执行中的 Agent 在输入区提出问题" /></p>
+
+<sub>问答截图使用虚构示例和本地模拟响应，不含真实申请资料。</sub>
 
 ## ⚡ 先看它干活
 
@@ -94,7 +106,7 @@ OfferFlash 用 Pi SDK 管理模型会话，Electron 主进程负责应用状态�
 
 更完整的进程划分、工具调用和安全边界放在 [架构文档](docs/architecture.md) 里。
 
-## 📊 实际跑出来的结果
+## 📊 历史验证结果（v0.15.0，非本次预览版重测）
 
 <table>
   <tr>

@@ -1,3 +1,4 @@
+import type {AgentQuestionRequest,AgentQuestionResponse} from '../../../packages/shared/src/agent-questions.js';
 import { createContext, useContext, type Dispatch, type SetStateAction } from 'react';
 import type { AgentEvent, AppState, Application, ApplicationInput, BrowserState, CapturedPage, FillPlan, FillResult, JobInput, ModelStatus, OfferAPI, SourceDefinition } from '../../../packages/shared/src/contracts.js';
 import type { ChatMessage } from '../../../packages/ui/src/agent-state.js';
@@ -16,6 +17,7 @@ export function createFormPreviewState(plan: FillPlan): FormPreviewState {
 }
 export interface Workspace {
   api: OfferAPI; state: AppState; sources: SourceDefinition[]; browser: BrowserState; model: ModelStatus;
+  agentQuestion?:AgentQuestionRequest|null;answerAgentQuestion?:(response:AgentQuestionResponse)=>Promise<void>;
   agentBusy: boolean; messages: ChatMessage[]; events: AgentEvent[]; streamText: string; overlayOpen: boolean;
   browserFocusMode: boolean;
   toggleBrowserFocus: () => void;
@@ -28,7 +30,7 @@ export interface Workspace {
   navigate: (page: Page) => void; openBrowser: (url: string) => Promise<void>;
   openJob: (job?: JobInput, capture?: CapturedPage) => void;
   openApplication: (application?: Application | ApplicationInput) => void;
-  openSources: () => void; openModel: () => void;
+  openApplicationSetup?: () => void; openSources: () => void; openModel: () => void;
   startResumeImport: () => void;
   notify: (message: string, error?: boolean) => void;
   runAgent: (input: string) => Promise<void>;

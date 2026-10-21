@@ -147,3 +147,10 @@ test('aborted and failed main loads clear busy state without treating subframe f
   assert.equal(f.controller.getState().loading, false);
   assert.match(f.controller.getState().error!, /fixture main load failed/);
 });
+
+test('never-loaded blank contents do not execute a dirty-state script; unreadable loaded contents conservatively time out',async()=>{
+ const f=await fixture(),contents=f.controller.view.webContents as any;let reads=0;
+ contents.getURL=()=>'';contents.executeJavaScript=()=>{reads++;return new Promise(()=>{});};
+ assert.equal(await f.controller.hasUnsavedChanges(),false);assert.equal(reads,0);
+ contents.getURL=()=> 'https://fixture.example.invalid/apply';const start=performance.now();assert.equal(await f.controller.hasUnsavedChanges(),true);assert.equal(reads,1);assert.ok(performance.now()-start<2000);
+});

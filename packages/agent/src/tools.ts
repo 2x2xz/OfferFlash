@@ -1,3 +1,4 @@
+import {validateAgentQuestions} from '../../shared/src/agent-questions.js';
 import { Type } from 'typebox';
 import { Value } from 'typebox/value';
 import type { ToolDefinition } from '@earendil-works/pi-coding-agent';
@@ -39,6 +40,11 @@ const sourceRun = Type.Object({
 }, exact);
 
 export const DOMAIN_TOOL_SPECS = [
+  {
+    name:'request_user_input',description:'当前任务缺少会影响下一步的普通求职信息时，立即在对话输入区浮现一至三个问题，等待用户选择或补充。用户确认后工具返回真实回答，Agent自动继续同一任务；等待期间不发模型请求。不把文字提问当作已回答，不要求另点继续，不保存为长期资料，不通过此工具收集凭据或私密身份资料。',
+    parameters:Type.Object({questions:Type.Array(Type.Object({id:Type.String({pattern:'^[a-zA-Z][a-zA-Z0-9_-]{0,47}$'}),prompt:Type.String({minLength:1,maxLength:240}),options:Type.Optional(Type.Array(Type.Object({id:Type.String({pattern:'^[a-zA-Z][a-zA-Z0-9_-]{0,47}$'}),label:Type.String({minLength:1,maxLength:64}),description:Type.Optional(Type.String({minLength:1,maxLength:160}))},exact),{minItems:2,maxItems:4}))},exact),{minItems:1,maxItems:3})},exact),
+    result:Type.Object({status:Type.Union(['answered','skipped','context-changed'].map(value=>Type.Literal(value))),answers:Type.Array(Type.Object({questionId:Type.String(),answer:Type.String()},exact),{maxItems:3})},exact),
+  },
   {
     name: 'get_profile_summary', description: '读取已确认的求职偏好、默认教育及教育/实习/项目/论文的专业概要；待确认或修订后的记录不作为已知事实。不包含姓名或联系方式字段、来源原文、完整履历和未确认经历。论文状态保持已发表/已接收/预印本/投稿/进行中区别。', parameters: Type.Object({}, exact),
     result: profileSummarySchema,
@@ -98,6 +104,7 @@ export function validateDomainToolArguments(name: string, args: unknown): void {
   if (name === 'query_jobs') validateJobQueryArgs(args);
   if (name === 'refresh_jobs' && (args as any)?.sourceId !== 'profile-discovery' && (args as any)?.region !== undefined) throw new Error('地区参数仅适用于按资料发现岗位。');
   if (name === 'refresh_jobs' && (args as any)?.sourceId === 'profile-discovery' && ((args as any).keyword || ((args as any).maxPages ?? 1) > 5 || ((args as any).detailLimit ?? 1) > 30)) throw new Error('根据简历找岗位使用已确认偏好，最多5页与30条详情；不额外传关键词。');
+  if(name==='request_user_input')validateAgentQuestions(args);
   if (!Value.Check(spec.parameters, args)) throw new Error(`${name} 的参数不符合工具约定。`);
 }
 
@@ -133,6 +140,10 @@ export function createDomainTools(hostTool: HostTool): ToolDefinition<any, any>[
       const value = await hostTool(spec.name, args, signal);
       signal?.throwIfAborted();
       validateDomainToolResult(spec.name, value);
+      if(spec.name==='request_user_input'){
+        const result=value as {status:string;answers:Array<{questionId:string;answer:string}>},ids=(args as {questions:Array<{id:string}>}).questions.map(question=>question.id);
+        if(result.status==='answered'&&(result.answers.length!==ids.length||new Set(result.answers.map(answer=>answer.questionId)).size!==ids.length||result.answers.some(answer=>!ids.includes(answer.questionId)))||result.status!=='answered'&&result.answers.length)throw Error('问答返回的问题与当前请求不一致。');
+      }
       const requestedJobId = (args as { jobId?: string }).jobId;
       if (spec.name === 'refresh_jobs' && (value as { sourceRun?: SourceRun }).sourceRun?.sourceId !== (args as { sourceId: string }).sourceId) throw new Error('刷新报告不属于请求的招聘来源。');
       if (spec.name === 'get_job_details' && (value as { id: string }).id !== requestedJobId

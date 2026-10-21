@@ -1,3 +1,4 @@
+import type {AgentQuestionRequest,AgentQuestionResult} from '../../shared/src/agent-questions.js';
 import type { RuntimeEvent, RunStatus } from '../../runtime/src/runtime.js';
 
 export interface ChatMessage {
@@ -15,6 +16,7 @@ interface ActiveRequest {
   startedAt: number;
   taskId?: string;
   lastSequence: number;
+  recovered?:boolean;
   text: string;
   error?: string;
 }
@@ -26,6 +28,8 @@ export interface AgentUiState {
   retiredTaskIds: string[];
 }
 export type AgentUiAction =
+  | {type:'resume-question';request:AgentQuestionRequest}
+  | {type:'question-answer';request:AgentQuestionRequest;result:AgentQuestionResult}
   | { type: 'draft'; text: string }
   | { type: 'start'; requestId: string; input: string; startedAt: number }
   | { type: 'event'; event: RuntimeEvent }
@@ -54,14 +58,25 @@ export function agentUiReducer(state: AgentUiState, action: AgentUiAction): Agen
       active: { id: action.requestId, input: action.input, startedAt: action.startedAt, lastSequence: -1, text: '' },
     };
   }
+  if(action.type==='resume-question'){
+    if(state.active||state.retiredTaskIds.includes(action.request.taskId))return state;
+    return {...state,active:{id:'recovered-'+action.request.taskId,input:'',startedAt:Date.parse(action.request.createdAt),taskId:action.request.taskId,lastSequence:-1,text:'',recovered:true}};
+  }
   const active = state.active;
   if (!active) return state;
+  if(action.type==='question-answer'){
+    if(active.taskId!==action.request.taskId||state.messages.some(message=>message.id===action.request.id+'-reply'))return state;
+    const prompt=[active.text.trim(),...action.request.questions.map(q=>q.prompt)].filter(Boolean).join('\n\n');
+    const answer=action.result.status==='skipped'?'本次暂时跳过':action.result.answers.map(answer=>{const q=action.request.questions.find(q=>q.id===answer.questionId);return(q?q.prompt+'：':'')+answer.answer;}).join('\n');
+    return {...state,messages:[...state.messages,{id:action.request.id+'-prompt',role:'assistant',text:prompt},{id:action.request.id+'-reply',role:'user',text:answer}],active:{...active,text:''}};
+  }
   if (action.type === 'event') {
     const event = action.event;
     if (state.retiredTaskIds.includes(event.taskId)) return state;
     if (!active.taskId && (event.type !== 'task_started' || Date.parse(event.time) < active.startedAt)) return state;
     if (active.taskId && active.taskId !== event.taskId) return state;
     if (!Number.isFinite(Date.parse(event.time)) || event.sequence <= active.lastSequence) return state;
+    if(event.type==='task_settled'&&active.recovered)return agentUiReducer(state,{type:'finish',requestId:active.id,taskId:event.taskId,status:['completed','cancelled'].includes(String(event.data.status))?event.data.status as 'completed'|'cancelled':'failed',finalText:active.text});
     return {
       ...state,
       events: [...state.events, event].slice(-350),
@@ -104,6 +119,7 @@ export function shouldFollowChatScroll(scrollHeight: number, scrollTop: number, 
 }
 
 export const AGENT_TOOL_LABELS: Record<string, string> = {
+  request_user_input:'等待你的回答',
   get_profile_summary: '读取已确认职业概要', query_jobs: '查询本地岗位', refresh_jobs: '采集指定招聘来源',
   list_applications: '查看申请进度', add_to_tracker: '加入申请跟踪', open_job: '打开岗位官网',
   prepare_form_preview: '生成本地填写预览', get_job_details: '读取已保存岗位详情',

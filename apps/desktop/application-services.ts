@@ -5,8 +5,10 @@ import { createHash, randomUUID } from 'node:crypto';
 import type { DomainStore } from '../../packages/domain/src/store.js';
 import type { AppEvent, AppState } from '../../packages/shared/src/contracts.js';
 import type { ResumeVersionImport } from '../../packages/shared/src/application-assets.js';
-import type { DiscoveryOptions, DiscoveryResult } from '../../packages/shared/src/discovery.js';
+import type { DiscoveryOptions, DiscoveryResult, PublicJobSearchInput, PublicJobSearchResult } from '../../packages/shared/src/discovery.js';
 import { discoverJobs } from '../../packages/sources/src/discovery.js';
+import { buildDiscoveryPlan } from '../../packages/sources/src/discovery.js';
+import { publicJobSearchInput } from '../../packages/agent/src/job-web-search.js';
 import { buildApplicationFactsPreview, applyApplicationFactsSelection, exportApplicationFactsTemplate, type ApplicationFactsPreview } from '../../packages/profile/src/application-facts.js';
 
 const LIMIT = 20 * 1024 * 1024;
@@ -34,6 +36,7 @@ export function createApplicationServices(options: {
   send: (event: AppEvent) => void; publishState: (state: AppState) => AppState;
   assertIdle: () => void; withCollection: <T>(work: () => Promise<T>) => Promise<T>;
   onDiscovery?: (state: AppState, result: DiscoveryResult) => void | Promise<void>;
+  searchPublicJobs?: (input: PublicJobSearchInput, signal: AbortSignal) => Promise<PublicJobSearchResult>;
 }) {
   const { store, window, send, stateDirectory } = options;
   let discoveryController: AbortController | undefined;
@@ -83,6 +86,7 @@ export function createApplicationServices(options: {
     },
     applicationAssets: () => store.assets.getState(),
     answerSuggestions: (question, applicationId) => store.assets.answerSuggestions(question, applicationId),
+    setQuestionDecision:async input=>{options.assertIdle();return assets(store.assets.setQuestionDecision!(input));},
     saveAnswer: (input, revision) => { options.assertIdle(); return assets(store.assets.saveAnswer(input, revision)); },
     confirmAnswer: (id, revision, version) => { options.assertIdle(); return assets(store.assets.confirmAnswer(id, revision, version)); },
     deleteAnswer: (id, revision) => { options.assertIdle(); return assets(store.assets.deleteAnswer(id, revision)); },
@@ -139,7 +143,19 @@ export function createApplicationServices(options: {
       discoveryController = new AbortController(); const signal = discoveryController.signal;
       discoveryTask = options.withCollection(async () => {
         const profile = (await store.getState()).profile, { sources } = await store.discovery.getState();
-        const result = await discoverJobs(profile, sources, input, { signal });
+        const search = async (): Promise<PublicJobSearchResult | undefined> => {
+          if (!options.searchPublicJobs) return;
+          try {
+            const plan = buildDiscoveryPlan(profile);
+            return await options.searchPublicJobs(publicJobSearchInput(plan.keywords, plan.cities, input.region === 'overseas' ? 'overseas' : 'mainland'), signal);
+          } catch { return { status: signal.aborted ? 'cancelled' : 'failed', leads: [], reason: '本轮公开网页搜索未完成，官网采集结果单独保留。', observedAt: new Date().toISOString(), durationMs: 0, totalTokens: null }; }
+        };
+        // Both tasks are read-only and must settle before releasing the collection/configuration lock.
+        const [discovery, publicSearch] = await Promise.allSettled([discoverJobs(profile, sources, input, { signal }), search()]);
+        if (discovery.status === 'rejected') throw discovery.reason;
+        const result = discovery.value;
+        if (publicSearch.status === 'fulfilled' && publicSearch.value) result.report.publicSearch = publicSearch.value;
+        result.report.finishedAt = new Date().toISOString();
         const saved = options.publishState(await store.importDiscoveryResult(result));
         const discovered = await store.discovery.getState();
         result.report = discovered.runs.find(run => run.id === result.report.id) ?? result.report;

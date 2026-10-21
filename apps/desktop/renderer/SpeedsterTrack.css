@@ -1,8 +1,8 @@
-.speedster-track{height:20px;width:100%;min-width:0;position:relative;display:flex;align-items:center;gap:4px;isolation:isolate}
-.speedster-runway{position:relative;flex:1;min-width:0;height:20px;overflow:hidden;pointer-events:none}
+.speedster-track{height:28px;width:100%;min-width:0;position:relative;display:flex;align-items:center;gap:4px;isolation:isolate}
+.speedster-runway{position:relative;flex:1;min-width:0;height:28px;overflow:hidden;pointer-events:none}
 .speedster-rail{position:absolute;left:0;right:0;bottom:2px;height:1px;background:linear-gradient(90deg,#efb75322,#efb75370 50%,#efb75322)}
-.speedster-runner{position:absolute;width:36px;height:20px;left:0;top:0;pointer-events:none;will-change:transform}
-.speedster-runner>.speedster-sprite{width:36px;height:27px;display:block;position:relative;top:-5px;z-index:1}
+.speedster-runner{position:absolute;width:36px;height:28px;left:0;top:0;pointer-events:none;will-change:transform}
+.speedster-runner>.speedster-sprite{width:36px;height:27px;display:block;position:relative;top:0;z-index:1}
 .speedster-lightning{position:absolute;right:16px;top:0;width:180px;height:23px;opacity:0;background:linear-gradient(90deg,transparent,#75deff33 20%,#ffd36c88 65%,#effbff);clip-path:polygon(0 45%,18% 42%,22% 22%,29% 48%,40% 40%,45% 8%,49% 45%,61% 42%,66% 18%,70% 42%,100% 40%,100% 64%,76% 65%,72% 92%,67% 65%,56% 70%,51% 100%,46% 64%,34% 73%,29% 58%,0 60%);filter:drop-shadow(0 0 5px #ff8b3777)}
 .speedster-lightning:after{content:'';position:absolute;inset:2px 0;background:linear-gradient(90deg,transparent,#b6edff55,#fff4c0);transform:translateY(2px)}
 .speedster-track[data-animated=true] .speedster-runner{animation:speedster-cross 1.35s linear infinite}

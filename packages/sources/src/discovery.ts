@@ -27,7 +27,7 @@ export function discoveryOptions(input: DiscoveryOptions = {}): Required<Discove
   if (input.includeExperienced !== undefined && typeof input.includeExperienced !== 'boolean') throw new TypeError('请明确是否包含社招。');
   const region = input.region === undefined ? 'mainland' : input.region;
   if (region !== 'mainland' && region !== 'overseas' && region !== 'all') throw new TypeError('招聘地区无效。');
-  return { region, sourceIds: unique(input.sourceIds ?? []), maxSources: number('maxSources', 3, 8), maxPages: number('maxPages', 2, 5),
+  return { region, sourceIds: unique(input.sourceIds ?? []), maxSources: number('maxSources', 8, 8), maxPages: number('maxPages', 2, 5),
     pageSize: number('pageSize', 20, 50), detailLimit: number('detailLimit', 10, 30), includeExperienced: input.includeExperienced ?? false };
 }
 

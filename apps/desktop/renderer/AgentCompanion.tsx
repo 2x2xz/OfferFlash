@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp, Pause, Volume2, VolumeX, WandSparkles } from 'lucide-react';
 import { COMPANION_STATUS_HINTS, COMPANION_STATUS_LABELS, companionPreferences, companionProgress,
   type CompanionPreferences, type CompanionProgress, type CompanionStatus } from '../../../packages/ui/src/companion.js';
-import { SpeedsterSprite, type SpeedsterState } from './SpeedsterSprite.js';
 import { SpeedsterTrack, type FieldCompanionMotionOptions } from './SpeedsterTrack.js';
 import './AgentCompanion.css';
 
@@ -19,13 +18,6 @@ const preferenceKey = 'offeragent.companion.v1';
 function readPreferences(): CompanionPreferences {
   try { return companionPreferences(JSON.parse(localStorage.getItem(preferenceKey) ?? 'null')); } catch { return companionPreferences(null); }
 }
-function spriteState(status: CompanionStatus): SpeedsterState {
-  if (status === 'needs-info' || status === 'waiting-login') return 'attention';
-  if (status === 'completed') return 'celebrate';
-  // The portrait stays parked; the running copy travels along the separate activity lane.
-  return 'idle';
-}
-
 /** Mount in normal layout above the native browser holder, never as an overlay over WebContentsView. */
 export function AgentCompanion({ status, message, verifiedCount, totalCount, pendingCount, retry, queue, action, onStop, stopDisabled, runKey, motionAllowed = true, controlsLocked = false, onMotionOptions }: AgentCompanionProps) {
   const [preferences, setPreferences] = useState(readPreferences);
@@ -49,7 +41,6 @@ export function AgentCompanion({ status, message, verifiedCount, totalCount, pen
   const reducedMotion = preferenceReducedMotion || !motionAllowed;
   return <section className={`agent-companion${preferences.collapsed ? ' is-collapsed' : ''}${active ? ' is-working' : ''}${reducedMotion ? ' reduce-motion' : ''}`}
     data-testid="agent-companion" data-status={status} data-muted={preferences.muted} aria-label="申请小助手">
-    <div className="agent-companion-portrait"><SpeedsterSprite state={spriteState(status)} className="agent-companion-sprite" /></div>
     <div className="agent-companion-content" aria-live={preferences.muted ? 'off' : 'polite'} aria-atomic="true" data-testid="companion-live">
       <div className="agent-companion-heading"><strong>{COMPANION_STATUS_LABELS[status]}</strong>{retryLabel && <small>{retryLabel}</small>}{queueLabel && <small>{queueLabel}</small>}</div>
       <p data-testid="companion-message" title={message || COMPANION_STATUS_HINTS[status]}>{preferences.collapsed ? progress.label : message || COMPANION_STATUS_HINTS[status]}</p>

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { AppState, EducationRecord, FillPlan, FillResult, Job } from '../packages/shared/src/contracts.js';
-import { deriveApplyFlow, QuickFillInterrupted, runQuickFill, summarizeApplicationFill } from '../packages/ui/src/apply-flow.js';
+import { deriveApplyFlow, QuickFillInterrupted, runQuickFill, summarizeApplicationFill, quickFillOutcome } from '../packages/ui/src/apply-flow.js';
 import { confirmResumeForApplication } from '../packages/ui/src/resume-review.js';
 
 const now = new Date('2026-10-17T03:00:00Z');
@@ -55,6 +55,15 @@ function plan(changes: Partial<FillPlan> = {}): FillPlan {
   ], recognition: { mode: 'model', mappedCount: 1, message: '模型识别已完成', modelId: 'fixture' }, ...changes };
 }
 const context = { url: 'https://example.invalid/application', profileVersion: 3 };
+test('recognition without execution or verification never reports completed filling', () => {
+  assert.equal(quickFillOutcome(plan()).status, 'partial');
+  assert.match(quickFillOutcome(plan()).message, /本次没有写入/);
+  assert.equal(quickFillOutcome(plan(), {planId:'new-plan', verified:[], unresolved:[]}).status, 'failed');
+  const verified = {planId:'new-plan', verified:[{fieldId:'name',label:'姓名'}], unresolved:[]};
+  assert.equal(quickFillOutcome(plan(), verified).status, 'partial');
+  assert.equal(quickFillOutcome(plan({items:plan().items.slice(0,1)}), verified).status, 'completed');
+  assert.equal(quickFillOutcome(plan(), {...verified,planId:'stale'}).status, 'failed');
+});
 test('one quick-fill click executes only ready blank IDs from its newly prepared plan and preserves the result counts', async () => {
   const calls: Array<[string, string[]]> = []; let preview: FillPlan | undefined;
   const next = plan(); const result: FillResult = { planId: next.id, verified: [{ fieldId: 'name', label: '姓名' }], unresolved: [] };
@@ -147,7 +156,7 @@ test('the short resume review confirms only the explicitly selected education an
   initial.profile.career.educations[0]!.evidence = [{ field: 'school', sourceId: 'resume-source', quote: '测试大学 硕士 2027-06', location: '教育段第1行', originalValue: '测试大学' }];
   let saved = structuredClone(initial); const calls: string[] = []; const published: AppState[] = [];
   const updated = await confirmResumeForApplication({ state: initial, draft: initial.profile, dirty: true, expectedVersion: 3, educationId: 'education', onSaved: value => { published.push(value); }, api: {
-    saveProfile: async (profile, version) => { calls.push(`save:${version}:${profile.career?.primaryEducationId}`); assert.equal(version, saved.profile.version); saved = { ...saved, profile: { ...saved.profile, ...profile, career: { ...saved.profile.career!, primaryEducationId: profile.career?.primaryEducationId ?? null }, version: saved.profile.version + 1 } }; return saved; },
+    saveProfile: async (profile, version) => { calls.push(`save:${version}:${profile.career?.primaryEducationId}`); assert.equal(version, saved.profile.version); saved = { ...saved, profile: { ...saved.profile, ...profile, personal: saved.profile.personal, career: { ...saved.profile.career!, primaryEducationId: profile.career?.primaryEducationId ?? null }, version: saved.profile.version + 1 } }; return saved; },
     confirmCareerRecord: async (collection, id, version, revision) => { calls.push(`confirm:${collection}:${id}:${version}:${revision}`); assert.equal(version, 4); saved = { ...saved, profile: { ...saved.profile, version: 5, career: { ...saved.profile.career!, educations: saved.profile.career!.educations.map(item => item.id === id ? { ...item, confirmation: 'confirmed', confirmedRevision: item.revision, confirmedAt: now.toISOString() } : item) } } }; return saved; },
   } });
   assert.deepEqual(calls, ['save:3:null', 'confirm:educations:education:4:2', 'save:5:education']);

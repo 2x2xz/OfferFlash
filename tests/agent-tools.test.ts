@@ -127,10 +127,11 @@ test('shared tool declarations expose only the registered business tools and gat
   let calls = 0;
   const tools = createDomainTools(async () => { calls++; return {}; });
   assert.deepEqual(tools.map(tool => tool.name), [
+    'request_user_input',
     'get_profile_summary', 'query_jobs', 'refresh_jobs', 'list_applications', 'add_to_tracker',
     'open_job', 'prepare_form_preview', 'get_job_details', 'get_task_guide', 'get_application_agenda', 'compare_jobs',
   ]);
-  assert.equal(DOMAIN_TOOL_SPECS.length, 11);
+  assert.equal(DOMAIN_TOOL_SPECS.length, 12);
   const query = tools.find(tool => tool.name === 'query_jobs')!;
   await assert.rejects(execute(query, 'bad-query', { limit: 21 }), /limit/);
   const track = tools.find(tool => tool.name === 'add_to_tracker')!;

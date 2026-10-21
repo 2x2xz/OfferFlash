@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { careerSkillCatalog, loadCareerSkills, validateCareerSkillRegistry, CAREER_SKILLS } from './skills.js';
 import { DOMAIN_TOOL_SPECS } from './tools.js';
 
-export const AGENT_POLICY_VERSION = 'offeragent-career-v2';
+export const AGENT_POLICY_VERSION = 'offeragent-career-v3';
 const POLICY_FILES = [
   'system.md', 'tasks/job-discovery.md', 'tasks/job-analysis.md',
   'tasks/application-tracking.md', 'tasks/form-preview.md',

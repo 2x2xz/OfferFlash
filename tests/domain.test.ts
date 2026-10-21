@@ -8,7 +8,7 @@ import initSqlJs from "sql.js";
 import { createStore, matchJob, type DomainStore } from "../packages/domain/src/index.js";
 import type { JobInput, Profile, ProfileInput } from "../packages/shared/src/contracts.js";
 
-const profileInput: Omit<ProfileInput, 'career'> = {
+const profileInput: Omit<ProfileInput, 'career' | 'personal'> = {
   fullName: "测试用户（虚构）", fullNameEn: "Test User", email: "test@example.invalid", phone: "",
   school: "测试大学（虚构）", schoolEn: "", degree: "硕士", major: "计算机", majorEn: "",
   graduationMonth: "2027-06", skills: ["Python", "PyTorch"], cities: ["杭州"], targetRoles: ["大模型"],

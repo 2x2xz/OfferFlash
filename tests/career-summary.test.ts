@@ -11,7 +11,7 @@ import { buildFillPlan } from '../packages/forms/src/index.js';
 import { matchJob } from '../packages/domain/src/matching.js';
 import type { FormObservation, Profile, ProfileInput } from '../packages/shared/src/contracts.js';
 
-const basic: Omit<ProfileInput, 'career'> = { fullName: '虚构姓名', fullNameEn: '', email: 'private@example.invalid', phone: '13800000000',
+const basic: Omit<ProfileInput, 'career' | 'personal'> = { fullName: '虚构姓名', fullNameEn: '', email: 'private@example.invalid', phone: '13800000000',
   school: '', schoolEn: '', degree: '', major: '', majorEn: '', graduationMonth: '', skills: ['Python'], cities: [], targetRoles: ['算法'], resumeText: 'PRIVATE_FULL_RESUME' };
 
 test('only current confirmed professional facts enter the shared model summary, never raw sources or private descriptions', async () => {

@@ -4,6 +4,7 @@ import { normalizeProfile } from '../../domain/src/validation.js';
 import { migrateLegacyProfile } from '../../domain/src/career.js';
 import { normalizeCareerDate } from './career-import.js';
 import { newCareerRecord, pickCareerInput } from './career-input.js';
+import { pickPersonalInput } from './personal-input.js';
 
 export interface ApplyDockImportResult {
   profile: ProfileInput;
@@ -78,7 +79,7 @@ const basic: Record<string, keyof ProfileInput> = {
   技能: 'skills', 专业技能: 'skills', 技能清单: 'skills', 意向城市: 'cities', 目标岗位: 'targetRoles', 简历全文: 'resumeText',
 };
 const education: Record<string, string> = {
-  school: 'school', schoolen: 'schoolEn', degree: 'degree', major: 'major', majoren: 'majorEn',
+  college: 'college', faculty: 'college', 学院: 'college', 学院名称: 'college', 院系: 'college', school: 'school', schoolen: 'schoolEn', degree: 'degree', major: 'major', majoren: 'majorEn',
   start: 'startDate', startdate: 'startDate', end: 'endDate', enddate: 'endDate', graduation: 'endDate', description: 'description', courses: 'description',
   学校: 'school', 院校: 'school', 学校英文名: 'schoolEn', '学历/学位': 'degree', 学历: 'degree', 学位: 'degree',
   专业: 'major', 专业英文名: 'majorEn', 入学时间: 'startDate', 开始时间: 'startDate', 毕业时间: 'endDate', 结束时间: 'endDate', 核心课程: 'description',
@@ -142,8 +143,8 @@ function mappedValue(field: string, raw: string): string | string[] | undefined 
 /** Local-only, non-destructive conversion. It never imports applications or confirmation state. */
 export function buildApplyDockImport(data: Uint8Array, current: Profile): ApplyDockImportResult {
   const clips = parse(data);
-  const { version: _version, updatedAt: _updatedAt, career: _career, ...saved } = structuredClone(current);
-  const profile: ProfileInput = { ...saved, career: pickCareerInput(migrateLegacyProfile(current).career) };
+  const { version: _version, updatedAt: _updatedAt, career: _career, personal: _personal, ...saved } = structuredClone(current);
+  const profile: ProfileInput = { ...saved, ...(current.personal ? { personal: pickPersonalInput(current.personal) } : {}), career: pickCareerInput(migrateLegacyProfile(current).career) };
   const career = profile.career!;
   const changes: ApplyDockImportResult['changes'] = [];
   const conflicts: ApplyDockImportResult['conflicts'] = [];

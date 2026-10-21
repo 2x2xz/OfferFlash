@@ -5,6 +5,7 @@ import type {
 } from "../../shared/src/contracts.js";
 import { careerCollections, confirmCareer, emptyCareer, migrateLegacyProfile, profileCareerOnSave, projectPrimaryEducation } from "./career.js";
 import { matchJob } from "./matching.js";
+import { personalHasContent, personalProfileOnSave } from '../../profile/src/personal-input.js';
 import { deleteDocument, openDatabaseFile, readDocument, readDocuments, writeDocument } from "./sqlite.js";
 import { createApplicationAssetsStore, removeApplicationAssets, type ApplicationAssetsStore } from './application-assets.js';
 import { createApplicationWorkflowStore, removeApplicationWorkflows, type ApplicationWorkflowStore } from './application-workflow.js';
@@ -22,7 +23,9 @@ export interface DomainStore {
   readonly workflow: ApplicationWorkflowStore;
   readonly discovery: DiscoveryStore;
   getState(): Promise<AppState>;
+  getProfile(): Promise<Profile>;
   saveProfile(input: ProfileInput, expectedVersion?: number): Promise<AppState>;
+  confirmPersonalProfile(expectedVersion: number, expectedRevision: number): Promise<AppState>;
   confirmCareerRecord(collection: CareerCollection, recordId: string, expectedVersion: number, expectedRevision: number): Promise<AppState>;
   saveJob(input: JobInput): Promise<AppState>;
   upsertJobs(inputs: JobInput[]): Promise<AppState>;
@@ -240,6 +243,7 @@ export async function createStore(options: { directory: string }): Promise<Domai
     workflow: createApplicationWorkflowStore(file),
     discovery: createDiscoveryStore(file),
     getState: () => file.read(stateIn),
+    getProfile: () => file.read(profileIn),
     exportState: () => file.read(stateIn),
     close: () => file.close(),
     async saveProfile(input, expectedVersion) {
@@ -250,8 +254,28 @@ export async function createStore(options: { directory: string }): Promise<Domai
       return mutation((db, now) => {
         const old = profileIn(db);
         if (expectedVersion !== undefined && old.version !== expectedVersion) throw new Error("资料已被更新，请刷新后再保存");
-        const next: Profile = { ...profileCareerOnSave(profile, old, now), version: old.version + 1, updatedAt: now };
+        if (profile.career && old.career) profile.career.educations = profile.career.educations.map(record => {
+          const before = old.career!.educations.find(item => item.id === record.id);
+          return { ...record, ...Object.fromEntries((['majorCategory', 'schoolCategory', 'studyMode'] as const)
+            .filter(key => record[key] === undefined && before?.[key] !== undefined).map(key => [key, before![key]])) };
+        });
+        const next: Profile = { ...personalProfileOnSave(profileCareerOnSave(profile, old, now), old), version: old.version + 1, updatedAt: now };
         putProfile(db, next, now);
+      });
+    },
+    async confirmPersonalProfile(expectedVersion, expectedRevision) {
+      if (!Number.isSafeInteger(expectedVersion) || expectedVersion < 0 || !Number.isSafeInteger(expectedRevision) || expectedRevision < 1) {
+        throw new TypeError('确认网申补充资料须提供有效资料版本与修订号');
+      }
+      return mutation((db, now) => {
+        const old = profileIn(db), personal = old.personal;
+        if (old.version !== expectedVersion) throw new Error('资料已被更新，请刷新后再确认');
+        if (!personal || personal.revision !== expectedRevision) throw new Error('网申补充资料已被修改，请刷新后核对当前修订');
+        if (!personalHasContent(personal)) throw new Error('请先填写需要确认的语言、软件、荣誉或自我评价');
+        if (personal.languages.some(item => !item.language.trim()) || personal.software.some(item => !item.name.trim()) || personal.awards.some(item => !item.name.trim())) {
+          throw new Error('请补齐每条资料的语言、软件或荣誉名称，再确认');
+        }
+        putProfile(db, { ...old, personal: { ...personal, confirmedRevision: personal.revision, confirmedAt: now }, version: old.version + 1, updatedAt: now }, now);
       });
     },
     async confirmCareerRecord(collection, recordId, expectedVersion, expectedRevision) {

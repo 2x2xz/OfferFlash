@@ -3,6 +3,23 @@ import assert from 'node:assert/strict';
 import { jobSearchWorkflow } from '../packages/agent/src/job-search-workflow.js';
 const result = { sourceRun: { count: 1, status: 'partial' }, discovery: { status: 'partial', sourcesAttempted: 2, completeDetails: 1, scopeNote: '仅公开推荐范围' },
   jobs: [{ title: '虚构算法实习', company: '虚构公司', url: 'https://example.invalid/job', city: '北京', match: { eligible: 'review' } }] };
+test('fresh search exposes returned web citations separately, never inventing tracker IDs or counting them as verified jobs', async () => {
+  const workflow = jobSearchWorkflow('帮我搜索更多算法岗位，不要只限于岗位库', async name => name === 'get_profile_summary' ? { version: 1 } : {
+    jobs: [], sourceRun: { status: 'failed', count: 0 }, discovery: { status: 'failed', sourcesAttempted: 2, publicSearch: { status: 'completed', leads: [{ title: '公开招聘线索', url: 'https://careers.example.invalid/position/1', verification: 'search-source-only' }], reason: '正文与资格待核实' } },
+  })!;
+  assert.ok(workflow); const value = await workflow({ signal: new AbortController().signal, progress() {} });
+  assert.equal(value.status, 'completed'); assert.match(value.summary, /公开招聘线索/); assert.match(value.summary, /尚未作为已确认岗位入库/);
+  assert.deepEqual(JSON.parse(value.context).jobs, []);
+});
+test('fresh search reranks all current discovery IDs instead of recycling the whole library or its first20 rows', async () => {
+  const ids=Array.from({length:35},(_,i)=>'new-'+i),winner={id:ids[34],title:'本轮后段岗位',company:'虚构公司',url:'https://careers.example.invalid/jobs/new-34',match:{eligible:'review'}};
+  const workflow=jobSearchWorkflow('帮我找更多算法岗位',async(name,args:any)=>{
+    if(name==='get_profile_summary')return{version:1};
+    if(name==='refresh_jobs')return{jobs:[],sourceRun:{status:'partial',count:35},discovery:{status:'partial',sourcesAttempted:8,jobIds:ids}};
+    assert.equal(name,'match_profile_jobs');assert.deepEqual(args.jobIds,ids);return{status:'completed',profileVersion:1,ranking:[winner.id],jobs:[winner],retrieval:{scannedCount:35}};
+  },{modelMatching:true})!;
+  const value=await workflow({signal:new AbortController().signal,progress(){}});assert.match(value.summary,/本轮采集的35条/);assert.match(value.summary,/本轮后段岗位/);
+});
 test('the reported promise request executes real host steps once before returning bounded actual candidates', async () => {
   const calls: string[] = [], phases: string[] = [];
   const workflow = jobSearchWorkflow('能帮我查查适合我的岗位吗？', async (name, args) => {

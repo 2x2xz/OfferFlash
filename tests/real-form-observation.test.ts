@@ -99,6 +99,23 @@ function read(html: string): FormObservation {
     observedAt: '2026-10-17T00:00:00Z', signature: pageSignature(fields), fields };
 }
 
+test('nested div/span field titles support ordinary facts without using placeholder or another field label', () => {
+  const observation = read('<section><div>个人信息</div><div><div><span>* 姓名</span></div><div><input placeholder="请输入" /></div></div><div><span>邮箱</span><div><input placeholder="请输入" /></div></div></section>');
+  assert.equal(observation.fields[0]!.label, '* 姓名'); assert.equal(observation.fields[0]!.required, true);
+  assert.equal(observation.fields[1]!.label, '邮箱'); assert.equal(observation.fields[1]!.section, '个人信息');
+  assert.deepEqual(matchFields(observation, profile).map(item => item.profileKey), ['fullName', 'email']);
+  assert.ok(matchFields(observation, profile).every(item => item.status === 'ready'));
+});
+
+test('div section titles retain other-person protection; ambiguous generic titles and shared wrappers do not guess', () => {
+  const protectedForm = read('<section><div>紧急联系人</div><div><span>姓名</span><input placeholder="请输入" /></div><div><span>电话</span><input placeholder="请输入" /></div></section>');
+  assert.ok(matchFields(protectedForm, profile).every(item => item.status === 'skip'));
+  const ambiguous = read('<div><span>姓名</span><span>邮箱</span><input placeholder="请输入" /></div>');
+  assert.equal(ambiguous.fields[0]!.label, '请输入');
+  const shared = read('<div><span>姓名</span><input placeholder="请输入" /><input placeholder="请输入" /></div>');
+  assert.ok(shared.fields.every(field => field.label === '请输入'));
+});
+
 test('Unicode required stars preserve known key matching and reject conflicting model mappings', () => {
   const observation = read('<label for="name">Full name ✱</label><input id="name"/><label for="email">Email ∗</label><input id="email"/><label for="phone">Phone ＊</label><input id="phone"/>');
   assert.deepEqual(observation.fields.map(matchProfileKey), ['fullName', 'email', 'phone']);
@@ -201,4 +218,20 @@ test('control filtering respects explicit hidden ancestors without treating opac
   assert.deepEqual(observation.fields.map(field => field.index), [5, 6]);
   assert.deepEqual(observation.fields.map(field => field.label), ['Phone', 'Email']);
   assert.deepEqual(observation.fields.map(field => field.id), ['field-5', 'field-6']);
+});
+
+test('Phoenix explicit field titles outrank nested widget hints without granting unbound select writes', () => {
+  const control=(title:string,html:string)=>`<div class="form-item form-item--phoenix"><div class="form-item__title"><label>${title}</label></div><div class="form-item__control">${html}</div></div>`;
+  const deep='<div>'.repeat(6)+'<div class="phoenix-select"><div>请选择</div><input class="phoenix-select__input" placeholder="请选择"/></div>'+'</div>'.repeat(6);
+  const observation=read(control('姓名','<div><input placeholder="请输入"/></div>')+control('手机号码','<div><div>中国大陆</div><input value="13800000000"/></div>')+control('邮箱','<input placeholder="请输入"/>')+control('学历',deep));
+  assert.deepEqual(observation.fields.map(f=>f.label),['姓名','手机号码','邮箱','学历']);
+  assert.equal(observation.fields[3]!.type,'combobox');assert.equal(observation.fields[3]!.customSelect,undefined);
+  const rows=matchFields(observation,profile);assert.deepEqual(rows.map(f=>f.status),['ready','skip','ready','review']);
+  assert.match(rows[3]!.reason,/自定义下拉/);
+});
+
+test('Phoenix ambiguous ownership does not choose between multiple titles or sibling fields',()=>{
+  const observation=read('<div class="form-item form-item--phoenix"><div class="form-item__title"><label>姓名</label></div><div class="form-item__title"><label>邮箱</label></div><input placeholder="请输入"/></div><div class="form-item form-item--phoenix"><div class="form-item__title"><label>姓名</label></div><input placeholder="请输入"/><input placeholder="请输入"/></div>');
+  assert.ok(observation.fields.every(f=>f.label==='请输入'));
+  assert.ok(matchFields(observation,profile).every(f=>f.status==='review'));
 });

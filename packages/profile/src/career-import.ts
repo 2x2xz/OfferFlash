@@ -28,6 +28,7 @@ const identityLabels: Record<CareerCollection, string[]> = {
 };
 const labels: Record<string, string[]> = {
   school: identityLabels.educations, schoolEn: ['学校英文名', '院校英文名', 'school in english', 'english school name'],
+  college: ['学院', '学院名称', '院系', '所属院系', 'faculty', 'department'],
   degree: ['学历', '学位', 'degree'], major: ['专业', 'major'], majorEn: ['专业英文名', 'major in english', 'english major name'],
   organization: identityLabels.internships, role: ['职位', '岗位', '实习职位', '实习职位名称', '职位名称', '职务', '担任角色', '项目角色', '项目中担任的角色', '你的角色', '角色', 'role', 'position', 'job title'],
   name: identityLabels.projects, title: identityLabels.publications,
@@ -120,7 +121,7 @@ function previewLines(text: string, blocks?: ResumeBlock[]): Line[] {
 
 function newRecord(kind: CareerCollection, id: string, sourceNote: string): Candidate {
   const common: CareerRecordInput = { id, evidence: [], sourceNote };
-  if (kind === 'educations') return { ...common, school: '', schoolEn: '', degree: '', major: '', majorEn: '', startDate: '', endDate: '', description: '' };
+  if (kind === 'educations') return { ...common, school: '', schoolEn: '', college: '', degree: '', major: '', majorEn: '', startDate: '', endDate: '', description: '' };
   if (kind === 'internships') return { ...common, organization: '', role: '', startDate: '', endDate: '', current: false, description: '', technologies: [] };
   if (kind === 'projects') return { ...common, name: '', role: '', startDate: '', endDate: '', ongoing: false, description: '', technologies: [], url: '' };
   return { ...common, title: '', authors: '', venue: '', publicationDate: '', status: 'in-progress', doi: '', url: '' };
@@ -318,7 +319,7 @@ export function parseCareerCandidates(options: CareerCandidateOptions): CareerCa
   // Older one-school resumes may have only explicit flat labels. Keep those as one pending
   // education candidate; free prose mentioning a school is never used by this fallback.
   if (!career.educations.length && !lines.some(line => section(line.text) === 'educations')) {
-    const fields = ['school', 'schoolEn', 'degree', 'major', 'majorEn', 'startDate', 'endDate'];
+    const fields = ['school', 'schoolEn', 'college', 'degree', 'major', 'majorEn', 'startDate', 'endDate'];
     let flat: Line[] = [], inCareerSection = false;
     const saveFlat = () => {
       if (flat.some(line => labelled(line.text, labels.school!) !== undefined) && career.educations.length < 50) career.educations.push(parseRecord('educations', flat, sourceId, warnings) as EducationInput);

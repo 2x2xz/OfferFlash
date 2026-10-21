@@ -131,7 +131,7 @@ export function migrateLegacyProfile(profile: Profile): Profile {
 }
 
 /** Every consumer of the old single education fields sees only the user's explicit selection. */
-export function projectPrimaryEducation(profile: ProfileInput, career: CareerHistory): ProfileInput & { career: CareerHistory } {
+export function projectPrimaryEducation<T extends ProfileInput>(profile: T, career: CareerHistory): Omit<T, 'career'> & { career: CareerHistory } {
   const selected = career.educations.find(item => item.id === career.primaryEducationId &&
     item.confirmation === "confirmed" && item.confirmedRevision === item.revision);
   return { ...profile, career, school: selected?.school ?? "", schoolEn: selected?.schoolEn ?? "",

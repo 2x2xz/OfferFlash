@@ -1,0 +1,63 @@
+import {app,BrowserWindow} from 'electron';
+import {createServer} from 'node:http';
+import {join} from 'node:path';
+import {writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {UNIVERSAL_CONTROL_SELECTOR,UNIVERSAL_BOUND_CONTROL_SELECTOR} from '../../packages/browser/src/universal-read.js';
+import {BrowserTabs} from '../../packages/browser/src/tabs.js';
+import {overrideProfile} from './override-profile.js';
+
+const directory=process.argv.find(arg=>arg.startsWith('--evidence='))!.slice(11);
+app.setPath('userData',directory);app.setPath('sessionData',directory);app.setName('OfferFlash Tabs Check');
+await app.whenReady();
+let requestsA=0,allowDiscard=false,allowNative=false,locked=false,revocations=0;
+const server=createServer((request,response)=>{
+ if(request.url==='/a')requestsA++;
+ response.setHeader('content-type','text/html;charset=utf-8');if(request.url==='/a')response.setHeader('set-cookie','tabs-login=present; Path=/; SameSite=Lax');
+ response.end(`<!doctype html><title>${request.url}</title><label>备注<input id="draft"></label><div style="height:1400px"></div>${request.url==='/block'?'<script>onbeforeunload=()=>false</script>':''}`);
+});
+await new Promise<void>(done=>server.listen(0,'127.0.0.1',done));const address=server.address();assert.ok(address&&typeof address!=='string');const origin=`http://127.0.0.1:${address.port}`;
+const window=new BrowserWindow({show:false,width:1100,height:800,webPreferences:{sandbox:true,contextIsolation:true,nodeIntegration:false}});
+const checks:string[]=[];const check=(value:unknown,name:string)=>{assert.ok(value,name);checks.push(name);console.log('TAB_CHECK '+name);};
+const tabs=new BrowserTabs({window,getProfile:async()=>overrideProfile,onState:()=>{},assertIdle:()=>{if(locked)throw Error('fill in progress');},beforeActivate:()=>revocations++,confirmDiscard:async()=>allowDiscard,confirmNativeDiscard:()=>allowNative});
+const until=async(predicate:()=>boolean|Promise<boolean>,name:string)=>{const deadline=Date.now()+4500;while(!await predicate()){if(Date.now()>deadline)throw Error('TIMEOUT:'+name);await new Promise(resolve=>setTimeout(resolve,30));}};
+let failed=false;try{
+ tabs.browser.resize({x:0,y:0,width:1000,height:740});
+ await tabs.openOrFocus(origin+'/a');const a=tabs.getState().activeTabId!,contentsA=tabs.browser.view.webContents;
+ await contentsA.executeJavaScript(`document.querySelector('#draft').value='draft-A';document.querySelector('#draft').dispatchEvent(new Event('input',{bubbles:true}));window.scrollTo(0,200);`);
+ const selectorCheck=await contentsA.executeJavaScript(`(()=>{const root=document.createElement('div');root.innerHTML='<input id="hidden-index" hidden><div role="combobox" id="outer"><input><div role="combobox"><input></div></div><textarea id="last"></textarea><div id="shadow"></div>';document.body.append(root);root.querySelector('#shadow').attachShadow({mode:'open'}).innerHTML='<input id="shadow-input">';const expected=Array.from(document.querySelectorAll(${JSON.stringify(UNIVERSAL_CONTROL_SELECTOR)})).filter(e=>!e.parentElement?.closest('[role="combobox"]'));const actual=Array.from(document.querySelectorAll(${JSON.stringify(UNIVERSAL_BOUND_CONTROL_SELECTOR)}));const equal=expected.length===actual.length&&expected.every((node,index)=>node===actual[index]);root.remove();return equal;})()`);
+ check(selectorCheck,'single-control-query-preserves-reader-order-hidden-composite-shadow');
+ await tabs.open();const neverLoaded=tabs.getState().activeTabId!;const blankStart=Date.now();await tabs.close(neverLoaded);check(Date.now()-blankStart<2000&&!tabs.getState().tabs!.some(tab=>tab.id===neverLoaded),'never-loaded-blank-tab-closes-without-js-wait');tabs.select(a);
+ const plan=await tabs.browser.preparePlan();
+ await tabs.open(origin+'/b');const b=tabs.getState().activeTabId!,contentsB=tabs.browser.view.webContents;
+ await contentsB.executeJavaScript(`document.querySelector('#draft').value='draft-B';document.querySelector('#draft').dispatchEvent(new Event('input',{bubbles:true}));`);
+ check(a!==b&&contentsA.id!==contentsB.id,'separate-real-webcontents');
+ check(await contentsB.executeJavaScript(`document.cookie.includes('tabs-login=present')`),'shared-login-session');
+ check(await contentsB.executeJavaScript(`typeof window.offer==='undefined'&&typeof require==='undefined'`),'remote-page-has-no-app-bridge-or-node');
+ const preferences=(contentsB as typeof contentsB&{getLastWebPreferences():import('electron').WebPreferences}).getLastWebPreferences();check(preferences.sandbox&&preferences.contextIsolation&&!preferences.nodeIntegration&&!preferences.preload,'remote-page-security-preserved');
+ assert.throws(()=>tabs.browser.getPlan(plan.id));checks.push('other-tab-cannot-use-first-tab-plan');
+ tabs.select(a);check(tabs.browser.view.webContents===contentsA,'switch-restores-same-view');
+ check(await contentsA.executeJavaScript(`document.querySelector('#draft').value==='draft-A'&&scrollY===200`),'switch-preserves-form-and-scroll');
+ check(requestsA===1,'switch-does-not-reload-page');
+ tabs.select(b);check(await contentsB.executeJavaScript(`document.querySelector('#draft').value==='draft-B'`),'second-draft-stays-independent');
+ const focused=await tabs.openOrFocus(origin+'/a');check(focused.activeTabId===a&&focused.tabs!.length===2,'job-link-focuses-existing-tab');
+ await tabs.browser.navigate(origin+'/a2');check(tabs.browser.getState().url===origin+'/a','cancel-address-navigation-keeps-draft');
+ allowDiscard=true;await tabs.browser.navigate(origin+'/a2');check(tabs.browser.getState().canGoBack,'active-tab-has-own-back-history');
+ tabs.select(b);check(tabs.browser.getState().url===origin+'/b','navigation-in-a-does-not-change-b');
+ locked=true;assert.throws(()=>tabs.select(a));await assert.rejects(tabs.open());await assert.rejects(tabs.close(b));locked=false;checks.push('active-fill-lock-protects-all-tab-mutations');
+ allowDiscard=false;await tabs.close(b);check(tabs.getState().tabs!.some(tab=>tab.id===b)&&!contentsB.isDestroyed(),'cancel-close-keeps-original-webcontents');
+ check(!await tabs.confirmCloseAll(),'cancel-quit-preserves-all-tabs');
+ allowDiscard=true;await tabs.close(b);check(contentsB.isDestroyed()&&tabs.getState().activeTabId===a,'close-only-destroys-target-tab');
+ await tabs.browser.view.webContents.executeJavaScript(`window.open('${origin}/popup','_blank');undefined`);
+ try{await until(()=>tabs.getState().tabs!.length===2&&tabs.browser.getState().url===origin+'/popup','popup-tab');}catch(error){console.log('POPUP_STATE '+JSON.stringify(tabs.getState()));throw error;}
+ await until(()=>!tabs.getState().loading,'popup-load');
+ check(await tabs.browser.view.webContents.executeJavaScript('!!window.opener'),'popup-keeps-opener-relationship');
+ check(await tabs.browser.view.webContents.executeJavaScript(`typeof window.offer==='undefined'&&typeof require==='undefined'`),'popup-has-no-app-bridge-or-node');
+ check(await contentsA.executeJavaScript(`location.pathname==='/a2'`),'popup-does-not-replace-opener');
+ const count=tabs.getState().tabs!.length;await tabs.browser.view.webContents.executeJavaScript(`window.open('file:///etc/passwd');undefined`);check(tabs.getState().tabs!.length===count,'unsafe-popup-does-not-create-tab');
+ const popup=tabs.getState().activeTabId!,popupContents=tabs.browser.view.webContents;await tabs.close(a);check(!popupContents.isDestroyed()&&tabs.getState().activeTabId===popup&&tabs.getState().tabs!.length===1,'closing-opener-keeps-child-tab');
+ await tabs.browser.navigate(origin+'/block');allowNative=false;await tabs.close(popup);check(!tabs.browser.view.webContents.isDestroyed()&&tabs.getState().activeTabId===popup,'website-beforeunload-can-cancel-close');
+ allowNative=true;await tabs.close(popup);check(tabs.getState().tabs!.length===1&&tabs.getState().activeTabId!==popup&&!tabs.getState().url,'closing-last-tab-leaves-new-blank-tab');
+ const blankQuitStart=Date.now();check(await tabs.confirmCloseAll()&&Date.now()-blankQuitStart<2000,'blank-last-tab-does-not-block-app-quit');
+ const report={browserTabsCheck:true,ok:true,checks,normalDataAccessed:false,externalRequests:0,modelRequests:0};await writeFile(join(directory,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+}catch(error){failed=true;console.error(error);}finally{tabs.dispose();window.destroy();server.closeAllConnections();await new Promise<void>(done=>server.close(()=>done()));app.exit(failed?1:0);}

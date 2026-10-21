@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildApplyDockImport } from '../packages/profile/src/applydock.js';
 import { emptyCareer, profileCareerOnSave } from '../packages/domain/src/career.js';
+import { personalProfileOnSave } from '../packages/profile/src/personal-input.js';
 import type { Profile } from '../packages/shared/src/contracts.js';
 
 const bytes = (value: unknown) => new TextEncoder().encode(JSON.stringify(value));
@@ -77,7 +78,7 @@ test('multiple education source groups retain deterministic distinct identities 
   }
   const saved = profileCareerOnSave(result.profile, profile(), '2026-01-02T00:00:00.000Z');
   assert.ok(saved.career.educations.every(item => 'confirmation' in item && item.confirmation === 'pending' && 'confirmedAt' in item && item.confirmedAt === null));
-  const repeated = buildApplyDockImport(data, { ...profile(), ...saved });
+  const repeated = buildApplyDockImport(data, { ...profile(), ...personalProfileOnSave(saved, profile()) });
   assert.equal(repeated.profile.career!.educations.length, 2);
   assert.equal(repeated.changes.length, 0, 'same archive must not duplicate groups or provenance');
 });
