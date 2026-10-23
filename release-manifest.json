@@ -1432,18 +1432,18 @@
     },
     {
       "path": "docs/screenshots/showcase/offerflash-apply.png",
-      "sha256": "2f9253eb616a3e7ef82e8ee931ea1b337a33b6283a619a3d58a1f51b04a5d886",
-      "size": 265419
+      "sha256": "ef39da29d7a4fab8f303b7ec73d843b8c8e1a9c9e018a3a636a5064ca84288ab",
+      "size": 247849
     },
     {
       "path": "docs/screenshots/showcase/offerflash-home.png",
-      "sha256": "b091a4951a5be865c8a617294070c17ba98ffeb241e56edc4260461da3bc96a2",
-      "size": 738399
+      "sha256": "d84f2bd4104b8a7580b8122831f115799995af4469767d60d7571c1de1255c1b",
+      "size": 611733
     },
     {
       "path": "docs/screenshots/showcase/offerflash-profile.png",
-      "sha256": "fc2cf385a9b8f6c86258e2400bf3c293cf8497414b7beb6ebaf2b0d1001c5c1d",
-      "size": 347906
+      "sha256": "11cebe63e0acf14265cd39779d1ba0d014e90f015694729c7ce82af0f784e943",
+      "size": 298730
     },
     {
       "path": "docs/verification.md",
@@ -2497,7 +2497,7 @@
     },
     {
       "path": "scripts/release-assets.json",
-      "sha256": "573f2a15057fd868dfb8f368f50bedc7ebc4def75a7e45a441e81293d2145bd0",
+      "sha256": "8004bf1e989837ab0862540056d45b86ec97a08426b9408f20b8f94ff83e2925",
       "size": 2020
     },
     {
@@ -3547,6 +3547,7 @@
     "typecheck": true,
     "finalGifDecodedFramesChecked": 908,
     "normalAppRestarted": false,
-    "normalWebsiteRefreshed": false
+    "normalWebsiteRefreshed": false,
+    "showcaseScreenshotsPrivacyChecked": 3
   }
 }
