@@ -6,12 +6,12 @@
 
 <p><strong>简历只想写一次，网申不想再填十遍。</strong></p>
 
-<p>一个用于求职申请的桌面 Agent：整理简历、推荐岗位、辅助填写招聘网页，并跟踪投递进度。</p>
+<p>一个帮助求职者整理简历、查找岗位、填写招聘网页和管理申请进度的桌面 Agent。</p>
 
 <p>
-  <a href="https://github.com/2x2xz/OfferFlash/releases/tag/v0.24.0-preview.1"><strong>macOS 最新预览版 ↗</strong></a>
+  <a href="https://github.com/2x2xz/OfferFlash/releases/tag/v0.24.0-preview.1"><strong>下载 macOS 预览版 ↗</strong></a>
   &nbsp;·&nbsp;
-  <a href="docs/model-workspace-demo.md">完整演示</a>
+  <a href="docs/model-workspace-demo.md">官网演示</a>
   &nbsp;·&nbsp;
   <a href="docs/architecture.md">技术设计</a>
 </p>
@@ -22,141 +22,129 @@
 
 ---
 
-## 最新预览版：边填边问，结束后直接定位
+## ⚡ 看看它怎么填写网申
 
-**缺信息时，对话区直接弹出问答块；确认回答后，同一次填写会自动继续。** 回答通过本机答案库保存与确认，默认只对应当前申请；“暂时跳过”和“无 / 不适用”也会记住，可以从待处理卡片恢复询问。
+左边是 OfferFlash 的 Agent 工作区，右边直接打开招聘网页。确认过的教育、实习和项目经历可以在不同表单中复用，填写后再检查网页里的实际结果。
 
-填写结束后，进度会停止，对话区优先显示真实回读的待处理清单。对可唯一识别的字段，点击 **定位** 即可滚动并高亮；歧义会提示重新核对；定位本身不改值、不勾选、不提交。后台队列收进次要入口，当前申请的问题更容易看见。
+<p align="center">
+  <img src="docs/screenshots/offerflash-workspace-autofill.gif" alt="OfferFlash 在招聘官网填写教育、实习和项目经历" width="100%" />
+</p>
 
-本版还改进了无标题的实习／项目组识别、学校和专业下拉、日期控件、重复经历匹配，以及已选城市的只读核对。明确字段优先由受控执行器处理，模型集中判断剩余映射、分类和有来源的文本草稿；控件失败会保留为待处理，不反复调用模型冒充进展。
+<p align="center"><sub>招聘官网实际操作节选 · 4× 播放 · 示例履历 · 未提交申请</sub></p>
 
-[查看 v0.24.0-preview.1 完整说明](docs/release/offerflash-0.24.0-preview.1.md)。这是预览版：网站控件、缺失区块和模型计划格式仍可能失败，附件与整表可提交状态需要本人核对。
+**填到一半缺资料怎么办？** Agent 可以直接在对话里询问，确认答案后继续当前任务，不需要从头操作。填写结束后，未完成或需要确认的字段会集中显示；点击「定位」，就能在右侧网页中找到对应位置。
 
-## ⚡ 两段官网演示
+<p align="center">
+  <img src="docs/screenshots/offerflash-actionable-review.gif" alt="OfferFlash 从待处理卡片定位到招聘网页中的对应字段" width="100%" />
+</p>
 
-**连续填写：沿用面壁智能官网。** 两段教育、两段实习和两个项目的真实填写节选，保留同窗口定位后续填的过程。
+<p align="center"><sub>官网原速操作节选 · 点击「定位」只会滚动和高亮字段，不会修改内容</sub></p>
 
-<p align="center"><img src="docs/screenshots/offerflash-workspace-autofill.gif" alt="面壁智能官网连续填写与同一窗口恢复，4倍速操作节选" /></p>
-
-<p align="center"><sub>4× 操作节选 · 虚构履历 · 账号已遮挡 · 未提交。<a href="docs/screenshots/offerflash-workspace-full.gif">看原速操作节选 ↗</a></sub></p>
-
-**新卡片与定位：待处理项直接出现在对话区。** 点击定位，网页滚动并框出真实字段；定位不修改内容。
-
-<p align="center"><img src="docs/screenshots/offerflash-actionable-review.gif" alt="在对话区查看真实待处理卡片并定位到官网意向城市，原速节选" /></p>
-
-<p align="center"><sub>原速操作节选 · 只读回读与定位。<a href="docs/model-workspace-demo.md">看核对结果、录制方式与已知限制 ↗</a></sub></p>
-
-本轮最终 34 个目标回读一致，首次执行曾在项目说明处停止，随后在原窗口定位并续填；不宣称一次整表通过。面壁专用填写与通用卡片回读的统计范围不同，部分已选控件仍会保守显示待核实；本轮在线模型请求为 0。
+[查看完整演示说明与核对记录 →](docs/model-workspace-demo.md)
 
 ## 为什么做 OfferFlash？
 
-求职时，同一份简历往往要填进多个招聘系统。学校、实习、项目明明都写过了，换家公司又得重新录入；日期、下拉框和「新增一段经历」的操作也各不相同。
+求职时，同一份简历往往要填进不同公司的招聘系统。学校、实习、项目明明已经整理过，换一个网站却要重新录入；遇到日期选择器、下拉框或者多段经历，操作又各不相同。
 
-OfferFlash 把这些操作放在一个工作台里：**资料确认后交给 Agent 复用，缺信息或拿不准时，再请用户补充。** 从找岗位、填写申请到跟踪进度，可以接着处理。
+OfferFlash 把这些步骤放进一个桌面工作区：**先确认资料，再由 Agent 辅助完成能确定的填写；缺少信息时询问用户，填写后把结果交还给用户核对。** 岗位搜索和投递记录也放在一起，方便接着处理。
 
-## 能帮你省掉哪些操作
+## 主要功能
 
 <table>
   <tr>
-    <td width="50%">
-      <strong>📄 简历不用反复抄</strong><br/><br/>
-      导入 PDF、DOCX 或 TXT 简历，整理教育、实习、项目和论文。重要信息先确认，再用于后面的网申。
+    <td width="50%" valign="top">
+      <strong>📄 简历管理</strong><br/><br/>
+      导入 PDF、DOCX 或 TXT 简历，整理教育、实习和项目经历，确认后可在申请中复用。
     </td>
-    <td width="50%">
-      <strong>⚡ 在真实网页上辅助填写</strong><br/><br/>
-      左侧和 Agent 交流，右侧打开招聘页面。识别字段、填写已有资料，再读回检查；缺资料或写入失败会提示。
+    <td width="50%" valign="top">
+      <strong>⚡ 网申辅助填写</strong><br/><br/>
+      在内置浏览器中查看真实招聘表单，匹配已有资料，执行填写并读回核对。
     </td>
   </tr>
   <tr>
-    <td>
-      <strong>📌 投到哪一步，一眼能找到</strong><br/><br/>
-      搜索已接入来源的国内岗位，加入待申请列表，继续记录笔试、面试和 Offer，不用在几个表格间来回翻。
+    <td valign="top">
+      <strong>💬 填写中提问</strong><br/><br/>
+      遇到缺失或不确定的信息，直接询问；用户确认后继续当前任务，待处理字段可以定位检查。
     </td>
-    <td>
-      <strong>🧩 多个申请分开处理</strong><br/><br/>
-      后台任务使用独立会话和页面，已对 1 / 3 / 5 并发做过测试。覆盖范围仍取决于接入的来源和招聘页面。
+    <td valign="top">
+      <strong>📌 岗位与进度管理</strong><br/><br/>
+      检索已接入来源的岗位，记录待申请、笔试、面试等状态；多个申请可以分别处理。
     </td>
   </tr>
 </table>
 
-### 工作台长这样
+### 工作台
 
 <table>
   <tr>
     <td width="33%" align="center">
       <img src="docs/screenshots/showcase/offerflash-home.png" alt="OfferFlash 投递总览" /><br/>
-      <sub>投递总览</sub>
+      <sub>申请总览</sub>
     </td>
     <td width="33%" align="center">
       <img src="docs/screenshots/showcase/offerflash-apply.png" alt="OfferFlash 申请工作区" /><br/>
-      <sub>Agent + 网申工作区</sub>
+      <sub>Agent 与招聘网页</sub>
     </td>
     <td width="33%" align="center">
       <img src="docs/screenshots/showcase/offerflash-profile.png" alt="OfferFlash 个人资料" /><br/>
-      <sub>个人资料</sub>
+      <sub>履历资料</sub>
     </td>
   </tr>
 </table>
 
-<sub>截图来自实际应用界面。总览和资料页使用独立展示数据，申请空间静态图来自规则填写录制；人物资料均为虚构。</sub>
+<sub>工作台截图使用示例资料。</sub>
 
-## 🛠️ 技术上怎么做的？
+## 🛠️ 技术实现
 
-**确认资料 → Agent 观察页面 → 生成填写计划 → 受控执行 → 读回核对**
+**确认资料 → 读取网页 → 匹配字段 → 受控填写 → 读回检查**
 
-填表时，模型需要理解该填什么，执行器还要**确保它填在对的地方，并且真的填进去了**。
+OfferFlash 使用 **Pi SDK** 管理 Agent 会话，通过 **Electron + React** 提供桌面工作区。模型负责理解用户需求、判断资料与表单字段的对应关系；实际网页操作则交给 **BrowserController**，由执行器核对页面状态、字段原值和操作结果。
 
-OfferFlash 用 Pi SDK 管理模型会话，Electron 主进程负责应用状态和授权；Agent 负责理解当前表单与资料之间的对应关系，真正的网页输入由 `BrowserController` 执行。写入前会检查页面、原值和目标控件，写完再读取结果。
+简历资料、岗位和申请记录保存在本机 SQLite。Agent 工具和 Skills 按任务调用，执行过程有权限和状态检查；信息不足时不会直接猜填。
 
-简历资料、岗位和申请记录保存在本机 SQLite。闪电跑道与跟随字段的闪电拖尾均保留；动效不参与实际输入。
+[查看系统架构与工具设计 →](docs/architecture.md)
 
-更完整的进程划分、工具调用和安全边界放在 [架构文档](docs/architecture.md) 里。
-
-## 📊 历史验证结果（v0.15.0，非本次预览版重测）
+## 📊 实测结果
 
 <table>
   <tr>
     <td width="50%" align="center">
       <h3>34 项</h3>
-      <strong>指定字段读回一致</strong><br/>
-      <sub>单站单次完整履历演示：两段教育、两段实习、两个项目</sub>
+      <strong>官网履历字段回读一致</strong><br/>
+      <sub>两段教育、两段实习、两个项目；同一窗口续填后完成核对</sub>
     </td>
     <td width="50%" align="center">
       <h3>56 / 60</h3>
       <strong>普通草稿任务严格完成</strong><br/>
-      <sub>20 家官网 × 3 组并发测试，完成率 93.3%</sub>
+      <sub>历史 v0.15.0 回归：20 家官网 × 3 组并发，93.3%</sub>
     </td>
   </tr>
 </table>
 
-这两组是**不同范围的测试**，不能理解成任意招聘网站的整表成功率；附件和最终提交也没有包含在验证中。详细方法、失败情况、耗时和模型成本见 [测试记录](docs/demo-metrics.md)。
+在另一组岗位推荐实验中，使用 **150 条真实岗位快照、6 份示例履历和 18 次查询**，关键词召回加模型重排的职责相关比例为 **58/80（72.5%）**。
 
-岗位推荐这次固定用了 **150 条国内真实岗位、6 份虚构履历和 3 种求职偏好**。关键词召回＋模型重排的职责相关比例是 **58/80（72.5%）**，前 20 条召回 **158/222（71.2%）**，这批比纯语义和混合检索更好，所以先用这个方案。
+这些数字来自不同范围的测试：34 项是单站官网演示的指定字段核对结果；56/60 主要覆盖普通联系字段；岗位相关性也不等于资格审核通过率。详情见 [网申评测记录](docs/model-workspace-demo.md)、[历史测试数据](docs/demo-metrics.md) 和 [岗位推荐实验](docs/release/qualification-retrieval-v2.md)。
 
-这些是使用模型标注标签的开发回归结果，72.5% 衡量职责相关性，不是“确认能投”的比例；资格与截止日期应按岗位要求核对。[评测方法与口径](docs/release/qualification-retrieval-v2.md)
+## 🚀 运行 OfferFlash
 
-## 🚀 跑起来
+**macOS · Apple Silicon**：[下载 v0.24.0-preview.1 预览版](https://github.com/2x2xz/OfferFlash/releases/tag/v0.24.0-preview.1)
 
-**运行环境：macOS · Apple Silicon。**
-
-**从源码运行**：需要 Node.js 22.19 或更新版本。
+**从源码运行**需要 Node.js 22.19 或更新版本：
 
 ~~~bash
 npm ci
 npm start
 ~~~
 
-在线功能需要自行配置模型 API Key；后台模型队列目前支持百炼北京的 `qwen-flash`。
-
-完整履历填写使用已审阅的飞书招聘页面；登录、验证码、附件上传、声明确认和最终提交由用户完成。macOS 构建未签名、公证。
+使用在线 Agent 功能需要配置自己的模型 API Key。OfferFlash 用于辅助填写与核对，登录、验证码、附件上传和最终申请提交仍由用户完成。
 
 ---
 
 <p align="center">
   <a href="docs/architecture.md">Architecture</a> ·
+  <a href="docs/model-workspace-demo.md">Demo</a> ·
   <a href="docs/demo-metrics.md">Evaluation</a> ·
   <a href="docs/privacy.md">Privacy</a> ·
-  <a href="THIRD_PARTY_NOTICES.md">Third-party notices</a>
+  <a href="THIRD_PARTY_NOTICES.md">Third-party notices</a> ·
+  <a href="docs/release/offerflash-0.24.0-preview.1.md">Release notes</a>
 </p>
-
-<p align="center"><sub>OfferFlash ⚡ · 代码使用授权及第三方组件许可见 Third-party notices。</sub></p>
