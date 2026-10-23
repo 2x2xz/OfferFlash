@@ -1,3 +1,5 @@
+import {confirmedCitySelection} from '../../ui/src/application-review.js';
+import type {ApplicationReviewTarget} from '../../ui/src/application-review.js';
 import {appendApplicationSetupFacts} from '../../forms/src/application-setup-facts.js';
 import {FormAttemptMemory,formStateDigest} from './form-attempt-memory.js';
 import type {Page,JSHandle} from 'playwright-core';
@@ -9,14 +11,14 @@ import {recordCoverage} from '../../forms/src/record-coverage.js';
 import {READ_UNIVERSAL_FORM_FOR_HOST_VERIFICATION,UNIVERSAL_CONTROL_SELECTOR,UNIVERSAL_BOUND_CONTROL_SELECTOR,UNIVERSAL_ACTION_SELECTOR} from './universal-read.js';
 import {fillOwnedSelect,ownedOptionMatches,createOwnedSelectController,type OwnedSelectController,type OwnedSelectCommit} from './owned-select.js';
 import {universalErrorCode} from './universal-errors.js';
-import {universalQuestion,eligibleUniversalAnswers,universalAnswerMatches,universalQuestionDecision,type UniversalAnswerContext,type UniversalQuestion} from '../../forms/src/universal-answers.js';
+import {universalQuestion,eligibleUniversalAnswers,universalAnswerMatches,universalQuestionDecision,validQuestionDate,type UniversalAnswerContext,type UniversalQuestion} from '../../forms/src/universal-answers.js';
 import {profileFactView,professionalFact} from '../../forms/src/profile-fact-view.js';
 import {expandOwnedSection,type OwnedSectionDescriptor,type OwnedRecordKind} from './owned-sections.js';
 import {fillOwnedCalendar} from './owned-calendar.js';
 
 const selector=UNIVERSAL_CONTROL_SELECTOR;
 const unsafe=/提交|投递|发送|支付|删除|取消|同意|声明|隐私|协议|submit|apply.now|send|delete|remove|cancel|consent|agree|privacy|password|captcha|验证码/i;
-type Field={bounds?:FieldCompanionTarget['bounds'];index:number;label:string;type:string;value:string;section:string;group:string;identity:string;options:Array<{label:string;value:string}>;editable:boolean;checked?:boolean;invalid?:boolean;readOnlyWidget?:boolean;ownedSelect?:boolean;queryPending?:boolean;controlValue?:string;expanded?:boolean;popupVisible?:boolean;datePart?:'year'|'month';datePrecision?:'day'|'month';purpose?:'application'|'site-search'|'site-preference'};
+type Field={bounds?:FieldCompanionTarget['bounds'];index:number;label:string;type:string;value:string;section:string;group:string;identity:string;options:Array<{label:string;value:string}>;editable:boolean;checked?:boolean;invalid?:boolean;readOnlyWidget?:boolean;ownedSelect?:boolean;queryPending?:boolean;controlValue?:string;expanded?:boolean;popupVisible?:boolean;datePart?:'year'|'month';datePrecision?:'day'|'month';purpose?:'application'|'site-search'|'site-preference';responsibilityKind?:'role'|'ambiguous'};
 const applicationField=(field:Field)=>!field.purpose||field.purpose==='application';
 const supportedWrite=(field:Field)=>!!field.ownedSelect||!field.readOnlyWidget&&['text','email','tel','textarea','select','month','date','checkbox','url'].includes(field.type);
 type AddAction={index:number;nodeIndex:number;label:string;section:string;group:string;kind?:string;recordKind?:OwnedRecordKind};
@@ -27,6 +29,7 @@ const recordFamily=(record:string)=>/^(education|internship|project|publication|
 const careerFact=(fact:ApplicationFact)=>!!recordFamily(fact.record);
 const familyExpression=(kind:string)=>new RegExp(({education:'教育|学历|education',internship:'实习|internship',project:'项目|project',publication:'论文|出版|publication',language:'语言|外语|language',software:'软件|工具|software|tools',award:'荣誉|获奖|奖项|award|honou?r'} as Record<string,string>)[kind]??'(?!)','i');
 function controlFact(field:Field,fact:ApplicationFact):ApplicationFact{
+ if(field.datePrecision==='month'&&['startDate','endDate','birthDate','publicationDate','date'].includes(fact.kind)&&/^\d{4}-\d{2}-\d{2}$/.test(fact.value))return{...fact,value:fact.value.slice(0,7)};
  if(!field.datePart)return field.type==='text'&&['languagesSummary','softwareSummary','awardsSummary'].includes(fact.kind)?{...fact,value:fact.value.replace(/\r?\n+/g,'；')}:fact;
  if(!['startDate','endDate'].includes(fact.kind)||!/^\d{4}-\d{2}(?:-\d{2})?$/.test(fact.value))throw Error('DATE_PRECISION_MISSING');
  return {...fact,kind:field.datePart+'Part',value:field.datePart==='year'?fact.value.slice(0,4):String(Number(fact.value.slice(5,7)))};
@@ -38,7 +41,7 @@ const readWithRegistry=new Function('registry','return '+observeScript.replace('
 const actionSelector=UNIVERSAL_ACTION_SELECTOR;
 const optionSelector='[role="option"],.phoenix-select__option,.ant-select-item-option,.el-select-dropdown__item';
 export interface UniversalDraft {id:string;target:string;label:string;section:string;kind:'selection'|'text';relation?:'equivalent'|'category';sourceRefs:string[];reason:string;needsReview:true;retained:boolean;writtenThisRun?:boolean;value:string;question?:UniversalQuestion;}
-export interface UniversalResult {performance?:{totalMs:number;modelWaitMs:number;pageReads:number;pageReadMs:number;controlLookups:number;controlLookupMs:number};status:'completed'|'partial'|'failed'|'cancelled';verified:number;pending:number;message:string;matchedConfirmed?:number;alreadyCorrect?:number;failureCode?:string;missingRecords?:number;modelRequests?:number;modelTokens?:number|null;draftWritten?:number;pendingReview?:number;drafts?:UniversalDraft[];remaining?:Array<{label:string;section:string;reason:string;reasonCode?:string;question?:UniversalQuestion}>;}
+export interface UniversalResult {location?:{status:'located'|'ambiguous'|'stale'|'unsupported';message:string};verifiedFields?:Array<{label:string;section:string}>;performance?:{totalMs:number;modelWaitMs:number;pageReads:number;pageReadMs:number;controlLookups:number;controlLookupMs:number};status:'completed'|'partial'|'failed'|'cancelled';verified:number;pending:number;message:string;matchedConfirmed?:number;alreadyCorrect?:number;failureCode?:string;missingRecords?:number;modelRequests?:number;modelTokens?:number|null;draftWritten?:number;pendingReview?:number;drafts?:UniversalDraft[];remaining?:Array<{label:string;section:string;reason:string;reasonCode?:string;question?:UniversalQuestion}>;}
 
 export class UniversalFormSession {
  readonly facts:ApplicationFact[];
@@ -68,7 +71,7 @@ export class UniversalFormSession {
    this.profile=profile;this.facts=applicationFacts(profile);appendApplicationSetupFacts(this.facts,setup,profile,page.url(),pageTitle);this.url=page.url();this.profileVersion=profile.version;this.generation=getGeneration();
    for(const answer of eligibleUniversalAnswers(answerContext,profile.version))this.facts.push({ref:'fact-'+this.facts.length,record:'answer-'+this.facts.length,kind:'answer',label:answer.questionPattern.replace(/^\[OfferFlash:[^\]]+\]\s*/,''),value:answer.answer,sourceRecordId:answer.id,sourceRevision:answer.revision});
  }
- private question(field:Field){const record=this.boundRecord(field);return universalQuestion(field,this.url,record,this.facts);}
+ private question(field:Field){const record=this.boundRecord(field),question=universalQuestion(field,this.url,record,this.facts);return question?{...question,...(field.type==='date'||field.datePrecision==='day'?{answerFormat:'date' as const}:field.type==='month'?{answerFormat:'month' as const}:{})}:undefined;}
  private decisionFor(field:Field){return universalQuestionDecision(this.answerContext,this.question(field),this.url,this.profileVersion);}
  private answerFor(field:Field){let question=this.question(field);if(!question)return;
    if(question.recordUnresolved){
@@ -169,9 +172,11 @@ export class UniversalFormSession {
    const records=this.coverage().filter(record=>record.kind===kind);return records.length>0&&records.every(record=>record.state==='matched'&&record.group!==field.group);
  }
  private manualReason(field:Field){
+   if(field.responsibilityKind==='ambiguous')return '这个项目的“职责”缺少明确字段上下文，尚不能判断应填角色还是工作内容；请核对字段含义，不代表个人资料缺失。';
    if(/推荐码|内推码|邀请码|referral.*code|invitation.*code/i.test(field.label))return '未提供推荐码，按要求留空，不填“无”；这不代表个人资料缺失。';
    if(/^(?:上述)?已知悉并确认$/.test(field.label))return '请在提交前自行阅读并确认网站声明；自动填写不勾选，也不要求把声明存入个人资料。';
    if(this.redundantEmptyRecord(field))return '网页多出一段空白经历，已确认经历均已对应；程序不重复填入，也不自动删除，请核对这段空行。';
+   const earlyDecision=this.decisionFor(field);if(earlyDecision)return earlyDecision.disposition==='none'?'你已标记无 / 不适用，不再追问；网站若要求填写请核对其选项。':'此申请已跳过，不再追问；可在已处理问题中恢复。';
    if(field.datePrecision==='day'&&this.facts.some(fact=>factFitsField(fact,field)&&/^\d{4}-\d{2}$/.test(fact.value))||['DATE_PRECISION_MISSING','CALENDAR_PRECISION_UNSUPPORTED'].includes(this.lastFailures?.get(this.key(field))??this.priorFailure(field)??''))return '已保存的日期只有月份，而网站要求具体年月日。已保留原月份，不编日期，也不重复操作这个日历；知道具体日期后可在填写设置补充。';
    if(this.priorFailure(field))return '此项与上次失败时相同，已停止自动重试；可修改网页后继续，或明确重试未完成控件。';
    const decision=this.decisionFor(field);if(decision)return decision.disposition==='none'?'你已标记无 / 不适用，不再追问；网站若要求填写请核对其选项。':'此申请已跳过，不再追问；可在已处理问题中恢复。';
@@ -186,7 +191,7 @@ export class UniversalFormSession {
    if(!this.candidates(field).length)return '无法唯一对应到一段履历，可能有重复经历或名称不一致，请先核对这段经历。';
    return '已有确认资料，但本次尚未核实写入；可能需要手动处理该控件。';
  }
- private matches(field:Field,fact:ApplicationFact){if(fact.kind==='applicationSource'&&this.setup?.value.recruitmentSourceFallback&&optionMatchesFact(field.value,this.setup.value.recruitmentSourceFallback))return true;
+ private matches(field:Field,fact:ApplicationFact){if(field.ownedSelect&&fact.kind==='answer'&&!field.queryPending&&!field.expanded&&!field.popupVisible&&confirmedCitySelection(field.label,fact.value,field.value))return true;if(fact.kind==='applicationSource'&&this.setup?.value.recruitmentSourceFallback&&optionMatchesFact(field.value,this.setup.value.recruitmentSourceFallback))return true;
    if(fact.kind==='description'&&field.type==='textarea'&&field.value.endsWith(fact.value)){
      const prefix=field.value.slice(0,-fact.value.length).trim(),record=this.facts.filter(other=>other.record===fact.record);
      const name=record.find(other=>other.kind==='name')?.value,organization=record.find(other=>other.kind==='organization')?.value,role=record.find(other=>other.kind==='role')?.value;
@@ -194,7 +199,7 @@ export class UniversalFormSession {
    }
 if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(field.datePart){try{return ownedOptionMatches(controlFact(field,fact),field.value);}catch{return false;}}return field.type==='select'?field.options.some(o=>o.value===field.value&&optionMatchesFact(o.label,fact.value)):displayedFactMatches(controlFact(field,fact),field.value);}
  private majorFallback(fact:ApplicationFact){return fact.kind==='major'?this.setup?.value.educations.find(policy=>policy.recordId===fact.sourceRecordId&&policy.sourceRevision===fact.sourceRevision&&policy.major===fact.value)?.fallbackMajor:undefined;}
- private noAwards(field:Field){return this.setup?.confirmedAt&&this.setup.value.awards==='none'&&/所获荣誉|获奖|奖项|awards?|honou?r/i.test(field.section)&&!field.value.trim();}
+ private noAwards(field:Field){return this.setup?.confirmedAt&&this.setup.value.awards==='none'&&/荣誉|奖励|获奖|奖项|awards?|honou?r/i.test(field.section)&&!field.value.trim();}
  private retainedDraft(field:Field){return this.draftAttempts.some(attempt=>this.key(attempt.field)===this.key(field)&&field.value===attempt.draft.value&&!field.invalid&&!field.queryPending&&!field.expanded&&!field.popupVisible);}
  private needsWrite(field:Field,includeSuppressed=false){
    if(this.noAwards(field)&&(!includeSuppressed||(field as any).required!==true))return false;
@@ -208,7 +213,7 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
  }
  private boundRecord(field:Field){const binding=this.bindings.get(field.group);if(binding)return binding;if(!this.view)return;this.recordCache??=new Map();if(this.recordCacheView!==this.view){this.recordCache.clear();this.recordCacheView=this.view;}if(!this.recordCache.has(field.group))this.recordCache.set(field.group,matchExistingRecord(this.view.fields.filter(other=>other.group===field.group),this.facts));return this.recordCache.get(field.group);}
  private scopedRecord(fact:ApplicationFact,field:Field){return careerFact(fact)&&field.group!=='contact'&&familyExpression(recordFamily(fact.record)!).test(field.section);}
- private ordinaryTarget(field:Field){return !this.priorFailure(field)&&!this.decisionFor(field)&&applicationField(field)&&field.editable&&!this.deferred.has(this.key(field))&&!this.unverified.has(this.key(field))&&supportedWrite(field)&&!protectedApplicationField(field)&&!unsafe.test(field.label+' '+field.section)&&['text','textarea','select','combobox','url'].includes(field.type)&&!/推荐码|内推码|邀请码|员工编号|邮编|referral.*code|invitation.*code|employee.*(?:number|id)|postal.*code|zip.*code|出生|性别|生日|国籍|户籍|婚姻|民族|政治|残疾|身份证|护照|税|薪资|薪酬|签证|\b(?:birth|gender|nationality|ethnicity|marital|disability|tax|salary|visa)\b/i.test(field.label);}
+ private ordinaryTarget(field:Field){return field.responsibilityKind!=='ambiguous'&&!this.priorFailure(field)&&!this.decisionFor(field)&&applicationField(field)&&field.editable&&!this.deferred.has(this.key(field))&&!this.unverified.has(this.key(field))&&supportedWrite(field)&&!protectedApplicationField(field)&&!unsafe.test(field.label+' '+field.section)&&['text','textarea','select','combobox','url'].includes(field.type)&&!/推荐码|内推码|邀请码|员工编号|邮编|referral.*code|invitation.*code|employee.*(?:number|id)|postal.*code|zip.*code|出生|性别|生日|国籍|户籍|婚姻|民族|政治|残疾|身份证|护照|税|薪资|薪酬|签证|\b(?:birth|gender|nationality|ethnicity|marital|disability|tax|salary|visa)\b/i.test(field.label);}
  deferTarget(target:string|undefined,reason:string){const field=this.view?.fields.find(field=>'field-'+field.index===target);if(field)this.deferred.set(this.key(field),reason);}
  private sourceScopeIssue(field:Field,facts:ApplicationFact[]){
    const records=[...new Set(facts.filter(careerFact).map(fact=>fact.record))];
@@ -226,9 +231,10 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
    }
  }
  private semanticMappingIssue(field:Field,fact:ApplicationFact|undefined):string|undefined{
+   if(field.responsibilityKind==='role'&&fact?.kind!=='role')return 'FACT_FIELD_MISMATCH';
    // Mapping can interpret a novel professional caption, but cannot turn a
    // school/major/description into a missing score, language ability or answer.
-   if(/城市|地点|意向|居住|city|location|preference/i.test(field.label)&&(!fact||fact.kind!=='answer'||this.answerFor(field)?.id!==fact.sourceRecordId))return 'EXPLICIT_PREFERENCE_REQUIRED';
+   if(/城市|地点|意向|居住|\b(?:city|location|preference)\b/i.test(field.label)&&(!fact||fact.kind!=='answer'||this.answerFor(field)?.id!==fact.sourceRecordId))return 'EXPLICIT_PREFERENCE_REQUIRED';
    const scalar=/\b(?:c?gpa|grades?|scores?|rank(?:ing)?|listening|speaking|reading|writing|certificat(?:e|ion))\b|成绩|分数|绩点|学分|排名|听说|读写|证书|考试/i;
    if(fact?.kind==='answer'&&this.answerFor(field)?.id!==fact.sourceRecordId)return 'SCOPED_ANSWER_REQUIRED';
    if(fact&&(field.ownedSelect||field.type==='select')&&!careerFact(fact)&&fact.kind!=='answer'&&!factFitsField(fact,field))return 'EXPLICIT_CAPABILITY_FACT_REQUIRED';
@@ -375,6 +381,20 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
    if(++this.actions>60)throw Error('ACTION_BUDGET');return fresh;
  }
  private field(ref:string){const f=this.view?.fields.find(f=>'field-'+f.index===ref);if(!f)throw Error('UNKNOWN_FIELD');if(!applicationField(f)||unsafe.test(f.label+' '+f.section))throw Error('PROTECTED_FIELD');return f;}
+ async locateReviewTarget(target:ApplicationReviewTarget){
+   await this.guard();const generation=this.getGeneration();await this.inspect();
+   const matches=this.view!.fields.filter(f=>f.label===target.label&&f.section===target.section&&(!target.key||this.question(f)?.key===target.key));
+   if(matches.length!==1)return{status:matches.length?'ambiguous' as const:'stale' as const,message:matches.length?'这个字段有多个同名位置，请重新核对后定位。':'这个字段已变化，请重新核对待处理项。'};
+   const field=matches[0]!,before=this.view!.fields.map(f=>({key:this.key(f),value:f.value,checked:f.checked})),node=await this.control(field);
+   await this.guard();if(generation!==this.getGeneration())throw Error('APPLICATION_CONTEXT_CHANGED:document');
+   await node.evaluate(element=>{element.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'});});
+   await this.guard();if(generation!==this.getGeneration())throw Error('APPLICATION_CONTEXT_CHANGED:document');
+   const after=await this.read();if(before.some(f=>{const current=after.fields.filter(c=>this.key(c)===f.key);return current.length!==1||current[0]!.value!==f.value||current[0]!.checked!==f.checked;}))throw Error('APPLICATION_CONTEXT_CHANGED:values');
+   const geometry=await node.evaluate(element=>{const r=element.getBoundingClientRect(),hit=element.ownerDocument.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{visible:r.width>0&&r.height>0&&r.top>=0&&r.bottom<=innerHeight,uncovered:!!hit&&(hit===element||element.contains(hit)||!!hit.closest('label')?.contains(element))};});
+   if(!geometry.visible||!geometry.uncovered)return{status:'unsupported' as const,message:'对应字段被页面浮层遮挡，请先处理遮挡后再定位。'};
+   await node.evaluate(element=>{const owner=element.ownerDocument.defaultView as any,key=Symbol.for('OfferFlash.field-location.v1'),old=owner[key];if(old){clearTimeout(old.timer);old.restore();}const node=element as HTMLElement,previous=node.style.outline,offset=node.style.outlineOffset,restore=()=>{node.style.outline=previous;node.style.outlineOffset=offset;};node.style.outline='3px solid #6956df';node.style.outlineOffset='4px';owner[key]={restore,timer:setTimeout(()=>{restore();delete owner[key];},2200)};});
+   this.view=after;this.activity(field,'attention',after);return{status:'located' as const,message:'已定位并框出“'+field.label+'”，没有修改填写内容。'};
+ }
  private async control(field:Field){
    // DOM index is host-generated. One Chromium query preserves exactly the
    // reader's ordered composite filtering, including hidden index positions.
@@ -394,7 +414,7 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
  async getProfileFacts(refs?:string[]){await this.guard();if(refs&&(refs.length>100||refs.some(ref=>!this.facts.some(fact=>fact.ref===ref))))throw Error('UNKNOWN_FACT');this.view=await this.read();await this.guard();return profileFactView(this.profile,refs?this.facts:this.relevantFacts(),refs);}
  private sourceFacts(refs:string[]){if(!refs.length||refs.length>16||new Set(refs).size!==refs.length)throw Error('CONFIRMED_FACT_REQUIRED');return refs.map(ref=>{const fact=this.facts.find(item=>item.ref===ref);if(!fact||!professionalFact(fact))throw Error('PROFESSIONAL_FACT_REQUIRED');return fact;});}
  private selectionSourceAllowed(field:Field,fact:ApplicationFact){if(this.calendarField(field)||field.datePart||/学校名称|院校|公司名称|单位名称|项目名称|university|institution|school|company.name|project.name/i.test(field.label))return false;return professionalFact(fact)&&!this.sourceScopeIssue(field,[fact])&&(factFitsField(fact,field)||!this.semanticMappingIssue(field,fact)||/专业.*类|主修类别|学科|major.*categor|subject.*(?:categor|family)|academic.*categor|discipline/i.test(field.label)&&fact.kind==='major'&&recordFamily(fact.record)==='education'&&familyExpression('education').test(field.section));}
- private draftTargetAllowed(field:Field){return this.ordinaryTarget(field)&&['text','textarea'].includes(field.type)&&!field.ownedSelect&&!field.readOnlyWidget&&!/\b(?:c?gpa|grades?|scores?|rank(?:ing)?|level|proficiency|fluency|certificate|certification|birth|date|name|awards?|honou?rs?|hobb(?:y|ies)|interests?)\b|成绩|分数|绩点|学分|排名|听说|读写|语种|语言类型|程度|水平|级别|证书|证件|日期|时间|年月|开始|结束|姓名|学校名称|专业名称|公司名称|职位名称|项目职责|项目角色|实习职位|角色|职务|语种|语言类型|荣誉|奖项|奖励|奖学金|爱好|兴趣/i.test(field.label);}
+ private draftTargetAllowed(field:Field){return field.responsibilityKind!=='role'&&this.ordinaryTarget(field)&&['text','textarea'].includes(field.type)&&!field.ownedSelect&&!field.readOnlyWidget&&!/\b(?:c?gpa|grades?|scores?|rank(?:ing)?|level|proficiency|fluency|certificate|certification|birth|date|name|awards?|honou?rs?|hobb(?:y|ies)|interests?)\b|成绩|分数|绩点|学分|排名|听说|读写|语种|语言类型|程度|水平|级别|证书|证件|日期|时间|年月|开始|结束|姓名|学校名称|专业名称|公司名称|职位名称|项目职责|项目角色|实习职位|角色|职务|语种|语言类型|荣誉|奖项|奖励|奖学金|爱好|兴趣/i.test(field.label);}
  private canDraftField(field:Field){return this.needsWrite(field)&&this.draftTargetAllowed(field)&&this.facts.some(fact=>professionalFact(fact)&&!this.sourceScopeIssue(field,[fact]));}
  async restoreDrafts(drafts:UniversalDraft[]){
    await this.inspect();
@@ -403,6 +423,7 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
      const facts=this.facts.filter(fact=>draft.sourceRefs.includes(fact.ref));if(facts.length!==draft.sourceRefs.length||facts.some(fact=>!professionalFact(fact)))continue;
      const matches=this.view!.fields.filter(field=>this.question(field)?.key===draft.question!.key&&field.value===draft.value&&!field.invalid&&!field.queryPending&&!field.expanded&&!field.popupVisible);
      if(matches.length!==1||this.sourceScopeIssue(matches[0]!,facts))continue;
+     if(this.candidates(matches[0]!).some(fact=>this.matches(matches[0]!,fact)))continue;
      this.recordDraft(matches[0]!,matches[0]!,{kind:draft.kind,relation:draft.relation,facts:draft.sourceRefs,reason:draft.reason});
      this.restoredDraftKeys.add(this.key(matches[0]!));
    }
@@ -490,9 +511,10 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
  async applyDecisionPlan(input:{observation:string;mappings?:Array<{target:string;fact:string}>;selections:Array<{target:string;option:string;facts:string[];relation:'equivalent'|'category';reason:string}>;drafts:Array<{target:string;facts:string[];text:string;reason:string}>}){
    if(!this.view||this.used||input.observation!=='observation-'+this.epoch)throw Error('FRESH_OBSERVATION_REQUIRED');
    const targets=[...(input.mappings??[]),...input.selections,...input.drafts].map(item=>item.target);if(targets.length>12||new Set(targets).size!==targets.length)throw Error('INVALID_GROUP_MAPPING');
-   const mappingsWithKeys=(input.mappings??[]).map(mapping=>({mapping,key:this.key(this.field(mapping.target))}));
-   const drafts=input.drafts.map(mapping=>({mapping,key:this.key(this.field(mapping.target))})),selectionsWithKeys=input.selections.map(mapping=>({mapping,key:this.key(this.field(mapping.target))})),results=[];
-   for(const {mapping,key} of mappingsWithKeys){try{const next=await this.inspect();const mapped=this.view!.fields.find(item=>this.key(item)===key);if(!mapped)throw Error('FIELD_IDENTITY_CHANGED');await this.mapField({...mapping,target:'field-'+mapped.index,observation:next.observation});const after=await this.inspect();results.push(await this.fillGroup(after.observation,[{target:'field-'+this.view!.fields.find(item=>this.key(item)===key)!.index,fact:mapping.fact}]));}catch(error){results.push({target:mapping.target,reason:universalErrorCode(error)});}}
+   const results:unknown[]=[];
+   const bind=<T extends {target:string}>(items:T[])=>items.flatMap(mapping=>{try{return[{mapping,key:this.key(this.field(mapping.target))}];}catch(error){results.push({target:mapping.target,reason:universalErrorCode(error)});return[];}});
+   const mappingsWithKeys=bind(input.mappings??[]),drafts=bind(input.drafts),selectionsWithKeys=bind(input.selections);
+   for(const {mapping,key} of mappingsWithKeys){try{const next=await this.inspect();const mapped=this.view!.fields.find(item=>this.key(item)===key);if(!mapped)throw Error('FIELD_IDENTITY_CHANGED');await this.mapField({...mapping,target:'field-'+mapped.index,observation:next.observation});const after=await this.inspect();results.push(await this.fillGroup(after.observation,[{target:'field-'+this.view!.fields.find(item=>this.key(item)===key)!.index,fact:mapping.fact}]));}catch(error){const code=universalErrorCode(error);if(code.startsWith('APPLICATION_CONTEXT_CHANGED'))throw error;results.push({target:mapping.target,reason:code});}}
    if(input.selections.length){
      // A site may classify study mode by school type (e.g. overseas), while
      // the field also has one explicit confirmed study-mode candidate. Retain
@@ -525,6 +547,28 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
    const added=[...new Set(after.fields.filter(field=>!oldGroups.has(field.group)&&familyExpression(type).test(field.section)).map(field=>field.group))];if(added.length!==1)throw Error('ADD_RECORD_AMBIGUOUS');
    this.bindRecord(added[0]!,record);this.pendingAddKinds.delete(type);this.attemptMemory?.unknownAddKinds.delete(type);return{changed:true,record,group:added[0],verified:false,needsObservation:true};
  }
+ /** Used only by the opt-in harness experiment. Values remain host-only. */
+ async inspectControl(input:{observation:string;target:string}){
+   await this.fresh(input.observation,'read-options');const field=this.field(input.target);
+   const node=await this.control(field),geometry=await node.evaluate(e=>{const r=e.getBoundingClientRect(),hit=e.ownerDocument.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{tag:e.tagName,role:e.getAttribute('role'),inViewport:r.top>=0&&r.bottom<=innerHeight,hitOwned:!!hit&&(hit===e||e.contains(hit)),expanded:e.getAttribute('aria-expanded')==='true'};});
+   const pending=this.pendingControl&&this.key(this.pendingControl.field)===this.key(field)?this.pendingControl:undefined;
+   const privateValues=this.facts.filter(fact=>!professionalFact(fact)).map(fact=>fact.value.trim()).filter(value=>value.length>=2);
+   const redact=(text:string)=>privateValues.reduce((safe,value)=>safe.split(value).join('[本机私人资料]'),text);
+   const navigation=pending?(await pending.controller.inspectNavigation()).map(entry=>({...entry,label:redact(entry.label)})):[];
+   const control=pending?await pending.controller.read():undefined;
+   await this.guard();return{target:input.target,label:field.label,section:field.section,geometry,navigation,options:control?.options??[],open:control?.open??false};
+ }
+ async navigateControl(input:{observation:string;target:string;navigation:string}){
+   await this.fresh(input.observation,'navigate');const field=this.field(input.target),pending=this.pendingControl;
+   if(!pending||this.key(pending.field)!==this.key(field))throw Error('OPEN_FIRST');
+   const writeKey=this.key(field);if(this.unverified.has(writeKey))throw Error('PRIOR_WRITE_UNVERIFIED');
+   // A mislabeled tab could write a value. Reserve the same unknown-write lock
+   // as ordinary selection; only a proven no-write navigation releases it.
+   this.unverified.set(writeKey,field.label);
+   await pending.controller.navigate(input.navigation,()=>this.unchangedExcept(pending.baseline,field));
+   await this.guard();this.unverified.delete(writeKey);
+   return{navigated:true,verified:false,needsObservation:true};
+ }
  async readOptionsGroup(observation:string,targets:string[]){
    if(!targets.length||targets.length>6||new Set(targets).size!==targets.length)throw Error('INVALID_GROUP_MAPPING');
    await this.fresh(observation,'read-options');const fields=targets.map(ref=>this.field(ref)),results=[];
@@ -548,7 +592,7 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
    return field?{target:'field-'+field.index,allowedActions:this.capabilities(field),expectedAction:field.type==='checkbox'?'fill':field.ownedSelect?'fill':undefined,candidates:this.candidates(field).map(f=>f.ref)}:undefined;
  }
  progressKey(target?:string){const field=target&&this.view?.fields.find(f=>'field-'+f.index===target)||this.pendingControl?.field;return field?this.key(field):target??'none';}
- private resolve(ref:string,field:Field){const fact=this.facts.find(f=>f.ref===ref);if(fact?.kind==='answer'){const answers=eligibleUniversalAnswers(this.answerContext,this.profileVersion),index=this.facts.filter(f=>f.kind==='answer').findIndex(f=>f===fact);if(this.answerFor(field)!==answers[index]&&this.semanticMappings.get(this.key(field))!==fact.ref)throw Error('FACT_FIELD_MISMATCH');return fact;}if(!fact||!factFitsField(fact,field)&&this.semanticMappings.get(this.key(field))!==fact.ref)throw Error('FACT_FIELD_MISMATCH');if(field.datePart)controlFact(field,fact);
+ private resolve(ref:string,field:Field){const fact=this.facts.find(f=>f.ref===ref);if(fact?.kind==='answer'){const answers=eligibleUniversalAnswers(this.answerContext,this.profileVersion),index=this.facts.filter(f=>f.kind==='answer').findIndex(f=>f===fact);if(this.answerFor(field)!==answers[index]&&this.semanticMappings.get(this.key(field))!==fact.ref)throw Error('FACT_FIELD_MISMATCH');const format=this.question(field)?.answerFormat;if(format&&!validQuestionDate(fact.value,format))throw Error('DATE_PRECISION_MISSING');return fact;}if(!fact||!factFitsField(fact,field)&&this.semanticMappings.get(this.key(field))!==fact.ref)throw Error('FACT_FIELD_MISMATCH');if(field.datePart)controlFact(field,fact);
    if(careerFact(fact)&&familyExpression(recordFamily(fact.record)!).test(field.section)&&field.group==='contact')throw Error('RECORD_BINDING_CONFLICT');
    const binding=this.bindings.get(field.group);if(this.scopedRecord(fact,field)&&binding&&binding!==fact.record)throw Error('RECORD_BINDING_CONFLICT');
    if(this.scopedRecord(fact,field)&&[...this.bindings].some(([group,record])=>group!==field.group&&record===fact.record))throw Error('RECORD_ALREADY_BOUND');
@@ -592,12 +636,12 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
    if(input.action==='query'){
      if(!field.ownedSelect)throw Error('QUERY_NOT_ALLOWED');
      if(!this.pendingControl||this.key(this.pendingControl.field)!==writeKey){await this.releaseControl();this.pendingControl={field,baseline:this.view!,controller:await createOwnedSelectController(await this.control(field),()=>this.guard(),{label:field.label})};await this.pendingControl.controller.open();}
-     const result=await this.pendingControl.controller.query(controlFact(field,fact).value);this.observedOptions.set(writeKey,result.options.map(o=>o.label));return{queried:true,options:result.options,truncated:result.truncated,canCreate:result.canCreate,needsObservation:true};
+     await this.pendingControl.controller.query(controlFact(field,fact).value);const result=await this.pendingControl.controller.waitForOptions(controlFact(field,fact));this.observedOptions.set(writeKey,result.options.map(o=>o.label));return{queried:true,options:result.options,truncated:result.truncated,canCreate:result.canCreate,queryState:result.queryState,needsObservation:true};
    }
    let selected:OwnedSelectCommit|undefined,majorFallbackWritten=false;
    if(input.action==='choose'||input.action==='create'){
      const pending=this.pendingControl;if(!pending||this.key(pending.field)!==writeKey)throw Error('OPEN_FIRST');
-     const controls=await pending.controller.read(),value=controlFact(field,fact);
+     const value=controlFact(field,fact),controls=await pending.controller.waitForOptions(value);
      let option=controls.options.find(o=>o.ref===input.target);
      if(input.target==='field-'+field.index){const matches=controls.options.filter(o=>o.aliases.some(label=>ownedOptionMatches(value,label)));if(matches.length===1)option=matches[0];}
      if(input.action==='choose'&&!option)throw Error('OPTION_FACT_MISMATCH');
@@ -611,7 +655,7 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
        const unchanged=async()=>{const current=await this.read();await this.guard();
          for(const original of baseline.fields){if(this.key(original)===writeKey)continue;const actual=current.fields.filter(f=>this.key(f)===this.key(original));if(actual.length!==1||JSON.stringify(semanticFields(actual))!==JSON.stringify(semanticFields([original])))throw Object.assign(Error('PAGE_CHANGED_REOBSERVE'),{controlDiagnostic:{stage:'unchanged',field:original.label,found:actual.length,changed:actual.length===1?Object.keys(original).filter(key=>key!=='bounds'&&JSON.stringify((original as any)[key])!==JSON.stringify((actual[0] as any)[key])):[]}});}
        };
-       if(!field.datePart&&['startDate','endDate','birthDate','publicationDate'].includes(fact.kind)&&(fact.value==='至今'||/^\d{4}-\d{2}(?:-\d{2})?$/.test(fact.value))){
+       if(!field.datePart&&(['startDate','endDate','birthDate','publicationDate'].includes(fact.kind)||fact.kind==='answer'&&this.question(field)?.answerFormat)&&(fact.value==='至今'||/^\d{4}-\d{2}(?:-\d{2})?$/.test(fact.value))){
          this.activity(field,'approach',actionView);this.unverified.set(writeKey,field.label);try{selected=await fillOwnedCalendar(node,fact.value,()=>this.guard(),unchanged);}
          catch(error){
            if(error instanceof Error&&(error as Error&{calendarSelectionAttempted?:boolean}).calendarSelectionAttempted===false){
@@ -622,7 +666,7 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
          }
        }
        if(!selected){const controller=await createOwnedSelectController(node,()=>this.guard(),{label:field.label});try{
-         const value=controlFact(field,fact);let options=await controller.open(fact.kind==='applicationInterview'?undefined:value.value);const until=Date.now()+2500;
+         const value=controlFact(field,fact);let options=await controller.open(fact.kind==='applicationInterview'?undefined:value.value);
          if(fact.kind==='applicationInterview'){
            const direct=options.options.filter(option=>option.aliases.some(label=>/^(?:线上(?:面试)?|远程面试|online|remote|video interview)$/i.test(label)));this.unverified.set(writeKey,field.label);
            if(direct.length===1&&/线上|online|remote/i.test(fact.value))selected=await controller.chooseObserved(direct[0]!.ref,unchanged);
@@ -632,17 +676,17 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
            this.attemptMemory?.guidanceChoices.set('applicationInterview|'+field.label,{value:selected.value,policy:this.setup?.value.interviewPreference??fact.value});fact.value=selected.value;
          }
          if(fact.kind==='applicationSource'&&!options.options.some(option=>option.aliases.some(label=>ownedOptionMatches(value,label)))&&this.setup?.value.recruitmentSourceFallback){
-           const alternative=this.setup.value.recruitmentSourceFallback;try{options=await controller.query(alternative);}catch{/* Non-searchable static lists retain their observed choices. */}
+           const alternative=this.setup.value.recruitmentSourceFallback;try{await controller.query(alternative);options=await controller.waitForOptions({...value,value:alternative});}catch{/* Non-searchable static lists retain their observed choices. */}
            const choices=options.options.filter(option=>option.aliases.some(label=>optionMatchesFact(label,alternative)));if(choices.length===1){this.unverified.set(writeKey,field.label);selected=await controller.chooseObserved(choices[0]!.ref,unchanged);}
          }
 
-         let matches=options.options.filter(o=>o.aliases.some(label=>ownedOptionMatches(value,label)));
-         while(!selected&&!matches.length&&!options.canCreate&&Date.now()<until&&!(/专业.*(?:类|类型)|major.*(?:type|categor)/i.test(field.label)&&options.options.length>0&&!options.truncated)){await new Promise(resolve=>setTimeout(resolve,100));await this.guard();options=await controller.read();matches=options.options.filter(o=>o.aliases.some(label=>ownedOptionMatches(value,label)));}
+         if(!selected)options=await controller.waitForOptions(value);
+         const matches=options.options.filter(o=>o.aliases.some(label=>ownedOptionMatches(value,label)));
          this.observedOptions.set(writeKey,options.options.map(o=>o.label));
          if(selected){}else if(matches.length>1)throw Error('OWNED_OPTION_AMBIGUOUS');
          else if(matches.length===1){this.activity(field,'approach',actionView);this.unverified.set(writeKey,field.label);selected=await controller.choose(matches[0]!.ref,value,unchanged);}
          else if(options.canCreate){this.activity(field,'approach',actionView);this.unverified.set(writeKey,field.label);selected=await controller.create(value,unchanged);}
-         else if(this.majorFallback(fact)){const fallback=this.majorFallback(fact)!;options=await controller.query(fallback);const alternatives=options.options.filter(option=>option.aliases.some(label=>optionMatchesFact(label,fallback)));if(alternatives.length!==1)throw Error('AUTHORIZED_MAJOR_FALLBACK_NOT_UNIQUE');this.unverified.set(writeKey,field.label);selected=await controller.chooseObserved(alternatives[0]!.ref,unchanged);majorFallbackWritten=true;}
+         else if(this.majorFallback(fact)){const fallback=this.majorFallback(fact)!;await controller.query(fallback);options=await controller.waitForOptions({...value,value:fallback});const alternatives=options.options.filter(option=>option.aliases.some(label=>optionMatchesFact(label,fallback)));if(alternatives.length!==1)throw Error('AUTHORIZED_MAJOR_FALLBACK_NOT_UNIQUE');this.unverified.set(writeKey,field.label);selected=await controller.chooseObserved(alternatives[0]!.ref,unchanged);majorFallbackWritten=true;}
          else throw Error('OWNED_OPTION_NOT_FOUND');
        }finally{await controller.dispose();}}
      }else if(field.type==='checkbox'&&fact.kind==='endDate'){
@@ -654,8 +698,9 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
      }else if(field.type==='select'){
        let options=field.options.filter(o=>optionMatchesFact(o.label,fact.value));if(!options.length&&this.majorFallback(fact)){options=field.options.filter(option=>optionMatchesFact(option.label,this.majorFallback(fact)!));majorFallbackWritten=true;}if(options.length!==1)throw Error('UNIQUE_OPTION_REQUIRED');await this.guard();this.activity(field,'approach',actionView);this.unverified.set(writeKey,field.label);await node.selectOption(options[0]!.value);if(majorFallbackWritten)selected={value:options[0]!.value,source:'native-select-fallback',committed:true};
      }else if(['text','email','tel','textarea','month','date'].includes(field.type)){
-       if(field.type==='date'&&!/^\d{4}-\d{2}-\d{2}$/.test(fact.value)||field.type==='month'&&!/^\d{4}-\d{2}$/.test(fact.value))throw Error('DATE_PRECISION_MISSING');
-       if(await node.evaluate(e=>!!e.closest('.phoenix-select,[role="combobox"]')))throw Error('USE_SELECT_ACTION');await this.guard();this.activity(field,'approach',actionView);this.unverified.set(writeKey,field.label);await node.fill(controlFact(field,fact).value,{timeout:2500});await node.evaluate(e=>(e as HTMLElement).blur());
+       const value=controlFact(field,fact).value;
+       if(field.type==='date'&&!/^\d{4}-\d{2}-\d{2}$/.test(value)||field.type==='month'&&!/^\d{4}-\d{2}$/.test(value))throw Error('DATE_PRECISION_MISSING');
+       if(await node.evaluate(e=>!!e.closest('.phoenix-select,[role="combobox"]')))throw Error('USE_SELECT_ACTION');await this.guard();this.activity(field,'approach',actionView);this.unverified.set(writeKey,field.label);await node.fill(value,{timeout:2500});await node.evaluate(e=>(e as HTMLElement).blur());
      }else throw Error('UNSUPPORTED_CONTROL');
    }
    if(selected?.source==='selected-native-value')this.selectedValues.set(writeKey,selected.value);
@@ -687,10 +732,10 @@ if(field.type==='checkbox')return field.checked===(fact.value==='至今');if(fie
    const drafts=this.draftAttempts.map(attempt=>{const actual=view.fields.filter(field=>this.key(field)===this.key(attempt.field));return{...attempt.draft,writtenThisRun:!this.restoredDraftKeys.has(this.key(attempt.field)),retained:actual.length===1&&this.retainedDraft(actual[0]!)&&actual[0]!.value===attempt.draft.value};});
    const pendingReview=drafts.filter(draft=>draft.retained).length;
    const collapsedSections=(view.sections??[]).filter(section=>section.state==='collapsed').map(section=>({label:section.label,ref:section.ref}));
-   return{verified:checks.filter(c=>c.retained).length,checks,pending:pending.size+pendingReview+collapsedSections.length,matchedConfirmed:matched.length,alreadyCorrect:matched.filter(f=>!attemptedKeys.has(key(f))).length,drafts,draftWritten:drafts.filter(draft=>draft.retained&&draft.writtenThisRun).length,pendingReview,collapsedSections,
+   return{verified:checks.filter(c=>c.retained).length,checks,verifiedFields:matched.map(f=>({label:f.label,section:f.section})),pending:pending.size+pendingReview+collapsedSections.length,matchedConfirmed:matched.length,alreadyCorrect:matched.filter(f=>!attemptedKeys.has(key(f))).length,drafts,draftWritten:drafts.filter(draft=>draft.retained&&draft.writtenThisRun).length,pendingReview,collapsedSections,
      actionableRemaining:remaining.filter(f=>this.candidates(f).length>0).map(f=>({label:f.label,section:f.section})),
      missingRecords,recordCoverage:this.coverage(),
-     unverified:[...this.unverified.values()],remaining:remaining.map(f=>{const none=this.noAwards(f),reason=none?'本人已确认无获奖经历；此必填获奖行需要在网站处理，未编造奖项或日期。':this.manualReason(f),missing=!none&&reason.startsWith('个人资料里没有'),question=!none&&userFacing&&(missing||!!this.decisionFor(f))?this.question(f):undefined,options=this.observedOptions.get(this.key(f));return{label:f.label,section:f.section,reason,reasonCode:none?'user-none':reason.startsWith('未提供推荐码')?'leave-empty':reason.startsWith('请在提交前自行')?'user-action':reason.startsWith('网页多出一段')?'extra-empty-record':reason.startsWith('已保存的日期只有')?'date-precision':this.priorFailure(f)?'previous-failure':this.decisionFor(f)?(this.decisionFor(f)!.disposition==='none'?'user-none':'user-skipped'):missing?'missing-data':'fill-failed',...(question?{question:{...question,...(options?.length?{options:options.slice(0,80)}:{})}}:{})};}),submitted:false};
+     unverified:[...this.unverified.values()],remaining:remaining.map(f=>{const none=this.noAwards(f),reason=none?'本人已确认无获奖经历；此必填获奖行需要在网站处理，未编造奖项或日期。':this.manualReason(f),missing=!none&&reason.startsWith('个人资料里没有'),question=!none&&userFacing&&(missing||reason.includes('日期只有月份')||!!this.decisionFor(f))?this.question(f):undefined,options=this.observedOptions.get(this.key(f));return{label:f.label,section:f.section,reason,reasonCode:none?'user-none':reason.startsWith('未提供推荐码')?'leave-empty':reason.startsWith('请在提交前自行')?'user-action':reason.startsWith('网页多出一段')?'extra-empty-record':reason.startsWith('已保存的日期只有')?'date-precision':this.priorFailure(f)?'previous-failure':this.decisionFor(f)?(this.decisionFor(f)!.disposition==='none'?'user-none':'user-skipped'):missing?'missing-data':'fill-failed',...(question?{question:{...question,...(options?.length?{options:options.slice(0,80)}:{})}}:{})};}),submitted:false};
  }
  async releaseControl(){const pending=this.pendingControl;this.pendingControl=undefined;if(!pending)return{closed:true};try{return await pending.controller.close();}finally{await pending.controller.dispose();}}
  private currentControlField(){const pending=this.pendingControl;if(!pending)throw Error('OPEN_FIRST');const matches=this.view!.fields.filter(f=>this.key(f)===this.key(pending.field));if(matches.length!==1)throw Error('FIELD_IDENTITY_CHANGED');return matches[0]!;}

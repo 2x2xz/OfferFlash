@@ -19,7 +19,7 @@ const preload=join(directory,'preload.cjs');await writeFile(preload,"const{conte
 const window=new BrowserWindow({show:false,webPreferences:{preload,sandbox:true,contextIsolation:true,nodeIntegration:false}}),view=new WebContentsView({webPreferences:{sandbox:true,contextIsolation:true,nodeIntegration:false,backgroundThrottling:false,partition:'universal-budget-fictional'}});window.contentView.addChildView(view);view.setBounds({x:0,y:0,width:900,height:700});
 const controller=new AbortController();const watchdog=setTimeout(()=>{mark('watchdog');controller.abort();},15000);
 try{
- await view.webContents.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent('<label>姓名<input id="name"></label><label>邮箱<input id="email" type="email"></label><script>window.inputWrites=0;document.addEventListener("input",()=>window.inputWrites++);</script>'));
+ await view.webContents.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent('<label>姓名<input id="name"></label><label>邮箱<input id="email" type="email"></label><label>自我评价<textarea></textarea></label><script>window.inputWrites=0;document.addEventListener("input",()=>window.inputWrites++);</script>'));
  await window.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent('<div id="status" data-busy="false">Fictional settlement regression</div>'));
  ipcMain.handle('fictional-budget-settlement',async()=>{
   assert.equal(busy,false);busy=true;mark('ipc-enter');
@@ -29,8 +29,8 @@ try{
   finally{busy=false;mark('host-busy-false');}
  });
  const result=await window.webContents.executeJavaScript(`(async()=>{const status=document.getElementById('status');status.dataset.busy='true';try{return await window.settlement.run();}finally{status.dataset.busy='false';}})()`);mark('renderer-receipt');
- assert.equal(result.status,'failed');assert.equal(result.modelRequests,20);assert.equal(requests,20);assert.equal(result.modelTokens,240);assert.equal(result.verified,0);assert.equal(busy,false);
- const rendererBusy=await window.webContents.executeJavaScript("document.getElementById('status').dataset.busy==='true'");const inputWrites=await view.webContents.executeJavaScript('window.inputWrites');assert.equal(rendererBusy,false);assert.equal(inputWrites,0);assert.ok(phases.some(phase=>phase.phase==='sdk_settled'));
+ assert.equal(result.status,'failed');assert.equal(result.modelRequests,2);assert.equal(requests,2);assert.equal(result.modelTokens,24);assert.equal(result.verified,2);assert.equal(busy,false);
+ const rendererBusy=await window.webContents.executeJavaScript("document.getElementById('status').dataset.busy==='true'");const inputWrites=await view.webContents.executeJavaScript('window.inputWrites');assert.equal(rendererBusy,false);assert.equal(inputWrites,2);assert.equal(await view.webContents.executeJavaScript("document.querySelector('#name').value"),profile.fullName);assert.ok(phases.some(phase=>phase.phase==='sdk_settled'));
  const report={universalBudgetSettlement:true,ok:true,status:result.status,requests,modelTokens:result.modelTokens,hostBusy:busy,rendererBusy,bridgeDetached:!view.webContents.debugger.isAttached(),inputWrites,phases,paidRequests:0,externalRequests:0};await writeFile(join(directory,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
  clearTimeout(watchdog);ipcMain.removeHandler('fictional-budget-settlement');provider.close();server.closeAllConnections();await new Promise<void>(done=>server.close(()=>done()));view.webContents.close();window.destroy();app.exit(0);
 }catch(error){mark('fixture-error');console.error(error);clearTimeout(watchdog);provider.close();server.closeAllConnections();server.close();window.destroy();app.exit(1);}

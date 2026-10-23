@@ -63,6 +63,8 @@ test('only movement between actual supplied targets creates a wake, and attentio
   assert.equal(new Set(state.wakePaths.map((path:Element)=>path.attributes.get('d'))).size,6);
   assert.equal(state.wakeEchoes.length,3);assert.equal(state.wakeSparks.length,20);assert.equal(state.wakeStreamers.length,7);
   assert.ok(state.wakePaths.every((path:Element)=>path.attributes.get('d')?.includes('L')));
+  await value.companion.show({...target,phase:'verified',bounds:{...target.bounds,y:350}});
+  assert.equal(state.wake.style.visibility,'visible');assert.equal(state.wakePaths.flatMap((path:Element)=>path.getAnimations()).length,8);
   await value.companion.show({...target,phase:'attention'});
   assert.equal(state.wakeNodes.flatMap((node:Element)=>node.getAnimations()).length,0);
   assert.equal(state.wake.style.visibility,'hidden');assert.equal(state.wakePaths.flatMap((path:Element)=>path.getAnimations()).length,0);

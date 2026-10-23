@@ -1,0 +1,5 @@
+import test from'node:test';import assert from'node:assert/strict';import{confirmedCitySelection,applicationReviewRows}from'../packages/ui/src/application-review.js';
+test('city-level proof accepts an existing selected city path but never a different city or district token',()=>{
+ assert.ok(confirmedCitySelection('当前所在城市','深圳','广东 深圳市 福田区'));assert.ok(confirmedCitySelection('意向工作城市','深圳','深圳市'));assert.equal(confirmedCitySelection('当前所在城市','深圳','广东 广州市 深圳区'),false);assert.equal(confirmedCitySelection('当前所在城市','深圳','广东 深圳'),false);assert.equal(confirmedCitySelection('出生地','深圳','广东 深圳市 福田区'),false);assert.equal(confirmedCitySelection('当前所在城市','深圳','广东 深圳湾市 福田区'),false);
+});
+test('remaining fields have separate actionable, optional, declaration and review groups',()=>{const rows=applicationReviewRows({status:'partial',message:'',verified:0,pending:3,remaining:[{label:'推荐码',section:'',reason:'可留空'},{label:'当前所在城市',section:'',reason:'控件失败'},{label:'上述已知悉并确认',section:'',reason:'本人确认'}]});assert.deepEqual(rows.map(r=>r.kind),['optional','action','declaration']);});

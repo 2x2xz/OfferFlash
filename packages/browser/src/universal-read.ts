@@ -13,12 +13,15 @@ export const READ_UNIVERSAL_FORM=String.raw`((registry,includeBirthForVerificati
  ${OWNED_SELECT_HELPERS}
  ${OWNED_RECORD_KIND_HELPERS}
  const selector='${UNIVERSAL_CONTROL_SELECTOR}';
- const visible=e=>{if(!e)return false;const r=e.getBoundingClientRect();if(!r.width||!r.height)return false;for(let p=e;p;p=p.parentElement){const s=getComputedStyle(p);if(p.hidden||p.getAttribute('aria-hidden')==='true'||s.display==='none'||s.visibility==='hidden')return false;}return true;};
+ // These caches live for ONE synchronous observation only. No values, labels,
+ // visibility or topology are reused across browser actions or documents.
+ const visibilityCache=new WeakMap(),hiddenCache=new WeakMap(),controlListCache=new WeakMap();
+ const visible=e=>{if(!e)return false;if(visibilityCache.has(e))return visibilityCache.get(e);const r=e.getBoundingClientRect();let shown=!!r.width&&!!r.height;for(let p=e;shown&&p;p=p.parentElement){if(!hiddenCache.has(p)){const s=getComputedStyle(p);hiddenCache.set(p,p.hidden||p.getAttribute('aria-hidden')==='true'||s.display==='none'||s.visibility==='hidden');}if(hiddenCache.get(p))shown=false;}visibilityCache.set(e,shown);return shown;};
  const txt=e=>(e?.innerText||e?.textContent||'').replace(/\s+/g,' ').trim();
  const controls=Array.from(document.querySelectorAll(selector)).filter(e=>!e.parentElement?.closest('[role="combobox"]'));
  const existingSelector='fieldset,[role="group"],section,.form-part,.form-record,[data-record],.education-item,.internship-item,.project-item,.language-item,.software-item,.award-item';
  const explicitGroup=e=>e?.closest(existingSelector);
- const visibleControls=p=>controls.filter(c=>p.contains(c)&&visible(c)&&c.type!=='hidden');
+ const visibleControls=p=>{if(!controlListCache.has(p))controlListCache.set(p,controls.filter(c=>p.contains(c)&&visible(c)&&c.type!=='hidden'));return controlListCache.get(p);};
  const validationText=s=>/^(?:必填(?:项(?:未填写)?)?|不能为空|此项不能为空|请选择|请输入|内容|content|required(?:\s+(?:field|items?)(?:\s+(?:are|is)\s+not\s+filled\s+in)?)?|this\s+field\s+is\s+required|please\s+(?:select|enter))(?:\s*[。.!！:：])?$/i.test(s);
  const instructionText=s=>/^(?:提示|温馨提示|填写说明|hint|tip|note)\s*[:：]/i.test(s);
  const isStatus=n=>instructionText(txt(n))||selectMenu(n)||n.matches('ul,ol,[role="listbox"],[role="option"],[role="menu"],[role="alert"],[role="status"],.error,.help,.hint,.form-item-error,.ant-form-item-explain,.ant-form-item-extra,[class*="dropdown"],[class*="Dropdown"],[class*="options"],[class*="Options"],[class*="Input-message-"],[class*="Input-display-value-"],.phoenix-select__calcEle,.phoenix-select__tipWrapper,.phoenix-select__placeHolder')||/(?:^|[\s_-])(?:error|validation|invalid|help|hint)(?:[\s_-]|$)/i.test(n.getAttribute('class')||'')||!!n.querySelector('[role="option"],[role="listbox"]');
@@ -100,7 +103,8 @@ export const READ_UNIVERSAL_FORM=String.raw`((registry,includeBirthForVerificati
     else if(pairs.length===1&&pair===0&&/起止时间|\bperiod\b/i.test(label)&&range.querySelectorAll('input[type="checkbox"]').length===1&&range.querySelector('input[type="checkbox"]').checked&&Array.from(range.querySelectorAll('span,label,div')).some(n=>(!n.querySelector(selector)||n.matches('label')&&n.querySelectorAll(selector).length===1&&n.querySelector('input[type="checkbox"]'))&&/^(?:至今|present)(?:\s*\/\s*(?:至今|present))?$/i.test(txt(n)))){datePart=part;label+=' · 开始时间 · '+(part==='year'?'年':'月');}
    }
    const calendarWidget=!!pairedDates;
-   const datePrecision=e.type==='date'||/年月日|yyyy\s*[-/.年]\s*mm\s*[-/.月]\s*dd/i.test(e.getAttribute('placeholder')||'')?'day':e.type==='month'?'month':undefined;
+   const retainedDate=proxy?.value?.replace(/年|\//g,'-').replace(/月$/,'').replace(/月/,'-').replace(/日$/,'');
+   const datePrecision=e.type==='date'||/年月日|yyyy\s*[-/.年]\s*mm\s*[-/.月]\s*dd/i.test(e.getAttribute('placeholder')||'')?'day':e.type==='month'||retainedDate&&/^\d{4}-\d{2}$/.test(retainedDate)?'month':retainedDate&&/^\d{4}-\d{2}-\d{2}$/.test(retainedDate)?'day':undefined;
    const readOnlyWidget=e.tagName!=='SELECT'&&!['checkbox','radio'].includes(f.type)&&(!!proxy||calendarWidget||!!e.closest('label.select,.month-range-select'));
    const baseValue=proxy?proxy.value:declared!==null?declared:f.value;
    // The default reader and diagnostics retain their DOB mask. The dedicated
@@ -129,7 +133,9 @@ export const READ_UNIVERSAL_FORM=String.raw`((registry,includeBirthForVerificati
    if(p===cap.node)break;
   }return chosen;
  }).filter(Boolean);
+ const groupIds=new WeakMap(),recordNodesCache=new WeakMap();
  const groups=Array.from(document.querySelectorAll(existingSelector));const groupId=g=>{
+  if(groupIds.has(g))return groupIds.get(g);
   if(typeof registry==='object'&&registry?.nodes){const anchors=rows.filter(r=>g.contains(r._e)&&anchor(r)),prose=rows.filter(r=>g.contains(r._e)&&anonymousPrimary(r)),key=anchors.length===1?anchors[0]._e:!anchors.length&&prose.length===1?prose[0]._e:g;let id=registry.nodes.get(key);
    registry.anchors??=new Map();const stable=anchors.length===1&&key.id&&document.querySelectorAll('[id="'+CSS.escape(key.id)+'"]').length===1?key.tagName+'|'+key.id+'|'+anchor(anchors[0]):'';
    const prior=stable?registry.anchors.get(stable):null;
@@ -137,16 +143,22 @@ export const READ_UNIVERSAL_FORM=String.raw`((registry,includeBirthForVerificati
    // application module. Preserve every previously observed connected scope,
    // rather than overwriting it with the last sibling's outer scope.
    if(id===undefined&&prior&&!prior.node.isConnected&&(prior.scope===g||prior.scopes?.has(g))&&g.isConnected)id=prior.id;
-   if(id===undefined)id=registry.next++;registry.nodes.set(key,id);if(stable){const scopes=prior?.id===id?prior.scopes??new WeakSet():new WeakSet();scopes.add(g);registry.anchors.set(stable,{node:key,scope:g,scopes,id});}return 'group-'+id;}
-  if(!groups.includes(g))groups.push(g);return 'group-'+groups.indexOf(g);};
+   if(id===undefined)id=registry.next++;registry.nodes.set(key,id);if(stable){const scopes=prior?.id===id?prior.scopes??new WeakSet():new WeakSet();scopes.add(g);registry.anchors.set(stable,{node:key,scope:g,scopes,id});}const value='group-'+id;groupIds.set(g,value);return value;}
+  if(!groups.includes(g))groups.push(g);const value='group-'+groups.indexOf(g);groupIds.set(g,value);return value;};
  const ownerGroup=g=>{if(typeof registry==='object'&&registry?.nodes){registry.owners??=new WeakMap();registry.ownerNext??=0;let id=registry.owners.get(g);if(id===undefined){id=registry.ownerNext++;registry.owners.set(g,id);}return 'owner-'+id;}if(!groups.includes(g))groups.push(g);return 'owner-'+groups.indexOf(g);};
  for(const row of rows){const cap=row._section,original=explicitGroup(row._e);let chosen=original,section=row.section||'';
    if(cap&&cap.family!=='其它区块'){
-     section=cap.family;const anchors=rows.filter(f=>cap.node.contains(f._e)&&anchor(f)===cap.family);
-     const recordNodes=anchors.length?anchors.map(a=>{let chosen=null;for(let p=a._e.parentElement;p&&cap.node.contains(p);p=p.parentElement){const contained=rows.filter(f=>p.contains(f._e));if(contained.filter(f=>anchor(f)===cap.family).length!==1||contained.some(f=>anchor(f)&&anchor(f)!==cap.family))break;if(contained.length>=1)chosen=p;if(p===cap.node)break;}return chosen;}).filter(Boolean):anonymousNodes(cap);
+     section=cap.family;
+     let byFamily=recordNodesCache.get(cap.node);if(!byFamily){byFamily=new Map();recordNodesCache.set(cap.node,byFamily);}
+     if(!byFamily.has(cap.family)){const anchors=rows.filter(f=>cap.node.contains(f._e)&&anchor(f)===cap.family);
+      byFamily.set(cap.family,anchors.length?anchors.map(a=>{let chosen=null;for(let p=a._e.parentElement;p&&cap.node.contains(p);p=p.parentElement){const contained=rows.filter(f=>p.contains(f._e));if(contained.filter(f=>anchor(f)===cap.family).length!==1||contained.some(f=>anchor(f)&&anchor(f)!==cap.family))break;if(contained.length>=1)chosen=p;if(p===cap.node)break;}return chosen;}).filter(Boolean):anonymousNodes(cap));
+     }const recordNodes=byFamily.get(cap.family);
      const matches=recordNodes.filter(n=>n.contains(row._e));if(matches.length===1)chosen=matches[0];else if(!original)chosen=null;
    }
    if(!section&&chosen){const headings=Array.from(chosen.querySelectorAll('legend,h1,h2,h3,h4,.form-part-title,.form-part__title,.section-title,[role="heading"]')).filter(n=>visible(n)&&explicitGroup(n)===chosen);if(headings.length===1)section=txt(headings[0]);}
+   // An explicit record wrapper can lack a heading. A single owned identity
+   // field still proves its family; never borrow a sibling module's heading.
+   if(!section&&chosen){const identities=rows.filter(f=>chosen.contains(f._e)&&anchor(f));if(identities.length===1)section=anchor(identities[0]);}
    row.section=section;row.group=chosen?groupId(chosen):'contact';
    if(typeof registry==='object'&&registry?.nodes){
     registry.controlNodes??=new WeakMap();registry.controlNext??=0;registry.controlAnchors??=new Map();
@@ -174,6 +186,20 @@ export const READ_UNIVERSAL_FORM=String.raw`((registry,includeBirthForVerificati
  }
  const options=Array.from(document.querySelectorAll('[role="option"],.phoenix-select__option,.ant-select-item-option,.el-select-dropdown__item')).filter(visible).slice(0,200).map((e,index)=>({index,label:txt(e).slice(0,160)}));
  const sections=${READ_OWNED_SECTIONS};
+ // Interpret short captions inside the same record, never from values or
+ // website names, and never borrow context from another project.
+ const caption=row=>row.label.replace(/[*✱＊:：]/g,'').trim();
+ const projectRows=new Map();
+ for(const row of rows)if(/项目|project/i.test(row.section)){
+   if(caption(row)==='职责')row.responsibilityKind='ambiguous';
+   if(row.group!=='contact'){const group=projectRows.get(row.group)||[];group.push(row);projectRows.set(row.group,group);}
+ }
+ for(const group of projectRows.values()){
+   const short=group.filter(row=>caption(row)==='职责');
+   const descriptions=group.filter(row=>/^(?:项目描述|project\s+description)$/i.test(caption(row)));
+   const otherRoles=group.filter(row=>/^(?:项目职责|项目角色|角色|职务|职位|project\s+role)$/i.test(caption(row)));
+   if(short.length===1&&short[0].type==='text'&&descriptions.length===1&&!otherRoles.length)short[0].responsibilityKind='role';
+ }
  return {url:raw.url,fields:rows.map(({_e,_section,...row})=>row),actions,options,sections};
 })(/* host-group-registry */null,/* host-birth-verification */false)`;
 /** Session-only comparison reader. Model projections and diagnostics use the

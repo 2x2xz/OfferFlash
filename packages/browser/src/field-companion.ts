@@ -238,7 +238,9 @@ function decorate(command: DecorationCommand, place: typeof placeFieldCompanion,
   const reduced=command.reducedMotion||matchMedia('(prefers-reduced-motion:reduce)').matches;
   const moving=['approach','typing'].includes(command.target.phase);
   const shape=moving&&!reduced&&position&&previous.position?wake({x:previous.position.x+24,y:previous.position.y+18},{x:position.x+24,y:position.y+18},innerWidth,innerHeight):undefined;
-  if(previous.wake&&(reduced||!moving)){for(const path of previous.wakeNodes??[])for(const animation of path.getAnimations())animation.cancel();previous.wake.style.visibility='hidden';}
+  // A fast successful input must not erase a movement wake before its first frame.
+  // Let the existing 720 ms fade finish; attention and reduced motion still cancel immediately.
+  if(previous.wake&&(reduced||command.target.phase==='attention')){for(const path of previous.wakeNodes??[])for(const animation of path.getAnimations())animation.cancel();previous.wake.style.visibility='hidden';}
   if(shape&&previous.wake){
     previous.wake.setAttribute('viewBox',`0 0 ${innerWidth} ${innerHeight}`);previous.wake.style.visibility='visible';
     for(const node of previous.wakeNodes)for(const animation of node.getAnimations())animation.cancel();

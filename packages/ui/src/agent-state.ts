@@ -28,6 +28,7 @@ export interface AgentUiState {
   retiredTaskIds: string[];
 }
 export type AgentUiAction =
+  | {type:'application-messages';messages:ChatMessage[]}
   | {type:'resume-question';request:AgentQuestionRequest}
   | {type:'question-answer';request:AgentQuestionRequest;result:AgentQuestionResult}
   | { type: 'draft'; text: string }
@@ -41,6 +42,7 @@ export function createAgentUiState(): AgentUiState {
 }
 
 export function agentUiReducer(state: AgentUiState, action: AgentUiAction): AgentUiState {
+  if(action.type==='application-messages')return {...state,messages:[...state.messages,...action.messages.filter(message=>!state.messages.some(old=>old.id===message.id))]};
   if (action.type === 'draft') return { ...state, composerDraft: action.text };
   if (action.type === 'restore') {
     if (state.composerDraft.trim()) return state;

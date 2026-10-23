@@ -1,3 +1,4 @@
+import {smokeApplicationQuestions} from './smoke-application-questions.js';
 import {PausableDeadline} from './pausable-deadline.js';
 import {AgentQuestionBroker} from './agent-question-broker.js';
 import {ApplicationSetupVault,validateApplicationSetup} from '../../packages/domain/src/application-setup.js';
@@ -86,7 +87,7 @@ import type {
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const smoke = process.argv.includes('--smoke-test');
-const smokeSubmodes = ['--smoke-repair-flow-only','--smoke-browser-tabs-only','--smoke-job-matching-only', '--smoke-identity-only', '--smoke-field-companion-only', '--smoke-speedster-only', '--smoke-assistant-only', '--smoke-background-only', '--smoke-onboarding-only', '--smoke-feishu-only', '--smoke-career-ui-only', '--smoke-career-suite', '--smoke-native-pointer-only', '--smoke-telemetry-only', '--smoke-workspace-only', '--smoke-workflow-only', '--smoke-profile-only', '--smoke-pixel-only'];
+const smokeSubmodes = ['--smoke-form-questions-only','--smoke-repair-flow-only','--smoke-browser-tabs-only','--smoke-job-matching-only', '--smoke-identity-only', '--smoke-field-companion-only', '--smoke-speedster-only', '--smoke-assistant-only', '--smoke-background-only', '--smoke-onboarding-only', '--smoke-feishu-only', '--smoke-career-ui-only', '--smoke-career-suite', '--smoke-native-pointer-only', '--smoke-telemetry-only', '--smoke-workspace-only', '--smoke-workflow-only', '--smoke-profile-only', '--smoke-pixel-only'];
 const enabledSmokeSubmodes = smokeSubmodes.filter(flag => process.argv.includes(flag));
 if (!smoke && enabledSmokeSubmodes.length) throw new Error('验收子模式必须同时指定隔离 smoke。');
 if (enabledSmokeSubmodes.length > 1) throw new Error('一次只能选择一个隔离 smoke 子模式。');
@@ -448,7 +449,7 @@ async function createApp(): Promise<void> {
     encrypt: value => safeStorage.encryptString(value), decrypt: value => safeStorage.decryptString(value),
   });
   identityHost = new SensitiveIdentityHost(browser, identityVault);
-  const applicationSetupVault=new ApplicationSetupVault(join(stateDirectory,'application-setup'),smoke&&enabledSmokeSubmodes.includes('--smoke-repair-flow-only')?ephemeralIdentityCryptor():{
+  const applicationSetupVault=new ApplicationSetupVault(join(stateDirectory,'application-setup'),smoke&&(enabledSmokeSubmodes.includes('--smoke-repair-flow-only')||enabledSmokeSubmodes.includes('--smoke-form-questions-only'))?ephemeralIdentityCryptor():{
     available:()=>!smoke&&!liveProductCheck&&!realSiteQA&&safeStorage.isEncryptionAvailable()&&(process.platform!=='linux'||!['basic_text','unknown'].includes(safeStorage.getSelectedStorageBackend())),
     encrypt:value=>safeStorage.encryptString(value),decrypt:value=>safeStorage.decryptString(value),
   });
@@ -903,6 +904,7 @@ async function createApp(): Promise<void> {
 async function smokeTest(methods: Record<string, (...args: any[]) => Promise<any>>): Promise<void> {
   const assertions: Record<string, unknown> = {};
   try {
+    if(enabledSmokeSubmodes.includes('--smoke-form-questions-only')){const report=await smokeApplicationQuestions(window,browser,methods,send,stateDirectory);console.log(JSON.stringify(report));await cleanupApp();app.exit(0);return;}
     if(enabledSmokeSubmodes.includes('--smoke-repair-flow-only')){const report=await smokeRepairFlowUI(window,methods,send,stateDirectory,store);console.log(JSON.stringify(report));await cleanupApp();app.exit(0);return;}
     if(enabledSmokeSubmodes.includes('--smoke-browser-tabs-only')){const report=await smokeBrowserTabsUI(window,methods,send,stateDirectory);console.log(JSON.stringify(report));await cleanupApp();app.exit(0);return;}
     if(enabledSmokeSubmodes.includes('--smoke-job-matching-only')){

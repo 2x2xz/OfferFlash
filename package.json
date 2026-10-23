@@ -1,6 +1,6 @@
 {
   "name": "offerflash",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "main": "apps/desktop/main.cjs",
   "description": "Local career assistant with job matching, application tracking and an embedded browser",
   "private": true,

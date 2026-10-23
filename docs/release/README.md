@@ -9,7 +9,7 @@
 <p>一个用于求职申请的桌面 Agent：整理简历、推荐岗位、辅助填写招聘网页，并跟踪投递进度。</p>
 
 <p>
-  <a href="https://github.com/2x2xz/OfferFlash/releases/tag/v0.15.0"><strong>macOS Demo ↗</strong></a>
+  <a href="https://github.com/2x2xz/OfferFlash/releases/tag/v0.24.0-preview.1"><strong>macOS 最新预览版 ↗</strong></a>
   &nbsp;·&nbsp;
   <a href="docs/model-workspace-demo.md">完整演示</a>
   &nbsp;·&nbsp;
@@ -22,13 +22,31 @@
 
 ---
 
-## ⚡ 先看它干活
+## 最新预览版：边填边问，结束后直接定位
 
-<p align="center">
-  <img src="docs/screenshots/offerflash-workspace-autofill.gif" alt="OfferFlash 在实际企业网申页面中识别并填写经历字段" />
-</p>
+**缺信息时，对话区直接弹出问答块；确认回答后，同一次填写会自动继续。** 回答通过本机答案库保存与确认，默认只对应当前申请；“暂时跳过”和“无 / 不适用”也会记住，可以从待处理卡片恢复询问。
 
-<p align="center"><sub>左边是 Agent，右边是企业网申。真实页面、虚构资料；视频为 4× 速预览，没有提交申请。<a href="docs/model-workspace-demo.md">看原速演示与操作说明 ↗</a></sub></p>
+填写结束后，进度会停止，对话区优先显示真实回读的待处理清单。对可唯一识别的字段，点击 **定位** 即可滚动并高亮；歧义会提示重新核对；定位本身不改值、不勾选、不提交。后台队列收进次要入口，当前申请的问题更容易看见。
+
+本版还改进了无标题的实习／项目组识别、学校和专业下拉、日期控件、重复经历匹配，以及已选城市的只读核对。明确字段优先由受控执行器处理，模型集中判断剩余映射、分类和有来源的文本草稿；控件失败会保留为待处理，不反复调用模型冒充进展。
+
+[查看 v0.24.0-preview.1 完整说明](docs/release/offerflash-0.24.0-preview.1.md)。这是预览版：网站控件、缺失区块和模型计划格式仍可能失败，附件与整表可提交状态需要本人核对。
+
+## ⚡ 两段官网演示
+
+**连续填写：沿用面壁智能官网。** 两段教育、两段实习和两个项目的真实填写节选，保留同窗口定位后续填的过程。
+
+<p align="center"><img src="docs/screenshots/offerflash-workspace-autofill.gif" alt="面壁智能官网连续填写与同一窗口恢复，4倍速操作节选" /></p>
+
+<p align="center"><sub>4× 操作节选 · 虚构履历 · 账号已遮挡 · 未提交。<a href="docs/screenshots/offerflash-workspace-full.gif">看原速操作节选 ↗</a></sub></p>
+
+**新卡片与定位：待处理项直接出现在对话区。** 点击定位，网页滚动并框出真实字段；定位不修改内容。
+
+<p align="center"><img src="docs/screenshots/offerflash-actionable-review.gif" alt="在对话区查看真实待处理卡片并定位到官网意向城市，原速节选" /></p>
+
+<p align="center"><sub>原速操作节选 · 只读回读与定位。<a href="docs/model-workspace-demo.md">看核对结果、录制方式与已知限制 ↗</a></sub></p>
+
+本轮最终 34 个目标回读一致，首次执行曾在项目说明处停止，随后在原窗口定位并续填；不宣称一次整表通过。面壁专用填写与通用卡片回读的统计范围不同，部分已选控件仍会保守显示待核实；本轮在线模型请求为 0。
 
 ## 为什么做 OfferFlash？
 
@@ -90,11 +108,11 @@ OfferFlash 把这些操作放在一个工作台里：**资料确认后交给 Age
 
 OfferFlash 用 Pi SDK 管理模型会话，Electron 主进程负责应用状态和授权；Agent 负责理解当前表单与资料之间的对应关系，真正的网页输入由 `BrowserController` 执行。写入前会检查页面、原值和目标控件，写完再读取结果。
 
-简历资料、岗位和申请记录保存在本机 SQLite。跟着字段跑的小闪电是界面动效，不参与实际输入。
+简历资料、岗位和申请记录保存在本机 SQLite。闪电跑道与跟随字段的闪电拖尾均保留；动效不参与实际输入。
 
 更完整的进程划分、工具调用和安全边界放在 [架构文档](docs/architecture.md) 里。
 
-## 📊 实际跑出来的结果
+## 📊 历史验证结果（v0.15.0，非本次预览版重测）
 
 <table>
   <tr>

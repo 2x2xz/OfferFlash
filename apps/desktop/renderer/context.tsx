@@ -2,6 +2,8 @@ import type {AgentQuestionRequest,AgentQuestionResponse} from '../../../packages
 import { createContext, useContext, type Dispatch, type SetStateAction } from 'react';
 import type { AgentEvent, AppState, Application, ApplicationInput, BrowserState, CapturedPage, FillPlan, FillResult, JobInput, ModelStatus, OfferAPI, SourceDefinition } from '../../../packages/shared/src/contracts.js';
 import type { ChatMessage } from '../../../packages/ui/src/agent-state.js';
+import type {ApplicationReport,ApplicationReportKind} from '../../../packages/ui/src/application-fill-workflow.js';
+import type {AgentQuestionInput,AgentQuestionResult} from '../../../packages/shared/src/agent-questions.js';
 export type { ChatMessage } from '../../../packages/ui/src/agent-state.js';
 
 export type Page = 'apply' | 'dashboard' | 'jobs' | 'applications' | 'profile' | 'browser' | 'agent' | 'telemetry';
@@ -18,6 +20,13 @@ export function createFormPreviewState(plan: FillPlan): FormPreviewState {
 export interface Workspace {
   api: OfferAPI; state: AppState; sources: SourceDefinition[]; browser: BrowserState; model: ModelStatus;
   agentQuestion?:AgentQuestionRequest|null;answerAgentQuestion?:(response:AgentQuestionResponse)=>Promise<void>;
+  askApplicationQuestion?:(taskId:string,input:AgentQuestionInput,signal:AbortSignal,form?:AgentQuestionRequest['form'],validate?:(result:AgentQuestionResult)=>void)=>Promise<AgentQuestionResult>;
+  cancelApplicationQuestion?:()=>void;
+  currentApplicationReport?:ApplicationReport;
+  locateApplicationReview?:(report:ApplicationReport,target:import('../../../packages/ui/src/application-review.js').ApplicationReviewTarget)=>Promise<void>;
+  recordApplicationReport?:(report:ApplicationReport)=>void;
+  getApplicationReport?:(context:ApplicationReport['context'])=>ApplicationReport|undefined;
+  showApplicationReport?:(kind:ApplicationReportKind)=>Promise<void>;
   agentBusy: boolean; messages: ChatMessage[]; events: AgentEvent[]; streamText: string; overlayOpen: boolean;
   browserFocusMode: boolean;
   toggleBrowserFocus: () => void;

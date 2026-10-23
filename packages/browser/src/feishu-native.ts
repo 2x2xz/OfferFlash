@@ -247,7 +247,8 @@ export class FeishuCareerDriver {
     return { x, y };
   }
   private inViewport(rect: BrowserBounds): boolean {
-    const size = this.options.view.getBounds(), x = rect.x + rect.width / 2, y = rect.y + rect.height / 2;
+    // Match the actual integer input point; a fractional center can round onto the excluded margin.
+    const size = this.options.view.getBounds(), x = Math.round(rect.x + rect.width / 2), y = Math.round(rect.y + rect.height / 2);
     return x >= 2 && x < size.width - 2 && y >= 2 && y < size.height - 2;
   }
   private monthPoint(option: BrowserBounds, column: BrowserBounds): Point | undefined {

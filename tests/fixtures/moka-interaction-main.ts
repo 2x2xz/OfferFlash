@@ -24,7 +24,7 @@ try{
  let checks=0;
  const fact=(session:UniversalFormSession,kind:string,record='contact')=>session.facts.find(f=>f.kind===kind&&f.record===record)!;
  const fill=async(session:UniversalFormSession,label:string,kind:string,record='contact')=>{const x=await session.inspect(),f=fact(session,kind,record),field=x.fields.find(e=>e.label===label&&e.candidates.includes(f.ref));assert.ok(field,label);return session.fillGroup(x.observation,[{target:field.ref,fact:f.ref}]);};
- let session=make(),x=await session.inspect();assert.equal(x.actions.length,1);checks++;
+ let session=make(),x=await session.inspect();assert.equal(x.actions.length,0);assert.equal(await page.locator('#add').count(),1);checks++;
  const email=x.fields.find(f=>f.label==='邮箱')!;
  // Geometry and decorative nodes change between observe and write. DOM identity is intact.
  await page.locator('form').evaluate(e=>{e.style.transform='translateY(11.5px)';e.prepend(document.createElement('div'));});

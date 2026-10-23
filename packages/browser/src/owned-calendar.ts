@@ -33,7 +33,8 @@ export async function fillOwnedCalendar(node:Locator,value:string,guard:()=>Prom
  const year=present?2000:Number(parts![1]),month=present?1:Number(parts![2]),day=parts?.[3]?Number(parts[3]):undefined;
  if(year<1900||year>2100||month<1||month>12||day!==undefined&&(day<1||new Date(Date.UTC(year,month,0)).getUTCDate()<day))throw Error('DATE_PRECISION_MISSING');
  const page=node.page(),target=await node.elementHandle();if(!target)throw Error('FIELD_DISAPPEARED');
- const signature=await target.evaluate(stamp),before=await page.locator('body').evaluateHandle(visibleCalendarRoots),url=page.url();let popup:ElementHandle<Element>|undefined,committed=false,selectionAttempted=false,diagnostic:Record<string,unknown>={stage:'open'};
+ const signature=await target.evaluate(stamp),before=await page.locator('body').evaluateHandle(visibleCalendarRoots),url=page.url();let popup:ElementHandle<Element>|undefined,committed=false,selectionAttempted=false,monthCommitted=false,diagnostic:Record<string,unknown>={stage:'open'};
+ const requiresDay=await target.evaluate(element=>(element as HTMLInputElement).type==='date'||/年月日|yyyy\s*[-/.年]\s*mm\s*[-/.月]\s*dd/i.test(element.getAttribute('placeholder')??''));
  const safeContext=async()=>{await guard();if(page.url()!==url||!await target.evaluate((e,s)=>e.isConnected&&e.tagName===s.tag&&e.id===s.id&&e.getAttribute('type')===s.type&&e.getAttribute('role')===s.role,signature))throw Error('APPLICATION_CONTEXT_CHANGED:calendar');};
  const safe=async()=>{await safeContext();await checkUnchanged();};
  const click=async(element:ElementHandle<Element>)=>{await safe();if(!await element.isVisible()||await element.evaluate(e=>{const button=e.closest('button');return !!e.closest('a[href],[disabled],[aria-disabled="true"],.disabled,[class*="disabled" i]')||!!button&&button.type==='submit'&&!!button.form;}))throw Error('CALENDAR_CONTROL_DISABLED');await element.click({timeout:2000});await pause();await safe();};
@@ -68,9 +69,8 @@ export async function fillOwnedCalendar(node:Locator,value:string,guard:()=>Prom
       try{const current=Number((await header.evaluate(label)).replace('年',''));
        if(current!==year){await click(header);continue;}
       }finally{await headerHandle.dispose();}
-      if(day!==undefined)throw Error('CALENDAR_PRECISION_UNSUPPORTED');
       const matches=[];for(const cell of cells)if(Number((await cell.evaluate(label)).replace('月',''))===month)matches.push(cell);
-      if(matches.length!==1)throw Error('CALENDAR_MONTH_AMBIGUOUS');selectionAttempted=true;await click(matches[0]!);break;
+      if(matches.length!==1)throw Error('CALENDAR_MONTH_AMBIGUOUS');selectionAttempted=true;await click(matches[0]!);monthCommitted=!await calendarOpen();if(!monthCommitted&&day!==undefined)continue;break;
      }
      const matches=[];for(const cell of cells)if(Number((await cell.evaluate(label)).replace('年',''))===year)matches.push(cell);
      if(matches.length===1){await click(matches[0]!);continue;}
@@ -110,7 +110,7 @@ export async function fillOwnedCalendar(node:Locator,value:string,guard:()=>Prom
     const currentYear=yearButtons.length===1?Number((await yearButtons[0]!.evaluate(label)).replace('年','')):undefined;
     if(currentYear!==year){if(yearButtons.length!==1)throw Error('CALENDAR_YEAR_AMBIGUOUS');await click(yearButtons[0]!);continue;}
     if(mode==='month'){
-     const exact=await cellFor(new RegExp('^'+month+'月$'));if(!exact)throw Error('CALENDAR_MONTH_NOT_FOUND');if(day===undefined)selectionAttempted=true;await click(exact);if(day===undefined)break;continue;
+     const exact=await cellFor(new RegExp('^'+month+'月$'));if(!exact)throw Error('CALENDAR_MONTH_NOT_FOUND');if(day===undefined)selectionAttempted=true;await click(exact);if(!await calendarOpen()){selectionAttempted=true;monthCommitted=true;break;}if(day===undefined)break;continue;
     }
     if(day===undefined)throw Error('CALENDAR_PRECISION_UNSUPPORTED');
     const monthButtons=[];for(const button of buttons)if(await button.isVisible()&&/^(?:[1-9]|1[0-2])月$/.test(await button.evaluate(label)))monthButtons.push(button);
@@ -128,7 +128,11 @@ export async function fillOwnedCalendar(node:Locator,value:string,guard:()=>Prom
   await target.evaluate(e=>{if(e===e.ownerDocument.activeElement)(e as HTMLElement).blur();});
   for(let check=0;check<10;check++){await safe();const actual=await target.evaluate(new Function('e',OWNED_SELECT_HELPERS+"const selected=selectCommitted(e);if(!selected.committed&&e.matches('input')&&e.value)return {value:e.value,committed:true};return selected;") as (e:Element)=>{value:string;committed:boolean});
    const normalize=(text:string)=>{const match=/^(\d{4})[年/.-](\d{1,2})(?:[月/.-](\d{1,2}))?[月日]?$/.exec(text.trim());return match?[match[1],match[2]!.padStart(2,'0'),...(match[3]?[match[3].padStart(2,'0')]:[])].join('-'):text;};
-   if(actual.committed&&normalize(actual.value)===value&&!await calendarOpen()){committed=true;return{value:actual.value,source:'calendar-marker',committed:true};}await pause();}
+   // A month-only picker proves its precision by closing after the real month
+   // click and retaining exactly YYYY-MM. A day picker stays open for its day
+   // grid; an explicit day requirement may never be silently reduced.
+   const normalized=normalize(actual.value),matches=normalized===value||monthCommitted&&!requiresDay&&/^\d{4}-\d{2}$/.test(normalized)&&normalized===value.slice(0,7);
+   if(actual.committed&&matches&&!await calendarOpen()){committed=true;return{value:actual.value,source:'calendar-marker',committed:true};}await pause();}
   throw Error('CALENDAR_VALUE_NOT_RETAINED');
  }catch(error){if(error instanceof Error){diagnostic={...diagnostic,cause:/^[A-Z_]+$/.test(error.message)?error.message:error.name,change:(error as Error&{controlDiagnostic?:unknown}).controlDiagnostic};Object.assign(error,{calendarSelectionAttempted:selectionAttempted,controlDiagnostic:diagnostic});}throw error;}finally{
   const activePopup=async()=>!!popup&&(await popup.evaluate(calendarTables).then(tables=>tables.length>0).catch(()=>false)||!!await popup.evaluate(divGrid).catch(()=>null));

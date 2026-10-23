@@ -76,7 +76,8 @@ test('existing model tools accept pending progress without adding a new tool or 
     if (name === 'get_application_agenda') return buildApplicationAgenda({ applications: records, settings: { showDemo: false } }, {}, now);
     throw new Error(`Unexpected tool: ${name}`);
   });
-  assert.equal(tools.length, 11);
+  assert.equal(tools.filter(tool=>tool.name!=='request_user_input').length, 11);
+  assert.ok(tools.some(tool=>tool.name==='request_user_input'));
   const list = await execute(tools.find(tool => tool.name === 'list_applications')!, 'pending-list');
   const agenda = await execute(tools.find(tool => tool.name === 'get_application_agenda')!, 'pending-agenda');
   assert.match(JSON.stringify(list), /needs-review/);

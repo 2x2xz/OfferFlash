@@ -54,7 +54,7 @@ export function UniversalQuestions({result,locked,onBusy,onContinue,onAnsweredCh
  async function decide(disposition:'skip'|'none'|'ask',question=q){
   if(!question||locked||inFlight.current)return;inFlight.current=true;setSaving(true);onBusy(true);setError('');
   try{if(!api.setQuestionDecision)throw Error('此版本尚不支持记住跳过，请更新应用。');const assets=await api.setQuestionDecision({url:browser.url,key:question.key,prompt:question.prompt,disposition,profileVersion:state.profile.version});
-   if(alive.current){setDecisions(assets.questionDecisions??[]);setIndex(0);notify(disposition==='none'?'已记为无此项，不再追问；没有替你猜写网页。':disposition==='skip'?'此申请已跳过，不再追问。':'已恢复此问题。');}
+   if(alive.current){setDecisions(assets.questionDecisions??[]);if(disposition==='ask')setIndex(0);notify(disposition==='none'?'已记为无此项，不再追问；没有替你猜写网页。':disposition==='skip'?'此申请已跳过，不再追问。':'已恢复此问题。');}
   }catch(error){if(alive.current)setError(errorText(error));}finally{inFlight.current=false;if(alive.current)setSaving(false);onBusy(false);}
  }
  async function remember(){
