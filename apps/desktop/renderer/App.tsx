@@ -1,4 +1,5 @@
 import type {AgentQuestionRequest,AgentQuestionResponse} from '../../../packages/shared/src/agent-questions.js';
+import {ApplicationQuestionBroker,applicationContext,applicationReportText,applicationReportIntent,APPLICATION_UI_READY_KEY,APPLICATION_REPORT_KEY,APPLICATION_ACTIVE_KEY,APPLICATION_LOCATE_KEY,APPLICATION_READONLY_KEY,sameApplicationContext,type ApplicationReport,type ApplicationReportKind} from '../../../packages/ui/src/application-fill-workflow.js';
 import {ApplicationSetupDialog} from './ApplicationSetup.js';
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { ArrowUpRight, Briefcase, Calendar, CheckCircle2, ChevronRight, Columns3, Globe, LayoutDashboard, LoaderCircle, Plus, Sparkles, Trash2, User, X } from 'lucide-react';
@@ -45,7 +46,7 @@ export function App() {
   const [state, setState] = useState<AppState>(); const [sources, setSources] = useState<SourceDefinition[]>([]);
   const [browser, setBrowser] = useState<BrowserState>({ url: '', title: '', loading: false, canGoBack: false, canGoForward: false, visible: false });
   const [model, setModel] = useState<ModelStatus>({ mode: 'demo', provider: '', modelId: '', configured: false });
-  const [page, setPage] = useState<Page>('dashboard'); const [overlay, setOverlay] = useState<Overlay>(); const [bootError, setBootError] = useState<string>();
+  const [page, setPage] = useState<Page>(()=>{try{return sessionStorage.getItem(APPLICATION_REPORT_KEY)?'browser':'dashboard';}catch{return'dashboard';}}); const [overlay, setOverlay] = useState<Overlay>(); const [bootError, setBootError] = useState<string>();
   const applyListMemory = useRef<ApplyListBrowseState | undefined>(undefined);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [assistantCollapsed, setAssistantCollapsed] = useState(true);
@@ -62,10 +63,37 @@ export function App() {
   const [demoBusy, setDemoBusy] = useState(false);
   const [missionCompletion, setMissionCompletion] = useState<MissionCompletion>();
   const [agentQuestion,setAgentQuestion]=useState<AgentQuestionRequest|null>(null);
-  const [chat, dispatch] = useReducer(agentUiReducer, undefined, createAgentUiState);
+  const [reportReading,setReportReading]=useState(false);const reportReadingRef=useRef(false);
+  const [chat, dispatch] = useReducer(agentUiReducer, undefined, ()=>{const initial=createAgentUiState();try{const text=sessionStorage.getItem('offerflash.workbench-chat.v1');sessionStorage.removeItem('offerflash.workbench-chat.v1');if(text){const saved=JSON.parse(text);if(Array.isArray(saved.messages))initial.messages=saved.messages.filter((m:any)=>m&&['user','assistant'].includes(m.role)&&typeof m.id==='string'&&typeof m.text==='string').slice(-150);if(typeof saved.composerDraft==='string')initial.composerDraft=saved.composerDraft;}}catch{}return initial;});
   const chatRef = useRef(chat); chatRef.current = chat;
   const dispatchChat = useCallback((action: AgentUiAction) => { chatRef.current = agentUiReducer(chatRef.current, action); dispatch(action); }, []);
-  const messages = chat.messages; const events = chat.events; const streamText = chat.active?.text ?? ''; const agentBusy = !!chat.active||!!agentQuestion;
+  const [,setReportRevision]=useState(0);
+  const reports=useRef(new Map<string,ApplicationReport>()),reportChoice=useRef<ApplicationReportKind|undefined>(undefined);
+  const reportKey=(context:ApplicationReport['context'])=>JSON.stringify([context.profileVersion,context.tabId,context.documentRevision,context.url]);
+  const recordApplicationReport=useCallback((report:ApplicationReport)=>{reports.current.set(reportKey(report.context),report);while(reports.current.size>20)reports.current.delete(reports.current.keys().next().value!);(window as any).__offerflashLastReport=report;setReportRevision(v=>v+1);},[]);
+  const applicationQuestions=useRef<ApplicationQuestionBroker|undefined>(undefined);
+  if(!applicationQuestions.current)applicationQuestions.current=new ApplicationQuestionBroker(()=>applicationContext(api),request=>setAgentQuestion(request),(request,result)=>dispatchChat({type:'application-messages',messages:[{id:request.id+'-prompt',role:'assistant',text:request.questions.map(q=>q.prompt).join('\n')},{id:request.id+'-reply',role:'user',text:result.status==='answered'?result.answers.map(a=>a.answer).join('\n'):result.status==='none'?'无 / 不适用':'本次暂时跳过'}]}));
+  useEffect(()=>{try{sessionStorage.setItem(APPLICATION_UI_READY_KEY,'1');const raw=sessionStorage.getItem(APPLICATION_REPORT_KEY);sessionStorage.removeItem(APPLICATION_REPORT_KEY);if(raw){const report=JSON.parse(raw);if(report?.context&&report.result&&Array.isArray(report.result.remaining)&&typeof report.checkedAt==='string')recordApplicationReport(report);}}catch{}return()=>applicationQuestions.current?.cancel();},[recordApplicationReport]);
+  async function showApplicationReport(kind:ApplicationReportKind){
+    if(reportReadingRef.current)return;reportReadingRef.current=true;setReportReading(true);let token:string|undefined;
+    try{const context=await applicationContext(api);let report=reports.current.get(reportKey(context)),note='';
+      if(api.runUniversalFill&&!sessionStorage.getItem(APPLICATION_ACTIVE_KEY)){
+        token=crypto.randomUUID();sessionStorage.setItem(APPLICATION_READONLY_KEY,JSON.stringify({id:token,context}));
+        try{const result=await api.runUniversalFill({profileVersion:context.profileVersion,overwriteExisting:false});if(!sameApplicationContext(await applicationContext(api),context))throw Error('页面或资料变化，未采用旧回执。');report={context,checkedAt:new Date().toISOString(),result};recordApplicationReport(report);}
+        catch{note='本次未取得新的回读，以下仅显示同一页面与资料版本的已有回执。\n\n';}
+      }
+      dispatchChat({type:'application-messages',messages:[{id:'report-'+crypto.randomUUID(),role:'assistant',text:note+applicationReportText(report,context,kind)}]});
+    }finally{if(token){try{const current=JSON.parse(sessionStorage.getItem(APPLICATION_READONLY_KEY)??'null');if(current?.id===token)sessionStorage.removeItem(APPLICATION_READONLY_KEY);}catch{}}reportReadingRef.current=false;setReportReading(false);}
+  }
+  async function locateApplicationReview(report:ApplicationReport,target:import('../../../packages/ui/src/application-review.js').ApplicationReviewTarget){
+    if(reportReadingRef.current||agentQuestion||chatRef.current.active)return;const context=await applicationContext(api);if(!sameApplicationContext(context,report.context))throw Error('页面或资料已变化，请先重新核对。');
+    reportReadingRef.current=true;setReportReading(true);const id=crypto.randomUUID();
+    try{sessionStorage.setItem(APPLICATION_LOCATE_KEY,JSON.stringify({id,context,target:{label:target.label,section:target.section,...(target.key?{key:target.key}:{})}}));
+      if(!api.runUniversalFill)throw Error('安装包缺少定位接口');const result=await api.runUniversalFill({profileVersion:context.profileVersion,overwriteExisting:false});if(!sameApplicationContext(context,await applicationContext(api)))throw Error('页面已变化，旧定位已结束。');
+      if(!result.location)throw Error('定位模块尚未加载，请稍后重试。');recordApplicationReport({context,checkedAt:new Date().toISOString(),result});notify(result.location.message,result.location.status!=='located');
+    }finally{sessionStorage.removeItem(APPLICATION_LOCATE_KEY);reportReadingRef.current=false;setReportReading(false);}
+  }
+  const messages = chat.messages; const events = chat.events; const streamText = chat.active?.text ?? ''; const agentBusy = !!chat.active||!!agentQuestion||reportReading;
   const [formPreviews,setFormPreviews]=useState<Record<string,FormPreviewState|undefined>>({});
   const browserRef=useRef(browser);browserRef.current=browser;
   const formPreview=formPreviews[JSON.stringify([browser.activeTabId??'legacy',browser.documentRevision??0])];
@@ -134,9 +162,10 @@ export function App() {
   useEffect(() => { if (api && !['browser', 'agent', 'apply', 'telemetry'].includes(page)) void api.browserBounds({ x: 0, y: 0, width: 0, height: 0 }, false).catch(() => {}); }, [api, page]);
   const showOverlay = (next: Overlay) => { void api.browserBounds({ x: 0, y: 0, width: 0, height: 0 }, false).catch(() => {}).finally(() => setOverlay(next)); };
   async function openBrowser(url: string) { if (!url.trim()) { notify('这条记录还没有填写来源链接', true); return; } try { setBrowser(await api.browserNavigate(url)); setPage('browser'); } catch (error) { notify(errorText(error), true); } }
-  async function answerAgentQuestion(response:AgentQuestionResponse){try{await api.respondAgentQuestion(response);}catch(error){notify(errorText(error),true);throw error;}}
+  async function answerAgentQuestion(response:AgentQuestionResponse){try{if(applicationQuestions.current?.current()?.id===response.requestId){await applicationQuestions.current.respond(response);return;}const choice=response.answers.map(a=>agentQuestion?.questions.find(q=>q.id===a.questionId)?.options?.find(o=>o.id===a.optionId)?.label??a.text??'').join('');const kind=applicationReportIntent(choice);if(kind&&agentQuestion?.questions.some(q=>/查看|核对|待处理/.test(q.prompt)))reportChoice.current=kind;await api.respondAgentQuestion(response);}catch(error){notify(errorText(error),true);throw error;}}
   async function runAgent(input: string) {
     if (!canSubmitComposer(input, !!chatRef.current.active)) return;
+    const reportIntent=applicationReportIntent(input);if(reportIntent){dispatchChat({type:'draft',text:''});dispatchChat({type:'application-messages',messages:[{id:'report-request-'+crypto.randomUUID(),role:'user',text:input}]});await showApplicationReport(reportIntent);return;}
     const requestId = crypto.randomUUID();
     dispatchChat({ type: 'start', requestId, input, startedAt: Date.now() });
     try {
@@ -144,6 +173,7 @@ export function App() {
       const failure = result.events.findLast(event => event.taskId === result.taskId && event.type === 'task_error');
       dispatchChat({ type: 'finish', requestId, taskId: result.taskId, status: result.status, finalText: result.finalText,
         ...(typeof failure?.data.message === 'string' ? { error: errorText(failure.data.message) } : {}) });
+      if(reportChoice.current){const kind=reportChoice.current;reportChoice.current=undefined;await showApplicationReport(kind);}
     } catch (error) {
       dispatchChat({ type: 'finish', requestId, status: 'failed', finalText: '', error: errorText(error) });
     }
@@ -161,7 +191,7 @@ export function App() {
   const isApplicationSpace = ['browser', 'agent', 'apply', 'telemetry'].includes(page);
   const currentPage = pages.find(item => item.id === page)!;
   const context: Workspace = {
-    api, state, sources, browser, model, agentBusy,agentQuestion,answerAgentQuestion, messages, events, streamText, overlayOpen: !!overlay || onboardingDialogOpen, browserFocusMode, toggleBrowserFocus,
+    api, state, sources, browser, model, agentBusy,agentQuestion,answerAgentQuestion,askApplicationQuestion:typeof api.respondAgentQuestion==='function'?(...args)=>applicationQuestions.current!.ask(...args):undefined,cancelApplicationQuestion:()=>applicationQuestions.current?.cancel(),currentApplicationReport:reports.current.get(reportKey({profileVersion:state.profile.version,tabId:browser.activeTabId??'legacy',documentRevision:browser.documentRevision??0,url:browser.url})),locateApplicationReview,recordApplicationReport,getApplicationReport:context=>reports.current.get(reportKey(context)),showApplicationReport, messages, events, streamText, overlayOpen: !!overlay || onboardingDialogOpen, browserFocusMode, toggleBrowserFocus,
     composerDraft: chat.composerDraft, setComposerDraft: text => dispatchChat({ type: 'draft', text }), restoreAgentRequest,
     formPreview, setFormPreview,
     setState, setBrowser, setModel, navigate: next => { if (next === 'profile') setFocusedProfile(false); setPage(next); }, openBrowser, notify, runAgent,

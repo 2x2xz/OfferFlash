@@ -6,7 +6,7 @@ import { SpeedsterTrack, type FieldCompanionMotionOptions } from './SpeedsterTra
 import './AgentCompanion.css';
 
 export interface AgentCompanionProps extends CompanionProgress {
-  status: CompanionStatus; message?: string;
+  status: CompanionStatus; message?: string; title?:string;
   retry?: { attempt: number; maxAttempts: number };
   queue?: { completed: number; total: number };
   action?: { label: string; onClick: () => void; disabled?: boolean };
@@ -19,7 +19,7 @@ function readPreferences(): CompanionPreferences {
   try { return companionPreferences(JSON.parse(localStorage.getItem(preferenceKey) ?? 'null')); } catch { return companionPreferences(null); }
 }
 /** Mount in normal layout above the native browser holder, never as an overlay over WebContentsView. */
-export function AgentCompanion({ status, message, verifiedCount, totalCount, pendingCount, retry, queue, action, onStop, stopDisabled, runKey, motionAllowed = true, controlsLocked = false, onMotionOptions }: AgentCompanionProps) {
+export function AgentCompanion({ status, message, title, verifiedCount, totalCount, pendingCount, retry, queue, action, onStop, stopDisabled, runKey, motionAllowed = true, controlsLocked = false, onMotionOptions }: AgentCompanionProps) {
   const [preferences, setPreferences] = useState(readPreferences);
   const [systemReduced, setSystemReduced] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [settings, setSettings] = useState(false);
@@ -42,10 +42,10 @@ export function AgentCompanion({ status, message, verifiedCount, totalCount, pen
   return <section className={`agent-companion${preferences.collapsed ? ' is-collapsed' : ''}${active ? ' is-working' : ''}${reducedMotion ? ' reduce-motion' : ''}`}
     data-testid="agent-companion" data-status={status} data-muted={preferences.muted} aria-label="申请小助手">
     <div className="agent-companion-content" aria-live={preferences.muted ? 'off' : 'polite'} aria-atomic="true" data-testid="companion-live">
-      <div className="agent-companion-heading"><strong>{COMPANION_STATUS_LABELS[status]}</strong>{retryLabel && <small>{retryLabel}</small>}{queueLabel && <small>{queueLabel}</small>}</div>
+      <div className="agent-companion-heading"><strong>{title??COMPANION_STATUS_LABELS[status]}</strong>{retryLabel && <small>{retryLabel}</small>}{queueLabel && <small>{queueLabel}</small>}</div>
       <p data-testid="companion-message" title={message || COMPANION_STATUS_HINTS[status]}>{preferences.collapsed ? progress.label : message || COMPANION_STATUS_HINTS[status]}</p>
       <div className="agent-companion-meter" data-testid="companion-progress" data-determinate={progress.percent !== undefined}>
-        {progress.percent !== undefined ? <progress aria-label="已核实字段进度" value={progress.verified} max={progress.total} /> : <span className={`companion-activity-track${active ? ' active' : ''}`} aria-hidden="true"><i /></span>}
+        {!active?null:progress.percent !== undefined ? <progress aria-label="已核实字段进度" value={progress.verified} max={progress.total} /> : <span className={`companion-activity-track${active ? ' active' : ''}`} aria-hidden="true"><i /></span>}
         <span>{progress.label}{progress.pending !== undefined && progress.pending > 0 ? ` · 待你处理 ${progress.pending} 项` : ''}</span>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import type {Locator,ElementHandle,JSHandle} from 'playwright-core';
+import type {Locator,ElementHandle,JSHandle,Request,Response} from 'playwright-core';
 import {displayedFactMatches,optionMatchesFact,type ApplicationFact} from '../../forms/src/application-facts.js';
 import {OWNED_SELECT_HELPERS} from './select-shape.js';
 
@@ -6,11 +6,15 @@ export type OwnedSelectFact=Pick<ApplicationFact,'kind'|'value'>;
 export type OwnedSelectContext={label:string};
 export type OwnedSelectCommit={value:string;source:string;committed:boolean};
 export type OwnedSelectOption={ref:string;label:string;aliases:string[];selected:boolean};
-export type OwnedSelectRead={options:OwnedSelectOption[];committed:OwnedSelectCommit;open:boolean;truncated:boolean;canCreate?:{ref:string;label:string}};
+export type OwnedSelectNavigation={ref:string;role:'tab';label:string;selected:boolean};
+export type OwnedSelectRead={options:OwnedSelectOption[];committed:OwnedSelectCommit;open:boolean;truncated:boolean;canCreate?:{ref:string;label:string};loading?:boolean;queryState?:'pending'|'settled'|'unknown'|'failed'};
 export interface OwnedSelectController{
  open(query?:string):Promise<OwnedSelectRead>;
  query(value:string):Promise<OwnedSelectRead>;
  read():Promise<OwnedSelectRead>;
+ waitForOptions(fact?:OwnedSelectFact,timeoutMs?:number):Promise<OwnedSelectRead>;
+ inspectNavigation():Promise<OwnedSelectNavigation[]>;
+ navigate(ref:string,checkUnchanged:()=>Promise<void>):Promise<void>;
  choose(ref:string,fact:OwnedSelectFact,checkUnchanged?:()=>Promise<void>):Promise<OwnedSelectCommit>;
  choosePath(labels:string[],checkUnchanged?:()=>Promise<void>):Promise<OwnedSelectCommit>;
  chooseObserved(ref:string,checkUnchanged?:()=>Promise<void>):Promise<OwnedSelectCommit>;
@@ -46,11 +50,12 @@ const newlyOpenedMenus=new Function('e','before',OWNED_SELECT_HELPERS+String.raw
 const locateMenus=new Function('scope','target',OWNED_SELECT_HELPERS+'return selectPopupRoots(scope,target).filter(selectPopupRendered);') as (scope:Element,target:Element)=>Element[];
 const inspectOptions=new Function('menu','selector',OWNED_SELECT_HELPERS+String.raw`
  const all=Array.from(menu.querySelectorAll(selector)).slice(0,1600);
+ const capture=result=>({...result,nodes:result.options.map(entry=>all[entry.index])});
  const category=menu.matches('.constant-main-selector-container')?menu:menu.querySelector('.constant-main-selector-container');
- if(selectSingleCategory(category))return {options:all.flatMap((e,index)=>{
+ if(selectSingleCategory(category))return capture({options:all.flatMap((e,index)=>{
   if(!e.matches('.list-item-container')||!selectVisible(e)||e.closest('.right-container')||e.matches('.disabled,[aria-disabled="true"]'))return [];
   const label=selectText(e.querySelector('.item-text-label'));return label?[{index,label,aliases:[label],selected:!!e.querySelector('.RadioChecked'),explicit:true,descendants:[]}]:[];
- }),truncated:!!category.querySelector('.list-data-container [style*="overflow"]')};
+ }),truncated:!!category.querySelector('.list-data-container [style*="overflow"]')});
  const candidates=all.flatMap((e,index)=>{
   const button=e.closest('button'),labelOwner=e.closest('label');
   if(!selectVisible(e)||e.matches('[disabled],[aria-disabled="true"]')||e.closest('a[href]')||labelOwner&&menu.contains(labelOwner)||button&&!(button===e&&e.matches('[role="option"][type="button"]'))||e.querySelector('input,textarea,select,button,a[href]'))return [];
@@ -64,11 +69,11 @@ const inspectOptions=new Function('menu','selector',OWNED_SELECT_HELPERS+String.
  // Prefer semantic option rows. For div/span menus keep the largest text row
 // whose children are aliases, and exclude list-wide container aggregates.
  const semantic=candidates.filter(c=>c.explicit);
- if(semantic.length)return {options:semantic,truncated:all.length>=1600};
+ if(semantic.length)return capture({options:semantic,truncated:all.length>=1600});
  const bilingual=candidates.filter(c=>c.aliases.length>1);
  const rows=candidates.filter(c=>c.descendants.length===0||bilingual.includes(c));
- return {options:rows.filter(c=>!rows.some(parent=>parent!==c&&parent.descendants.includes(c.index))),truncated:all.length>=1600};
-`) as (menu:Element,selector:string)=>{options:Array<{index:number;label:string;aliases:string[];selected:boolean;explicit:boolean;descendants:number[]}>;truncated:boolean};
+ return capture({options:rows.filter(c=>!rows.some(parent=>parent!==c&&parent.descendants.includes(c.index))),truncated:all.length>=1600});
+`) as (menu:Element,selector:string)=>{options:Array<{index:number;label:string;aliases:string[];selected:boolean;explicit:boolean;descendants:number[]}>;truncated:boolean;nodes:Element[]};
 
 export function ownedOptionMatches(fact:OwnedSelectFact,label:string):boolean{
  if(fact.kind==='yearPart')return /^\d{4}$/.test(fact.value)&&new RegExp('^'+fact.value+'年?$').test(label.trim());
@@ -81,6 +86,9 @@ type CreateEntry={ref:string;label:string;node:ElementHandle<Element>;menu:Eleme
 const createEntryLabel=/^(?:add\s+(?:the\s+)?full\s+name(?:\s+of\s+.{1,100})?|(?:add|create)\s+(?:a\s+|new\s+)?custom\s+option|添加(?:(?:学校|院校|专业)?(?:完整名称|全称)|自定义选项)|输入(?:完整名称|全称))$/iu;
 const createConfirmLabel=/^(?:add|create|添加|新增|确定|确认)$/iu;
 const pause=(ms:number)=>new Promise(resolve=>setTimeout(resolve,ms));
+const optionLoading=/^(?:加载中(?:[.。…]+)?|正在加载(?:[.。…]+)?|搜索中(?:[.。…]+)?|loading(?:\s+(?:options|results))?[. …]*|searching[. …]*)$/i;
+const optionPlaceholder=/^(?:暂无选项|暂无数据|没有找到学校[？?]?|没有找到结果[？?]?|无匹配(?:项|结果)?|no\s+(?:options|results|matches)(?:\s+found)?[.!]?)$/i;
+const optionSignature=(snapshot:OwnedSelectRead)=>JSON.stringify([snapshot.options.map(option=>option.aliases),snapshot.canCreate?.label,!!snapshot.loading]);
 let controllerSequence=0;
 
 /** One target-bound dropdown transaction, reusable for every ordinary field.
@@ -93,8 +101,17 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
  const scopeHandle=await target.evaluateHandle(locateScope) as JSHandle<Element|null>;
  let scope=scopeHandle.asElement();if(!scope){await scopeHandle.dispose();await target.dispose();throw Error('OWNED_SELECT_UNAVAILABLE');}
  const signature=await target.evaluate(e=>({id:e.id,role:e.getAttribute('role'),tag:e.tagName,type:e.getAttribute('type'),label:e.getAttribute('aria-label')}));
+ const ownerFrame=await target.ownerFrame(),ownerPage=ownerFrame?.page();
+ type QueryActivity={started:number;lastNetwork:number;lastDOM:number;signature:string;changed:boolean;sawRequest:boolean;sawLoading:boolean;failed:boolean;pending:Set<Request>;kind:'open'|'query'};
+ let queryActivity:QueryActivity|undefined;
+ // Frame-scoped XHR/fetch metadata only. No URL/header/body/credential capture.
+ const onRequest=(request:Request)=>{if(!queryActivity||!['xhr','fetch'].includes(request.resourceType()))return;try{if(request.frame()!==ownerFrame)return;}catch{return;}queryActivity.pending.add(request);queryActivity.sawRequest=true;queryActivity.lastNetwork=Date.now();};
+ const onResponse=(response:Response)=>{if(queryActivity?.pending.has(response.request())&&response.status()>=400)queryActivity.failed=true;};
+ const finishRequest=(request:Request)=>{if(queryActivity?.pending.delete(request)){queryActivity.lastNetwork=Date.now();if(request.failure())queryActivity.failed=true;}};
+ ownerPage?.on('request',onRequest);ownerPage?.on('response',onResponse);ownerPage?.on('requestfinished',finishRequest);ownerPage?.on('requestfailed',finishRequest);
+ const beginActivity=(snapshot:OwnedSelectRead,kind:'open'|'query')=>{const now=Date.now();queryActivity={started:now,lastNetwork:now,lastDOM:now,signature:optionSignature(snapshot),changed:false,sawRequest:false,sawLoading:false,failed:false,pending:new Set(queryActivity?.pending),kind};};
  const referencePrefix='owned-'+(++controllerSequence),identityRegistry=await target.evaluateHandle(()=>({ids:new WeakMap<Element,number>(),next:0}));
- const reference=async(element:ElementHandle<Element>,kind:'option'|'create')=>referencePrefix+'-'+kind+'-'+await element.evaluate((e,registry)=>{let id=registry.ids.get(e);if(id===undefined){id=registry.next++;registry.ids.set(e,id);}return id;},identityRegistry);
+ const reference=async(element:ElementHandle<Element>,kind:'option'|'create'|'navigation')=>referencePrefix+'-'+kind+'-'+await element.evaluate((e,registry)=>{let id=registry.ids.get(e);if(id===undefined){id=registry.next++;registry.ids.set(e,id);}return id;},identityRegistry);
  let options:ObservedOption[]=[],menus:ElementHandle<Element>[]=[],disposed=false,opened=false,createEntry:CreateEntry|undefined;
  let popupBaseline:JSHandle<Set<Element>>|undefined,boundPopup:ElementHandle<Element>|undefined,popupBindingUntil=0,closingUntil=0;
  const disposeOptions=async()=>{await createEntry?.node.dispose().catch(()=>{});createEntry=undefined;for(const option of options)await option.node.dispose().catch(()=>{});options=[];for(const menu of menus)await menu.dispose().catch(()=>{});menus=[];};
@@ -140,10 +157,12 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
   if(await target!.evaluate(e=>e.tagName==='SELECT')){
    const handles=await target!.$$('option');for(const h of handles){const value=await h.evaluate((e:any)=>({label:(e.textContent??'').trim(),selected:!!e.selected,disabled:!!e.disabled}));if(value.disabled){await h.dispose();continue;}options.push({ref:await reference(h,'option'),label:value.label,aliases:[value.label],selected:value.selected,node:h,menu:target!});}
   }else for(const menu of menus){
-   const snapshot=await menu.evaluate(inspectOptions,optionSelector);truncated ||=snapshot.truncated;
-   const all=await menu.$$(optionSelector),keep=new Set<number>();
-   for(const entry of snapshot.options){if(options.length>=200){truncated=true;break;}const handle=all[entry.index];if(!handle)throw Error('OWNED_SELECT_CHANGED');keep.add(entry.index);options.push({ref:await reference(handle,'option'),label:entry.label,aliases:entry.aliases,selected:entry.selected,node:handle,menu});}
-   for(let index=0;index<all.length;index++)if(!keep.has(index))await all[index]!.dispose();
+   // Capture labels AND their actual nodes in one synchronous page turn. A
+   // second DOM query by old ordinal can race an asynchronous list replacement.
+   const captured=await menu.evaluateHandle(inspectOptions,optionSelector),snapshot=await captured.evaluate(({nodes,...data})=>data);truncated ||=snapshot.truncated;
+   const nodes=await captured.getProperty('nodes'),properties=await nodes.getProperties(),keep=new Set<number>();
+   try{for(let index=0;index<snapshot.options.length;index++){if(options.length>=200){truncated=true;break;}const entry=snapshot.options[index]!,handle=properties.get(String(index))?.asElement();if(!handle)throw Object.assign(Error('OWNED_SELECT_CHANGED'),{controlDiagnostic:{stage:'option-capture'}});keep.add(index);options.push({ref:await reference(handle,'option'),label:entry.label,aliases:entry.aliases,selected:entry.selected,node:handle,menu});}}
+   finally{for(const[key,handle]of properties)if(!keep.has(Number(key)))await handle.dispose();await nodes.dispose();await captured.dispose();}
   }
   const createEntries:CreateEntry[]=[];
   for(const menu of menus){const buttons=await menu.$$('button[type="button"],[role="button"]');
@@ -152,9 +171,33 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
    }
   }
   if(createEntries.length===1)createEntry=createEntries[0];else for(const entry of createEntries)await entry.node.dispose();
+  let loading=options.some(option=>optionLoading.test(option.label));
+  for(const menu of menus)loading ||=await menu.evaluate(e=>[e,...Array.from(e.querySelectorAll('[aria-busy="true"],[role="progressbar"]'))].some(node=>{const r=node.getBoundingClientRect();return node.matches('[aria-busy="true"],[role="progressbar"]')&&!!r.width&&!!r.height;}));
+  const meaningful:ObservedOption[]=[];for(const option of options){if(optionLoading.test(option.label)||optionPlaceholder.test(option.label))await option.node.dispose();else meaningful.push(option);}options=meaningful;
   const committed=await target!.evaluate(readCommit);
   const expanded=await target!.evaluate(e=>e.getAttribute('aria-expanded')==='true'||e.querySelector('[aria-expanded="true"]')!==null);
-  return {options:options.map(({node,menu,...value})=>value),committed,open:expanded||menus.length>0,truncated,canCreate:createEntry?{ref:createEntry.ref,label:createEntry.label}:undefined};
+  const result:OwnedSelectRead={options:options.map(({node,menu,...value})=>value),committed,open:expanded||menus.length>0,truncated,canCreate:createEntry?{ref:createEntry.ref,label:createEntry.label}:undefined,loading};
+  if(queryActivity){const now=Date.now(),shape=optionSignature(result);if(shape!==queryActivity.signature){queryActivity.changed=true;queryActivity.signature=shape;queryActivity.lastDOM=now;}queryActivity.sawLoading ||=loading;
+   result.queryState=loading||queryActivity.pending.size||now-queryActivity.lastDOM<200||now-queryActivity.lastNetwork<200?'pending':queryActivity.failed?'failed':(queryActivity.sawRequest||queryActivity.sawLoading||queryActivity.changed)&&now-queryActivity.started>=(queryActivity.kind==='query'?1200:200)?'settled':'unknown';
+  }return result;
+ };
+ const waitForOptions=async(fact?:OwnedSelectFact,timeoutMs=15000,explicitCreate=false):Promise<OwnedSelectRead>=>{
+  if(!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>15000)throw Error('INVALID_SELECT_QUERY');
+  const until=Date.now()+timeoutMs;
+  do{await valid();const result=await read(),matches=fact?result.options.filter(option=>option.aliases.some(label=>ownedOptionMatches(fact,label))):[];
+   if(matches.length>1)throw Error('OWNED_OPTION_AMBIGUOUS');
+   // A create entry is never evidence that an asynchronous search finished.
+   if(!result.loading&&!queryActivity?.pending.size&&matches.length===1&&(!queryActivity||Date.now()-queryActivity.lastDOM>=200))return result;
+   if(result.queryState==='failed')throw Error('OWNED_OPTIONS_REQUEST_FAILED');
+   if(!result.loading&&(!queryActivity||result.queryState==='settled'))return result;
+   // An explicit create tool may serve a synchronous custom-value control.
+   // Automatic lookup never uses this exception; an observed request/loading
+   // transition must still finish, and no create bypasses failure or activity.
+   if(explicitCreate&&result.canCreate&&!result.loading&&queryActivity&&!queryActivity.sawRequest&&!queryActivity.sawLoading&&!queryActivity.pending.size&&Date.now()-queryActivity.started>=1500&&Date.now()-queryActivity.lastDOM>=200)return result;
+   if(!result.open)throw Error('OWNED_SELECT_CLOSED');
+   if(Date.now()>=until)throw Object.assign(Error('OWNED_OPTIONS_NOT_SETTLED'),{controlDiagnostic:{stage:'options-wait',loading:result.loading,queryState:result.queryState,pendingRequests:queryActivity?.pending.size??0},selectionAttempted:false});
+   await pause(100);
+  }while(true);
  };
  const close=async():Promise<{closed:boolean}>=>{
   if(disposed)return{closed:true};
@@ -225,8 +268,9 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
  };
  const performQuery=async(value:string,control:ElementHandle<Element>):Promise<OwnedSelectRead>=>{
   await valid();const current=await queryControl();
-  try{if(!current||!await current.evaluate((e,expected)=>e===expected,control))throw Error('OWNED_SELECT_CHANGED');}finally{await current?.dispose();}
-  closingUntil=0;popupBindingUntil=Date.now()+2500;await nativeAction('query',control,()=>control.fill(value,{timeout:2500}));opened=true;await valid();return await read();
+  try{if(!current||!await current.evaluate((e,expected)=>e===expected,control))throw Object.assign(Error('OWNED_SELECT_CHANGED'),{controlDiagnostic:{stage:'query-control-replaced'}});}finally{await current?.dispose();}
+  const before=await read();beginActivity(before,'query');
+  closingUntil=0;popupBindingUntil=Date.now()+15000;await nativeAction('query',control,()=>control.fill(value,{timeout:2500}));opened=true;await valid();return await read();
  };
  const query=async(value:string):Promise<OwnedSelectRead>=>{
   let input:JSHandle<Element|null>|undefined;
@@ -237,6 +281,7 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
  };
  const open=async(value?:string):Promise<OwnedSelectRead>=>{
   try{await valid();closingUntil=0;const initial=await read();if(!initial.open&&await target!.evaluate(e=>e.tagName!=='SELECT')){
+    beginActivity(initial,'open');
     // Open in the middle of the real viewport so fixed navigation bars do
     // not cover the option list. Scrolling cannot authorize a write.
     await target!.evaluate(element=>{
@@ -350,10 +395,17 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
  };
  const choose=async(ref:string,fact:OwnedSelectFact,checkUnchanged:()=>Promise<void>=async()=>{}):Promise<OwnedSelectCommit>=>{
   try{
-   await valid();const option=options.find(o=>o.ref===ref);if(!option)throw Error('OWNED_OPTION_REFERENCE_EXPIRED');
+   await valid();let option=options.find(o=>o.ref===ref);if(!option)throw Error('OWNED_OPTION_REFERENCE_EXPIRED');
    if(!option.aliases.some(label=>ownedOptionMatches(fact,label)))throw Error('OPTION_FACT_MISMATCH');
-   const observed=await option.node.evaluate((e,menu)=>{const button=e.closest('button'),native=e.tagName==='OPTION'&&menu.tagName==='SELECT',labelOwner=e.closest('label');return {valid:e.isConnected&&menu.isConnected&&menu.contains(e)&&!e.closest('a[href],[disabled],[aria-disabled="true"]')&&(native||(!labelOwner||!menu.contains(labelOwner))&&(!button||button===e&&e.matches('[role="option"][type="button"]'))),label:((e as HTMLElement).innerText||e.textContent||'').replace(/\s+/g,' ').trim()};},option.menu);
-   if(!observed.valid||observed.label!==option.label)throw Error('OWNED_SELECT_CHANGED');
+   for(let refresh=0;refresh<2;refresh++){
+    const observed=await option.node.evaluate((e,menu)=>{const button=e.closest('button'),native=e.tagName==='OPTION'&&menu.tagName==='SELECT',labelOwner=e.closest('label');return {valid:e.isConnected&&menu.isConnected&&menu.contains(e)&&!e.closest('a[href],[disabled],[aria-disabled="true"]')&&(native||(!labelOwner||!menu.contains(labelOwner))&&(!button||button===e&&e.matches('[role="option"][type="button"]'))),label:((e as HTMLElement).innerText||e.textContent||'').replace(/\s+/g,' ').trim()};},option.menu);
+    if(observed.valid&&observed.label===option.label)break;
+    if(refresh)throw Object.assign(Error('OWNED_SELECT_CHANGED'),{controlDiagnostic:{stage:'option-snapshot',refreshExhausted:true}});
+    // No click has happened: refresh once inside the same still-bound control.
+    // Never repeat an attempted click or bypass unknown-write protection.
+    await checkUnchanged();await valid();const next=await waitForOptions(fact),matches=next.options.filter(entry=>entry.aliases.some(label=>ownedOptionMatches(fact,label)));
+    if(matches.length!==1)throw Error(matches.length?'OWNED_OPTION_AMBIGUOUS':'OWNED_OPTION_NOT_FOUND');option=options.find(entry=>entry.ref===matches[0]!.ref)!;
+   }
    await checkUnchanged();await valid();
    let nativeProof:{value:string}|undefined;
    if(await target!.evaluate(e=>e.tagName==='SELECT')){
@@ -383,6 +435,16 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
  const create=async(fact:OwnedSelectFact,checkUnchanged:()=>Promise<void>=async()=>{}):Promise<OwnedSelectCommit>=>{
   let createStage='entry';
   try{
+   await valid();const preflight=await read();
+   if(!preflight.canCreate&&!preflight.options.some(option=>option.aliases.some(label=>ownedOptionMatches(fact,label)))){
+    if(preflight.loading||queryActivity?.pending.size)throw Error('OWNED_OPTIONS_NOT_SETTLED');
+    throw Error('EXPLICIT_CREATE_OPTION_REQUIRED');
+   }
+   const initialQuery=await target!.evaluate(e=>{const input=e.matches('input,textarea')?e:e.querySelector('input:not([type="hidden"]),textarea');return input?(input as HTMLInputElement).value:null;});
+   if(initialQuery!==fact.value)throw Error('CREATE_QUERY_FACT_MISMATCH');
+   const settled=await waitForOptions(fact,15000,true);
+   const existing=settled.options.filter(option=>option.aliases.some(label=>ownedOptionMatches(fact,label)));
+   if(existing.length===1)return await choose(existing[0]!.ref,fact,checkUnchanged);
    await valid();const entry=createEntry;if(!entry)throw Error('EXPLICIT_CREATE_OPTION_REQUIRED');
    const query=await target!.evaluate(e=>{const input=e.matches('input,textarea')?e:e.querySelector('input:not([type="hidden"]),textarea');return input?(input as HTMLInputElement).value:null;});
    if(query!==fact.value)throw Error('CREATE_QUERY_FACT_MISMATCH');
@@ -444,7 +506,39 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
   do{await pause(60);result=await read();if(result.options.map(option=>option.label).join('|')!==before)break;}while(Date.now()<until);
   return result;
  };
- return {open,query,read,choose,chooseObserved,choosePath,create,scroll,close,dispose:async()=>{if(disposed)return;await close();disposed=true;await disposeOptions();await popupBaseline?.dispose();await boundPopup?.dispose();await identityRegistry.dispose();await scope!.dispose();await target!.dispose();}};
+ // Experimental callers may explore tabs, but only inside the already bound
+ // popup. No page-wide buttons, selectors, coordinates or confirm actions.
+ let navigation:Array<OwnedSelectNavigation&{node:ElementHandle<Element>;menu:ElementHandle<Element>}>=[];
+ const clearNavigation=async()=>{for(const entry of navigation){await entry.node.dispose();await entry.menu.dispose();}navigation=[];};
+ const navigationState=(e:Element,menu:Element)=>{
+  const box=e.getBoundingClientRect(),label=(e.getAttribute('aria-label')||(e as HTMLElement).innerText||'').replace(/\s+/g,' ').trim();
+  const panelId=e.getAttribute('aria-controls'),panel=panelId&&e.ownerDocument.getElementById(panelId);
+  const safe=e.isConnected&&menu.isConnected&&menu.contains(e)&&e.getAttribute('role')==='tab'&&!!panel&&menu.contains(panel)&&Array.from(e.ownerDocument.querySelectorAll('[id]')).filter(node=>node.id===panelId).length===1&&box.width>0&&box.height>0&&!e.closest('a[href],[disabled],[aria-disabled="true"]')&&!e.querySelector('a[href],button,input,textarea,select,[role="button"]')&&!(e.tagName==='BUTTON'&&(e as HTMLButtonElement).type!=='button')&&label.length>0&&label.length<=80&&!/提交|投递|发送|支付|删除|同意|声明|隐私|协议|submit|apply|send|delete|remove|agree|consent|privacy/i.test(label);
+  return{safe,label,selected:e.getAttribute('aria-selected')==='true'};
+ };
+ const inspectNavigation=async():Promise<OwnedSelectNavigation[]>=>{
+  await clearNavigation();await refreshMenus();
+  if(menus.length!==1)return [];
+  const menu=menus[0]!;
+  const nodes=await menu.$$('[role="tab"]');
+  for(const node of nodes){
+   if(navigation.length>=30){await node.dispose();continue;}
+   const state=await node.evaluate(navigationState,menu);
+   if(state.safe){const ownedMenu=(await menu.evaluateHandle(e=>e)).asElement()!;navigation.push({ref:await reference(node,'navigation'),role:'tab',label:state.label,selected:state.selected,node,menu:ownedMenu});}else await node.dispose();
+  }
+  return navigation.map(({node,menu,...entry})=>entry);
+ };
+ const navigate=async(ref:string,checkUnchanged:()=>Promise<void>)=>{
+  await valid();const entry=navigation.find(entry=>entry.ref===ref);if(!entry)throw Error('OWNED_NAVIGATION_EXPIRED');
+  const state=await entry.node.evaluate(navigationState,entry.menu);
+  if(!state.safe||state.label!==entry.label||state.selected)throw Error('OWNED_NAVIGATION_CHANGED');
+  const before=await target!.evaluate(readCommit);await checkUnchanged();await valid();
+  await nativeAction('navigate-tab',entry.node,()=>entry.node.click({timeout:2000}));
+  await valid();await checkUnchanged();const after=await target!.evaluate(readCommit);
+  if(after.value!==before.value||after.committed!==before.committed)throw Error('NAVIGATION_CHANGED_VALUE');
+  await clearNavigation();
+ };
+ return {open,query,read,waitForOptions,inspectNavigation,navigate,choose,chooseObserved,choosePath,create,scroll,close,dispose:async()=>{if(disposed)return;try{await close();}finally{disposed=true;ownerPage?.off('request',onRequest);ownerPage?.off('response',onResponse);ownerPage?.off('requestfinished',finishRequest);ownerPage?.off('requestfailed',finishRequest);await clearNavigation();await disposeOptions();await popupBaseline?.dispose();await boundPopup?.dispose();await identityRegistry.dispose();await scope!.dispose();await target!.dispose();}}};
 }
 
 /** Compatibility entry point used by group filling; the same engine backs the
@@ -453,11 +547,11 @@ export async function createOwnedSelectController(node:Locator,guard:()=>Promise
 export async function fillOwnedSelect(node:Locator,fact:ApplicationFact,guard:()=>Promise<void>,checkUnchanged:()=>Promise<void>):Promise<void>{
  const controller=await createOwnedSelectController(node,guard);
  try{
-  let snapshot=await controller.open(fact.value);const deadline=Date.now()+2500;
-  while(true){const matches=snapshot.options.filter(o=>o.aliases.some(label=>ownedOptionMatches(fact,label)));
+  await controller.open(fact.value);const snapshot=await controller.waitForOptions(fact);
+  {const matches=snapshot.options.filter(o=>o.aliases.some(label=>ownedOptionMatches(fact,label)));
    if(matches.length>1)throw Error('OWNED_OPTION_AMBIGUOUS');
    if(matches.length===1){await controller.choose(matches[0]!.ref,fact,checkUnchanged);return;}
-   if(Date.now()>=deadline){if(snapshot.canCreate){await controller.create(fact,checkUnchanged);return;}throw Error('OWNED_OPTION_NOT_FOUND');}await pause(100);snapshot=await controller.read();
+   if(snapshot.canCreate){await controller.create(fact,checkUnchanged);return;}throw Error('OWNED_OPTION_NOT_FOUND');
   }
  }finally{await controller.dispose();}
 }

@@ -1,0 +1,6 @@
+import {build} from 'esbuild';import {mkdir,mkdtemp,writeFile} from 'node:fs/promises';import {resolve,join} from 'node:path';import {spawn} from 'node:child_process';
+await mkdir(resolve('.backups'),{recursive:true});const directory=await mkdtemp(resolve('.backups/project-duty-check-')),entry=join(directory,'check.mjs'),main=join(directory,'main.cjs');
+await build({entryPoints:[resolve('tests/fixtures/project-duty-repair-main.ts')],outfile:entry,platform:'node',format:'esm',bundle:true,packages:'external',sourcemap:true,keepNames:false});
+await writeFile(main,'process.env.OFFERFLASH_DUTY_REPAIR_DIR='+JSON.stringify(directory)+';import(require("node:url").pathToFileURL('+JSON.stringify(entry)+').href).catch(error=>{console.error(error);require("electron").app.exit(1);});');
+const child=spawn(resolve('node_modules/.bin/electron'),[main],{stdio:['ignore','pipe','pipe']});let stderr='';child.stderr.on('data',data=>stderr+=data);child.stdout.on('data',data=>process.stdout.write(data));
+const timer=setTimeout(()=>child.kill('SIGTERM'),60000);const code=await new Promise((done,reject)=>{child.once('error',reject);child.once('exit',done);});clearTimeout(timer);if(code!==0){process.stderr.write(stderr);process.exitCode=1;}console.log(JSON.stringify({directory,exitCode:code,normalAppTouched:false,paidRequests:0}));

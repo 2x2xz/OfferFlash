@@ -33,11 +33,11 @@ test('production provider synchronous 20-request budget error settles the real P
  }finally{await bounded(runtime.close(),'final close').catch(()=>{});provider.close();server.closeAllConnections();await new Promise<void>(done=>server.close(()=>done()));}
 });
 
-test('hidden production universal Agent returns its IPC receipt and releases busy state after provider budget error',async()=>{
+test('hidden production universal Agent returns its IPC receipt and releases busy state after decision budget error',async()=>{
  const directory=await mkdtemp(resolve('.backups/universal-settlement-test-')),module=join(directory,'engine.mjs'),main=join(directory,'main.cjs');
  await build({entryPoints:[resolve('tests/fixtures/universal-settlement-main.ts')],outfile:module,bundle:true,format:'esm',platform:'node',packages:'external'});
  await writeFile(main,"import(require('node:url').pathToFileURL("+JSON.stringify(module)+").href).catch(e=>{console.error(e);require('electron').app.exit(1)});");
  const output=await new Promise<string>((done,reject)=>{let output='';const child=spawn(resolve('node_modules/.bin/electron'),[main],{stdio:['ignore','pipe','pipe']});child.stdout.on('data',buffer=>output+=buffer);child.stderr.on('data',buffer=>output+=buffer);const timer=setTimeout(()=>{child.kill('SIGTERM');void writeFile(join(directory,'output.log'),output);reject(Error('Hidden settlement timeout\n'+output));},25000);child.once('error',reject);child.once('close',code=>{clearTimeout(timer);void writeFile(join(directory,'output.log'),output).then(()=>code===0?done(output):reject(Error(output)),reject);});});
  const line=output.split('\n').find(line=>line.includes('"universalBudgetSettlement":true'));assert.ok(line,output);const report=JSON.parse(line);
- assert.equal(report.ok,true);assert.equal(report.requests,20);assert.equal(report.status,'failed');assert.equal(report.hostBusy,false);assert.equal(report.rendererBusy,false);assert.equal(report.bridgeDetached,true);assert.equal(report.inputWrites,0);assert.equal(report.paidRequests,0);assert.equal(report.externalRequests,0);
+ assert.equal(report.ok,true);assert.equal(report.requests,2);assert.equal(report.status,'failed');assert.equal(report.hostBusy,false);assert.equal(report.rendererBusy,false);assert.equal(report.bridgeDetached,true);assert.equal(report.inputWrites,2);assert.equal(report.paidRequests,0);assert.equal(report.externalRequests,0);
 });

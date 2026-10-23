@@ -60,7 +60,7 @@ const domains:Record<string,RegExp>={fullName:/姓名|完整名字|\bfull.?name\
   selfEvaluation:/自我评价|自我介绍|个人评价|个人简介|self.?evaluation|self.?assessment|personal.statement|about.me/i,languagesSummary:/^语言能力$|^外语能力$|language.skills|language.abilit/i,softwareSummary:/熟用软件|熟悉软件|常用软件|software.skills|software.tools/i,awardsSummary:/所获荣誉|荣誉奖项|获奖情况|awards|honou?rs/i,
   title:/论文|标题|名称|publication|paper|title/i,authors:/作者|author/i,venue:/期刊|会议|venue|journal|conference/i,publicationDate:/发表|发布|publication|publish/i,doi:/doi/i,url:/链接|网址|作品|github|url|website|portfolio/i};
 export function protectedApplicationField(field:{label:string;section?:string;type:string}):boolean{return unsafe.test(field.label+' '+(field.section??''))||!!conditionalNameReview({label:field.label,section:field.section??''} as any);}
-export function factFitsField(fact:ApplicationFact,field:{label:string;section?:string;type:string}):boolean{
+export function factFitsField(fact:ApplicationFact,field:{label:string;section?:string;type:string;responsibilityKind?:'role'|'ambiguous'}):boolean{
   const label=field.label.replace(/[*✱＊:：]/g,'').trim(),shortLabel=label.split(/[（(]/u)[0]!.trim(),context=label+' '+(field.section??'');
   if(fact.record==='contact'&&fact.sourceRecordId==='application-setup'){
     if(/紧急|家属|家庭|父亲|母亲|配偶|证明人|推荐人|亲属信息|emergency|family|spouse|parent|referee/i.test(field.section??''))return false;
@@ -77,8 +77,12 @@ export function factFitsField(fact:ApplicationFact,field:{label:string;section?:
   }
   if(field.type==='checkbox')return fact.kind==='endDate'&&(fact.value==='至今'||/^\d{4}-\d{2}(?:-\d{2})?$/.test(fact.value))&&/^(?:至今|present)(?:\s*\/\s*(?:至今|present))?$/i.test(label)&&(fact.record.startsWith('internship-')&&/实习|internship|work.experience|employment/i.test(field.section??'')||fact.record.startsWith('project-')&&/项目|project/i.test(field.section??''));
   if(fact.kind==='endDate'&&fact.value==='至今')return field.type==='combobox'&&/结束|截止|end|until/i.test(label)&&(fact.record.startsWith('internship-')&&/实习|internship/i.test(field.section??'')||fact.record.startsWith('project-')&&/项目|project/i.test(field.section??''));
-  if(!domains[fact.kind]?.test(label))return false;
+  const shortProjectDuty=label==='职责'&&/项目|project/i.test(field.section??'');
+  if(shortProjectDuty?field.responsibilityKind!=='role'||fact.kind!=='role':!domains[fact.kind]?.test(label))return false;
   if(fact.kind==='description'&&/^项目职责$/i.test(label))return false;
+  // A named attribute is not prose about that attribute. A major name cannot
+  // become a confirmed major description merely because both contain "major".
+  if(['school','schoolEn','college','major','majorEn','organization','role','name','softwareName','awardName'].includes(fact.kind)&&/描述|说明|介绍|内容|description|details|summary/i.test(shortLabel))return false;
   if(['major','majorEn'].includes(fact.kind)&&/类型|类别|大类|门类|category|categor|family/i.test(label))return false;
   if(['school','schoolEn'].includes(fact.kind)&&/学院名称|所属学院|院系|faculty|department|school.of|college.of/i.test(label))return false;
   if(fact.kind==='school'&&/英文|english/i.test(label)||fact.kind==='major'&&/英文|english/i.test(label))return false;

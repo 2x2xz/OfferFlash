@@ -837,3 +837,13 @@ test('an external error cannot impersonate a trusted native guard by setting its
   assert.deepEqual(f.driver.getSummary().lastFailure, { operation: 'fill', reason: 'unclassified' });
   assert.doesNotMatch(JSON.stringify(f.driver.getSummary()), /injected-private-secret/u); assert.equal(f.events.length, 0); f.driver.dispose();
 });
+
+test('a fractional field center that rounds onto the viewport margin scrolls before any native click', async () => {
+  const f=fixture('text');f.field.bounds.y=677.51;
+  const approved=await planFor(f);await f.driver.start();
+  const result=await f.driver.fill(approved.step,approved.item,approved.plan);
+  assert.equal(result.expectedValue,'原创虚构大学');
+  assert.ok(f.events.some(event=>event.type==='mouseWheel'));
+  assert.ok(f.events.filter(event=>event.type==='mouseDown').every(event=>event.y!==undefined&&event.y>=2&&event.y<698));
+  assert.deepEqual(f.inserts,['原创虚构大学']);await f.driver.dispose();
+});

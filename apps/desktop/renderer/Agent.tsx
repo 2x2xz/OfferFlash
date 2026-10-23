@@ -1,3 +1,4 @@
+import {ApplicationReview} from './ApplicationReview.js';
 import {AgentQuestionPrompt} from './AgentQuestionPrompt.js';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, Bot, Copy, Globe, RotateCcw, Settings2, Sparkles, Square } from 'lucide-react';
@@ -11,7 +12,7 @@ import './AgentDock.css';
 
 export function AgentPage({ embedded = false, inputLocked = false, children }: { embedded?: boolean; inputLocked?: boolean; children?: ReactNode } = {}) {
   const { api, model, messages, events, streamText, agentBusy, runAgent, openModel, openBrowser, notify,
-    composerDraft, setComposerDraft, restoreAgentRequest, navigate,agentQuestion,answerAgentQuestion } = useWorkspace();
+    composerDraft, setComposerDraft, restoreAgentRequest, navigate,agentQuestion,answerAgentQuestion,cancelApplicationQuestion } = useWorkspace();
   const [cancelling, setCancelling] = useState(false); const [following, setFollowing] = useState(true);
   const interactionLocked = embedded && inputLocked;
   const body = useRef<HTMLDivElement>(null); const composer = useRef<HTMLTextAreaElement>(null);
@@ -54,7 +55,7 @@ export function AgentPage({ embedded = false, inputLocked = false, children }: {
   }
   async function cancel() {
     setCancelling(true);
-    try { await api.cancelAgent(); } catch (error) { notify(errorText(error), true); } finally { setCancelling(false); }
+    try { if(agentQuestion?.form&&cancelApplicationQuestion){cancelApplicationQuestion();await api.cancelUniversalFill?.();}else await api.cancelAgent(); } catch (error) { notify(errorText(error), true); } finally { setCancelling(false); }
   }
   async function copy(text: string) {
     try { await navigator.clipboard.writeText(text); notify('已复制文字。'); }
@@ -71,6 +72,7 @@ export function AgentPage({ embedded = false, inputLocked = false, children }: {
         {!embedded && <span>准备问题</span>}{(embedded ? dockStarters : starters).map(starter => <button type="button" className="quick-prompt" key={starter.label} disabled={interactionLocked||!!agentQuestion} onClick={() => prepareQuestion(starter.text)} aria-label={`准备问题：${starter.label}`}>{starter.label}</button>)}
         {embedded && <button type="button" className="quick-prompt" disabled={interactionLocked||!!agentQuestion} onClick={() => navigate('browser')} aria-label="打开网申页面"><Globe size={12} />打开网申</button>}
       </div>
+      {embedded&&<ApplicationReview/>}
       <div ref={body} className="chat-body" data-testid={embedded ? 'agent-dock-messages' : undefined} role="log" aria-label="对话记录" aria-live="off" onScroll={event => { const element = event.currentTarget; setFollowing(shouldFollowChatScroll(element.scrollHeight, element.scrollTop, element.clientHeight)); }}>
         {!messages.length && !agentBusy ? embedded ? <div className="agent-dock-intro"><p>{model.mode === 'demo' ? '一键填写在右侧；这里可查询已保存的岗位与进度。' : '选岗位、看进度，或说说你的下一步。'}</p></div> : <div className="chat-intro">
           <div className="assistant-mark"><Sparkles size={25} strokeWidth={1.5} /></div><h2>需要时，一起想下一步</h2>

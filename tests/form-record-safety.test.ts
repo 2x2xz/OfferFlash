@@ -11,7 +11,7 @@ const facts=applicationFacts(overrideProfile);
 const target={index:0,label:'项目职责',type:'textarea',section:'项目经历',group:'contact',identity:'role',value:'',editable:true,options:[]};
 const sessionFor=(field=target)=>{
  const session:any=Object.create(UniversalFormSession.prototype);
- Object.assign(session,{facts,view:{fields:[field],actions:[]},bindings:new Map(),recordCache:new Map(),semanticMappings:new Map(),pendingAddKinds:new Set(),addCounts:new Map()});
+ Object.assign(session,{answerContext:{answers:[]},facts,view:{fields:[field],actions:[]},bindings:new Map(),recordCache:new Map(),semanticMappings:new Map(),pendingAddKinds:new Set(),addCounts:new Map()});
  return session;
 };
 test('career fact resolution, semantic mapping and drafts reject an ungrouped career field',()=>{
@@ -84,4 +84,9 @@ test('missing day, absent referral and final declaration explain user action wit
  assert.match(session.manualReason({...target,label:'上述已知悉并确认',section:'',type:'checkbox'}),/自行阅读/);
  session.facts=[{ref:'date',record:'summary',kind:'endDate',label:'毕业年月',value:'2027-07'}];
  assert.match(session.manualReason({...target,label:'毕业时间',section:'',datePrecision:'day',type:'combobox'}),/只有月份/);
+});
+test('confirmed no awards covers a generic honors-and-awards section without inventing dates',()=>{
+ const session=sessionFor();session.setup={confirmedAt:'2026-10-23T00:00:00Z',value:{awards:'none'}};
+ assert.equal(session.noAwards({...target,label:'获奖时间',section:'荣誉奖励',value:''}),true);
+ assert.equal(session.noAwards({...target,label:'奖项名称',section:'荣誉奖励',value:'网站已有奖项'}),false);
 });

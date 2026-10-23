@@ -5,11 +5,12 @@ import {answerBankFieldAllowed} from './answer-bank.js';
 import type {QuestionDecision,ConfirmedAnswer} from '../../shared/src/application-assets.js';
 import type {ApplicationFact} from './application-facts.js';
 export interface UniversalAnswerContext {answers:ConfirmedAnswer[];decisions?:QuestionDecision[];applicationId?:string;demo?:boolean;}
-export interface UniversalQuestion {key:string;prompt:string;context:string;options?:string[];recordUnresolved?:true;legacyKeys?:string[];reusableKey?:string;}
+export interface UniversalQuestion {key:string;prompt:string;context:string;options?:string[];recordUnresolved?:true;legacyKeys?:string[];reusableKey?:string;answerFormat?:'date'|'month';}
 type QuestionField={label:string;section:string;type:string;editable:boolean;value:string;group?:string};
+export {validQuestionDate} from '../../shared/src/calendar-date.js';
 export function universalQuestion(field:QuestionField,url:string,record:string|undefined,facts:ApplicationFact[]):UniversalQuestion|undefined{
  if(!field.section&&/^keyword$/i.test(field.label))return;
- if(!answerBankFieldAllowed({...field,type:'text',value:''} as any)||!['text','textarea','select','combobox'].includes(field.type))return;
+ if(!answerBankFieldAllowed({...field,type:'text',value:''} as any)||!['text','textarea','select','combobox','date','month'].includes(field.type))return;
  const career=/教育|实习|项目|语言|软件|工具|荣誉|奖项|education|internship|employment|project|language|software|tools|awards?|honou?r/i.test(field.section);
  const unresolved=career&&!record;
  if(unresolved&&!/语言|软件|工具|荣誉|奖项|language|software|tools|awards?|honou?r/i.test(field.section))return; // Never share one GPA across unidentified education records.

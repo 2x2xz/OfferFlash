@@ -1,0 +1,161 @@
+{
+  "protocol": {
+    "id": "offerflash-portrait-diagnostic-v2",
+    "frozenOn": "2026-10-21",
+    "taskCount": 6,
+    "skins": [
+      "native",
+      "portal"
+    ],
+    "caseCount": 12,
+    "provenance": "Assistant-authored fictional diagnostic, not an employer website or a public benchmark.",
+    "modelRequestLimit": 20,
+    "requestScope": "One case/taskId, including continuations and any draft generation. No hidden secondary model requests.",
+    "executionDeadlineMs": 180000,
+    "changeProductionDeadline": false,
+    "existingBenchmarks": {
+      "original17Targets": "unchanged",
+      "original21Targets": "unchanged",
+      "oldGoldAndScorers": "unchanged"
+    },
+    "scoring": {
+      "exactWrites": "Per frozen target DOM value. New confirmed-value writes remain in verified; pre-existing matches are reported separately.",
+      "semanticSelections": "Real observed option must be selected and retained. Result requires selection draft with source refs and needsReview=true. Never adds to old verified.",
+      "prose": "Actual text is a reviewable draft, bound to source refs, retained, length-bounded, and never saved as a confirmed user fact. Contract and semantic claim support are separate.",
+      "proseClaimSupport": "Human review uses the frozen source/rubric; valid source refs alone do not prove every generated claim. Until reviewed, semantic claim support stays unknown.",
+      "records": "Exact unordered record set; any row order is allowed, but fields within a row must all belong to the same source record. Exactly one Add creates the second internship.",
+      "missing": "Frozen unknown fields stay blank and have targeted user questions. No fabricated GPA, exam score, software grade, national award, or implicit “none”.",
+      "taskStatus": "A retained semantic/text draft remains partial pending user review. A no-op page with known matches and no work can complete at zero requests.",
+      "failures": "Retain provider/parse/action/budget/timeout failures and incomplete outputs. Do not change gold or drop a failed case.",
+      "metrics": [
+        "exactTargetCorrect/expectedExactTargets",
+        "selectionDraftCorrect/expectedSelections",
+        "recordSetCoverage",
+        "missingQuestionCoverage",
+        "unsupportedWrites",
+        "newVerified",
+        "matchedConfirmed",
+        "draftWritten",
+        "requests",
+        "tokens",
+        "wallTimeMs",
+        "failureReasons"
+      ]
+    },
+    "security": {
+      "submissions": 0,
+      "uploads": 0,
+      "agreementChanges": 0,
+      "sensitiveFieldWrites": 0,
+      "normalApplicationData": false,
+      "externalEmployerRequests": false,
+      "uploadSentinel": "Visible but disabled and outside this diagnostic task. Enabled upload protection remains covered by the unchanged earlier control regressions."
+    },
+    "liveExecution": "Disabled until the parent explicitly starts the in-memory dedicated-key entry. Key is never read from a file, normal DB, Keychain, logs, or fixture."
+  },
+  "profileHash": "667e3c799bf15598b527c1fe20af4ec7ed10bca3f60b2a8ad0907cb7a8a0adf6",
+  "caseOrder": [
+    "mapping-native",
+    "mapping-portal",
+    "languages-native",
+    "languages-portal",
+    "internships-native",
+    "internships-portal",
+    "additional-native",
+    "additional-portal",
+    "missing-native",
+    "missing-portal",
+    "noop-native",
+    "noop-portal"
+  ],
+  "cases": [
+    {
+      "id": "mapping-native",
+      "task": "mapping",
+      "skin": "native",
+      "htmlHash": "4d1446bd2c9327983a3a78b3f717dca41d27f5b18811e3153b7d81c0a33ac836",
+      "goldHash": "93e766019eaca85eb55146633587e7f213b1f9fead81fcbc337f7e32b0e2909d"
+    },
+    {
+      "id": "mapping-portal",
+      "task": "mapping",
+      "skin": "portal",
+      "htmlHash": "481efefc591c372ea7871af7dd94e13e20cea3bd633ae6bce1a04075ad886145",
+      "goldHash": "93e766019eaca85eb55146633587e7f213b1f9fead81fcbc337f7e32b0e2909d"
+    },
+    {
+      "id": "languages-native",
+      "task": "languages",
+      "skin": "native",
+      "htmlHash": "7de210e5c4a307975eb36b48f027fb78b2b67d393702ea884cd1c1bb48d06835",
+      "goldHash": "01e31961c7b7c5abc12ab77b48214fabf031d7b76a0745cfe504e304d002bd07"
+    },
+    {
+      "id": "languages-portal",
+      "task": "languages",
+      "skin": "portal",
+      "htmlHash": "a48239f85145cd57b84f6841e563db3b39807888cea77f51beafc6f21eefef63",
+      "goldHash": "01e31961c7b7c5abc12ab77b48214fabf031d7b76a0745cfe504e304d002bd07"
+    },
+    {
+      "id": "internships-native",
+      "task": "internships",
+      "skin": "native",
+      "htmlHash": "eb4809c37f8cd6869238f176568724304e079010fb26868ced216053f0a4b5c9",
+      "goldHash": "3cef470789aa935436b717209a2b5eafc9a2901a8c83134bff200c120ad58447"
+    },
+    {
+      "id": "internships-portal",
+      "task": "internships",
+      "skin": "portal",
+      "htmlHash": "e0a92efb7d35f2ac91f20b1acdc8ad20a3f8dc5a6870e02a47543602b4838623",
+      "goldHash": "3cef470789aa935436b717209a2b5eafc9a2901a8c83134bff200c120ad58447"
+    },
+    {
+      "id": "additional-native",
+      "task": "additional",
+      "skin": "native",
+      "htmlHash": "e8e937dfc3ac86e5b738661178d06d4d518c0b781580eee9b81aee4c70e4256b",
+      "goldHash": "535d4387a3e45d4add2de92e0ea6bc432cd51bb90aec4b01c8627ef6907a7019"
+    },
+    {
+      "id": "additional-portal",
+      "task": "additional",
+      "skin": "portal",
+      "htmlHash": "4a98ccd9389d18518a142cc99ccd0d717550914a2cb1be4261bb88ffbc156985",
+      "goldHash": "535d4387a3e45d4add2de92e0ea6bc432cd51bb90aec4b01c8627ef6907a7019"
+    },
+    {
+      "id": "missing-native",
+      "task": "missing",
+      "skin": "native",
+      "htmlHash": "7689f298bd9bc7158376f0127752753bd50c0ac7b30868054048190a1f8f95a7",
+      "goldHash": "6bd7b44a7487aa9e04843cda51aee472d96a9b282f78cf01c62057752732f626"
+    },
+    {
+      "id": "missing-portal",
+      "task": "missing",
+      "skin": "portal",
+      "htmlHash": "40613dd9d271a09f2ef8f7c920c2998d57cc4d2974827545a991bef5fed3cd5b",
+      "goldHash": "6bd7b44a7487aa9e04843cda51aee472d96a9b282f78cf01c62057752732f626"
+    },
+    {
+      "id": "noop-native",
+      "task": "noop",
+      "skin": "native",
+      "htmlHash": "e2a615b25a10850e9f83e5adea802eea5c5594ad6c91cedfd98ed3d931e7d070",
+      "goldHash": "b61fe5c0aa135e85be3c63c2378d48285fa68bc4b9d93ab5679d04dd114c462a"
+    },
+    {
+      "id": "noop-portal",
+      "task": "noop",
+      "skin": "portal",
+      "htmlHash": "987035c91b367cd085862909397430c3a69fb094377630404740eabe799b0c15",
+      "goldHash": "b61fe5c0aa135e85be3c63c2378d48285fa68bc4b9d93ab5679d04dd114c462a"
+    }
+  ],
+  "protocolHash": "c0d2b0e90400908fbd4535fd416cf57fe4d37cf20bab7e59977be225df4a1d55",
+  "goldHash": "f7862f75af64ca0bd37ebb0460e2ab20583d1ca2909024073d5bd0991ce306f1",
+  "dataFrozen": true,
+  "modelExecuted": false
+}
