@@ -1432,8 +1432,8 @@
     },
     {
       "path": "docs/screenshots/showcase/offerflash-apply.png",
-      "sha256": "ef39da29d7a4fab8f303b7ec73d843b8c8e1a9c9e018a3a636a5064ca84288ab",
-      "size": 247849
+      "sha256": "476a9e7a6d021deb0e5d54ac2ffd1792870971835bd9e56b2da5805838c0efbc",
+      "size": 212185
     },
     {
       "path": "docs/screenshots/showcase/offerflash-home.png",
@@ -2497,7 +2497,7 @@
     },
     {
       "path": "scripts/release-assets.json",
-      "sha256": "8004bf1e989837ab0862540056d45b86ec97a08426b9408f20b8f94ff83e2925",
+      "sha256": "e0e7b4db8704e653ad39fb463ef485bdb6f5e4a10beeb433c012ca0598e7001e",
       "size": 2020
     },
     {
