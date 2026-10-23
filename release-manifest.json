@@ -17,8 +17,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "f9ba2dc2ddc1b098eca36bd31f55ce1b8ed0d09738227210d11ffba606d5b312",
-      "size": 8366
+      "sha256": "de8e88716d1353991a5e126d72af48b3f541fdec3aa40db922e19fcb16682945",
+      "size": 8034
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -1397,8 +1397,8 @@
     },
     {
       "path": "docs/screenshots/offerflash-actionable-review.gif",
-      "sha256": "ca775362f8ffad5a087606ed5c43945d832d3e21800e7230e847227a3f68d9b0",
-      "size": 446666
+      "sha256": "56701617e6a0211f7cdc5d5157abd4feeff0fcc5308ccc7387ce10fb54c44282",
+      "size": 1079929
     },
     {
       "path": "docs/screenshots/offerflash-autofill-demo.gif",
@@ -2497,7 +2497,7 @@
     },
     {
       "path": "scripts/release-assets.json",
-      "sha256": "477ea13e590fb02862096f5d6a8c1dc9b8074274661583e898946667069ffe2e",
+      "sha256": "573f2a15057fd868dfb8f368f50bedc7ebc4def75a7e45a441e81293d2145bd0",
       "size": 2020
     },
     {
@@ -3545,7 +3545,7 @@
       "failed": 0
     },
     "typecheck": true,
-    "finalGifDecodedFramesChecked": 1020,
+    "finalGifDecodedFramesChecked": 908,
     "normalAppRestarted": false,
     "normalWebsiteRefreshed": false
   }
